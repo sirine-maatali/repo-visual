@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Données JSON - {{ file_name }}</title>
+</head>
+<body>
+    <h1>Fichier actuel: {{ file_name }}</h1>
+    <h2>Données JSON :</h2>
+    <pre>{{ data | tojson(indent=2) }}</pre>
+</body>
+</html>
