@@ -10,7 +10,7 @@ pipeline {
 
         stage('Exécuter le script Python') {
             steps {
-                sh 'python app.py'
+                bat 'python app.py'
             }
         }
 
@@ -62,7 +62,7 @@ pipeline {
 
         stage('Générer un PDF') {
             steps {
-                sh 'wkhtmltopdf echarts.html report.pdf'
+                bat 'wkhtmltopdf echarts.html report.pdf'
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
