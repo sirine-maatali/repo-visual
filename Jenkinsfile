@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'USER_INPUT', defaultValue: '', description: 'Entrez un identifiant ou une chaîne de texte')
+    }
+
     stages {
         stage('Cloner le Repo') {
             steps {
@@ -10,7 +14,11 @@ pipeline {
 
         stage('Exécuter le script Python') {
             steps {
-                bat '"\"C:\\Users\\SIRINE\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" app.py'
+                script {
+                    // Passer l'input du paramètre à Python
+                    def userInput = params.USER_INPUT
+                    bat "\"C:\\Users\\SIRINE\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" app.py ${userInput}"
+                }
             }
         }
 
