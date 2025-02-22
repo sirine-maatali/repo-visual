@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Cloner le Repo') {
             steps {
-                git branch: 'main', url: '<URL_DU_REPO_GIT>'
+                git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
             }
         }
 
