@@ -89,14 +89,21 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
             }
         }
-
+    stage('Vérifier Python') {
+        steps {
+            script {
+                bat 'where python'
+                bat 'python --version'
+            }
+        }
+    }
         stage('Exécuter le script Python') {
             steps {
                 script {
                     if (params.FILE_NAME == '') {
                         error("❌ Paramètre FILE_NAME requis.")
                     }
-                    bat "C:\\Users\\SIRINE\\AppData\\Local\\Programs\\Python\\Python312\\python.ex app.py ${params.FILE_NAME}"
+                    bat "python app.py ${params.FILE_NAME}"
                 }
             }
         }
