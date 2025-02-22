@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'USER_INPUT', defaultValue: '', description: 'Entrez un identifiant ou une chaîne de texte')
+        string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX" ou "HGWXRAY-XXXX")')
     }
 
     stages {
@@ -14,10 +14,9 @@ pipeline {
 
         stage('Exécuter le script Python') {
             steps {
-                script {
-                    // Passer l'input du paramètre à Python
-                    def userInput = params.USER_INPUT
-                    bat "\"C:\\Users\\SIRINE\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" app.py ${userInput}"
+               script {
+                    // Utilise la valeur du paramètre FILE_NAME
+                    bat "C:\\Users\\SIRINE\\AppData\\Local\\Programs\\Python\\Python312\\python.exe app.py ${params.FILE_NAME}"
                 }
             }
         }
