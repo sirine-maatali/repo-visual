@@ -179,6 +179,23 @@ pipeline {
                 }
             }
         }
+        stage('Vérifier les fichiers') {
+    steps {
+        script {
+            sh 'ls -l'
+            sh 'cat output2.json'
+        }
+    }
+}
+
+stage('Publier JSON pour accès') {
+    steps {
+        script {
+            sh 'cp output2.json echarts-output2.json'
+        }
+    }
+}
+
  stage('Générer et publier les graphiques') {
     steps {
         script {
