@@ -183,7 +183,7 @@ stage('Exécuter le script Python et récupérer les données') {
     steps {
         script {
             // Exécute le script Python et capture la sortie
-            def output = sh(script: 'python app.py', returnStdout: true).trim()
+            def output = bat(script: 'python app.py', returnStdout: true).trim()
 
             // Création du fichier HTML avec la sortie JSON intégrée
             writeFile file: 'echarts.html', text: """
