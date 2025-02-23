@@ -709,4 +709,3 @@ if __name__ == "__main__":
     save_output_to_json(output_data, output_file)
     save_output_by_feature(output_data, output_file_by_feature)
     display_defect_summary(defect_to_testkey, defect_counts)
-

@@ -157,8 +157,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
             }
         }
-
-
+        
         stage('Vérifier Python') {
             steps {
                 script {
@@ -182,48 +181,46 @@ pipeline {
         stage('Générer et publier les graphiques') {
             steps {
                 script {
-                    def htmlContent = """
+                    // Création du fichier HTML contenant le graphique
+                    writeFile file: 'echarts.html', text: """
                     <html>
-                    <head>
-                        <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-                    </head>
-                    <body>
-                        <div id="chart" style="width:600px;height:400px;"></div>
-                        <script>
-                            fetch('output2.json').then(res => res.json()).then(data => {
-                                var chart = echarts.init(document.getElementById('chart'));
-                                var seriesData = Object.keys(data).map(key => ({
-                                    name: key.replace(/\\[|\\]|'/g, ''), 
-                                    value: data[key].length
-                                }));
-                                
-                                chart.setOption({
-                                    title: { text: 'Répartition des Features', left: 'center' },
-                                    tooltip: { trigger: 'item' },
-                                    series: [{ type: 'pie', data: seriesData }]
-                                });
-                            }).catch(err => console.error('Erreur de chargement du JSON', err));
-                        </script>
+                    <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
+                    <body><div id="chart" style="width:600px;height:400px;"></div>
+                    <script>
+                        fetch('output2.json').then(res => res.json()).then(data => {
+                            var chart = echarts.init(document.getElementById('chart'));
+                            chart.setOption({
+                                series: [{
+                                    type: 'pie',
+                                    data: Object.keys(data).map(key => ({
+                                        name: key,
+                                        value: data[key].length
+                                    }))
+                                }]
+                            });
+                        });
+                    </script>
                     </body>
                     </html>
                     """
-                    writeFile file: 'echarts.html', text: htmlContent
                 }
             }
         }
 
         stage('Publier le rapport') {
             steps {
-                publishHTML(target: [reportDir: '', reportFiles: 'echarts.html', reportName: 'Visualisation des Features'])
+                publishHTML(target: [
+                    reportDir: '',
+                    reportFiles: 'echarts.html',
+                    reportName: 'Visualisation des Features'
+                ])
             }
         }
 
         stage('Générer un PDF') {
             steps {
-                script {
-                    bat 'wkhtmltopdf echarts.html report.pdf'
-                    archiveArtifacts artifacts: 'report.pdf', fingerprint: true
-                }
+                bat 'wkhtmltopdf echarts.html report.pdf'
+                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
     }
