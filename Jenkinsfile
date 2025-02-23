@@ -176,34 +176,42 @@ pipeline {
             }
         }
 
-        stage('Générer et publier les graphiques') {
-            steps {
-                script {
-                    // Création du fichier HTML contenant le graphique
-                    writeFile file: 'echarts.html', text: """
-                    <html>
-                    <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
-                    <body><div id="chart" style="width:600px;height:400px;"></div>
-                    <script>
-                        fetch('output2.json').then(res => res.json()).then(data => {
-                            var chart = echarts.init(document.getElementById('chart'));
-                            chart.setOption({
-                                series: [{
-                                    type: 'pie',
-                                    data: Object.keys(data).map(key => ({
-                                        name: key,
-                                        value: data[key].length
-                                    }))
-                                }]
-                            });
+       stage('Générer et publier les graphiques') {
+    steps {
+        script {
+            // Création du fichier HTML contenant le graphique
+            writeFile file: 'echarts.html', text: """
+            <html>
+            <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
+            <body><div id="chart" style="width:600px;height:400px;"></div>
+            <script>
+                fetch('output2.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        var chart = echarts.init(document.getElementById('chart'));
+                        var formattedData = Object.keys(data).map(key => {
+                            // Conversion de la clé de type tableau à une chaîne
+                            var feature = key.replace(/[\[\]']+/g, ''); // Nettoie les crochets et les apostrophes
+                            return {
+                                name: feature,
+                                value: data[key].length
+                            };
                         });
-                    </script>
-                    </body>
-                    </html>
-                    """
-                }
-            }
+
+                        chart.setOption({
+                            series: [{
+                                type: 'pie',
+                                data: formattedData
+                            }]
+                        });
+                    });
+            </script>
+            </body>
+            </html>
+            """
         }
+    }
+}
 
         stage('Publier le rapport') {
             steps {
