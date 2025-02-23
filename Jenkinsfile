@@ -182,8 +182,8 @@ pipeline {
         stage('Vérifier les fichiers') {
     steps {
         script {
-            sh 'ls -l'
-            sh 'cat output2.json'
+            bat 'ls -l'
+            bat 'cat output2.json'
         }
     }
 }
