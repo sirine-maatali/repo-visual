@@ -179,9 +179,13 @@ pipeline {
                 }
             }
         }
-   stage('Générer et publier les graphiques') {
+ stage('Générer et publier les graphiques') {
     steps {
         script {
+            // Écriture du fichier JSON simulé
+            writeFile file: 'output2.json', text: '{"feature1": [1,2,3], "feature2": [4,5]}'
+
+            // Écriture du fichier HTML qui affiche le contenu brut du JSON
             writeFile file: 'echarts.html', text: """
             <html>
             <head>
@@ -189,25 +193,41 @@ pipeline {
             </head>
             <body>
             <h2>Visualisation des données</h2>
+
+            <!-- Zone pour afficher les données JSON -->
+            <h3>Contenu de output2.json :</h3>
+            <pre id="json-content">Chargement...</pre>
+
+            <!-- Zone du graphique -->
             <div id="chart" style="width:600px;height:400px;"></div>
+
             <script>
-                // Données intégrées directement
-                const data = {"feature1": [1,2,3], "feature2": [4,5]};
+                // Charger et afficher les données brutes du JSON
+                fetch('output2.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        // Affichage brut du JSON dans la page
+                        document.getElementById('json-content').textContent = JSON.stringify(data, null, 2);
 
-                var chart = echarts.init(document.getElementById('chart'));
-                var formattedData = Object.keys(data).map(key => {
-                    var feature = key.replace(/\\[|\\]|'/g, ''); 
-                    return { name: feature, value: data[key].length };
-                });
+                        // Création du graphique
+                        var chart = echarts.init(document.getElementById('chart'));
+                        var formattedData = Object.keys(data).map(key => {
+                            var feature = key.replace(/\\[|\\]|'/g, ''); 
+                            return { name: feature, value: data[key].length };
+                        });
 
-                chart.setOption({
-                    title: { text: 'Répartition des données', left: 'center' },
-                    tooltip: { trigger: 'item' },
-                    series: [{
-                        type: 'pie',
-                        data: formattedData
-                    }]
-                });
+                        chart.setOption({
+                            title: { text: 'Répartition des données', left: 'center' },
+                            tooltip: { trigger: 'item' },
+                            series: [{
+                                type: 'pie',
+                                data: formattedData
+                            }]
+                        });
+                    })
+                    .catch(error => {
+                        document.getElementById('json-content').textContent = "Erreur de chargement du JSON: " + error;
+                    });
             </script>
             </body>
             </html>
@@ -228,6 +248,7 @@ stage('Publier les résultats') {
         ])
     }
 }
+
 
 
         stage('Générer un PDF') {
