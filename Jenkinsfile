@@ -158,13 +158,6 @@ pipeline {
             }
         }
 
-        stage('Installer les dépendances') {
-            steps {
-                script {
-                    bat 'pip install -r requirements.txt'
-                }
-            }
-        }
 
         stage('Vérifier Python') {
             steps {
