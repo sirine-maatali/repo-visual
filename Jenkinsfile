@@ -174,51 +174,68 @@ pipeline {
                 }
             }
         }
-        stage('Générer et publier les graphiques') {
+        stage('Exécuter le script Python') {
             steps {
                 script {
-                    // Création du fichier HTML contenant le graphique
-                    writeFile file: 'echarts.html', text: """
-                    <html>
-                    <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
-                    <body><div id="chart" style="width:600px;height:400px;"></div>
-                    <script>
-                        fetch('output2.json')
-                            .then(res => res.json())
-                            .then(data => {
-                                var chart = echarts.init(document.getElementById('chart'));
-                                var formattedData = Object.keys(data).map(key => {
-                                    // Conversion de la clé de type tableau à une chaîne
-                                    var feature = key.replace(/\\[|\\]|'/g, ''); // Échappement des caractères spéciaux
-                                    return {
-                                        name: feature,
-                                        value: data[key].length
-                                    };
-                                });
-
-                                chart.setOption({
-                                    series: [{
-                                        type: 'pie',
-                                        data: formattedData
-                                    }]
-                                });
-                            });
-                    </script>
-                    </body>
-                    </html>
-                    """
+                    if (params.FILE_NAME == '') {
+                        error(" Paramètre FILE_NAME requis.")
+                    }
+                    // Exécuter le script Python et capturer la sortie
+                    def result = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
+                    // Sauvegarder la sortie dans un fichier JSON
+                    writeFile(file: 'output2.json', text: result)
                 }
             }
         }
-        stage('Publier le rapport') {
-            steps {
-                publishHTML(target: [
-                    reportDir: '',
-                    reportFiles: 'echarts.html',
-                    reportName: 'Visualisation des Features'
-                ])
-            }
+
+    stage('Générer et publier les graphiques') {
+    steps {
+        script {
+            // Création du fichier HTML contenant le graphique
+            writeFile file: 'echarts.html', text: """
+            <html>
+            <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
+            <body><div id="chart" style="width:600px;height:400px;"></div>
+            <script>
+                fetch('output2.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        var chart = echarts.init(document.getElementById('chart'));
+                        var formattedData = Object.keys(data).map(key => {
+                            var feature = key.replace(/\\[|\\]|'/g, '');
+                            return { name: feature, value: data[key].length };
+                        });
+
+                        chart.setOption({
+                            series: [{ type: 'pie', data: formattedData }]
+                        });
+                    });
+            </script>
+            </body>
+            </html>
+            """
+
+            // Copier `output2.json` dans le dossier `build`
+            sh 'cp output2.json build/output2.json'
         }
+    }
+}
+
+stage('Publier le rapport HTML') {
+    steps {
+        script {
+            publishHTML ([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: '.',
+                reportFiles: 'echarts.html',
+                reportName: 'Graphique ECharts'
+            ])
+        }
+    }
+}
+
         stage('Générer un PDF') {
             steps {
                 bat 'wkhtmltopdf echarts.html report.pdf'
