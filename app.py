@@ -419,6 +419,9 @@ import os
 import json
 import sys
 from collections import defaultdict
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
 
 def get_user_input():
     """Demande à l'utilisateur d'entrer le nom du fichier sous le bon format."""
@@ -431,14 +434,14 @@ def get_user_input():
 def read_json_file(file_path):
     """Lit un fichier JSON et retourne son contenu sous forme de dictionnaire."""
     if not os.path.exists(file_path):
-        print(f"❌ Fichier non trouvé : {file_path}")
+        print(f" Fichier non trouvé : {file_path}")
         sys.exit(1)
     
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             return json.load(file)
     except json.JSONDecodeError:
-        print(f"❌ Erreur de lecture du fichier JSON : {file_path}")
+        print(f" Erreur de lecture du fichier JSON : {file_path}")
         sys.exit(1)
 
 def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, file_name):
@@ -448,7 +451,7 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
 
     customfield_data = execution_data.get("fields", {}).get("customfield_12219", [])
     if not customfield_data:
-        print(f"⚠️ Le champ 'customfield_12219' est vide ou absent dans {execution_file_path}.")
+        print(f" Le champ 'customfield_12219' est vide ou absent dans {execution_file_path}.")
         sys.exit(1)
 
     output_data = []
@@ -513,7 +516,7 @@ def save_output_to_json(output_data, output_file):
     """Enregistre les résultats au format JSON."""
     with open(output_file, 'w', encoding='utf-8') as file:
         json.dump(output_data, file, ensure_ascii=False, indent=4)
-    print(f"✅ Données enregistrées dans {output_file}.")
+    print(f" Données enregistrées dans {output_file}.")
 
 def save_output_by_feature(output_data, output_file):
     """Enregistre les résultats groupés par fonctionnalité."""
@@ -523,19 +526,19 @@ def save_output_by_feature(output_data, output_file):
 
     with open(output_file, 'w', encoding='utf-8') as file:
         json.dump(feature_grouped, file, ensure_ascii=False, indent=4)
-    print(f"✅ Données enregistrées dans {output_file} (groupées par fonctionnalité).")
+    print(f" Données enregistrées dans {output_file} (groupées par fonctionnalité).")
 
 def display_defect_summary(defect_to_testkey, defect_counts):
     """Affiche un résumé des défauts détectés."""
-    print("\n📌 Résumé des défauts :")
+    print("\n Résumé des défauts :")
     for defect_id, test_keys in defect_to_testkey.items():
-        print(f"🛑 ID de défaut : {defect_id}")
-        print(f"🔹 TestKeys associés : {', '.join(test_keys)}")
-        print(f"📊 Nombre total de défauts : {defect_counts[defect_id]}\n")
+        print(f" ID de défaut : {defect_id}")
+        print(f" TestKeys associés : {', '.join(test_keys)}")
+        print(f" Nombre total de défauts : {defect_counts[defect_id]}\n")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("❌ Usage : python app.py <NOM_DU_FICHIER>")
+        print(" Usage : python app.py <NOM_DU_FICHIER>")
         sys.exit(1)
 
     file_name = sys.argv[1]
@@ -548,7 +551,7 @@ if __name__ == "__main__":
 
     for folder in [test_execution_folder, test_cases_folder, defects_folder]:
         if not os.path.exists(folder):
-            print(f"❌ Le dossier '{folder}' n'existe pas.")
+            print(f" Le dossier '{folder}' n'existe pas.")
             sys.exit(1)
 
     output_data, defect_to_testkey, defect_counts = extract_test_data(test_execution_folder, test_cases_folder, defects_folder, file_name)
