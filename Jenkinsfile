@@ -164,16 +164,16 @@ pipeline {
                 }
             }
         }
-        stage('Exécuter le script Python') {
-            steps {
-                script {
-                    if (params.FILE_NAME == '') {
-                        error(" Paramètre FILE_NAME requis.")
-                    }
-                    bat "python app.py ${params.FILE_NAME}"
-                }
-            }
-        }
+        // stage('Exécuter le script Python') {
+        //     steps {
+        //         script {
+        //             if (params.FILE_NAME == '') {
+        //                 error(" Paramètre FILE_NAME requis.")
+        //             }
+        //             bat "python app.py ${params.FILE_NAME}"
+        //         }
+        //     }
+        // }
         stage('Exécuter le script Python') {
             steps {
                 script {
