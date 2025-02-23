@@ -565,14 +565,12 @@
 
 # ***************************
 
-
 import os
 import json
 import sys
 from collections import defaultdict
-import sys
-sys.stdout.reconfigure(encoding='utf-8')
 
+sys.stdout.reconfigure(encoding='utf-8')
 
 def get_user_input():
     """Demande à l'utilisateur d'entrer le nom du fichier sous le bon format."""
@@ -587,7 +585,6 @@ def read_json_file(file_path):
     if not os.path.exists(file_path):
         print(f" Fichier non trouvé : {file_path}")
         sys.exit(1)
-    
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             return json.load(file)
@@ -664,10 +661,11 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
     return output_data, defect_to_testkey, defect_counts
 
 def save_output_to_json(output_data, output_file):
-    """Enregistre les résultats au format JSON."""
+    """Enregistre les résultats au format JSON et les retourne pour affichage."""
     with open(output_file, 'w', encoding='utf-8') as file:
         json.dump(output_data, file, ensure_ascii=False, indent=4)
     print(f" Données enregistrées dans {output_file}.")
+    return output_data  # Retourne les données pour affichage
 
 def save_output_by_feature(output_data, output_file):
     """Enregistre les résultats groupés par fonctionnalité."""
@@ -706,6 +704,9 @@ if __name__ == "__main__":
             sys.exit(1)
 
     output_data, defect_to_testkey, defect_counts = extract_test_data(test_execution_folder, test_cases_folder, defects_folder, file_name)
-    save_output_to_json(output_data, output_file)
+    output_data = save_output_to_json(output_data, output_file)  # Récupère les données ici pour affichage
     save_output_by_feature(output_data, output_file_by_feature)
     display_defect_summary(defect_to_testkey, defect_counts)
+
+    # Affichage des données en console
+    print(json.dumps(output_data, ensure_ascii=False, indent=4))  # Affiche le contenu de output2.json

@@ -143,7 +143,6 @@
 // }
 
 
-
 pipeline {
     agent any
 
@@ -151,20 +150,20 @@ pipeline {
         string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX" ou "HGWXRAY-XXXX")')
     }
 
-  stages {
+    stages {
         stage('Cloner le Repo') {
             steps {
                 git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
             }
         }
-    stage('Vérifier Python') {
-        steps {
-            script {
-                bat 'where python'
-                bat 'python --version'
+        stage('Vérifier Python') {
+            steps {
+                script {
+                    bat 'where python'
+                    bat 'python --version'
+                }
             }
         }
-    }
         stage('Exécuter le script Python') {
             steps {
                 script {
@@ -175,45 +174,42 @@ pipeline {
                 }
             }
         }
+        stage('Générer et publier les graphiques') {
+            steps {
+                script {
+                    // Création du fichier HTML contenant le graphique
+                    writeFile file: 'echarts.html', text: """
+                    <html>
+                    <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
+                    <body><div id="chart" style="width:600px;height:400px;"></div>
+                    <script>
+                        fetch('output2.json')
+                            .then(res => res.json())
+                            .then(data => {
+                                var chart = echarts.init(document.getElementById('chart'));
+                                var formattedData = Object.keys(data).map(key => {
+                                    // Conversion de la clé de type tableau à une chaîne
+                                    var feature = key.replace(/\\[|\\]|'/g, ''); // Échappement des caractères spéciaux
+                                    return {
+                                        name: feature,
+                                        value: data[key].length
+                                    };
+                                });
 
-       stage('Générer et publier les graphiques') {
-    steps {
-        script {
-            // Création du fichier HTML contenant le graphique
-            writeFile file: 'echarts.html', text: """
-            <html>
-            <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
-            <body><div id="chart" style="width:600px;height:400px;"></div>
-            <script>
-                fetch('output2.json')
-                    .then(res => res.json())
-                    .then(data => {
-                        var chart = echarts.init(document.getElementById('chart'));
-                        var formattedData = Object.keys(data).map(key => {
-                            // Conversion de la clé de type tableau à une chaîne
-                            var feature = key.replace(/\\[|\\]|'/g, ''); // Échappement des caractères spéciaux
-                            return {
-                                name: feature,
-                                value: data[key].length
-                            };
-                        });
-
-                        chart.setOption({
-                            series: [{
-                                type: 'pie',
-                                data: formattedData
-                            }]
-                        });
-                    });
-            </script>
-            </body>
-            </html>
-            """
+                                chart.setOption({
+                                    series: [{
+                                        type: 'pie',
+                                        data: formattedData
+                                    }]
+                                });
+                            });
+                    </script>
+                    </body>
+                    </html>
+                    """
+                }
+            }
         }
-    }
-}
-
-
         stage('Publier le rapport') {
             steps {
                 publishHTML(target: [
@@ -223,7 +219,6 @@ pipeline {
                 ])
             }
         }
-
         stage('Générer un PDF') {
             steps {
                 bat 'wkhtmltopdf echarts.html report.pdf'
