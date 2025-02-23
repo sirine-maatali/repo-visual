@@ -164,16 +164,6 @@ pipeline {
                 }
             }
         }
-        // stage('Exécuter le script Python') {
-        //     steps {
-        //         script {
-        //             if (params.FILE_NAME == '') {
-        //                 error(" Paramètre FILE_NAME requis.")
-        //             }
-        //             bat "python app.py ${params.FILE_NAME}"
-        //         }
-        //     }
-        // }
         stage('Exécuter le script Python') {
             steps {
                 script {
@@ -184,30 +174,38 @@ pipeline {
                     def result = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
                     // Sauvegarder la sortie dans un fichier JSON
                     writeFile(file: 'output2.json', text: result)
+                    print(result)
+
                 }
             }
         }
 
-    stage('Générer et publier les graphiques') {
+       stage('Générer et publier les graphiques') {
     steps {
         script {
-            // Création du fichier HTML contenant le graphique
             writeFile file: 'echarts.html', text: """
             <html>
             <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
-            <body><div id="chart" style="width:600px;height:400px;"></div>
+            <body>
+            <h2>Visualisation des données</h2>
+            <div id="chart" style="width:600px;height:400px;"></div>
             <script>
                 fetch('output2.json')
                     .then(res => res.json())
                     .then(data => {
                         var chart = echarts.init(document.getElementById('chart'));
                         var formattedData = Object.keys(data).map(key => {
-                            var feature = key.replace(/\\[|\\]|'/g, '');
+                            var feature = key.replace(/\\[|\\]|'/g, ''); 
                             return { name: feature, value: data[key].length };
                         });
 
                         chart.setOption({
-                            series: [{ type: 'pie', data: formattedData }]
+                            title: { text: 'Répartition des données', left: 'center' },
+                            tooltip: { trigger: 'item' },
+                            series: [{
+                                type: 'pie',
+                                data: formattedData
+                            }]
                         });
                     });
             </script>
@@ -215,24 +213,22 @@ pipeline {
             </html>
             """
 
-            // Copier `output2.json` dans le dossier `build`
-            sh 'cp output2.json build/output2.json'
+            // Copie du fichier JSON au même emplacement
+            writeFile file: 'output2.json', text: '{"feature1": [1,2,3], "feature2": [4,5]}'
         }
     }
 }
 
-stage('Publier le rapport HTML') {
+stage('Publier les résultats') {
     steps {
-        script {
-            publishHTML ([
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: '.',
-                reportFiles: 'echarts.html',
-                reportName: 'Graphique ECharts'
-            ])
-        }
+        publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: '',
+            reportFiles: 'echarts.html',
+            reportName: 'Rapport ECharts'
+        ])
     }
 }
 
