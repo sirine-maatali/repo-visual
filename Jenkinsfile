@@ -179,42 +179,39 @@ pipeline {
                 }
             }
         }
-
-       stage('Générer et publier les graphiques') {
+   stage('Générer et publier les graphiques') {
     steps {
         script {
             writeFile file: 'echarts.html', text: """
             <html>
-            <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
+            <head>
+                <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+            </head>
             <body>
             <h2>Visualisation des données</h2>
             <div id="chart" style="width:600px;height:400px;"></div>
             <script>
-                fetch('output2.json')
-                    .then(res => res.json())
-                    .then(data => {
-                        var chart = echarts.init(document.getElementById('chart'));
-                        var formattedData = Object.keys(data).map(key => {
-                            var feature = key.replace(/\\[|\\]|'/g, ''); 
-                            return { name: feature, value: data[key].length };
-                        });
+                // Données intégrées directement
+                const data = {"feature1": [1,2,3], "feature2": [4,5]};
 
-                        chart.setOption({
-                            title: { text: 'Répartition des données', left: 'center' },
-                            tooltip: { trigger: 'item' },
-                            series: [{
-                                type: 'pie',
-                                data: formattedData
-                            }]
-                        });
-                    });
+                var chart = echarts.init(document.getElementById('chart'));
+                var formattedData = Object.keys(data).map(key => {
+                    var feature = key.replace(/\\[|\\]|'/g, ''); 
+                    return { name: feature, value: data[key].length };
+                });
+
+                chart.setOption({
+                    title: { text: 'Répartition des données', left: 'center' },
+                    tooltip: { trigger: 'item' },
+                    series: [{
+                        type: 'pie',
+                        data: formattedData
+                    }]
+                });
             </script>
             </body>
             </html>
             """
-
-            // Copie du fichier JSON au même emplacement
-            writeFile file: 'output2.json', text: '{"feature1": [1,2,3], "feature2": [4,5]}'
         }
     }
 }
@@ -231,6 +228,7 @@ stage('Publier les résultats') {
         ])
     }
 }
+
 
         stage('Générer un PDF') {
             steps {
