@@ -151,22 +151,20 @@ pipeline {
         string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX" ou "HGWXRAY-XXXX")')
     }
 
-    stages {
+  stages {
         stage('Cloner le Repo') {
             steps {
                 git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
             }
         }
-        
-        stage('Vérifier Python') {
-            steps {
-                script {
-                    bat 'where python'
-                    bat 'python --version'
-                }
+    stage('Vérifier Python') {
+        steps {
+            script {
+                bat 'where python'
+                bat 'python --version'
             }
         }
-
+    }
         stage('Exécuter le script Python') {
             steps {
                 script {
