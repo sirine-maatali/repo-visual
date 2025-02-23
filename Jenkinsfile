@@ -191,7 +191,7 @@ pipeline {
                         var chart = echarts.init(document.getElementById('chart'));
                         var formattedData = Object.keys(data).map(key => {
                             // Conversion de la clé de type tableau à une chaîne
-                            var feature = key.replace(/[\[\]']+/g, ''); // Nettoie les crochets et les apostrophes
+                            var feature = key.replace(/\\[|\\]|'/g, ''); // Échappement des caractères spéciaux
                             return {
                                 name: feature,
                                 value: data[key].length
@@ -212,6 +212,7 @@ pipeline {
         }
     }
 }
+
 
         stage('Publier le rapport') {
             steps {
