@@ -179,15 +179,13 @@ pipeline {
                 }
             }
         }
-stage('Générer et publier les graphiques') {
+stage('Exécuter le script Python et récupérer les données') {
     steps {
         script {
-            def jsonPath = "${env.WORKSPACE}/builds/output2.json"
+            // Exécute le script Python et capture la sortie
+            def output = sh(script: 'python app.py', returnStdout: true).trim()
 
-            // Écriture du fichier JSON dans un dossier accessible
-            writeFile file: jsonPath, text: '{"feature1": [1,2,3], "feature2": [4,5]}'
-
-            // Création du fichier HTML
+            // Création du fichier HTML avec la sortie JSON intégrée
             writeFile file: 'echarts.html', text: """
             <html>
             <head>
@@ -195,33 +193,31 @@ stage('Générer et publier les graphiques') {
             </head>
             <body>
             <h2>Visualisation des données</h2>
-            <h3>Contenu de output2.json :</h3>
+            <h3>Résultat de app.py :</h3>
             <pre id="json-content">Chargement...</pre>
             <div id="chart" style="width:600px;height:400px;"></div>
 
             <script>
-                fetch('output2.json')  // Assure-toi que Jenkins sert bien ce fichier
-                    .then(res => res.json())
-                    .then(data => {
-                        document.getElementById('json-content').textContent = JSON.stringify(data, null, 2);
-                        var chart = echarts.init(document.getElementById('chart'));
-                        var formattedData = Object.keys(data).map(key => {
-                            var feature = key.replace(/\\[|\\]|'/g, ''); 
-                            return { name: feature, value: data[key].length };
-                        });
+                // Données JSON récupérées depuis app.py
+                var data = ${output};
 
-                        chart.setOption({
-                            title: { text: 'Répartition des données', left: 'center' },
-                            tooltip: { trigger: 'item' },
-                            series: [{
-                                type: 'pie',
-                                data: formattedData
-                            }]
-                        });
-                    })
-                    .catch(error => {
-                        document.getElementById('json-content').textContent = "Erreur: " + error;
-                    });
+                // Affichage brut du JSON
+                document.getElementById('json-content').textContent = JSON.stringify(data, null, 2);
+
+                // Création du graphique
+                var chart = echarts.init(document.getElementById('chart'));
+                var formattedData = Object.keys(data).map(key => {
+                    return { name: key, value: data[key].length };
+                });
+
+                chart.setOption({
+                    title: { text: 'Répartition des données', left: 'center' },
+                    tooltip: { trigger: 'item' },
+                    series: [{
+                        type: 'pie',
+                        data: formattedData
+                    }]
+                });
             </script>
             </body>
             </html>
@@ -230,7 +226,7 @@ stage('Générer et publier les graphiques') {
     }
 }
 
-stage('Publier les résultats') {
+stage('Publier le rapport') {
     steps {
         publishHTML([
             allowMissing: false,
