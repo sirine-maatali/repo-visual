@@ -179,30 +179,15 @@ pipeline {
                 }
             }
         }
-        stage('Vérifier les fichiers') {
+stage('Générer et publier les graphiques') {
     steps {
         script {
-            bat 'ls -l'
-            bat 'cat output2.json'
-        }
-    }
-}
+            def jsonPath = "${env.WORKSPACE}/builds/output2.json"
 
-stage('Publier JSON pour accès') {
-    steps {
-        script {
-            sh 'cp output2.json echarts-output2.json'
-        }
-    }
-}
+            // Écriture du fichier JSON dans un dossier accessible
+            writeFile file: jsonPath, text: '{"feature1": [1,2,3], "feature2": [4,5]}'
 
- stage('Générer et publier les graphiques') {
-    steps {
-        script {
-            // Écriture du fichier JSON simulé
-            writeFile file: 'output2.json', text: '{"feature1": [1,2,3], "feature2": [4,5]}'
-
-            // Écriture du fichier HTML qui affiche le contenu brut du JSON
+            // Création du fichier HTML
             writeFile file: 'echarts.html', text: """
             <html>
             <head>
@@ -210,23 +195,15 @@ stage('Publier JSON pour accès') {
             </head>
             <body>
             <h2>Visualisation des données</h2>
-
-            <!-- Zone pour afficher les données JSON -->
             <h3>Contenu de output2.json :</h3>
             <pre id="json-content">Chargement...</pre>
-
-            <!-- Zone du graphique -->
             <div id="chart" style="width:600px;height:400px;"></div>
 
             <script>
-                // Charger et afficher les données brutes du JSON
-                fetch('output2.json')
+                fetch('output2.json')  // Assure-toi que Jenkins sert bien ce fichier
                     .then(res => res.json())
                     .then(data => {
-                        // Affichage brut du JSON dans la page
                         document.getElementById('json-content').textContent = JSON.stringify(data, null, 2);
-
-                        // Création du graphique
                         var chart = echarts.init(document.getElementById('chart'));
                         var formattedData = Object.keys(data).map(key => {
                             var feature = key.replace(/\\[|\\]|'/g, ''); 
@@ -243,7 +220,7 @@ stage('Publier JSON pour accès') {
                         });
                     })
                     .catch(error => {
-                        document.getElementById('json-content').textContent = "Erreur de chargement du JSON: " + error;
+                        document.getElementById('json-content').textContent = "Erreur: " + error;
                     });
             </script>
             </body>
@@ -265,7 +242,6 @@ stage('Publier les résultats') {
         ])
     }
 }
-
 
 
         stage('Générer un PDF') {
