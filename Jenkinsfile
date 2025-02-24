@@ -253,8 +253,7 @@ pipeline {
                     echo "Sortie JSON récupérée : ${jsonOutput}"
 
                     // Parser le JSON
-                 import groovy.json.JsonSlurper
-
+                
                     def jsonData
                     try {
                         jsonData = new JsonSlurper().parseText(jsonOutput)
