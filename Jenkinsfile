@@ -237,12 +237,12 @@ pipeline {
         stage('Exécuter le script Python') {
             steps {
                 script {
-                    // Exécution du script Python et récupération de la sortie
+                    // Exécution du script Python et récupération de la sortie JSON
                     def jsonOutput = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
                     echo "Sortie JSON : ${jsonOutput}"
 
-                    // Générer le fichier HTML avec les données JSON brutes
-              writeFile file: 'echarts.html', text: """
+                    // Générer le fichier HTML avec les données JSON brutes et le graphique echarts
+                    writeFile file: 'echarts.html', text: """
 <html>
 <head>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
@@ -274,14 +274,13 @@ pipeline {
             legend: { top: '5%' },
             series: [{
                 type: 'pie',
-                data: data.map(item => ({ name: item.feature, value: 1 })),
+                data: data.map(item => ({ name: item.feature, value: 1 })), // Ajuster le mappage en fonction des données JSON
             }]
         });
     </script>
 </body>
 </html>
 """
-
                 }
             }
         }
@@ -308,7 +307,7 @@ pipeline {
 
         stage('Générer un PDF') {
             steps {
-                // Convertir le fichier HTML en PDF
+                // Convertir le fichier HTML en PDF avec wkhtmltopdf
                 bat 'wkhtmltopdf echarts.html report.pdf'
                 // Archiver le PDF généré
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
