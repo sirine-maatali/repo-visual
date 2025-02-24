@@ -228,7 +228,6 @@ pipeline {
         stage('Vérifier Python') {
             steps {
                 script {
-                    // Vérification si python est installé
                     bat 'where python || echo "Python non trouvé"'
                     bat 'python --version || echo "Erreur lors de la récupération de la version de Python"'
                 }
@@ -239,36 +238,29 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
-                    
-                    // Exécuter le script Python et rediriger la sortie vers un fichier
-                    bat "python app.py ${params.FILE_NAME} output.json "
-                    
-                    // Vérifier si output.json existe
+
+                    bat "python app.py ${params.FILE_NAME} output.json"
+
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
 
-                    // Lire le fichier output.json
                     def jsonOutput = readFile('output.json').trim()
                     echo "Sortie JSON récupérée : ${jsonOutput}"
 
-                    // Parser le JSON
-                
                     def jsonData
                     try {
                         def jsonSlurper = new groovy.json.JsonSlurper()
                         jsonData = jsonSlurper.parseText(jsonOutput)
                     } catch (Exception e) {
-                        println "Erreur lors du parsing JSON : ${e.message}"
-                        jsonData = null
+                        error "Erreur lors du parsing JSON : ${e.message}"
                     }
-                    echo "houni 1 prob"
-                    // Convertir les données en une liste de features uniques
+
+                    echo "Parsing JSON réussi."
+
                     def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
-                    echo"houni 2 prob"
                     echo "Liste finale des features uniques : ${features}"
 
-                    // Générer le contenu HTML
                     def htmlContent = """
                         <html>
                         <head>
@@ -299,7 +291,6 @@ pipeline {
                         </html>
                     """
 
-                    // Enregistrer le fichier HTML
                     writeFile file: 'test_report.html', text: htmlContent
                     echo "Le fichier HTML a été généré : test_report.html"
                 }
@@ -309,7 +300,6 @@ pipeline {
         stage('Vérifier génération du fichier HTML') {
             steps {
                 script {
-                    // Vérifier si le fichier HTML existe
                     if (!fileExists('test_report.html')) {
                         error "Le fichier HTML n'a pas été généré !"
                     }
@@ -321,9 +311,7 @@ pipeline {
         stage('Publier le rapport') {
             steps {
                 script {
-                    // Publier le rapport HTML, ou l'envoyer par email, ou le mettre à disposition via un artefact
                     echo "Publication du rapport HTML..."
-                    // Exemple pour Jenkins : archiver l'artefact
                     archiveArtifacts allowEmptyArchive: true, artifacts: 'test_report.html'
                 }
             }
@@ -332,9 +320,14 @@ pipeline {
         stage('Générer un PDF') {
             steps {
                 script {
-                    // Logic to convert HTML to PDF (depending on your tools/environment)
                     echo "Génération du PDF à partir du fichier HTML..."
-                    // Implement the PDF generation if necessary
+                    bat 'wkhtmltopdf test_report.html test_report.pdf'
+
+                    if (!fileExists('test_report.pdf')) {
+                        error "Le fichier PDF n'a pas été généré !"
+                    }
+                    
+                    archiveArtifacts allowEmptyArchive: true, artifacts: 'test_report.pdf'
                 }
             }
         }
