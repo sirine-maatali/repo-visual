@@ -241,7 +241,7 @@ pipeline {
                     def jsonOutput = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
                     echo "Sortie JSON : ${jsonOutput}"
 
-                    // Générer le fichier HTML avec les données JSON brutes et le graphique echarts
+                    // Générer le fichier HTML avec les données JSON brutes
                     writeFile file: 'echarts.html', text: """
 <html>
 <head>
