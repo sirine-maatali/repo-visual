@@ -280,7 +280,7 @@ pipeline {
                                 <h3>Features uniques :</h3>
                                 <div class="feature-list">
                                     <ul>
-                                        ${features.collect { "<li>${it}</li>" }.join("\n")}
+                                        ${features}
                                     </ul>
                                 </div>
                                 <h3>Résultat JSON :</h3>
