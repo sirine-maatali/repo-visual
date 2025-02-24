@@ -721,24 +721,25 @@ sys.stdout.reconfigure(encoding='utf-8')
 def read_json_file(file_path):
     """Lit un fichier JSON et retourne son contenu sous forme de dictionnaire."""
     if not os.path.exists(file_path):
-        print(json.dumps({"error": f"Fichier non trouvé : {file_path}"}))
-        sys.exit(1)
+        return {"error": f"Fichier non trouvé : {file_path}"}
+    
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             return json.load(file)
     except json.JSONDecodeError:
-        print(json.dumps({"error": f"Erreur de lecture du fichier JSON : {file_path}"}))
-        sys.exit(1)
+        return {"error": f"Erreur de lecture du fichier JSON : {file_path}"}
 
-def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, file_name):
+def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, file_name, output_file):
     """Extrait les données des tests et des défauts associés."""
     execution_file_path = os.path.join(test_execution_folder, f"{file_name}.json")
     execution_data = read_json_file(execution_file_path)
 
+    if "error" in execution_data:
+        return execution_data
+
     customfield_data = execution_data.get("fields", {}).get("customfield_12219", [])
     if not customfield_data:
-        print(json.dumps({"error": f"Le champ 'customfield_12219' est vide ou absent dans {execution_file_path}"}))
-        sys.exit(1)
+        return {"error": f"Le champ 'customfield_12219' est vide ou absent dans {execution_file_path}"}
 
     output_data = []
     defect_to_testkey = defaultdict(set)
@@ -755,7 +756,6 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
         test_case_data = read_json_file(test_case_file_path)
 
         feature = test_case_data.get("fields", {}).get("customfield_13601", "null")
-
         defects_file_path = os.path.join(defects_folder, f"{file_name}.json")
         defects_data = read_json_file(defects_file_path)
 
@@ -795,14 +795,19 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
             "defects": defects_info
         })
 
-    return output_data, defect_to_testkey, defect_counts
+    # Sauvegarde dans un fichier JSON
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(output_data, f, ensure_ascii=False, indent=4)
+
+    return output_data
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print(json.dumps({"error": "Usage : python app.py <NOM_DU_FICHIER>"}))
+    if len(sys.argv) < 3:
+        print(json.dumps({"error": "Usage : python app.py <NOM_DU_FICHIER> <OUTPUT_JSON>"}))
         sys.exit(1)
 
     file_name = sys.argv[1]
+    output_file = sys.argv[2]
 
     test_execution_folder = "test execution"
     test_cases_folder = "test cases"
@@ -813,9 +818,6 @@ if __name__ == "__main__":
             print(json.dumps({"error": f"Le dossier '{folder}' n'existe pas."}))
             sys.exit(1)
 
-    output_data, defect_to_testkey, defect_counts = extract_test_data(
-        test_execution_folder, test_cases_folder, defects_folder, file_name
-    )
+    result = extract_test_data(test_execution_folder, test_cases_folder, defects_folder, file_name, output_file)
 
-    # Affichage des résultats au format JSON directement dans la sortie standard
-    print(json.dumps(output_data, ensure_ascii=False, indent=4))
+    print(json.dumps(result, ensure_ascii=False, indent=4))

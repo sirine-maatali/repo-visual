@@ -236,94 +236,62 @@ pipeline {
 
         stage('Exécuter le script Python') {
             steps {
-        script {
-    echo "Début de l'exécution du script Python"
+                script {
+                    echo "Début de l'exécution du script Python"
+                    
+                    // Exécuter et rediriger la sortie vers un fichier
+                    bat "python app.py ${params.FILE_NAME} output.json"
+                    
+                    // Vérifier si output.json existe
+                    if (!fileExists('output.json')) {
+                        error "Le fichier output.json n'a pas été généré !"
+                    }
 
-    // Exécution du script Python et récupération de la sortie JSON
-    def jsonOutput = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
-    
-    echo "Sortie JSON récupérée : ${jsonOutput}"
+                    // Lire le fichier output.json
+                    def jsonOutput = readFile('output.json').trim()
+                    echo "Sortie JSON récupérée : ${jsonOutput}"
 
-    // Vérification si la sortie est vide
-    if (!jsonOutput) {
-        error "La sortie JSON est vide !"
-    }
+                    // Parser le JSON
+                    def jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
+                    def features = jsonData.collect { it.feature.replaceAll("[\\[\\]']", "").trim() }.unique()
+                    
+                    echo "Liste finale des features uniques : ${features}"
 
-    echo "Début du parsing JSON"
-    
-    // Extraire les features uniques
-    def features = []
-    def jsonData
-    try {
-        jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
-        echo "Parsing JSON réussi"
-    } catch (Exception e) {
-        error "Erreur lors du parsing JSON : ${e.message}"
-    }
+                    // Générer le contenu HTML
+                    def htmlContent = """
+                        <html>
+                        <head>
+                            <title>Test Execution - ${params.FILE_NAME}</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; margin: 20px; }
+                                h1 { color: #2c3e50; text-align: center; }
+                                h2 { color: #34495e; }
+                                h3 { color: #16a085; }
+                                pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+                                .container { max-width: 800px; margin: auto; }
+                                .feature-list { background: #ecf0f1; padding: 10px; border-radius: 5px; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>Test Execution</h1>
+                                <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                                <h3>Features uniques :</h3>
+                                <div class="feature-list">
+                                    <ul>
+                                        ${features.collect { "<li>${it}</li>" }.join("\n")}
+                                    </ul>
+                                </div>
+                                <h3>Résultat JSON :</h3>
+                                <pre>${jsonOutput}</pre>
+                            </div>
+                        </body>
+                        </html>
+                    """
 
-    echo "Début de l'extraction des features uniques"
-
-    jsonData.each { entry ->
-        try {
-            def featureValue = entry.feature.replaceAll("[\\[\\]']", "").trim()
-            echo "Feature extraite : ${featureValue}"
-
-            if (!features.contains(featureValue)) {
-                features.add(featureValue)
-                echo "Feature ajoutée à la liste : ${featureValue}"
+                    writeFile file: 'report.html', text: htmlContent
+                }
             }
-        } catch (Exception e) {
-            error "Erreur lors de l'extraction d'une feature : ${e.message}"
-        }
-    }
-
-    echo "Liste finale des features uniques : ${features}"
-
-    // Générer le contenu HTML
-    echo "Début de la génération du contenu HTML"
-
-    def htmlContent = """
-        <html>
-        <head>
-            <title>Test Execution - ${params.FILE_NAME}</title>
-            <style>
-                body { font-family: Arial, sans-serif; margin: 20px; }
-                h1 { color: #2c3e50; text-align: center; }
-                h2 { color: #34495e; }
-                h3 { color: #16a085; }
-                pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
-                .container { max-width: 800px; margin: auto; }
-                .feature-list { background: #ecf0f1; padding: 10px; border-radius: 5px; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>Test Execution</h1>
-                <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                <h3>Features uniques :</h3>
-                <div class="feature-list">
-                    <ul>
-                        ${features.collect { "<li>${it}</li>" }.join("\n")}
-                    </ul>
-                </div>
-                <h3>Résultat JSON :</h3>
-                <pre>${jsonOutput}</pre>  <!-- Afficher les données JSON brutes -->
-            </div>
-        </body>
-        </html>
-    """
-
-    echo "Fin de la génération du contenu HTML"
-
-    // Sauvegarder ce contenu HTML dans un fichier pour le publier
-    try {
-        writeFile file: 'report.html', text: htmlContent
-        echo "Fichier report.html généré avec succès"
-    } catch (Exception e) {
-        error "Erreur lors de l'écriture du fichier HTML : ${e.message}"
-    }
-}
-    }
         }
 
         stage('Vérifier génération du fichier HTML') {
