@@ -242,72 +242,70 @@ pipeline {
                     echo "Sortie JSON : ${jsonOutput}"
 
                     // Générer le fichier HTML avec les données JSON brutes
-                    writeFile file: 'echarts.html', text: """
-                    <html>
-                    <head>
-                        <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-                        <style>
-                            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                            th { background-color: #f2f2f2; }
-                        </style>
-                    </head>
-                    <body>
-                        <h2>Visualisation des Données</h2>
-                        <h3>Données Brutes (format JSON) :</h3>
-                        <pre>${jsonOutput}</pre> <!-- Affichage du JSON brut -->
+                   writeFile file: 'echarts.html', text: """
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Visualisation des Données</h2>
+    <div id="chart" style="width:600px;height:400px;"></div>
 
-                        <div id="chart" style="width:600px;height:400px;"></div>
+    <h3>Données brutes :</h3>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Test Key</th>
+                <th>Feature</th>
+                <th>Status</th>
+                <th>Defects</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
-                        <h3>Données sous forme de tableau :</h3>
-                        <table id="dataTable">
-                            <thead>
-                                <tr>
-                                    <th>Test Key</th>
-                                    <th>Feature</th>
-                                    <th>Status</th>
-                                    <th>Defects</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+    <script>
+        // Injection des données JSON dynamiquement
+        let data = ${jsonOutput};
 
-                        <script>
-                            // Injection des données JSON dynamiquement
-                            let data = ${jsonOutput};
+        if (!Array.isArray(data)) {
+            document.body.innerHTML = "<h3>Erreur : Données JSON invalides</h3>";
+            throw new Error("Données JSON invalides");
+        }
 
-                            if (!Array.isArray(data)) {
-                                document.body.innerHTML = "<h3>Erreur : Données JSON invalides</h3>";
-                                throw new Error("Données JSON invalides");
-                            }
+        // Graphique
+        var chart = echarts.init(document.getElementById('chart'));
+        chart.setOption({ 
+            title: { text: 'Répartition des Features' },
+            tooltip: { trigger: 'item' },
+            legend: { top: '5%' },
+            series: [{
+                type: 'pie',
+                data: data.map(item => ({ name: item.feature, value: 1 })),
+            }]
+        });
 
-                            // Graphique
-                            var chart = echarts.init(document.getElementById('chart'));
-                            chart.setOption({ 
-                                title: { text: 'Répartition des Features' },
-                                tooltip: { trigger: 'item' },
-                                legend: { top: '5%' },
-                                series: [{
-                                    type: 'pie',
-                                    data: data.map(item => ({ name: item.feature, value: 1 })),
-                                }]
-                            });
+        // Tableau des données
+        let tableBody = document.querySelector("#dataTable tbody");
+        data.forEach(item => {
+            let row = `<tr>
+                <td>${item.testKey}</td>
+                <td>${item.feature}</td>
+                <td>${item.status}</td>
+                <td>${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</td>
+            </tr>`;
+            tableBody.innerHTML += row;
+        });
+    </script>
+</body>
+</html>
+"""
 
-                            // Tableau des données
-                            let tableBody = document.querySelector("#dataTable tbody");
-                            data.forEach(item => {
-                                let row = `<tr>
-                                    <td>${item.testKey}</td>
-                                    <td>${item.feature}</td>
-                                    <td>${item.status}</td>
-                                    <td>${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</td>
-                                </tr>`;
-                                tableBody.innerHTML += row;
-                            });
-                        </script>
-                    </body>
-                    </html>
-                    """
                     echo "Fichier echarts.html généré avec succès !"
                 }
             }
