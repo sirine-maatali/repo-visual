@@ -258,7 +258,7 @@ stages {
 stage('Exécuter le script Python') {
     steps {
         script {
-            def jsonOutput = bat(script: "python3 app.py NOM_DU_FICHIER", returnStdout: true).trim()
+            def jsonOutput = bat(script: "python app.py NOM_DU_FICHIER", returnStdout: true).trim()
             echo "Sortie JSON : ${jsonOutput}"
 
             writeFile file: 'echarts.html', text: """
