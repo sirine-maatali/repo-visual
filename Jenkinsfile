@@ -261,10 +261,10 @@ pipeline {
                         println "Erreur lors du parsing JSON : ${e.message}"
                         jsonData = null
                     }
-    
+                    echo "houni 1 prob"
                     // Convertir les données en une liste de features uniques
                     def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
-                    
+                    echo"houni 2 prob"
                     echo "Liste finale des features uniques : ${features}"
 
                     // Générer le contenu HTML
