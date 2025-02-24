@@ -254,11 +254,10 @@ pipeline {
 
                     // Parser le JSON
                     // def jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
-                    def jsonData = readJSON text: jsonOutput
-                    echo "hedhii jsonData : ${jsonData}"
-                   // def features = jsonOutput.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
-                    
-                   // echo "Liste finale des features uniques : ${features}"
+                  //  def jsonData = readJSON text: jsonOutput
+                  //  echo "hedhii jsonData : ${jsonData}"
+                    def features = jsonOutput.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique() 
+                    echo "Liste finale des features uniques : ${features}"
 
                     // Générer le contenu HTML
                     def htmlContent = """
