@@ -290,9 +290,9 @@ pipeline {
                         </body>
                         </html>
                     """
-
-                    writeFile file: 'test_report.html', text: htmlContent
-                    echo "Le fichier HTML a été généré : test_report.html"
+                    echo "iciiiiiiiii fin html"
+                    writeFile file: 'report.html', text: htmlContent
+                    echo "Le fichier HTML a été généré : report.html"
                 }
             }
         }
@@ -300,7 +300,7 @@ pipeline {
         stage('Vérifier génération du fichier HTML') {
             steps {
                 script {
-                    if (!fileExists('test_report.html')) {
+                    if (!fileExists('report.html')) {
                         error "Le fichier HTML n'a pas été généré !"
                     }
                     echo "Le fichier HTML a été généré avec succès."
@@ -312,7 +312,7 @@ pipeline {
             steps {
                 script {
                     echo "Publication du rapport HTML..."
-                    archiveArtifacts allowEmptyArchive: true, artifacts: 'test_report.html'
+                    archiveArtifacts allowEmptyArchive: true, artifacts: 'report.html'
                 }
             }
         }
@@ -321,13 +321,13 @@ pipeline {
             steps {
                 script {
                     echo "Génération du PDF à partir du fichier HTML..."
-                    bat 'wkhtmltopdf test_report.html test_report.pdf'
+                    bat 'wkhtmltopdf report.html report.pdf'
 
-                    if (!fileExists('test_report.pdf')) {
+                    if (!fileExists('report.pdf')) {
                         error "Le fichier PDF n'a pas été généré !"
                     }
                     
-                    archiveArtifacts allowEmptyArchive: true, artifacts: 'test_report.pdf'
+                    archiveArtifacts allowEmptyArchive: true, artifacts: 'report.pdf'
                 }
             }
         }
