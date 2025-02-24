@@ -253,10 +253,21 @@ pipeline {
                     echo "Sortie JSON récupérée : ${jsonOutput}"
 
                     // Parser le JSON
-                    // def jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
-                  //  def jsonData = readJSON text: jsonOutput
-                  //  echo "hedhii jsonData : ${jsonData}"
-                    def features = jsonOutput.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique() 
+                    def jsonData
+                    try {
+                        jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
+                        echo "JSON Parsé avec succès"
+                    } catch (Exception e) {
+                        error "Erreur lors du parsing du JSON : ${e.message}"
+                    }
+
+                    // Vérifier si jsonData est bien une liste
+                    if (!(jsonData instanceof List)) {
+                        error "Le JSON parsé n'est pas une liste d'objets !"
+                    }
+
+                    // Extraire les features uniques
+                    def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
                     echo "Liste finale des features uniques : ${features}"
 
                     // Générer le contenu HTML
@@ -279,7 +290,7 @@ pipeline {
                                 <h1>Test Execution</h1>
                                 <h2>Nom du fichier : ${params.FILE_NAME}</h2>
                                 <h3>Features uniques :</h3>
-                             
+                                <pre>${features.join("\n")}</pre>
                                 <h3>Résultat JSON :</h3>
                                 <pre>${jsonOutput}</pre>
                             </div>
