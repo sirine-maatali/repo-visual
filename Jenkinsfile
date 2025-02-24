@@ -359,3 +359,5 @@ stage('Générer un PDF') {
         archiveArtifacts artifacts: 'report.pdf', fingerprint: true
     }
 }
+}
+}
