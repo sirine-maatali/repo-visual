@@ -211,6 +211,8 @@
 //     }
 // }
 
+import groovy.json.JsonSlurper
+
 pipeline {
     agent any
 
@@ -228,7 +230,6 @@ pipeline {
         stage('Vérifier Python') {
             steps {
                 script {
-                    // Vérification si python est installé
                     bat 'where python || echo "Python non trouvé"'
                     bat 'python --version || echo "Erreur lors de la récupération de la version de Python"'
                 }
@@ -238,37 +239,28 @@ pipeline {
         stage('Exécuter le script Python') {
             steps {
                 script {
-                    import groovy.json.JsonSlurper // Ajout de l'import pour éviter l'erreur
-
                     echo "Début de l'exécution du script Python"
                     
                     // Exécuter le script Python et rediriger la sortie vers un fichier
                     bat "python app.py ${params.FILE_NAME} output.json"
                     
-                    // Vérifier si output.json existe
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
 
-                    // Lire le fichier output.json
+                    // Lire et parser le JSON
                     def jsonOutput = readFile('output.json').trim()
-                    echo "Sortie JSON récupérée : ${jsonOutput}"
-
-                    // Parser le JSON
                     def jsonData
                     try {
-                        def jsonSlurper = new JsonSlurper()
-                        jsonData = jsonSlurper.parseText(jsonOutput)
+                        jsonData = new JsonSlurper().parseText(jsonOutput)
                     } catch (Exception e) {
                         echo "Erreur lors du parsing JSON : ${e.message}"
                         jsonData = []
                     }
 
-                    // Convertir les données en une liste de features uniques
                     def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
                     echo "Liste finale des features uniques : ${features}"
 
-                    // Générer le contenu HTML
                     def htmlContent = """
                         <html>
                         <head>
@@ -299,41 +291,15 @@ pipeline {
                         </html>
                     """
 
-                    // Enregistrer le fichier HTML
                     writeFile file: 'test_report.html', text: htmlContent
                     echo "Le fichier HTML a été généré : test_report.html"
                 }
             }
         }
 
-        stage('Vérifier génération du fichier HTML') {
-            steps {
-                script {
-                    // Vérifier si le fichier HTML existe
-                    if (!fileExists('test_report.html')) {
-                        error "Le fichier HTML n'a pas été généré !"
-                    }
-                    echo "Le fichier HTML a été généré avec succès."
-                }
-            }
-        }
-
         stage('Publier le rapport') {
             steps {
-                script {
-                    // Publier le rapport HTML
-                    echo "Publication du rapport HTML..."
-                    archiveArtifacts allowEmptyArchive: true, artifacts: 'test_report.html'
-                }
-            }
-        }
-
-        stage('Générer un PDF') {
-            steps {
-                script {
-                    echo "Génération du PDF à partir du fichier HTML..."
-                    // Implémente la génération du PDF si nécessaire
-                }
+                archiveArtifacts artifacts: 'test_report.html'
             }
         }
     }
