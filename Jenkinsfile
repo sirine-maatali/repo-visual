@@ -257,7 +257,8 @@ pipeline {
                 
                     def jsonData
                     try {
-                        jsonData = new JsonSlurper().parseText(jsonOutput)
+                        def jsonSlurper = new groovy.json.JsonSlurper()
+                        jsonData = jsonSlurper.parseText(jsonOutput)
                     } catch (Exception e) {
                         println "Erreur lors du parsing JSON : ${e.message}"
                         jsonData = null
