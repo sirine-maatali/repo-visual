@@ -260,7 +260,7 @@ pipeline {
                     // Parsing JSON avec gestion des erreurs
                     def jsonData
                     try {
-                        def jsonData = readJSON text: jsonOutput
+                        jsonData = readJSON text: jsonOutput
                         echo "JSON Parsé avec succès"
                     } catch (Exception e) {
                         error "Erreur lors du parsing du JSON : ${e.message}"
