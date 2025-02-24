@@ -253,7 +253,7 @@ pipeline {
 
                     // Parser le JSON
                     def jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
-                    def features = jsonData.collect { it.feature.replaceAll("[\\[\\]']", "").trim() }.unique()
+                    def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
                     
                     echo "Liste finale des features uniques : ${features}"
 
