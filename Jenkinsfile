@@ -297,13 +297,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            script {
-                // Arrêter Flask après le pipeline
-                bat 'taskkill /F /IM python.exe /T' // Ferme tous les processus Python (à adapter si nécessaire)
-            }
-        }
-    }
 }
