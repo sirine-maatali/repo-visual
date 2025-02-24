@@ -241,7 +241,7 @@ pipeline {
                     def jsonOutput = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
                     echo "Sortie JSON : ${jsonOutput}"
 
-                    // Générer le fichier HTML avec les données
+                    // Générer le fichier HTML avec les données JSON brutes
                     writeFile file: 'echarts.html', text: """
                     <html>
                     <head>
@@ -254,9 +254,12 @@ pipeline {
                     </head>
                     <body>
                         <h2>Visualisation des Données</h2>
+                        <h3>Données Brutes (format JSON) :</h3>
+                        <pre>${jsonOutput}</pre> <!-- Affichage du JSON brut -->
+
                         <div id="chart" style="width:600px;height:400px;"></div>
 
-                        <h3>Données brutes :</h3>
+                        <h3>Données sous forme de tableau :</h3>
                         <table id="dataTable">
                             <thead>
                                 <tr>
@@ -297,7 +300,7 @@ pipeline {
                                     <td>${item.testKey}</td>
                                     <td>${item.feature}</td>
                                     <td>${item.status}</td>
-                                    <td>${item.defects.length > 0 ? item.defects.collect { it.id }.join(", ") : "Aucun"}</td>
+                                    <td>${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</td>
                                 </tr>`;
                                 tableBody.innerHTML += row;
                             });
