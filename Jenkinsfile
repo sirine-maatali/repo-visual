@@ -238,7 +238,6 @@ pipeline {
         stage('Exécuter le script Python') {
             steps {
                 script {
-                    import groovy.json.JsonSlurper
                     echo "Début de l'exécution du script Python"
                     
                     // Exécuter le script Python et rediriger la sortie vers un fichier
