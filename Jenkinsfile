@@ -261,35 +261,35 @@ pipeline {
                     echo "Liste finale des features uniques : ${features}"
 
                     // Générer le contenu HTML
-                    def htmlContent = """
-                        <html>
-                        <head>
-                            <title>Test Execution - ${params.FILE_NAME}</title>
-                            <style>
-                                body { font-family: Arial, sans-serif; margin: 20px; }
-                                h1 { color: #2c3e50; text-align: center; }
-                                h2 { color: #34495e; }
-                                h3 { color: #16a085; }
-                                pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
-                                .container { max-width: 800px; margin: auto; }
-                                .feature-list { background: #ecf0f1; padding: 10px; border-radius: 5px; }
-                                .feature-list ul { list-style-type: none; padding: 0; }
-                                .feature-list li { margin: 5px 0; }
-                            </style>
-                        </head>
-                        <body>
-                            <div class="container">
-                                <h1>Test Execution Report - ${params.FILE_NAME}</h1>
-                                <h2>Liste des Features Uniques</h2>
-                                <div class="feature-list">
-                                    <ul>
-                                    ${features.collect { "<li>${it}</li>" }.join("\n")}
-                                    </ul>
-                                </div>
-                            </div>
-                        </body>
-                        </html>
-                    """
+                    // def htmlContent = """
+                    //     <html>
+                    //     <head>
+                    //         <title>Test Execution - ${params.FILE_NAME}</title>
+                    //         <style>
+                    //             body { font-family: Arial, sans-serif; margin: 20px; }
+                    //             h1 { color: #2c3e50; text-align: center; }
+                    //             h2 { color: #34495e; }
+                    //             h3 { color: #16a085; }
+                    //             pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+                    //             .container { max-width: 800px; margin: auto; }
+                    //             .feature-list { background: #ecf0f1; padding: 10px; border-radius: 5px; }
+                    //             .feature-list ul { list-style-type: none; padding: 0; }
+                    //             .feature-list li { margin: 5px 0; }
+                    //         </style>
+                    //     </head>
+                    //     <body>
+                    //         <div class="container">
+                    //             <h1>Test Execution Report - ${params.FILE_NAME}</h1>
+                    //             <h2>Liste des Features Uniques</h2>
+                    //             <div class="feature-list">
+                    //                 <ul>
+                    //                 ${features.collect { "<li>${it}</li>" }.join("\n")}
+                    //                 </ul>
+                    //             </div>
+                    //         </div>
+                    //     </body>
+                    //     </html>
+                    // """
 
                     // Enregistrer le fichier HTML
                     writeFile file: 'test_report.html', text: htmlContent
