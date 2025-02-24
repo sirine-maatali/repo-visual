@@ -260,7 +260,8 @@ pipeline {
                     // Parsing JSON avec gestion des erreurs
                     def jsonData
                     try {
-                        jsonData = new groovy.json.JsonSlurperClassic().parseText(jsonOutput)
+                        jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
+
                         echo "JSON Parsé avec succès"
                     } catch (Exception e) {
                         error "Erreur lors du parsing du JSON : ${e.message}"
