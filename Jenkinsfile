@@ -164,26 +164,14 @@ pipeline {
                 }
             }
         }
-        stage('Exécuter le script Python') {
-            steps {
-                script {
-                    if (params.FILE_NAME == '') {
-                        error(" Paramètre FILE_NAME requis.")
-                    }
-                    // Exécuter le script Python et capturer la sortie
-                    def result = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
-                    // Sauvegarder la sortie dans un fichier JSON
-                    writeFile(file: 'output2.json', text: result)
-                    print(result)
-
-                }
-            }
-        }
 stage('Exécuter le script Python et récupérer les données') {
     steps {
         script {
             // Exécute le script Python et capture la sortie
-            def output = bat(script: 'python app.py', returnStdout: true).trim()
+            def output = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
+            writeFile(file: 'output2.json', text: result)
+            print(result)
+
 
             // Création du fichier HTML avec la sortie JSON intégrée
             writeFile file: 'echarts.html', text: """
