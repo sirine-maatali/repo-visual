@@ -253,10 +253,8 @@ pipeline {
                     echo "Sortie JSON récupérée : ${jsonOutput}"
 
                     // Parser le JSON
-                    def jsonData
-                    try {
-                        jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
-                        jsonData = new groovy.json.JsonSlurper().parseText(groovy.json.JsonOutput.toJson(jsonData)) // Convertir en objet sérialisable
+                  try {
+                        jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput) // Plus besoin de JsonOutput.toJson
                         echo "JSON Parsé avec succès"
                     } catch (Exception e) {
                         error "Erreur lors du parsing du JSON : ${e.message}"
