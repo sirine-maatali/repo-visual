@@ -258,9 +258,11 @@ stages {
 stage('Exécuter le script Python') {
     steps {
         script {
+            // Exécution du script Python et récupération de la sortie
             def jsonOutput = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
             echo "Sortie JSON : ${jsonOutput}"
 
+            // Générer le fichier HTML avec les données
             writeFile file: 'echarts.html', text: """
             <html>
             <head>
@@ -289,6 +291,7 @@ stage('Exécuter le script Python') {
                 </table>
 
                 <script>
+                    // Injection des données JSON dynamiquement
                     let data = ${jsonOutput};
 
                     if (!Array.isArray(data)) {
@@ -296,6 +299,7 @@ stage('Exécuter le script Python') {
                         throw new Error("Données JSON invalides");
                     }
 
+                    // Graphique
                     var chart = echarts.init(document.getElementById('chart'));
                     chart.setOption({ 
                         title: { text: 'Répartition des Features' },
@@ -307,13 +311,14 @@ stage('Exécuter le script Python') {
                         }]
                     });
 
+                    // Tableau des données
                     let tableBody = document.querySelector("#dataTable tbody");
                     data.forEach(item => {
                         let row = `<tr>
-                            <td>\${item.testKey}</td>
-                            <td>\${item.feature}</td>
-                            <td>\${item.status}</td>
-                            <td>\${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</td>
+                            <td>${item.testKey}</td>
+                            <td>${item.feature}</td>
+                            <td>${item.status}</td>
+                            <td>${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</td>
                         </tr>`;
                         tableBody.innerHTML += row;
                     });
@@ -326,18 +331,31 @@ stage('Exécuter le script Python') {
     }
 }
 
-
-    stage('Publier le rapport') {
-            steps {
-                publishHTML(target: [reportDir: '', reportFiles: 'echarts.html', reportName: 'Visualisation des Features'])
+stage('Vérifier génération du fichier HTML') {
+    steps {
+        script {
+            // Vérifier si le fichier echarts.html existe
+            if (fileExists('echarts.html')) {
+                echo 'Le fichier echarts.html a été généré avec succès !'
+            } else {
+                error 'Le fichier echarts.html n\'a pas été généré !'
             }
         }
+    }
+}
 
-    stage('Générer un PDF') {
-            steps {
-                bat 'wkhtmltopdf echarts.html report.pdf'
-                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
-            }
-        }
+stage('Publier le rapport') {
+    steps {
+        // Publier le fichier HTML généré comme rapport Jenkins
+        publishHTML(target: [reportDir: '', reportFiles: 'echarts.html', reportName: 'Visualisation des Features'])
+    }
+}
+
+stage('Générer un PDF') {
+    steps {
+        // Convertir le fichier HTML en PDF
+        bat 'wkhtmltopdf echarts.html report.pdf'
+        // Archiver le PDF généré
+        archiveArtifacts artifacts: 'report.pdf', fingerprint: true
     }
 }
