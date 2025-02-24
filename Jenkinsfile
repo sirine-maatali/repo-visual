@@ -286,7 +286,7 @@ pipeline {
                 <p><strong>Test Key:</strong> ${item.testKey}</p>
                 <p><strong>Feature:</strong> ${item.feature}</p>
                 <p><strong>Status:</strong> ${item.status}</p>
-                <p><strong>Defects:</strong> ${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</p>
+                <p><strong>Defects:</strong> ${item.defects.length > 0 ? item.defects.collect { it.id }.join(", "): "Aucun"}</p>
                 <hr>
             `;
             dataDisplay.innerHTML += displayText;
