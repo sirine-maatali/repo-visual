@@ -247,30 +247,78 @@ pipeline {
             }
         }
 
-        stage('Générer et publier les graphiques') {
-            steps {
-                script {
-                    writeFile file: 'echarts.html', text: """
-                    <html>
-                    <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-                    <p>chargement ... </p>
-                    </head>
-                    <body><div id="chart" style="width:600px;height:400px;"></div>
-                    <script>
-                        fetch('output.json').then(res => res.json()).then(data => {
-                            var chart = echarts.init(document.getElementById('chart'));
-                            chart.setOption({ 
-                                series: [{ 
-                                    type: 'pie', 
-                                    data: Object.keys(data).map(key => ({ name: key, value: data[key].length })) 
-                                }] 
-                            });
-                        });
-                    </script></body></html>
-                    """
-                }
-            }
+stage('Générer et publier les graphiques') {
+    steps {
+        script {
+            def jsonContent = readFile('output.json')
+
+            writeFile file: 'echarts.html', text: """
+            <html>
+            <head>
+                <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+                <p>Chargement des données...</p>
+                <style>
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                    th { background-color: #f2f2f2; }
+                </style>
+            </head>
+            <body>
+                <h2>Visualisation des Données</h2>
+                <div id="chart" style="width:600px;height:400px;"></div>
+
+                <h3>Données brutes :</h3>
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Test Key</th>
+                            <th>Feature</th>
+                            <th>Status</th>
+                            <th>Defects</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <script>
+                    let data = ${jsonContent};
+
+                    // Vérification que les données sont bien un tableau JSON
+                    if (!Array.isArray(data)) {
+                        document.body.innerHTML = "<h3>Erreur : Données JSON invalides</h3>";
+                        throw new Error("Données JSON invalides");
+                    }
+
+                    // Génération du graphique
+                    var chart = echarts.init(document.getElementById('chart'));
+                    chart.setOption({ 
+                        title: { text: 'Répartition des Features' },
+                        tooltip: { trigger: 'item' },
+                        legend: { top: '5%' },
+                        series: [{
+                            type: 'pie',
+                            data: data.map(item => ({ name: item.feature, value: 1 })),
+                        }]
+                    });
+
+                    // Affichage des données sous forme de tableau
+                    let tableBody = document.querySelector("#dataTable tbody");
+                    data.forEach(item => {
+                        let row = `<tr>
+                            <td>\${item.testKey}</td>
+                            <td>\${item.feature}</td>
+                            <td>\${item.status}</td>
+                            <td>\${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</td>
+                        </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                </script>
+            </body>
+            </html>
+            """
         }
+    }
+}
 
         stage('Publier le rapport') {
             steps {
