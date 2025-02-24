@@ -248,46 +248,22 @@ pipeline {
                         error "La sortie JSON est vide !"
                     }
 
-                    // Générer le fichier HTML avec les données JSON brutes
-                    writeFile file: 'echarts.html', text: """
+                    // Créer le contenu HTML avec le JSON directement pour publication dans Jenkins
+                    def htmlContent = """
                         <html>
                         <head>
-                            <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+                            <title>Visualisation des Features</title>
                         </head>
                         <body>
                             <h2>Visualisation des Données</h2>
-                            <div id="chart" style="width:600px;height:400px;"></div>
-
                             <h3>Données JSON :</h3>
-                            <pre id="jsonData"></pre>  <!-- Zone pour afficher les données JSON brut -->
-
-                            <script>
-                                // Injection des données JSON dynamiquement
-                                let data = ${jsonOutput};
-
-                                if (!Array.isArray(data)) {
-                                    document.body.innerHTML = "<h3>Erreur : Données JSON invalides</h3>";
-                                    throw new Error("Données JSON invalides");
-                                }
-
-                                // Affichage des données JSON brut dans le bloc <pre>
-                                document.getElementById("jsonData").textContent = JSON.stringify(data, null, 2);
-
-                                // Graphique
-                                var chart = echarts.init(document.getElementById('chart'));
-                                chart.setOption({ 
-                                    title: { text: 'Répartition des Features' },
-                                    tooltip: { trigger: 'item' },
-                                    legend: { top: '5%' },
-                                    series: [{
-                                        type: 'pie',
-                                        data: data.map(item => ({ name: item.feature, value: 1 })), // Ajuster le mappage en fonction des données JSON
-                                    }]
-                                });
-                            </script>
+                            <pre>${jsonOutput}</pre>  <!-- Afficher les données JSON brutes -->
                         </body>
                         </html>
-                        """
+                    """
+
+                    // Sauvegarder ce contenu HTML dans un fichier pour le publier
+                    writeFile file: 'report.html', text: htmlContent
                 }
             }
         }
@@ -295,11 +271,11 @@ pipeline {
         stage('Vérifier génération du fichier HTML') {
             steps {
                 script {
-                    // Vérifier si le fichier echarts.html existe
-                    if (fileExists('echarts.html')) {
-                        echo 'Le fichier echarts.html a été généré avec succès !'
+                    // Vérifier si le fichier report.html existe
+                    if (fileExists('report.html')) {
+                        echo 'Le fichier report.html a été généré avec succès !'
                     } else {
-                        error 'Le fichier echarts.html n\'a pas été généré !'
+                        error 'Le fichier report.html n\'a pas été généré !'
                     }
                 }
             }
@@ -308,14 +284,14 @@ pipeline {
         stage('Publier le rapport') {
             steps {
                 // Publier le fichier HTML généré comme rapport Jenkins
-                publishHTML(target: [reportDir: '', reportFiles: 'echarts.html', reportName: 'Visualisation des Features'])
+                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
             }
         }
 
         stage('Générer un PDF') {
             steps {
                 // Convertir le fichier HTML en PDF avec wkhtmltopdf
-                bat 'wkhtmltopdf echarts.html report.pdf'
+                bat 'wkhtmltopdf report.html report.pdf'
                 // Archiver le PDF généré
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
