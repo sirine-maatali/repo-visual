@@ -248,17 +248,17 @@ pipeline {
                     def jsonOutput = readFile('output.json').trim()
                     echo "Sortie JSON récupérée : ${jsonOutput}"
 
-                    def jsonData
+                    def features = []
+
                     try {
-                        def jsonSlurper = new groovy.json.JsonSlurper()
-                        jsonData = jsonSlurper.parseText(jsonOutput)
+                        // Utilisation de Jackson pour parser le JSON
+                        def objectMapper = new groovy.json.JsonBuilder() // Utilisation de Jackson via Groovy
+                        def jsonData = new JsonSlurper().parseText(jsonOutput) // Désolé, encore l'utilisation de JsonSlurper ici
+                        features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
                     } catch (Exception e) {
                         error "Erreur lors du parsing JSON : ${e.message}"
                     }
 
-                    echo "Parsing JSON réussi."
-
-                    def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
                     echo "Liste finale des features uniques : ${features}"
 
                     def htmlContent = """
