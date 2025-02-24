@@ -219,44 +219,52 @@ pipeline {
         string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX" ou "HGWXRAY-XXXX")')
     }
 
-    stages {
-        stage('Cloner le Repo') {
-            steps {
-                git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
+stages {
+    stage('Cloner le Repo') {
+        steps {
+            git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
+        }
+    }
+
+    stage('Vérifier Python') {
+        steps {
+            script {
+                bat 'where python'
+                bat 'python --version'
             }
         }
+    }
 
-        stage('Vérifier Python') {
-            steps {
-                script {
-                    bat 'where python'
-                    bat 'python --version'
-                }
-            }
-        }
+    // stage('Exécuter le script Python') {
+    //     steps {
+    //         script {
+    //             if (params.FILE_NAME == '') {
+    //                 error("Paramètre FILE_NAME requis.")
+    //             }
+    //             try {
+    //                 def jsonData = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
+    //                 if (!jsonData || jsonData.startsWith("{\"error\":")) {
+    //                     error("Erreur lors de l'exécution du script Python : ${jsonData}")
+    //                 }
+    //                 writeFile file: 'output.json', text: jsonData
+    //             } catch (Exception e) {
+    //                 error("Échec de l'exécution Python : ${e.getMessage()}")
+    //             }
+    //         }
+    //     }
+    // }
 
-        stage('Exécuter le script Python') {
-            steps {
-                script {
-                    if (params.FILE_NAME == '') {
-                        error("Paramètre FILE_NAME requis.")
-                    }
-                    def jsonData = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
-                    writeFile file: 'output.json', text: jsonData
-                }
-            }
-        }
 
-stage('Générer et publier les graphiques') {
+stage('Exécuter le script Python') {
     steps {
         script {
-            def jsonContent = readFile('output.json')
+            def jsonOutput = sh(script: "python3 app.py NOM_DU_FICHIER", returnStdout: true).trim()
+            echo "Sortie JSON : ${jsonOutput}"
 
             writeFile file: 'echarts.html', text: """
             <html>
             <head>
                 <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-                <p>Chargement des données...</p>
                 <style>
                     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
                     th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
@@ -281,15 +289,13 @@ stage('Générer et publier les graphiques') {
                 </table>
 
                 <script>
-                    let data = ${jsonContent};
+                    let data = ${jsonOutput};
 
-                    // Vérification que les données sont bien un tableau JSON
                     if (!Array.isArray(data)) {
                         document.body.innerHTML = "<h3>Erreur : Données JSON invalides</h3>";
                         throw new Error("Données JSON invalides");
                     }
 
-                    // Génération du graphique
                     var chart = echarts.init(document.getElementById('chart'));
                     chart.setOption({ 
                         title: { text: 'Répartition des Features' },
@@ -301,7 +307,6 @@ stage('Générer et publier les graphiques') {
                         }]
                     });
 
-                    // Affichage des données sous forme de tableau
                     let tableBody = document.querySelector("#dataTable tbody");
                     data.forEach(item => {
                         let row = `<tr>
@@ -316,17 +321,19 @@ stage('Générer et publier les graphiques') {
             </body>
             </html>
             """
+            echo "Fichier echarts.html généré avec succès !"
         }
     }
 }
 
-        stage('Publier le rapport') {
+
+    stage('Publier le rapport') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'echarts.html', reportName: 'Visualisation des Features'])
             }
         }
 
-        stage('Générer un PDF') {
+    stage('Générer un PDF') {
             steps {
                 bat 'wkhtmltopdf echarts.html report.pdf'
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
