@@ -248,7 +248,18 @@ pipeline {
                         error "La sortie JSON est vide !"
                     }
 
-                    // Créer le contenu HTML avec le JSON et le titre
+                    // Extraire les features uniques
+                    def features = []
+                    def jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
+
+                    jsonData.each { entry ->
+                        def featureValue = entry.feature.replaceAll("[\\[\\]']", "").trim() // Nettoyer le format '[]'
+                        if (!features.contains(featureValue)) {
+                            features.add(featureValue)
+                        }
+                    }
+
+                    // Générer le contenu HTML
                     def htmlContent = """
                         <html>
                         <head>
@@ -260,12 +271,19 @@ pipeline {
                                 h3 { color: #16a085; }
                                 pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
                                 .container { max-width: 800px; margin: auto; }
+                                .feature-list { background: #ecf0f1; padding: 10px; border-radius: 5px; }
                             </style>
                         </head>
                         <body>
                             <div class="container">
                                 <h1>Test Execution</h1>
                                 <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                                <h3>Features uniques :</h3>
+                                <div class="feature-list">
+                                    <ul>
+                                        ${features.collect { "<li>${it}</li>" }.join("\n")}
+                                    </ul>
+                                </div>
                                 <h3>Résultat JSON :</h3>
                                 <pre>${jsonOutput}</pre>  <!-- Afficher les données JSON brutes -->
                             </div>
