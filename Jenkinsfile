@@ -249,17 +249,17 @@ pipeline {
                     }
 
                     // Lire et parser le JSON
-                    def jsonOutput = readFile('output.json').trim()
-                    def jsonData
-                    try {
-                        jsonData = new JsonSlurper().parseText(jsonOutput)
-                    } catch (Exception e) {
-                        echo "Erreur lors du parsing JSON : ${e.message}"
-                        jsonData = []
-                    }
+                    // def jsonOutput = readFile('output.json').trim()
+                    // def jsonData
+                    // try {
+                    //     jsonData = new JsonSlurper().parseText(jsonOutput)
+                    // } catch (Exception e) {
+                    //     echo "Erreur lors du parsing JSON : ${e.message}"
+                    //     jsonData = []
+                    // }
 
-                    def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
-                    echo "Liste finale des features uniques : ${features}"
+                    // def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
+                    // echo "Liste finale des features uniques : ${features}"
 
                     def htmlContent = """
                         <html>
@@ -281,11 +281,11 @@ pipeline {
                             <div class="container">
                                 <h1>Test Execution Report - ${params.FILE_NAME}</h1>
                                 <h2>Liste des Features Uniques</h2>
-                                <div class="feature-list">
-                                    <ul>
-                                    ${features.collect { "<li>${it}</li>" }.join("\n")}
-                                    </ul>
-                                </div>
+                                // <div class="feature-list">
+                                //     <ul>
+                                //     ${features.collect { "<li>${it}</li>" }.join("\n")}
+                                //     </ul>
+                                // </div>
                             </div>
                         </body>
                         </html>
