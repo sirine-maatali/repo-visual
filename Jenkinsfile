@@ -239,7 +239,14 @@ pipeline {
                 script {
                     // Exécution du script Python et récupération de la sortie JSON
                     def jsonOutput = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
+                    
+                    // Affichage de la sortie JSON dans les logs
                     echo "Sortie JSON : ${jsonOutput}"
+
+                    // Vérification si la sortie est vide
+                    if (!jsonOutput) {
+                        error "La sortie JSON est vide !"
+                    }
 
                     // Générer le fichier HTML avec les données JSON brutes
                     writeFile file: 'echarts.html', text: """
