@@ -235,12 +235,14 @@ pipeline {
             }
         }
 
-        stage('Lancer le serveur Flask') {
+        stage('Exécuter le script Python') {
             steps {
                 script {
-                    // Démarre le serveur Flask en arrière-plan (modifie app.py pour qu'il écoute sur 0.0.0.0 si besoin)
-                    bat "start /B python app.py ${params.FILE_NAME}"
-                    sleep time: 10 // Donne le temps au serveur de démarrer
+                    if (params.FILE_NAME == '') {
+                        error("Paramètre FILE_NAME requis.")
+                    }
+                    def jsonData = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
+                    writeFile file: 'output.json', text: jsonData
                 }
             }
         }
@@ -250,35 +252,19 @@ pipeline {
                 script {
                     writeFile file: 'echarts.html', text: """
                     <html>
-                    <head>
-                        <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-                    </head>
-                    <body>
-                        <h2>Visualisation des données</h2>
-                        <div id="chart" style="width:600px;height:400px;"></div>
-                        <script>
-                            fetch('http://localhost:5000/data')  // Récupère directement la sortie de app.py
-                                .then(res => res.json())
-                                .then(data => {
-                                    var chart = echarts.init(document.getElementById('chart'));
-                                    var formattedData = Object.keys(data).map(key => ({
-                                        name: key,
-                                        value: data[key].length
-                                    }));
-
-                                    chart.setOption({
-                                        title: { text: 'Répartition des données', left: 'center' },
-                                        tooltip: { trigger: 'item' },
-                                        series: [{
-                                            type: 'pie',
-                                            data: formattedData
-                                        }]
-                                    });
-                                })
-                                .catch(error => console.error('Erreur de chargement des données:', error));
-                        </script>
-                    </body>
-                    </html>
+                    <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
+                    <body><div id="chart" style="width:600px;height:400px;"></div>
+                    <script>
+                        fetch('output.json').then(res => res.json()).then(data => {
+                            var chart = echarts.init(document.getElementById('chart'));
+                            chart.setOption({ 
+                                series: [{ 
+                                    type: 'pie', 
+                                    data: Object.keys(data).map(key => ({ name: key, value: data[key].length })) 
+                                }] 
+                            });
+                        });
+                    </script></body></html>
                     """
                 }
             }
