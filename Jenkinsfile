@@ -252,7 +252,9 @@ pipeline {
                 script {
                     writeFile file: 'echarts.html', text: """
                     <html>
-                    <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script></head>
+                    <head><script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+                    <p>chargement ... </p>
+                    </head>
                     <body><div id="chart" style="width:600px;height:400px;"></div>
                     <script>
                         fetch('output.json').then(res => res.json()).then(data => {
