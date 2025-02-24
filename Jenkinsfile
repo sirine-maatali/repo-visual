@@ -248,21 +248,34 @@ pipeline {
                         error "La sortie JSON est vide !"
                     }
 
-                    // Créer le contenu HTML avec le JSON directement pour publication dans Jenkins
+                    // Extraction du champ "input_file" du JSON
+                    def inputFile = "Non défini" // Valeur par défaut si le champ n'existe pas
+                    def jsonParsed = readJSON text: jsonOutput
+                    if (jsonParsed.containsKey("input_file")) {
+                        inputFile = jsonParsed.input_file
+                    }
+
+                    // Création du contenu HTML avec les données JSON et input_file
                     def htmlContent = """
                         <html>
                         <head>
-                            <title>Visualisation des Features</title>
+                            <title>Test Execution</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; margin: 20px; }
+                                h2 { color: #2c3e50; }
+                                pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+                            </style>
                         </head>
                         <body>
-                            <h2>Visualisation des Données</h2>
+                            <h2>Test Execution</h2>
+                            <h3>Nom du fichier d'entrée : ${inputFile}</h3>
                             <h3>Données JSON :</h3>
-                            <pre>${jsonOutput}</pre>  <!-- Afficher les données JSON brutes -->
+                            <pre>${jsonOutput}</pre> <!-- Affichage des données JSON brutes -->
                         </body>
                         </html>
                     """
 
-                    // Sauvegarder ce contenu HTML dans un fichier pour le publier
+                    // Sauvegarde du fichier HTML
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
@@ -271,7 +284,6 @@ pipeline {
         stage('Vérifier génération du fichier HTML') {
             steps {
                 script {
-                    // Vérifier si le fichier report.html existe
                     if (fileExists('report.html')) {
                         echo 'Le fichier report.html a été généré avec succès !'
                     } else {
@@ -283,16 +295,14 @@ pipeline {
 
         stage('Publier le rapport') {
             steps {
-                // Publier le fichier HTML généré comme rapport Jenkins
+                // Publication du rapport HTML dans Jenkins
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
             }
         }
 
         stage('Générer un PDF') {
             steps {
-                // Convertir le fichier HTML en PDF avec wkhtmltopdf
                 bat 'wkhtmltopdf report.html report.pdf'
-                // Archiver le PDF généré
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
