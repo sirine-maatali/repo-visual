@@ -248,25 +248,33 @@ pipeline {
                         error "Le fichier output.json n'a pas été généré !"
                     }
 
-                    // Lire le fichier output.json
+                    // Lire le fichier JSON
                     def jsonOutput = readFile('output.json').trim()
                     echo "Sortie JSON récupérée : ${jsonOutput}"
 
-                    // Parser le JSON
-                  try {
-                        jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput) // Plus besoin de JsonOutput.toJson
+                    // Vérification si jsonOutput est vide
+                    if (!jsonOutput) {
+                        error "Le fichier JSON est vide !"
+                    }
+
+                    // Parsing JSON avec gestion des erreurs
+                    def jsonData
+                    try {
+                        jsonData = new groovy.json.JsonSlurperClassic().parseText(jsonOutput)
                         echo "JSON Parsé avec succès"
                     } catch (Exception e) {
                         error "Erreur lors du parsing du JSON : ${e.message}"
                     }
 
-                    // Vérifier si jsonData est bien une liste
+                    // Vérifier si jsonData est une liste
                     if (!(jsonData instanceof List)) {
                         error "Le JSON parsé n'est pas une liste d'objets !"
                     }
 
                     // Extraire les features uniques
-                    def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
+                    def features = jsonData.findAll { it.feature }
+                                          .collect { it.feature.toString().replaceAll("[\\[\\]']", "").trim() }
+                                          .unique()
                     echo "Liste finale des features uniques : ${features}"
 
                     // Générer le contenu HTML
