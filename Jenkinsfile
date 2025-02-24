@@ -318,7 +318,7 @@ stage('Exécuter le script Python') {
                             <td>${item.testKey}</td>
                             <td>${item.feature}</td>
                             <td>${item.status}</td>
-                            <td>${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</td>
+                            <td>${item.defects.length > 0 ? item.defects.collect { it.id }.join(", ") : "Aucun"}</td>
                         </tr>`;
                         tableBody.innerHTML += row;
                     });
