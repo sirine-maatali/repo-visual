@@ -247,27 +247,16 @@ pipeline {
 <head>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <style>
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        body { font-family: Arial, sans-serif; }
+        h2 { color: #333; }
     </style>
 </head>
 <body>
     <h2>Visualisation des Données</h2>
     <div id="chart" style="width:600px;height:400px;"></div>
 
-    <h3>Données brutes :</h3>
-    <table id="dataTable">
-        <thead>
-            <tr>
-                <th>Test Key</th>
-                <th>Feature</th>
-                <th>Status</th>
-                <th>Defects</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <h3>Données :</h3>
+    <div id="dataDisplay"></div>
 
     <script>
         // Injection des données JSON dynamiquement
@@ -290,16 +279,17 @@ pipeline {
             }]
         });
 
-        // Tableau des données
-        let tableBody = document.querySelector("#dataTable tbody");
+        // Affichage des données
+        let dataDisplay = document.getElementById("dataDisplay");
         data.forEach(item => {
-            let row = `<tr>
-                <td>${item.testKey}</td>
-                <td>${item.feature}</td>
-                <td>${item.status}</td>
-                <td>${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</td>
-            </tr>`;
-            tableBody.innerHTML += row;
+            let displayText = `
+                <p><strong>Test Key:</strong> ${item.testKey}</p>
+                <p><strong>Feature:</strong> ${item.feature}</p>
+                <p><strong>Status:</strong> ${item.status}</p>
+                <p><strong>Defects:</strong> ${item.defects.length > 0 ? item.defects.map(d => d.id).join(", ") : "Aucun"}</p>
+                <hr>
+            `;
+            dataDisplay.innerHTML += displayText;
         });
     </script>
 </body>
