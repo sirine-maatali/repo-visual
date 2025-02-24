@@ -229,8 +229,8 @@ pipeline {
         stage('Vérifier Python') {
             steps {
                 script {
-                    bat 'where python || echo "Python non trouvé"'
-                    bat 'python --version || echo "Erreur lors de la récupération de la version de Python"'
+                    bat 'where python'
+                    bat 'python --version'
                 }
             }
         }
@@ -240,26 +240,25 @@ pipeline {
                 script {
                     echo "Début de l'exécution du script Python"
                     
-                    // Exécuter le script Python et rediriger la sortie vers un fichier
+                    // Exécuter et rediriger la sortie vers un fichier
                     bat "python app.py ${params.FILE_NAME} output.json"
                     
+                    // Vérifier si output.json existe
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
 
-                    // Lire et parser le JSON
+                    // Lire le fichier output.json
                     def jsonOutput = readFile('output.json').trim()
-                    // def jsonData
-                    // try {
-                    //     jsonData = new JsonSlurper().parseText(jsonOutput)
-                    // } catch (Exception e) {
-                    //     echo "Erreur lors du parsing JSON : ${e.message}"
-                    //     jsonData = []
-                    // }
+                    echo "Sortie JSON récupérée : ${jsonOutput}"
 
-                    // def features = jsonData.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
-                    // echo "Liste finale des features uniques : ${features}"
+                    // Parser le JSON
+                    // def jsonData = new groovy.json.JsonSlurper().parseText(jsonOutput)
+                    def features = jsonOutput.collect { it.feature?.replaceAll("[\\[\\]']", "").trim() }.unique()
+                    
+                    echo "Liste finale des features uniques : ${features}"
 
+                    // Générer le contenu HTML
                     def htmlContent = """
                         <html>
                         <head>
@@ -272,29 +271,48 @@ pipeline {
                                 pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
                                 .container { max-width: 800px; margin: auto; }
                                 .feature-list { background: #ecf0f1; padding: 10px; border-radius: 5px; }
-                                .feature-list ul { list-style-type: none; padding: 0; }
-                                .feature-list li { margin: 5px 0; }
                             </style>
                         </head>
                         <body>
                             <div class="container">
-                                <h1>Test Execution Report - ${params.FILE_NAME}</h1>
-                                <h2>Liste des Features Uniques</h2>
-                              
+                                <h1>Test Execution</h1>
+                                <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                                <h3>Features uniques :</h3>
+                             
+                                <h3>Résultat JSON :</h3>
+                                <pre>${jsonOutput}</pre>
                             </div>
                         </body>
                         </html>
                     """
 
-                    writeFile file: 'test_report.html', text: htmlContent
-                    echo "Le fichier HTML a été généré : test_report.html"
+                    writeFile file: 'report.html', text: htmlContent
+                }
+            }
+        }
+
+        stage('Vérifier génération du fichier HTML') {
+            steps {
+                script {
+                    if (fileExists('report.html')) {
+                        echo 'Le fichier report.html a été généré avec succès !'
+                    } else {
+                        error 'Le fichier report.html n\'a pas été généré !'
+                    }
                 }
             }
         }
 
         stage('Publier le rapport') {
             steps {
-                archiveArtifacts artifacts: 'test_report.html'
+                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+            }
+        }
+
+        stage('Générer un PDF') {
+            steps {
+                bat 'wkhtmltopdf report.html report.pdf'
+                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
     }
