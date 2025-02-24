@@ -242,21 +242,17 @@ pipeline {
                     echo "Sortie JSON : ${jsonOutput}"
 
                     // Générer le fichier HTML avec les données JSON brutes
-                   writeFile file: 'echarts.html', text: """
+              writeFile file: 'echarts.html', text: """
 <html>
 <head>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        h2 { color: #333; }
-    </style>
 </head>
 <body>
     <h2>Visualisation des Données</h2>
     <div id="chart" style="width:600px;height:400px;"></div>
 
-    <h3>Données :</h3>
-    <div id="dataDisplay"></div>
+    <h3>Données JSON :</h3>
+    <pre id="jsonData"></pre>  <!-- Zone pour afficher les données JSON brut -->
 
     <script>
         // Injection des données JSON dynamiquement
@@ -266,6 +262,9 @@ pipeline {
             document.body.innerHTML = "<h3>Erreur : Données JSON invalides</h3>";
             throw new Error("Données JSON invalides");
         }
+
+        // Affichage des données JSON brut dans le bloc <pre>
+        document.getElementById("jsonData").textContent = JSON.stringify(data, null, 2);
 
         // Graphique
         var chart = echarts.init(document.getElementById('chart'));
@@ -278,25 +277,11 @@ pipeline {
                 data: data.map(item => ({ name: item.feature, value: 1 })),
             }]
         });
-
-        // Affichage des données
-        let dataDisplay = document.getElementById("dataDisplay");
-        data.forEach(item => {
-            let displayText = `
-                <p><strong>Test Key:</strong> ${item.testKey}</p>
-                <p><strong>Feature:</strong> ${item.feature}</p>
-                <p><strong>Status:</strong> ${item.status}</p>
-                <p><strong>Defects:</strong> ${item.defects.length > 0 ? item.defects.collect { it.id }.join(", "): "Aucun"}</p>
-                <hr>
-            `;
-            dataDisplay.innerHTML += displayText;
-        });
     </script>
 </body>
 </html>
 """
 
-                    echo "Fichier echarts.html généré avec succès !"
                 }
             }
         }
