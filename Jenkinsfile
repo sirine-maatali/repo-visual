@@ -143,6 +143,9 @@
 // }
 
 
+
+// ********************************
+
 pipeline {
     agent any
 
@@ -156,22 +159,30 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
             }
         }
-        stage('Vérifier Python') {
-            steps {
-                script {
-                    bat 'where python'
-                    bat 'python --version'
-                }
+    stage('Vérifier Python') {
+        steps {
+            script {
+                bat 'where python'
+                bat 'python --version'
             }
         }
-stage('Exécuter le script Python et récupérer les données') {
+    }
+        // stage('Exécuter le script Python') {
+        //     steps {
+        //         script {
+        //             if (params.FILE_NAME == '') {
+        //                 error(" Paramètre FILE_NAME requis.")
+        //             }
+        //             bat "python app.py ${params.FILE_NAME}"
+        //         }
+        //     }
+        // }
+
+       stage('Exécuter le script Python et récupérer les données') {
     steps {
         script {
             // Exécute le script Python et capture la sortie
-            def output = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
-            writeFile(file: 'output2.json', text: result)
-            print(result)
-
+            def output = sh(script: 'python app.py', returnStdout: true).trim()
 
             // Création du fichier HTML avec la sortie JSON intégrée
             writeFile file: 'echarts.html', text: """
@@ -236,3 +247,5 @@ stage('Publier le rapport') {
         }
     }
 }
+
+
