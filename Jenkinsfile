@@ -239,7 +239,7 @@ pipeline {
                 script {
                     // Exécution du script Python et récupération de la sortie JSON
                     def jsonOutput = bat(script: "python app.py ${params.FILE_NAME}", returnStdout: true).trim()
-                    
+
                     // Affichage de la sortie JSON dans les logs
                     echo "Sortie JSON : ${jsonOutput}"
 
@@ -288,7 +288,7 @@ pipeline {
                         </body>
                         </html>
                         """
-                                }
+                }
             }
         }
 
@@ -308,7 +308,7 @@ pipeline {
         stage('Publier le rapport') {
             steps {
                 // Publier le fichier HTML généré comme rapport Jenkins
-                publishHTML(target: [reportDir: '', reportFiles: ${jsonOutput}, reportName: 'Visualisation des Features'])
+                publishHTML(target: [reportDir: '', reportFiles: 'echarts.html', reportName: 'Visualisation des Features'])
             }
         }
 
