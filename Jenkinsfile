@@ -228,8 +228,9 @@ pipeline {
         stage('Vérifier Python') {
             steps {
                 script {
-                    bat 'where python'
-                    bat 'python --version'
+                    // Vérification si python est installé
+                    bat 'where python || echo "Python non trouvé"'
+                    bat 'python --version || echo "Erreur lors de la récupération de la version de Python"'
                 }
             }
         }
@@ -239,8 +240,8 @@ pipeline {
                 script {
                     echo "Début de l'exécution du script Python"
                     
-                    // Exécuter et rediriger la sortie vers un fichier
-                    bat "python app.py ${params.FILE_NAME} output.json"
+                    // Exécuter le script Python et rediriger la sortie vers un fichier
+                    bat "python app.py ${params.FILE_NAME} output.json || echo 'Erreur d\'exécution du script Python'"
                     
                     // Vérifier si output.json existe
                     if (!fileExists('output.json')) {
@@ -308,13 +309,16 @@ pipeline {
 
         stage('Publier le rapport') {
             steps {
-                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+                publishHTML(target: [reportDir: '.', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
             }
         }
 
         stage('Générer un PDF') {
             steps {
-                bat 'wkhtmltopdf report.html report.pdf'
+                // Vérification si wkhtmltopdf est installé avant d'exécuter la commande
+                bat 'where wkhtmltopdf || echo "wkhtmltopdf non trouvé"'
+                bat 'wkhtmltopdf report.html report.pdf || echo "Erreur lors de la génération du PDF"'
+                
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
