@@ -424,17 +424,34 @@ pipeline {
                     // Générer les données pour Chart.js
                     def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
                     def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { "'${it}'" }.join(", ")
-
+                    echo "Données des featurelabel : ${featureLabels}"
+                    echo "Données des  statuslabel : ${statusLabels}"
                     def datasetJSON = featureData.collect { feature, statusMap ->
                         def dataPoints = statusMap.collect { status, count -> count }.join(", ")
                         return "{ label: '${feature}', data: [${dataPoints}], backgroundColor: getRandomColor() }"
                     }.join(", ")
+                    echo "Données des datasetjson : ${datasetJSON}"
+                    echo "Données des dataPoints : ${dataPoints}"
+
 
                     // Générer le contenu HTML
                     def htmlContent = """
                         <html>
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
+                        
+                            <pre>${featureData}</pre>
+                         <p>************************</p>
+
+                            <pre>${featureLabels}</pre>
+                           <p>************************</p>
+                            <pre>${statusLabels}</pre>
+                            <p>************************</p>
+
+                            <pre>${datasetJSON}</pre>
+                            <p>************************</p>
+                            <pre>${dataPoints}</pre>
+                        
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             <script>
                                 function getRandomColor() {
