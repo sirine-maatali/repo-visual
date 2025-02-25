@@ -394,7 +394,7 @@ pipeline {
                         ]
                     '''
 
-                    def htmlContent = '''
+                    def htmlContent = """
                         <html>
                         <head>
                             <title>Test Execution - Données Statiques</title>
@@ -429,7 +429,7 @@ pipeline {
                             </script>
                         </body>
                         </html>
-                        '''
+                    """
 
                     writeFile file: 'report.html', text: htmlContent
                 }
