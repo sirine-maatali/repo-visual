@@ -372,49 +372,54 @@ pipeline {
             }
         }
 
-        stage('Exécuter le code Python et générer l\'image') {
+        stage('Générer le graphique et le rapport HTML') {
             steps {
                 script {
-                    echo "Début de l'exécution du code Python dans Jenkinsfile"
+                    echo "Début de l'exécution du script Python pour générer le graphique"
                     
-                    // Code Python pour générer le graphique et l'image
+                    // Code Python pour générer un graphique avec Matplotlib
                     def pythonCode = """
 import matplotlib.pyplot as plt
 import json
 
-# Exemple de données
+# Exemple de structure de données
 data = {
     'Feature 1': {'Pass': 10, 'Fail': 5},
     'Feature 2': {'Pass': 7, 'Fail': 3},
     'Feature 3': {'Pass': 5, 'Fail': 8}
 }
 
-# Créer le graphique
-feature_labels = list(data.keys())
-status_labels = list(set([status for statuses in data.values() for status in statuses.keys()]))
+def generate_chart(data, file_name):
+    feature_labels = data.keys()
+    status_labels = list(set([status for statuses in data.values() for status in statuses.keys()]))
 
-fig, ax = plt.subplots(figsize=(10, 6))
+    # Créer le graphique
+    fig, ax = plt.subplots(figsize=(10, 6))
 
-for feature, status_map in data.items():
-    counts = [status_map.get(status, 0) for status in status_labels]
-    ax.bar(feature_labels, counts, label=feature)
+    for feature, status_map in data.items():
+        counts = [status_map.get(status, 0) for status in status_labels]
+        ax.bar(feature_labels, counts, label=feature)
 
-ax.set_xlabel('Features')
-ax.set_ylabel('Counts')
-ax.set_title('Feature Status Counts')
-ax.legend(title='Features')
+    ax.set_xlabel('Features')
+    ax.set_ylabel('Counts')
+    ax.set_title('Feature Status Counts')
+    ax.legend(title='Features')
 
-# Sauvegarder le graphique sous forme d'image
-image_path = 'feature_chart.png'
-plt.savefig(image_path)
-plt.close()
+    # Sauvegarder le graphique sous forme d'image
+    image_path = 'feature_chart.png'
+    plt.savefig(image_path)
+    plt.close()
 
-# Indiquer où l'image est enregistrée
-print(f"Graphique généré : {image_path}")
+    return image_path
+
+# Générer et sauvegarder l'image
+generate_chart(data, 'feature_chart.png')
 """
-                    
-                    // Exécuter le code Python dans Jenkins
-                    writeFile file: 'generate_chart.py', text: pythonCode
+
+                    // Sauvegarder le code Python dans un fichier temporaire
+                    writeFile(file: 'generate_chart.py', text: pythonCode)
+
+                    // Exécuter le script Python pour générer le graphique
                     bat 'python generate_chart.py'
 
                     // Vérifier si l'image a été générée
@@ -422,7 +427,7 @@ print(f"Graphique généré : {image_path}")
                         error "Le fichier feature_chart.png n'a pas été généré !"
                     }
 
-                    // Lire les données du fichier JSON (exemple)
+                    // Lire les données du fichier JSON (en supposant que vous avez un fichier JSON à traiter)
                     def jsonOutput = readFile('output.json').trim()
                     echo "Sortie JSON récupérée : ${jsonOutput}"
 
