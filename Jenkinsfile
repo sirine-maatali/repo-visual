@@ -421,7 +421,7 @@ pipeline {
 
                     echo "Données des features et status : ${featureData}"
 
-                    // Générer les données pour Chart.js
+                    // Générer les données pour ECharts
                     def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
                     def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { "'${it}'" }.join(", ")
                     echo "Données des featurelabels : ${featureLabels}"
@@ -429,124 +429,76 @@ pipeline {
 
                     def datasetJSON = featureData.collect { feature, statusMap ->
                         def dataPoints = statusMap.collect { status, count -> count }.join(", ")
-                        return "{ label: '${feature}', data: [${dataPoints}], backgroundColor: getRandomColor() }"
+                        return """
+                            {
+                                name: '${feature}',
+                                type: 'bar',
+                                data: [${dataPoints}],
+                                itemStyle: { color: getRandomColor() }
+                            }
+                        """
                     }.join(", ")
                     echo "Données des datasetjson : ${datasetJSON}"
 
-                    // // Générer le contenu HTML
-                    // def htmlContent = """
-                    //     <html>
-                    //     <head>
-                    //         <title>Test Execution - ${params.FILE_NAME}</title>
+                    // Générer le contenu HTML
+                    def htmlContent = """
+                        <html>
+                        <head>
+                            <title>Test Execution - ${params.FILE_NAME}</title>
                         
-                    //         <pre>${featureData}</pre>
-                    //      <p>************************</p>
+                            <pre>${featureData}</pre>
+                         <p>************************</p>
 
-                    //         <pre>${featureLabels}</pre>
-                    //        <p>************************</p>
-                    //         <pre>${statusLabels}</pre>
-                    //         <p>************************</p>
+                            <pre>${featureLabels}</pre>
+                           <p>************************</p>
+                            <pre>${statusLabels}</pre>
+                            <p>************************</p>
 
-                    //         <pre>${datasetJSON}</pre>
-                    //         <p>************************</p>
+                            <pre>${datasetJSON}</pre>
+                            <p>************************</p>
 
-                    //         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                    //         <script>
-                    //             function getRandomColor() {
-                    //                 return 'rgba(' + Math.floor(Math.random() * 255) + ',' + 
-                    //                                   Math.floor(Math.random() * 255) + ',' + 
-                    //                                   Math.floor(Math.random() * 255) + ', 0.6)';
-                    //             }
-                    //         </script>
-                    //         <style>
-                    //             body { font-family: Arial, sans-serif; text-align: center; }
-                    //             h1 { color: #2c3e50; }
-                    //             canvas { max-width: 800px; margin: auto; }
-                    //         </style>
-                    //     </head>
-                    //     <body>
-                    //         <h1>Test Execution Report</h1>
-                    //         <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                    //         <canvas id="featureChart"></canvas>
-
-                    //         <script>
-                    //             const ctx = document.getElementById('featureChart').getContext('2d');
-                    //             new Chart(ctx, {
-                    //                 type: 'bar',
-                    //                 data: {
-                    //                     labels: [${featureLabels}],
-                    //                     datasets: [${datasetJSON}]
-                    //                 },
-                    //                 options: {
-                    //                     responsive: true,
-                    //                     scales: {
-                    //                         y: { beginAtZero: true }
-                    //                     }
-                    //                 }
-                    //             });
-                    //         </script>
-                    //     </body>
-                    //     </html>
-                    // """
-// Définir dataset statique à tester
-            def staticDatasetJSON = "[{ label: 'Feature 1', data: [5, 10, 15], backgroundColor: getRandomColor() }]"
-
-            def htmlContent = """
-                <html>
-                <head>
-                    <title>Test Execution - ${params.FILE_NAME}</title>
-                
-                    <pre>${featureData}</pre>
-                    <p>************************</p>
-
-                    <pre>${featureLabels}</pre>
-                    <p>************************</p>
-                    <pre>${statusLabels}</pre>
-                    <p>************************</p>
-
-                    <pre>${datasetJSON}</pre>
-                    <p>************************</p>
-
-                    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-
-                    <script>
-                        function getRandomColor() {
-                            return 'rgba(' + Math.floor(Math.random() * 255) + ',' + 
-                                            Math.floor(Math.random() * 255) + ',' + 
-                                            Math.floor(Math.random() * 255) + ', 0.6)';
-                        }
-                    </script>
-                    <style>
-                        body { font-family: Arial, sans-serif; text-align: center; }
-                        h1 { color: #2c3e50; }
-                        canvas { max-width: 800px; margin: auto; }
-                    </style>
-                </head>
-                <body>
-                    <h1>Test Execution Report</h1>
-                    <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                    <canvas id="featureChart"></canvas>
-
-                    <script>
-                        const ctx = document.getElementById('featureChart').getContext('2d');
-                        const dataset = ${staticDatasetJSON}; // Utiliser dataset statique pour tester
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: [${featureLabels}],
-                                datasets: dataset
-                            },
-                            options: {
-                                responsive: true,
-                                scales: {
-                                    y: { beginAtZero: true }
+                            <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+                            <script>
+                                function getRandomColor() {
+                                    return 'rgb(' + Math.floor(Math.random() * 255) + ',' + 
+                                                      Math.floor(Math.random() * 255) + ',' + 
+                                                      Math.floor(Math.random() * 255) + ')';
                                 }
-                            }
-                        });
-                    </script>
-                </body>
-                </html>
-            """
+
+                                var chart = echarts.init(document.getElementById('featureChart'));
+                                var option = {
+                                    title: {
+                                        text: 'Feature Status',
+                                        subtext: 'Statistiques par feature'
+                                    },
+                                    tooltip: {},
+                                    legend: {
+                                        data: [${featureLabels}]
+                                    },
+                                    xAxis: {
+                                        type: 'category',
+                                        data: [${statusLabels}]
+                                    },
+                                    yAxis: {
+                                        type: 'value'
+                                    },
+                                    series: [${datasetJSON}]
+                                };
+                                chart.setOption(option);
+                            </script>
+                            <style>
+                                body { font-family: Arial, sans-serif; text-align: center; }
+                                h1 { color: #2c3e50; }
+                                canvas { max-width: 800px; margin: auto; }
+                            </style>
+                        </head>
+                        <body>
+                            <h1>Test Execution Report</h1>
+                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                            <div id="featureChart" style="width: 80%; height: 400px; margin: 0 auto;"></div>
+                        </body>
+                        </html>
+                    """
 
                     writeFile file: 'report.html', text: htmlContent
                 }
