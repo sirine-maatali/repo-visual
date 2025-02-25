@@ -450,12 +450,19 @@ pipeline {
                             </div>
 
                             <script>
+                                // Préparer les données pour le graphique
+                                var featureStatusMap = ${groovy.json.JsonOutput.toJson(featureStatusMap)};
+                                var labels = ${groovy.json.JsonOutput.toJson(features)};
+                                var data = labels.map(function(feature) {
+                                    return featureStatusMap[feature]?.length || 0;
+                                });
+
                                 var ctx = document.getElementById('featureStatusChart').getContext('2d');
                                 var chartData = {
-                                    labels: ${features},
+                                    labels: labels,
                                     datasets: [{
                                         label: 'Nombre de statuts par Feature',
-                                        data: ${features.collect { feature -> featureStatusMap[feature]?.size() ?: 0 }},
+                                        data: data,
                                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                                         borderColor: 'rgba(54, 162, 235, 1)',
                                         borderWidth: 1
