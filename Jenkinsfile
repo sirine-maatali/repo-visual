@@ -448,7 +448,7 @@ pipeline {
             }
         }
 
-        stage('Publier le rapport') {
+        stage('Publier le rapport HTML') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
             }
@@ -458,6 +458,33 @@ pipeline {
             steps {
                 bat 'wkhtmltopdf report.html report.pdf'
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+            }
+        }
+
+        stage('Générer le fichier CSV pour histogramme') {
+            steps {
+                script {
+                    def csvContent = "Feature,Passed,Failed,Blocked\n" +
+                                     "Feature A,10,5,2\n" +
+                                     "Feature B,7,3,4\n" +
+                                     "Feature C,12,8,1\n"
+                    
+                    writeFile file: 'data.csv', text: csvContent
+                }
+            }
+        }
+
+        stage('Visualisation dans Jenkins') {
+            steps {
+                plot csvFileName: 'data.csv',
+                     group: 'Test Reports',
+                     title: 'Histogramme des Features',
+                     style: 'BAR',
+                     series: [[
+                         file: 'data.csv',
+                         inclusionFlag: 'OFF',
+                         url: 'report.html'
+                     ]]
             }
         }
     }
