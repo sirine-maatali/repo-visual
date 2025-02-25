@@ -349,7 +349,7 @@
 
 
 
-pipeline { 
+pipeline {
     agent any
 
     parameters {
@@ -376,9 +376,9 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
-                    
-                    // Exécuter le script Python et générer un JSON
-                    bat "python app.py ${params.FILE_NAME} output.json"
+
+                    // Exécuter le script Python pour générer le fichier JSON et l'histogramme
+                    bat "python app.py ${params.FILE_NAME} output.json histogram.png"
                     
                     // Vérifier si output.json existe
                     if (!fileExists('output.json')) {
@@ -421,20 +421,17 @@ pipeline {
 
                     echo "Données des features et status : ${featureData}"
 
-                    // Générer les données pour ECharts
-                    def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
-                    def datasetJSON = featureData.collect { feature, statusMap ->
-                        def dataPoints = statusMap.collect { status, count -> count }.join(", ")
-                        return "{ name: '${feature}', type: 'bar', data: [${dataPoints}], itemStyle: { color: getRandomColor() } }"
-                    }.join(", ")
-                    echo "Données des datasetjson : ${datasetJSON}"
+                    // Générer les données pour l'histogramme
+                    def featureLabels = featureData.keySet().collect { it }.join(", ")
+                    def statusData = featureData.collect { feature, statusMap ->
+                        statusMap.collect { status, count -> count }
+                    }
 
                     // Générer le contenu HTML
                     def htmlContent = """
                         <html>
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
-                            <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
                             <style>
                                 body { font-family: Arial, sans-serif; text-align: center; }
                                 h1 { color: #2c3e50; }
@@ -444,36 +441,7 @@ pipeline {
                         <body>
                             <h1>Test Execution Report</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <div id="featureChart" style="width: 80%; height: 400px; margin: auto;"></div>
-                            <script>
-                                function getRandomColor() {
-                                    return 'rgb(' + Math.floor(Math.random() * 255) + ',' + 
-                                                      Math.floor(Math.random() * 255) + ',' + 
-                                                      Math.floor(Math.random() * 255) + ')';
-                                }
-                                
-                                var myChart = echarts.init(document.getElementById('featureChart'));
-                                
-                                var option = {
-                                    title: {
-                                        text: 'Histogramme des Features',
-                                    },
-                                    tooltip: {},
-                                    legend: {
-                                        data: [${featureLabels}]
-                                    },
-                                    xAxis: {
-                                        type: 'category',
-                                        data: [${featureLabels}]
-                                    },
-                                    yAxis: {
-                                        type: 'value'
-                                    },
-                                    series: [${datasetJSON}]
-                                };
-                                
-                                myChart.setOption(option);
-                            </script>
+                            <img src="histogram.png" alt="Histogramme des Features" width="600" />
                         </body>
                         </html>
                     """
