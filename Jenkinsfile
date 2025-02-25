@@ -376,38 +376,28 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
-                    
-                    // Exécuter le script Python et générer un JSON
                     bat "python app.py ${params.FILE_NAME} output.json"
                     
-                    // Vérifier si output.json existe
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
 
-                    // Lire le JSON
                     def jsonOutput = readFile('output.json').trim()
-                    echo "Sortie JSON récupérée : ${jsonOutput}"
-
                     if (!jsonOutput) {
                         error "Le fichier JSON est vide !"
                     }
 
-                    // Parser le JSON
                     def jsonData
                     try {
                         jsonData = readJSON text: jsonOutput
-                        echo "JSON Parsé avec succès"
                     } catch (Exception e) {
                         error "Erreur lors du parsing du JSON : ${e.message}"
                     }
 
-                    // Vérifier si jsonData est bien une liste
                     if (!(jsonData instanceof List)) {
                         error "Le JSON parsé n'est pas une liste d'objets !"
                     }
 
-                    // Extraire les features et leurs statuts
                     def featureData = [:]
                     jsonData.each { entry ->
                         def feature = entry.feature?.toString()?.trim() ?: "Inconnu"
@@ -419,21 +409,14 @@ pipeline {
                         featureData[feature][status] = (featureData[feature].get(status) ?: 0) + 1
                     }
 
-                    echo "Données des features et status : ${featureData}"
-
-                    // Générer les données pour le graphique ECharts
                     def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
                     def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { "'${it}'" }.join(", ")
-                    echo "Données des featurelabel : ${featureLabels}"
-                    echo "Données des  statuslabel : ${statusLabels}"
-
+                    
                     def datasetJSON = featureData.collect { feature, statusMap ->
-                        def dataPoints = statusMap.collect { status, count -> count }.join(", ")
-                        return "{ label: '${feature}', data: [${dataPoints}], itemStyle: { color: getRandomColor() } }"
+                        def dataPoints = statusLabels.tokenize(", ").collect { status -> statusMap[status.replace("'", "")] ?: 0 }
+                        return "{ name: '${feature}', type: 'bar', data: [${dataPoints.join(", ")}] }"
                     }.join(", ")
-                    echo "Données des datasetjson : ${datasetJSON}"
-
-                    // Générer le contenu HTML
+                    
                     def htmlContent = """
                         <html>
                         <head>
@@ -442,49 +425,31 @@ pipeline {
                             <style>
                                 body { font-family: Arial, sans-serif; text-align: center; }
                                 h1 { color: #2c3e50; }
-                                canvas { max-width: 800px; margin: auto; }
+                                #featureChart { width: 80%; height: 600px; margin: auto; }
                             </style>
                         </head>
                         <body>
                             <h1>Test Execution Report</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <div id="featureChart" style="width: 100%; height: 600px;"></div>
-
+                            <div id="featureChart"></div>
                             <script>
-                                function getRandomColor() {
-                                    return 'rgba(' + Math.floor(Math.random() * 255) + ',' + 
-                                                      Math.floor(Math.random() * 255) + ',' + 
-                                                      Math.floor(Math.random() * 255) + ', 0.6)';
-                                }
-
                                 var myChart = echarts.init(document.getElementById('featureChart'));
-
                                 var option = {
-                                    title: {
-                                        text: 'Feature Status Distribution'
-                                    },
-                                    tooltip: {
-                                        trigger: 'axis'
-                                    },
-                                    legend: {
-                                        data: [${featureLabels}]
-                                    },
+                                    title: { text: 'Feature Status Distribution' },
+                                    tooltip: { trigger: 'axis' },
+                                    legend: { data: [${featureLabels}] },
                                     xAxis: {
                                         type: 'category',
                                         data: [${statusLabels}]
                                     },
-                                    yAxis: {
-                                        type: 'value'
-                                    },
+                                    yAxis: { type: 'value' },
                                     series: [${datasetJSON}]
                                 };
-
                                 myChart.setOption(option);
                             </script>
                         </body>
                         </html>
                     """
-
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
