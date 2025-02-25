@@ -372,34 +372,28 @@ pipeline {
             }
         }
 
-        stage('Générer le graphique et le rapport HTML') {
+        stage('Exécuter le script Python pour générer le graphique et le rapport') {
             steps {
                 script {
-                    echo "Début de l'exécution du script Python pour générer le graphique"
-                    
-                    // Code Python pour générer un graphique avec Matplotlib
-                    def pythonCode = """
+                    echo "Début de l'exécution du script Python pour générer le graphique et le rapport"
+
+                    // Code Python pour générer le graphique
+                    def pythonScript = '''
 import matplotlib.pyplot as plt
 import json
 
-# Exemple de structure de données
-data = {
-    'Feature 1': {'Pass': 10, 'Fail': 5},
-    'Feature 2': {'Pass': 7, 'Fail': 3},
-    'Feature 3': {'Pass': 5, 'Fail': 8}
-}
-
 def generate_chart(data, file_name):
+    # Exemple de structure de données
     feature_labels = data.keys()
     status_labels = list(set([status for statuses in data.values() for status in statuses.keys()]))
-
+    
     # Créer le graphique
     fig, ax = plt.subplots(figsize=(10, 6))
-
+    
     for feature, status_map in data.items():
         counts = [status_map.get(status, 0) for status in status_labels]
         ax.bar(feature_labels, counts, label=feature)
-
+    
     ax.set_xlabel('Features')
     ax.set_ylabel('Counts')
     ax.set_title('Feature Status Counts')
@@ -412,59 +406,56 @@ def generate_chart(data, file_name):
 
     return image_path
 
+# Exemple de données à traiter
+data = {
+    'Feature 1': {'Pass': 10, 'Fail': 5},
+    'Feature 2': {'Pass': 7, 'Fail': 3},
+    'Feature 3': {'Pass': 5, 'Fail': 8}
+}
+
 # Générer et sauvegarder l'image
-generate_chart(data, 'feature_chart.png')
-"""
+image_file = generate_chart(data, 'feature_chart.png')
+print(f"Graphique généré : {image_file}")
 
-                    // Sauvegarder le code Python dans un fichier temporaire
-                    writeFile(file: 'generate_chart.py', text: pythonCode)
+# Générer le rapport HTML avec l'image
+html_content = f'''
+<html>
+<head>
+    <title>Test Execution - {params.FILE_NAME}</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; text-align: center; }}
+        h1 {{ color: #2c3e50; }}
+        img {{ max-width: 800px; margin: auto; }}
+    </style>
+</head>
+<body>
+    <h1>Test Execution Report</h1>
+    <h2>Nom du fichier : {params.FILE_NAME}</h2>
+    <img src="feature_chart.png" alt="Feature Status Chart">
+</body>
+</html>
+'''
 
-                    // Exécuter le script Python pour générer le graphique
+# Sauvegarder le fichier HTML
+with open('report.html', 'w') as f:
+    f.write(html_content)
+
+print("Le fichier HTML a été généré avec succès.")
+'''
+
+                    // Écrire le script Python dans un fichier
+                    writeFile file: 'generate_chart.py', text: pythonScript
+
+                    // Exécuter le script Python pour générer le graphique et le rapport
                     bat 'python generate_chart.py'
 
-                    // Vérifier si l'image a été générée
+                    // Vérifier si l'image et le fichier HTML ont été générés
                     if (!fileExists('feature_chart.png')) {
-                        error "Le fichier feature_chart.png n'a pas été généré !"
+                        error "Le fichier image feature_chart.png n'a pas été généré !"
                     }
-
-                    // Lire les données du fichier JSON (en supposant que vous avez un fichier JSON à traiter)
-                    def jsonOutput = readFile('output.json').trim()
-                    echo "Sortie JSON récupérée : ${jsonOutput}"
-
-                    if (!jsonOutput) {
-                        error "Le fichier JSON est vide !"
+                    if (!fileExists('report.html')) {
+                        error "Le fichier report.html n'a pas été généré !"
                     }
-
-                    // Parser le JSON
-                    def jsonData
-                    try {
-                        jsonData = readJSON text: jsonOutput
-                        echo "JSON Parsé avec succès"
-                    } catch (Exception e) {
-                        error "Erreur lors du parsing du JSON : ${e.message}"
-                    }
-
-                    // Générer le contenu HTML avec l'image
-                    def htmlContent = """
-                        <html>
-                        <head>
-                            <title>Test Execution - ${params.FILE_NAME}</title>
-                            <style>
-                                body { font-family: Arial, sans-serif; text-align: center; }
-                                h1 { color: #2c3e50; }
-                                img { max-width: 800px; margin: auto; }
-                            </style>
-                        </head>
-                        <body>
-                            <h1>Test Execution Report</h1>
-                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <img src="feature_chart.png" alt="Feature Status Chart">
-                        </body>
-                        </html>
-                    """
-
-                    // Écrire le fichier HTML avec l'image du graphique
-                    writeFile file: 'report.html', text: htmlContent
                 }
             }
         }
