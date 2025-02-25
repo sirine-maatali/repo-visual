@@ -372,90 +372,120 @@ pipeline {
             }
         }
 
-        stage('Exécuter le script Python pour générer le graphique et le rapport') {
+        stage('Exécuter le script Python') {
             steps {
                 script {
-                    echo "Début de l'exécution du script Python pour générer le graphique et le rapport"
-
-                    // Code Python pour générer le graphique
-                    def pythonScript = '''
-import matplotlib.pyplot as plt
-import json
-
-def generate_chart(data, file_name):
-    # Exemple de structure de données
-    feature_labels = data.keys()
-    status_labels = list(set([status for statuses in data.values() for status in statuses.keys()]))
-    
-    # Créer le graphique
-    fig, ax = plt.subplots(figsize=(10, 6))
-    
-    for feature, status_map in data.items():
-        counts = [status_map.get(status, 0) for status in status_labels]
-        ax.bar(feature_labels, counts, label=feature)
-    
-    ax.set_xlabel('Features')
-    ax.set_ylabel('Counts')
-    ax.set_title('Feature Status Counts')
-    ax.legend(title='Features')
-
-    # Sauvegarder le graphique sous forme d'image
-    image_path = 'feature_chart.png'
-    plt.savefig(image_path)
-    plt.close()
-
-    return image_path
-
-# Exemple de données à traiter
-data = {
-    'Feature 1': {'Pass': 10, 'Fail': 5},
-    'Feature 2': {'Pass': 7, 'Fail': 3},
-    'Feature 3': {'Pass': 5, 'Fail': 8}
-}
-
-# Générer et sauvegarder l'image
-image_file = generate_chart(data, 'feature_chart.png')
-print(f"Graphique généré : {image_file}")
-
-# Générer le rapport HTML avec l'image
-html_content = f'''
-<html>
-<head>
-    <title>Test Execution - {params.FILE_NAME}</title>
-    <style>
-        body {{ font-family: Arial, sans-serif; text-align: center; }}
-        h1 {{ color: #2c3e50; }}
-        img {{ max-width: 800px; margin: auto; }}
-    </style>
-</head>
-<body>
-    <h1>Test Execution Report</h1>
-    <h2>Nom du fichier : {params.FILE_NAME}</h2>
-    <img src="feature_chart.png" alt="Feature Status Chart">
-</body>
-</html>
-'''
-
-# Sauvegarder le fichier HTML
-with open('report.html', 'w') as f:
-    f.write(html_content)
-
-print("Le fichier HTML a été généré avec succès.")
-'''
-
-                    // Écrire le script Python dans un fichier
-                    writeFile file: 'generate_chart.py', text: pythonScript
-
-                    // Exécuter le script Python pour générer le graphique et le rapport
-                    bat 'python generate_chart.py'
-
-                    // Vérifier si l'image et le fichier HTML ont été générés
-                    if (!fileExists('feature_chart.png')) {
-                        error "Le fichier image feature_chart.png n'a pas été généré !"
+                    echo "Début de l'exécution du script Python"
+                    
+                    // Exécuter le script Python et générer un JSON
+                    bat "python app.py ${params.FILE_NAME} output.json"
+                    
+                    // Vérifier si output.json existe
+                    if (!fileExists('output.json')) {
+                        error "Le fichier output.json n'a pas été généré !"
                     }
-                    if (!fileExists('report.html')) {
-                        error "Le fichier report.html n'a pas été généré !"
+
+                    // Lire le JSON
+                    def jsonOutput = readFile('output.json').trim()
+                    echo "Sortie JSON récupérée : ${jsonOutput}"
+
+                    if (!jsonOutput) {
+                        error "Le fichier JSON est vide !"
                     }
+
+                    // Parser le JSON
+                    def jsonData
+                    try {
+                        jsonData = readJSON text: jsonOutput
+                        echo "JSON Parsé avec succès"
+                    } catch (Exception e) {
+                        error "Erreur lors du parsing du JSON : ${e.message}"
+                    }
+
+                    // Vérifier si jsonData est bien une liste
+                    if (!(jsonData instanceof List)) {
+                        error "Le JSON parsé n'est pas une liste d'objets !"
+                    }
+
+                    // Extraire les features et leurs statuts
+                    def featureData = [:]
+                    jsonData.each { entry ->
+                        def feature = entry.feature?.toString()?.trim() ?: "Inconnu"
+                        def status = entry.status?.toString()?.trim() ?: "Indéfini"
+                        
+                        if (!featureData.containsKey(feature)) {
+                            featureData[feature] = [:]
+                        }
+                        featureData[feature][status] = (featureData[feature].get(status) ?: 0) + 1
+                    }
+
+                    echo "Données des features et status : ${featureData}"
+
+                    // Générer les données pour le graphique ECharts
+                    def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
+                    def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { "'${it}'" }.join(", ")
+                    echo "Données des featurelabel : ${featureLabels}"
+                    echo "Données des  statuslabel : ${statusLabels}"
+
+                    def datasetJSON = featureData.collect { feature, statusMap ->
+                        def dataPoints = statusMap.collect { status, count -> count }.join(", ")
+                        return "{ label: '${feature}', data: [${dataPoints}], itemStyle: { color: getRandomColor() } }"
+                    }.join(", ")
+                    echo "Données des datasetjson : ${datasetJSON}"
+
+                    // Générer le contenu HTML
+                    def htmlContent = """
+                        <html>
+                        <head>
+                            <title>Test Execution - ${params.FILE_NAME}</title>
+                            <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.1/dist/echarts.min.js"></script>
+                            <style>
+                                body { font-family: Arial, sans-serif; text-align: center; }
+                                h1 { color: #2c3e50; }
+                                canvas { max-width: 800px; margin: auto; }
+                            </style>
+                        </head>
+                        <body>
+                            <h1>Test Execution Report</h1>
+                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                            <div id="featureChart" style="width: 100%; height: 600px;"></div>
+
+                            <script>
+                                function getRandomColor() {
+                                    return 'rgba(' + Math.floor(Math.random() * 255) + ',' + 
+                                                      Math.floor(Math.random() * 255) + ',' + 
+                                                      Math.floor(Math.random() * 255) + ', 0.6)';
+                                }
+
+                                var myChart = echarts.init(document.getElementById('featureChart'));
+
+                                var option = {
+                                    title: {
+                                        text: 'Feature Status Distribution'
+                                    },
+                                    tooltip: {
+                                        trigger: 'axis'
+                                    },
+                                    legend: {
+                                        data: [${featureLabels}]
+                                    },
+                                    xAxis: {
+                                        type: 'category',
+                                        data: [${statusLabels}]
+                                    },
+                                    yAxis: {
+                                        type: 'value'
+                                    },
+                                    series: [${datasetJSON}]
+                                };
+
+                                myChart.setOption(option);
+                            </script>
+                        </body>
+                        </html>
+                    """
+
+                    writeFile file: 'report.html', text: htmlContent
                 }
             }
         }
