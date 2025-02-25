@@ -423,20 +423,9 @@ pipeline {
 
                     // Générer les données pour ECharts
                     def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
-                    def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { "'${it}'" }.join(", ")
-                    echo "Données des featurelabels : ${featureLabels}"
-                    echo "Données des statuslabels : ${statusLabels}"
-
                     def datasetJSON = featureData.collect { feature, statusMap ->
                         def dataPoints = statusMap.collect { status, count -> count }.join(", ")
-                        return """
-                            {
-                                name: '${feature}',
-                                type: 'bar',
-                                data: [${dataPoints}],
-                                itemStyle: { color: getRandomColor() }
-                            }
-                        """
+                        return "{ name: '${feature}', type: 'bar', data: [${dataPoints}], itemStyle: { color: getRandomColor() } }"
                     }.join(", ")
                     echo "Données des datasetjson : ${datasetJSON}"
 
@@ -445,47 +434,7 @@ pipeline {
                         <html>
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
-                        
-                            <pre>${featureData}</pre>
-                         <p>************************</p>
-
-                            <pre>${featureLabels}</pre>
-                           <p>************************</p>
-                            <pre>${statusLabels}</pre>
-                            <p>************************</p>
-
-                            <pre>${datasetJSON}</pre>
-                            <p>************************</p>
-
-                            <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
-                            <script>
-                                function getRandomColor() {
-                                    return 'rgb(' + Math.floor(Math.random() * 255) + ',' + 
-                                                      Math.floor(Math.random() * 255) + ',' + 
-                                                      Math.floor(Math.random() * 255) + ')';
-                                }
-
-                                var chart = echarts.init(document.getElementById('featureChart'));
-                                var option = {
-                                    title: {
-                                        text: 'Feature Status',
-                                        subtext: 'Statistiques par feature'
-                                    },
-                                    tooltip: {},
-                                    legend: {
-                                        data: [${featureLabels}]
-                                    },
-                                    xAxis: {
-                                        type: 'category',
-                                        data: [${statusLabels}]
-                                    },
-                                    yAxis: {
-                                        type: 'value'
-                                    },
-                                    series: [${datasetJSON}]
-                                };
-                                chart.setOption(option);
-                            </script>
+                            <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
                             <style>
                                 body { font-family: Arial, sans-serif; text-align: center; }
                                 h1 { color: #2c3e50; }
@@ -495,7 +444,36 @@ pipeline {
                         <body>
                             <h1>Test Execution Report</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <div id="featureChart" style="width: 80%; height: 400px; margin: 0 auto;"></div>
+                            <div id="featureChart" style="width: 80%; height: 400px; margin: auto;"></div>
+                            <script>
+                                function getRandomColor() {
+                                    return 'rgb(' + Math.floor(Math.random() * 255) + ',' + 
+                                                      Math.floor(Math.random() * 255) + ',' + 
+                                                      Math.floor(Math.random() * 255) + ')';
+                                }
+                                
+                                var myChart = echarts.init(document.getElementById('featureChart'));
+                                
+                                var option = {
+                                    title: {
+                                        text: 'Histogramme des Features',
+                                    },
+                                    tooltip: {},
+                                    legend: {
+                                        data: [${featureLabels}]
+                                    },
+                                    xAxis: {
+                                        type: 'category',
+                                        data: [${featureLabels}]
+                                    },
+                                    yAxis: {
+                                        type: 'value'
+                                    },
+                                    series: [${datasetJSON}]
+                                };
+                                
+                                myChart.setOption(option);
+                            </script>
                         </body>
                         </html>
                     """
