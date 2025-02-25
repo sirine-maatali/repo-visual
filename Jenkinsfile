@@ -352,58 +352,38 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX" ou "HGWXRAY-XXXX")')
-    }
-
     stages {
-        stage('Cloner le Repo') {
-            steps {
-                git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
-            }
-        }
-
-        stage('Vérifier Python') {
+        stage('Créer un fichier JSON statique') {
             steps {
                 script {
-                    bat 'where python'
-                    bat 'python --version'
+                    def staticJson = '''
+                    [
+                        {"feature": "Login", "status": "Success"},
+                        {"feature": "Login", "status": "Failed"},
+                        {"feature": "Dashboard", "status": "Success"},
+                        {"feature": "Dashboard", "status": "Failed"},
+                        {"feature": "Dashboard", "status": "Success"},
+                        {"feature": "Settings", "status": "Success"},
+                        {"feature": "Settings", "status": "Failed"},
+                        {"feature": "Settings", "status": "Success"}
+                    ]
+                    '''
+                    writeFile file: 'output.json', text: staticJson
                 }
             }
         }
 
-        stage('Exécuter le script Python') {
+        stage('Générer le fichier HTML') {
             steps {
                 script {
-                    echo "Début de l'exécution du script Python"
+                    def jsonData = readJSON file: 'output.json'
 
-                    bat "python app.py ${params.FILE_NAME} output.json"
-
-                    if (!fileExists('output.json')) {
-                        error "Le fichier output.json n'a pas été généré !"
-                    }
-
-                    def jsonOutput = readFile('output.json').trim()
-                    if (!jsonOutput) {
-                        error "Le fichier JSON est vide !"
-                    }
-
-                    def jsonData
-                    try {
-                        jsonData = readJSON text: jsonOutput
-                    } catch (Exception e) {
-                        error "Erreur lors du parsing du JSON : ${e.message}"
-                    }
-
-                    if (!(jsonData instanceof List)) {
-                        error "Le JSON parsé n'est pas une liste d'objets !"
-                    }
-
+                    // Transformation des données pour ECharts
                     def featureData = [:]
                     jsonData.each { entry ->
-                        def feature = entry.feature?.toString()?.trim() ?: "Inconnu"
-                        def status = entry.status?.toString()?.trim() ?: "Indéfini"
-                        
+                        def feature = entry.feature
+                        def status = entry.status
+
                         if (!featureData.containsKey(feature)) {
                             featureData[feature] = [:]
                         }
@@ -429,7 +409,7 @@ pipeline {
                     def htmlContent = """
                         <html>
                         <head>
-                            <title>Test Execution - ${params.FILE_NAME}</title>
+                            <title>Test Execution Report</title>
                             <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.1/dist/echarts.min.js"></script>
                             <style>
                                 body { font-family: Arial, sans-serif; text-align: center; }
@@ -439,7 +419,6 @@ pipeline {
                         </head>
                         <body>
                             <h1>Test Execution Report</h1>
-                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
                             <div id="featureChart"></div>
 
                             <script>
@@ -468,7 +447,7 @@ pipeline {
             }
         }
 
-        stage('Vérifier génération du fichier HTML') {
+        stage('Vérifier le fichier HTML') {
             steps {
                 script {
                     if (fileExists('report.html')) {
@@ -480,16 +459,16 @@ pipeline {
             }
         }
 
-        stage('Publier le rapport') {
-            steps {
-                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
-            }
-        }
-
         stage('Générer un PDF') {
             steps {
                 bat 'wkhtmltopdf report.html report.pdf'
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+            }
+        }
+
+        stage('Publier le rapport') {
+            steps {
+                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Rapport de Test'])
             }
         }
     }
