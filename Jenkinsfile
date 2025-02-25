@@ -277,6 +277,10 @@ pipeline {
                                           .unique()
                     echo "Liste finale des features uniques : ${features}"
 
+                    def statuss = jsonData.findAll { it.status}
+                                          .collect { it.status.toString().trim() }
+                                          
+                    echo "Liste finale des status uniques : ${statuss}"
                     // Générer le contenu HTML
                     def htmlContent = """
                         <html>
@@ -298,6 +302,8 @@ pipeline {
                                 <h2>Nom du fichier : ${params.FILE_NAME}</h2>
                                 <h3>Features uniques :</h3>
                                 <pre>${features.join("\n")}</pre>
+                                 <h3>Features uniques :</h3>
+                                <pre>${statuss.join("\n")}</pre>
                                 <h3>Résultat JSON :</h3>
                                 <pre>${jsonOutput}</pre>
                             </div>
