@@ -349,7 +349,7 @@
 
 
 
-pipeline { 
+pipeline {
     agent any
 
     parameters {
@@ -372,20 +372,57 @@ pipeline {
             }
         }
 
-        stage('Exécuter le script Python') {
+        stage('Exécuter le code Python et générer l\'image') {
             steps {
                 script {
-                    echo "Début de l'exécution du script Python"
+                    echo "Début de l'exécution du code Python dans Jenkinsfile"
                     
-                    // Exécuter le script Python et générer un JSON
-                    bat "python app.py ${params.FILE_NAME} output.json"
+                    // Code Python pour générer le graphique et l'image
+                    def pythonCode = """
+import matplotlib.pyplot as plt
+import json
+
+# Exemple de données
+data = {
+    'Feature 1': {'Pass': 10, 'Fail': 5},
+    'Feature 2': {'Pass': 7, 'Fail': 3},
+    'Feature 3': {'Pass': 5, 'Fail': 8}
+}
+
+# Créer le graphique
+feature_labels = list(data.keys())
+status_labels = list(set([status for statuses in data.values() for status in statuses.keys()]))
+
+fig, ax = plt.subplots(figsize=(10, 6))
+
+for feature, status_map in data.items():
+    counts = [status_map.get(status, 0) for status in status_labels]
+    ax.bar(feature_labels, counts, label=feature)
+
+ax.set_xlabel('Features')
+ax.set_ylabel('Counts')
+ax.set_title('Feature Status Counts')
+ax.legend(title='Features')
+
+# Sauvegarder le graphique sous forme d'image
+image_path = 'feature_chart.png'
+plt.savefig(image_path)
+plt.close()
+
+# Indiquer où l'image est enregistrée
+print(f"Graphique généré : {image_path}")
+"""
                     
-                    // Vérifier si output.json existe
-                    if (!fileExists('output.json')) {
-                        error "Le fichier output.json n'a pas été généré !"
+                    // Exécuter le code Python dans Jenkins
+                    writeFile file: 'generate_chart.py', text: pythonCode
+                    sh 'python generate_chart.py'
+
+                    // Vérifier si l'image a été générée
+                    if (!fileExists('feature_chart.png')) {
+                        error "Le fichier feature_chart.png n'a pas été généré !"
                     }
 
-                    // Lire le JSON
+                    // Lire les données du fichier JSON (exemple)
                     def jsonOutput = readFile('output.json').trim()
                     echo "Sortie JSON récupérée : ${jsonOutput}"
 
@@ -402,83 +439,26 @@ pipeline {
                         error "Erreur lors du parsing du JSON : ${e.message}"
                     }
 
-                    // Vérifier si jsonData est bien une liste
-                    if (!(jsonData instanceof List)) {
-                        error "Le JSON parsé n'est pas une liste d'objets !"
-                    }
-
-                    // Extraire les features et leurs statuts
-                    def featureData = [:]
-                    jsonData.each { entry ->
-                        def feature = entry.feature?.toString()?.trim() ?: "Inconnu"
-                        def status = entry.status?.toString()?.trim() ?: "Indéfini"
-                        
-                        if (!featureData.containsKey(feature)) {
-                            featureData[feature] = [:]
-                        }
-                        featureData[feature][status] = (featureData[feature].get(status) ?: 0) + 1
-                    }
-
-                    echo "Données des features et status : ${featureData}"
-
-                    // Générer les données pour Chart.js
-                    def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
-                    def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { "'${it}'" }.join(", ")
-                    echo "Données des featurelabels : ${featureLabels}"
-                    echo "Données des statuslabels : ${statusLabels}"
-
-                    def datasetJSON = featureData.collect { feature, statusMap ->
-                        def dataPoints = statusMap.collect { status, count -> count }.join(", ")
-                        return "{ label: '${feature}', data: [${dataPoints}] }"
-                    }.join(", ")
-                    echo "Données des datasetjson : ${datasetJSON}"
-
-                    // Générer le contenu HTML
+                    // Générer le contenu HTML avec l'image
                     def htmlContent = """
                         <html>
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
-                        
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                            <script>
-                                function getRandomColor() {
-                                    return 'rgba(' + Math.floor(Math.random() * 255) + ',' + 
-                                                      Math.floor(Math.random() * 255) + ',' + 
-                                                      Math.floor(Math.random() * 255) + ', 0.6)';
-                                }
-                            </script>
                             <style>
                                 body { font-family: Arial, sans-serif; text-align: center; }
                                 h1 { color: #2c3e50; }
-                                canvas { max-width: 800px; margin: auto; height: 400px; }
+                                img { max-width: 800px; margin: auto; }
                             </style>
                         </head>
                         <body>
                             <h1>Test Execution Report</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <canvas id="featureChart"></canvas>
-
-                            <script>
-                                const ctx = document.getElementById('featureChart').getContext('2d');
-                                console.log(ctx); // Pour vérifier le contexte
-                                new Chart(ctx, {
-                                    type: 'bar',
-                                    data: {
-                                        labels: [${featureLabels}],
-                                        datasets: [${datasetJSON}]
-                                    },
-                                    options: {
-                                        responsive: true,
-                                        scales: {
-                                            y: { beginAtZero: true }
-                                        }
-                                    }
-                                });
-                            </script>
+                            <img src="feature_chart.png" alt="Feature Status Chart">
                         </body>
                         </html>
                     """
 
+                    // Écrire le fichier HTML avec l'image du graphique
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
