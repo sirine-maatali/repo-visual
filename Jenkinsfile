@@ -469,11 +469,11 @@ pipeline {
             }
         }
 
-        stage('Générer un PDF') {
-            steps {
-                bat 'wkhtmltopdf report.html report.pdf'
-                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
-            }
-        }
+        // stage('Générer un PDF') {
+        //     steps {
+        //         bat 'wkhtmltopdf report.html report.pdf'
+        //         archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+        //     }
+        // }
     }
 }
