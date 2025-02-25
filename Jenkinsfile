@@ -429,7 +429,7 @@ pipeline {
 
                     def datasetJSON = featureData.collect { feature, statusMap ->
                         def dataPoints = statusMap.collect { status, count -> count }.join(", ")
-                        return "{ label: '${feature}', data: [${dataPoints}], backgroundColor: getRandomColor() }"
+                        return "{ label: '${feature}', data: [${dataPoints}] }"
                     }.join(", ")
                     echo "Données des datasetjson : ${datasetJSON}"
 
