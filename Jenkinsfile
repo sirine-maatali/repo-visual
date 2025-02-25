@@ -353,63 +353,51 @@ pipeline {
     agent any
 
     stages {
-        stage('Créer un fichier JSON statique') {
+        stage('Cloner le Repo') {
             steps {
-                script {
-                    def staticJson = '''
-                    [
-                        {"feature": "Login", "status": "Success"},
-                        {"feature": "Login", "status": "Failed"},
-                        {"feature": "Dashboard", "status": "Success"},
-                        {"feature": "Dashboard", "status": "Failed"},
-                        {"feature": "Dashboard", "status": "Success"},
-                        {"feature": "Settings", "status": "Success"},
-                        {"feature": "Settings", "status": "Failed"},
-                        {"feature": "Settings", "status": "Success"}
-                    ]
-                    '''
-                    writeFile file: 'output.json', text: staticJson
-                }
+                git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
             }
         }
 
-        stage('Générer le fichier HTML') {
+        stage('Générer le fichier HTML avec données statiques') {
             steps {
                 script {
-                    def jsonData = readJSON file: 'output.json'
+                    echo "Génération du fichier HTML statique..."
 
-                    // Transformation des données pour ECharts
-                    def featureData = [:]
-                    jsonData.each { entry ->
-                        def feature = entry.feature
-                        def status = entry.status
-
-                        if (!featureData.containsKey(feature)) {
-                            featureData[feature] = [:]
-                        }
-                        featureData[feature][status] = (featureData[feature].get(status) ?: 0) + 1
-                    }
-
-                    def featureLabels = featureData.keySet().collect { it }.join('","')
-                    def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { it }.join('","')
-
-                    def datasetJSON = featureData.collect { feature, statusMap ->
-                        def dataPoints = statusLabels.split('","').collect { statusMap.get(it, 0) }.join(", ")
-                        return """
+                    // Données statiques pour tester l'affichage d'ECharts
+                    def featureLabels = '["Feature A", "Feature B", "Feature C"]'
+                    def statusLabels = '["Passed", "Failed", "Blocked"]'
+                    
+                    def datasetJSON = """
+                        [
                             {
-                                name: "${feature}",
+                                name: "Feature A",
                                 type: "bar",
                                 stack: "total",
                                 emphasis: { focus: "series" },
-                                data: [${dataPoints}]
+                                data: [10, 5, 2]
+                            },
+                            {
+                                name: "Feature B",
+                                type: "bar",
+                                stack: "total",
+                                emphasis: { focus: "series" },
+                                data: [7, 3, 4]
+                            },
+                            {
+                                name: "Feature C",
+                                type: "bar",
+                                stack: "total",
+                                emphasis: { focus: "series" },
+                                data: [12, 8, 1]
                             }
-                        """
-                    }.join(", ")
+                        ]
+                    """
 
                     def htmlContent = """
                         <html>
                         <head>
-                            <title>Test Execution Report</title>
+                            <title>Test Execution - Données Statiques</title>
                             <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.1/dist/echarts.min.js"></script>
                             <style>
                                 body { font-family: Arial, sans-serif; text-align: center; }
@@ -419,6 +407,7 @@ pipeline {
                         </head>
                         <body>
                             <h1>Test Execution Report</h1>
+                            <h2>Rapport avec Données Statiques</h2>
                             <div id="featureChart"></div>
 
                             <script>
@@ -429,10 +418,10 @@ pipeline {
                                     var option = {
                                         title: { text: 'Feature Status Distribution' },
                                         tooltip: { trigger: 'axis' },
-                                        legend: { data: ["${featureLabels}"] },
-                                        xAxis: { type: 'category', data: ["${statusLabels}"] },
+                                        legend: { data: ${featureLabels} },
+                                        xAxis: { type: 'category', data: ${statusLabels} },
                                         yAxis: { type: 'value' },
-                                        series: [${datasetJSON}]
+                                        series: ${datasetJSON}
                                     };
 
                                     myChart.setOption(option);
@@ -447,7 +436,7 @@ pipeline {
             }
         }
 
-        stage('Vérifier le fichier HTML') {
+        stage('Vérifier génération du fichier HTML') {
             steps {
                 script {
                     if (fileExists('report.html')) {
@@ -459,16 +448,16 @@ pipeline {
             }
         }
 
+        stage('Publier le rapport') {
+            steps {
+                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+            }
+        }
+
         stage('Générer un PDF') {
             steps {
                 bat 'wkhtmltopdf report.html report.pdf'
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
-            }
-        }
-
-        stage('Publier le rapport') {
-            steps {
-                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Rapport de Test'])
             }
         }
     }
