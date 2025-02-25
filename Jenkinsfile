@@ -415,7 +415,7 @@ print(f"Graphique généré : {image_path}")
                     
                     // Exécuter le code Python dans Jenkins
                     writeFile file: 'generate_chart.py', text: pythonCode
-                    sh 'python generate_chart.py'
+                    bat 'python generate_chart.py'
 
                     // Vérifier si l'image a été générée
                     if (!fileExists('feature_chart.png')) {
