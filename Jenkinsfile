@@ -376,8 +376,9 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
+
                     bat "python app.py ${params.FILE_NAME} output.json"
-                    
+
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
@@ -409,14 +410,22 @@ pipeline {
                         featureData[feature][status] = (featureData[feature].get(status) ?: 0) + 1
                     }
 
-                    def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
-                    def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { "'${it}'" }.join(", ")
-                    
+                    def featureLabels = featureData.keySet().collect { it }.join('","')
+                    def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { it }.join('","')
+
                     def datasetJSON = featureData.collect { feature, statusMap ->
-                        def dataPoints = statusLabels.tokenize(", ").collect { status -> statusMap[status.replace("'", "")] ?: 0 }
-                        return "{ name: '${feature}', type: 'bar', data: [${dataPoints.join(", ")}] }"
+                        def dataPoints = statusLabels.split('","').collect { statusMap.get(it, 0) }.join(", ")
+                        return """
+                            {
+                                name: "${feature}",
+                                type: "bar",
+                                stack: "total",
+                                emphasis: { focus: "series" },
+                                data: [${dataPoints}]
+                            }
+                        """
                     }.join(", ")
-                    
+
                     def htmlContent = """
                         <html>
                         <head>
@@ -432,24 +441,28 @@ pipeline {
                             <h1>Test Execution Report</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
                             <div id="featureChart"></div>
+
                             <script>
-                                var myChart = echarts.init(document.getElementById('featureChart'));
-                                var option = {
-                                    title: { text: 'Feature Status Distribution' },
-                                    tooltip: { trigger: 'axis' },
-                                    legend: { data: [${featureLabels}] },
-                                    xAxis: {
-                                        type: 'category',
-                                        data: [${statusLabels}]
-                                    },
-                                    yAxis: { type: 'value' },
-                                    series: [${datasetJSON}]
+                                window.onload = function() {
+                                    var chartDom = document.getElementById('featureChart');
+                                    var myChart = echarts.init(chartDom);
+
+                                    var option = {
+                                        title: { text: 'Feature Status Distribution' },
+                                        tooltip: { trigger: 'axis' },
+                                        legend: { data: ["${featureLabels}"] },
+                                        xAxis: { type: 'category', data: ["${statusLabels}"] },
+                                        yAxis: { type: 'value' },
+                                        series: [${datasetJSON}]
+                                    };
+
+                                    myChart.setOption(option);
                                 };
-                                myChart.setOption(option);
                             </script>
                         </body>
                         </html>
                     """
+
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
