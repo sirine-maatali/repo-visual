@@ -368,7 +368,7 @@ pipeline {
                     def featureLabels = '["Feature A", "Feature B", "Feature C"]'
                     def statusLabels = '["Passed", "Failed", "Blocked"]'
                     
-                    def datasetJSON = """
+                    def datasetJSON = '''
                         [
                             {
                                 name: "Feature A",
@@ -392,9 +392,9 @@ pipeline {
                                 data: [12, 8, 1]
                             }
                         ]
-                    """
+                    '''
 
-                    def htmlContent = """
+                    def htmlContent = '''
                         <html>
                         <head>
                             <title>Test Execution - Données Statiques</title>
@@ -429,7 +429,7 @@ pipeline {
                             </script>
                         </body>
                         </html>
-                    """
+                        '''
 
                     writeFile file: 'report.html', text: htmlContent
                 }
