@@ -349,7 +349,7 @@
 
 
 
-pipeline {
+pipeline { 
     agent any
 
     parameters {
@@ -376,9 +376,9 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
-
-                    // Exécuter le script Python pour générer le fichier JSON et l'histogramme
-                    bat "python app.py ${params.FILE_NAME} output.json histogram.png"
+                    
+                    // Exécuter le script Python et générer un JSON
+                    bat "python app.py ${params.FILE_NAME} output.json"
                     
                     // Vérifier si output.json existe
                     if (!fileExists('output.json')) {
@@ -421,27 +421,60 @@ pipeline {
 
                     echo "Données des features et status : ${featureData}"
 
-                    // Générer les données pour l'histogramme
-                    def featureLabels = featureData.keySet().collect { it }.join(", ")
-                    def statusData = featureData.collect { feature, statusMap ->
-                        statusMap.collect { status, count -> count }
-                    }
+                    // Générer les données pour Chart.js
+                    def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
+                    def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { "'${it}'" }.join(", ")
+                    echo "Données des featurelabels : ${featureLabels}"
+                    echo "Données des statuslabels : ${statusLabels}"
+
+                    def datasetJSON = featureData.collect { feature, statusMap ->
+                        def dataPoints = statusMap.collect { status, count -> count }.join(", ")
+                        return "{ label: '${feature}', data: [${dataPoints}], backgroundColor: getRandomColor() }"
+                    }.join(", ")
+                    echo "Données des datasetjson : ${datasetJSON}"
 
                     // Générer le contenu HTML
                     def htmlContent = """
                         <html>
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
+                        
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            <script>
+                                function getRandomColor() {
+                                    return 'rgba(' + Math.floor(Math.random() * 255) + ',' + 
+                                                      Math.floor(Math.random() * 255) + ',' + 
+                                                      Math.floor(Math.random() * 255) + ', 0.6)';
+                                }
+                            </script>
                             <style>
                                 body { font-family: Arial, sans-serif; text-align: center; }
                                 h1 { color: #2c3e50; }
-                                canvas { max-width: 800px; margin: auto; }
+                                canvas { max-width: 800px; margin: auto; height: 400px; }
                             </style>
                         </head>
                         <body>
                             <h1>Test Execution Report</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <img src="histogram.png" alt="Histogramme des Features" width="600" />
+                            <canvas id="featureChart"></canvas>
+
+                            <script>
+                                const ctx = document.getElementById('featureChart').getContext('2d');
+                                console.log(ctx); // Pour vérifier le contexte
+                                new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: [${featureLabels}],
+                                        datasets: [${datasetJSON}]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        scales: {
+                                            y: { beginAtZero: true }
+                                        }
+                                    }
+                                });
+                            </script>
                         </body>
                         </html>
                     """
@@ -469,11 +502,11 @@ pipeline {
             }
         }
 
-        // stage('Générer un PDF') {
-        //     steps {
-        //         bat 'wkhtmltopdf report.html report.pdf'
-        //         archiveArtifacts artifacts: 'report.pdf', fingerprint: true
-        //     }
-        // }
+        stage('Générer un PDF') {
+            steps {
+                bat 'wkhtmltopdf report.html report.pdf'
+                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+            }
+        }
     }
 }
