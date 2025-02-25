@@ -349,8 +349,12 @@
 
 
 
-pipeline {
+pipeline { 
     agent any
+
+    parameters {
+        string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX" ou "HGWXRAY-XXXX")')
+    }
 
     stages {
         stage('Cloner le Repo') {
@@ -359,73 +363,119 @@ pipeline {
             }
         }
 
-        stage('Générer le fichier HTML avec données statiques') {
+        stage('Vérifier Python') {
             steps {
                 script {
-                    echo "Génération du fichier HTML statique..."
+                    bat 'where python'
+                    bat 'python --version'
+                }
+            }
+        }
 
-                    // Données statiques pour tester l'affichage d'ECharts
-                    def featureLabels = '["Feature A", "Feature B", "Feature C"]'
-                    def statusLabels = '["Passed", "Failed", "Blocked"]'
+        stage('Exécuter le script Python') {
+            steps {
+                script {
+                    echo "Début de l'exécution du script Python"
                     
-                    def datasetJSON = '''
-                        [
-                            {
-                                name: "Feature A",
-                                type: "bar",
-                                stack: "total",
-                                emphasis: { focus: "series" },
-                                data: [10, 5, 2]
-                            },
-                            {
-                                name: "Feature B",
-                                type: "bar",
-                                stack: "total",
-                                emphasis: { focus: "series" },
-                                data: [7, 3, 4]
-                            },
-                            {
-                                name: "Feature C",
-                                type: "bar",
-                                stack: "total",
-                                emphasis: { focus: "series" },
-                                data: [12, 8, 1]
-                            }
-                        ]
-                    '''
+                    // Exécuter et rediriger la sortie vers un fichier
+                    bat "python app.py ${params.FILE_NAME} output.json"
+                    
+                    // Vérifier si output.json existe
+                    if (!fileExists('output.json')) {
+                        error "Le fichier output.json n'a pas été généré !"
+                    }
 
+                    // Lire le fichier JSON
+                    def jsonOutput = readFile('output.json').trim()
+                    echo "Sortie JSON récupérée : ${jsonOutput}"
+
+                    // Vérification si jsonOutput est vide
+                    if (!jsonOutput) {
+                        error "Le fichier JSON est vide !"
+                    }
+
+                    // Parsing JSON avec gestion des erreurs
+                    def jsonData
+                    try {
+                        jsonData = readJSON text: jsonOutput
+                        echo "JSON Parsé avec succès"
+                    } catch (Exception e) {
+                        error "Erreur lors du parsing du JSON : ${e.message}"
+                    }
+
+                    // Extraire les features uniques
+                    def features = jsonData.findAll { it.feature }
+                                          .collect { it.feature.toString().replaceAll("[\\[\\]']", "").trim() }
+                                          .unique()
+                    echo "Liste finale des features uniques : ${features}"
+
+                    // Extraire les statuts associés aux features
+                    def featureStatusMap = [:]
+                    jsonData.each { item ->
+                        def feature = item.feature.toString().replaceAll("[\\[\\]']", "").trim()
+                        def status = item.status.toString().trim()
+                        featureStatusMap[feature] = featureStatusMap.get(feature, [])
+                        featureStatusMap[feature] << status
+                    }
+
+                    echo "Feature-Status Map : ${featureStatusMap}"
+
+                    // Générer le contenu HTML avec le graphique
                     def htmlContent = """
                         <html>
                         <head>
-                            <title>Test Execution - Données Statiques</title>
-                            <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.1/dist/echarts.min.js"></script>
+                            <title>Test Execution - ${params.FILE_NAME}</title>
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             <style>
-                                body { font-family: Arial, sans-serif; text-align: center; }
-                                h1 { color: #2c3e50; }
-                                #featureChart { width: 80%; height: 600px; margin: auto; }
+                                body { font-family: Arial, sans-serif; margin: 20px; }
+                                h1 { color: #2c3e50; text-align: center; }
+                                h2 { color: #34495e; }
+                                h3 { color: #16a085; }
+                                pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+                                .container { max-width: 800px; margin: auto; }
+                                .feature-list { background: #ecf0f1; padding: 10px; border-radius: 5px; }
+                                canvas { max-width: 100%; height: auto; }
                             </style>
                         </head>
                         <body>
-                            <h1>Test Execution Report</h1>
-                            <h2>Rapport avec Données Statiques</h2>
-                            <div id="featureChart"></div>
+                            <div class="container">
+                                <h1>Test Execution</h1>
+                                <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                                <h3>Features uniques :</h3>
+                                <pre>${features.join("\n")}</pre>
+                                <h3>Statuts par Feature :</h3>
+                                <canvas id="featureStatusChart"></canvas>
+                                <h3>Résultat JSON :</h3>
+                                <pre>${jsonOutput}</pre>
+                            </div>
 
                             <script>
-                                window.onload = function() {
-                                    var chartDom = document.getElementById('featureChart');
-                                    var myChart = echarts.init(chartDom);
-
-                                    var option = {
-                                        title: { text: 'Feature Status Distribution' },
-                                        tooltip: { trigger: 'axis' },
-                                        legend: { data: ${featureLabels} },
-                                        xAxis: { type: 'category', data: ${statusLabels} },
-                                        yAxis: { type: 'value' },
-                                        series: ${datasetJSON}
-                                    };
-
-                                    myChart.setOption(option);
+                                var ctx = document.getElementById('featureStatusChart').getContext('2d');
+                                var chartData = {
+                                    labels: ${features},
+                                    datasets: [{
+                                        label: 'Nombre de statuts par Feature',
+                                        data: ${features.collect { feature -> featureStatusMap[feature]?.size() ?: 0 }},
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    }]
                                 };
+
+                                var config = {
+                                    type: 'bar',
+                                    data: chartData,
+                                    options: {
+                                        responsive: true,
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        }
+                                    }
+                                };
+
+                                new Chart(ctx, config);
                             </script>
                         </body>
                         </html>
@@ -448,7 +498,7 @@ pipeline {
             }
         }
 
-        stage('Publier le rapport HTML') {
+        stage('Publier le rapport') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
             }
@@ -458,33 +508,6 @@ pipeline {
             steps {
                 bat 'wkhtmltopdf report.html report.pdf'
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
-            }
-        }
-
-        stage('Générer le fichier CSV pour histogramme') {
-            steps {
-                script {
-                    def csvContent = "Feature,Passed,Failed,Blocked\n" +
-                                     "Feature A,10,5,2\n" +
-                                     "Feature B,7,3,4\n" +
-                                     "Feature C,12,8,1\n"
-                    
-                    writeFile file: 'data.csv', text: csvContent
-                }
-            }
-        }
-
-        stage('Visualisation dans Jenkins') {
-            steps {
-                plot csvFileName: 'data.csv',
-                     group: 'Test Reports',
-                     title: 'Histogramme des Features',
-                     style: 'BAR',
-                     series: [[
-                         file: 'data.csv',
-                         inclusionFlag: 'OFF',
-                         url: 'report.html'
-                     ]]
             }
         }
     }
