@@ -349,7 +349,7 @@
 
 
 
-pipeline {
+pipeline { 
     agent any
 
     parameters {
@@ -424,15 +424,14 @@ pipeline {
                     // Générer les données pour Chart.js
                     def featureLabels = featureData.keySet().collect { "'${it}'" }.join(", ")
                     def statusLabels = featureData.values().collectMany { it.keySet() }.unique().collect { "'${it}'" }.join(", ")
-                    echo "Données des featurelabel : ${featureLabels}"
-                    echo "Données des  statuslabel : ${statusLabels}"
+                    echo "Données des featurelabels : ${featureLabels}"
+                    echo "Données des statuslabels : ${statusLabels}"
+
                     def datasetJSON = featureData.collect { feature, statusMap ->
                         def dataPoints = statusMap.collect { status, count -> count }.join(", ")
                         return "{ label: '${feature}', data: [${dataPoints}], backgroundColor: getRandomColor() }"
                     }.join(", ")
                     echo "Données des datasetjson : ${datasetJSON}"
-               
-
 
                     // Générer le contenu HTML
                     def htmlContent = """
@@ -450,7 +449,7 @@ pipeline {
 
                             <pre>${datasetJSON}</pre>
                             <p>************************</p>
-                         
+
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             <script>
                                 function getRandomColor() {
