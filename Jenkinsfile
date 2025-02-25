@@ -431,7 +431,7 @@ pipeline {
                         return "{ label: '${feature}', data: [${dataPoints}], backgroundColor: getRandomColor() }"
                     }.join(", ")
                     echo "Données des datasetjson : ${datasetJSON}"
-                    echo "Données des dataPoints : ${dataPoints}"
+               
 
 
                     // Générer le contenu HTML
@@ -450,8 +450,7 @@ pipeline {
 
                             <pre>${datasetJSON}</pre>
                             <p>************************</p>
-                            <pre>${dataPoints}</pre>
-                        
+                         
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             <script>
                                 function getRandomColor() {
