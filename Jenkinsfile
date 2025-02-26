@@ -1152,23 +1152,11 @@ pipeline {
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
-                        def priority = entry.defects ? entry.defects[0].priority : null
                         
                         if (!statusCounts[feature]) {
                             statusCounts[feature] = [:]
                         }
-                        
-                        if (status == 'PASS') {
-                            statusCounts[feature]['PASS'] = (statusCounts[feature]['PASS'] ?: 0) + 1
-                        } else if (status == 'ABORTED' || status == 'TODO') {
-                            statusCounts[feature]['NOTEXECUTED'] = (statusCounts[feature]['NOTEXECUTED'] ?: 0) + 1
-                        } else if (status == 'FAIL' || status == 'BLOCKED') {
-                            if (priority == 'medium' || priority == 'high') {
-                                statusCounts[feature]['NOKMinor'] = (statusCounts[feature]['NOKMinor'] ?: 0) + 1
-                            } else if (priority == 'very high' || priority == 'blocker') {
-                                statusCounts[feature]['NOKMajor'] = (statusCounts[feature]['NOKMajor'] ?: 0) + 1
-                            }
-                        }
+                        statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
                         
                         if (status == 'FAIL' || status == 'BLOCKED') {
                             entry.defects.each { defect ->
@@ -1179,22 +1167,17 @@ pipeline {
                     
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
-                    def statusTypes = ['PASS', 'NOTEXECUTED', 'NOKMinor', 'NOKMajor']
+                    def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
                     
-                    // Couleurs pour chaque statut
-                    def statusColors = [
-                        'PASS': '#4CAF50', // Vert
-                        'NOTEXECUTED': '#FFEB3B', // Jaune
-                        'NOKMinor': '#FF9800', // Orange
-                        'NOKMajor': '#F44336' // Rouge
-                    ]
+                    // Couleurs fixes pour les barres (nuances de vert)
+                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
                     
-                    statusTypes.each { status ->
+                    statusTypes.eachWithIndex { status, index ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("""
                             {
                                 label: "${status}",
-                                backgroundColor: "${statusColors[status]}",
+                                backgroundColor: "${greenShades[index % greenShades.size()]}",
                                 data: [${data.join(", ")}]
                             }
                         """)
@@ -1205,6 +1188,62 @@ pipeline {
                     }
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
+                    
+                    // Nouveau jeu de données pour le nouvel histogramme
+                    def featureStatusData = [:]
+                    jsonData.each { entry ->
+                        def feature = entry.feature.toString().trim()
+                        def status = entry.status.toString().trim()
+                        def priority = entry.defects?.priority?.toString()?.trim() ?: ""
+                        
+                        if (!featureStatusData[feature]) {
+                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
+                        }
+                        
+                        if (status == 'PASS') {
+                            featureStatusData[feature].PASS++
+                        } else if (status == 'ABORTED' || status == 'TODO') {
+                            featureStatusData[feature].NOTEXECUTED++
+                        } else if (status == 'FAIL' || status == 'BLOCKED') {
+                            if (priority == 'medium' || priority == 'high') {
+                                featureStatusData[feature].NOKMINOR++
+                            } else if (priority == 'very high' || priority == 'blocker') {
+                                featureStatusData[feature].NOKMAJOR++
+                            }
+                        }
+                    }
+                    
+                    def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def featureStatusDatasets = [
+                        """
+                            {
+                                label: "PASS",
+                                backgroundColor: "#4CAF50",
+                                data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOTEXECUTED",
+                                backgroundColor: "#FFEB3B",
+                                data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOKMINOR",
+                                backgroundColor: "#FF9800",
+                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOKMAJOR",
+                                backgroundColor: "#F44336",
+                                data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
+                            }
+                        """
+                    ]
                     
                     def htmlContent = """
                         <html>
@@ -1259,10 +1298,10 @@ pipeline {
                                 <canvas id="barChart"></canvas>
                             </div>
                             <div class="chart-container">
-                                <canvas id="statusBarChart"></canvas>
+                                <canvas id="pieChart"></canvas>
                             </div>
                             <div class="chart-container">
-                                <canvas id="pieChart"></canvas>
+                                <canvas id="featureStatusChart"></canvas>
                             </div>
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table>
@@ -1291,13 +1330,32 @@ pipeline {
                                         }
                                     });
                                     
-                                    // Status Bar Chart
-                                    var ctxStatusBar = document.getElementById('statusBarChart').getContext('2d');
-                                    new Chart(ctxStatusBar, {
+                                    // Pie Chart
+                                    var ctxPie = document.getElementById('pieChart').getContext('2d');
+                                    new Chart(ctxPie, {
+                                        type: 'pie',
+                                        data: {
+                                            labels: [${pieLabels}],
+                                            datasets: [{
+                                                data: [${pieValues}],
+                                                backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            }
+                                        }
+                                    });
+                                    
+                                    // Feature Status Chart
+                                    var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+                                    new Chart(ctxFeatureStatus, {
                                         type: 'bar',
                                         data: {
-                                            labels: [${featureLabels}],
-                                            datasets: [${datasets.join(", ")}]
+                                            labels: [${featureStatusLabels}],
+                                            datasets: [${featureStatusDatasets.join(", ")}]
                                         },
                                         options: {
                                             responsive: true,
@@ -1307,25 +1365,6 @@ pipeline {
                                             scales: {
                                                 x: { stacked: true },
                                                 y: { stacked: true, beginAtZero: true }
-                                            }
-                                        }
-                                    });
-                                    
-                                    // Pie Chart
-                                    var ctxPie = document.getElementById('pieChart').getContext('2d');
-                                    new Chart(ctxPie, {
-                                        type: 'pie',
-                                        data: {
-                                            labels: [${pieLabels}],
-                                            datasets: [{
-                                                data: [${pieValues}],
-                                                backgroundColor: [${statusTypes.collect { "\"${statusColors[it]}\"" }.join(", ")}]
-                                            }]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
                                             }
                                         }
                                     });
