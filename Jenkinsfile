@@ -1147,7 +1147,7 @@ pipeline {
 
                     def jsonData = readJSON text: jsonOutput
                     
-               def featureStatusData = [:]
+                    def featureStatusData = [:]
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
@@ -1172,7 +1172,7 @@ pipeline {
                             featureStatusData[feature].NOTEXECUTED++
                             echo "Statut ABORTED ou TODO détecté pour la feature: ${feature}. Nouveau compte NOTEXECUTED: ${featureStatusData[feature].NOTEXECUTED}"
                         } else if (status == 'FAIL' || status == 'BLOCKED') {
-                            if (priority =='[medium]'|| status == '[high]') {
+                            if (priority == '[medium]' || priority == '[high]') {
                                 featureStatusData[feature].NOKMINOR++
                                 echo "Statut FAIL ou BLOCKED avec priorité ${priority} détecté pour la feature: ${feature}. Nouveau compte NOKMINOR: ${featureStatusData[feature].NOKMINOR}"
                             } else if (priority == '[very high]' || priority == '[blocker]') {
@@ -1183,7 +1183,7 @@ pipeline {
                         
                         // Affichage de l'état actuel de featureStatusData après chaque itération
                         echo "État actuel de featureStatusData après traitement de la feature ${feature}: ${featureStatusData}"
-                }
+                    }
 
                     def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
                     def featureStatusDatasets = [
