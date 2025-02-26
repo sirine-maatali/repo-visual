@@ -618,20 +618,30 @@ pipeline {
                                 canvas {
                                     margin-top: 20px;
                                     margin-bottom: 40px;
+                                    max-width: 800px;
+                                }
+                                .chart-container {
+                                    width: 50%;
+                                    margin: 0 auto;
                                 }
                             </style>
                         </head>
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <canvas id="barChart"></canvas>
-                            <canvas id="pieChart"></canvas>
+                            <div class="chart-container">
+                                <canvas id="barChart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="pieChart"></canvas>
+                            </div>
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table>
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
                                 ${defectsData.join("\n")}
                             </table>
                             <script>
+                                // Bar Chart
                                 var ctxBar = document.getElementById('barChart').getContext('2d');
                                 new Chart(ctxBar, {
                                     type: 'bar',
@@ -651,6 +661,7 @@ pipeline {
                                     }
                                 });
                                 
+                                // Pie Chart
                                 var ctxPie = document.getElementById('pieChart').getContext('2d');
                                 new Chart(ctxPie, {
                                     type: 'pie',
