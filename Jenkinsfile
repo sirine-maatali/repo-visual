@@ -365,12 +365,8 @@ pipeline {
         stage('Vérifier Python') {
             steps {
                 script {
-                    try {
-                        bat 'where python'
-                        bat 'python --version'
-                    } catch (Exception e) {
-                        error "Python n'est pas installé ou introuvable : ${e.message}"
-                    }
+                    bat 'where python'
+                    bat 'python --version'
                 }
             }
         }
@@ -379,13 +375,7 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
-                    def fileName = params.FILE_NAME.trim()
-
-                    if (!fileName) {
-                        error "Le paramètre FILE_NAME est vide !"
-                    }
-
-                    bat "python app.py ${fileName} output.json"
+                    bat "python app.py ${params.FILE_NAME} output.json"
 
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
@@ -396,45 +386,45 @@ pipeline {
                         error "Le fichier JSON est vide !"
                     }
 
-                    def jsonData
-                    try {
-                        jsonData = readJSON text: jsonOutput
-                    } catch (Exception e) {
-                        error "Erreur de lecture du fichier JSON : ${e.message}"
-                    }
-
-                    if (!jsonData || !(jsonData instanceof List) || jsonData.isEmpty()) {
-                        error "Le fichier JSON ne contient pas de données exploitables !"
-                    }
-
-                    def statusCounts = [:].withDefault { [:].withDefault { 0 } }
-
+                    def jsonData = readJSON text: jsonOutput
+                    
+                    def statusCounts = [:]
+                    def defectsData = []
                     jsonData.each { entry ->
-                        def feature = entry?.feature?.toString()?.trim()
-                        def status = entry?.status?.toString()?.trim()
-
-                        if (feature && status) {
-                            statusCounts[feature][status]++
+                        def feature = entry.feature.toString().trim()
+                        def status = entry.status.toString().trim()
+                        
+                        if (!statusCounts[feature]) {
+                            statusCounts[feature] = [:]
+                        }
+                        statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+                        
+                        if (status == 'FAIL' || status == 'BLOCKED') {
+                            entry.defects.each { defect ->
+                                defectsData.add("{id: ${defect.id}, summary: \"${defect.summary}\", priority: \"${defect.priority}\"}")
+                            }
                         }
                     }
-
-                    if (statusCounts.isEmpty()) {
-                        error "Aucune donnée valide trouvée après analyse du JSON !"
-                    }
-
+                    
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
-
+                    
                     statusTypes.each { status ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
                     }
-
+                    
+                    def pieData = statusCounts.collectEntries { feature, statuses ->
+                        [(feature): statuses.collect { k, v -> v }.sum()]
+                    }
+                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def pieValues = pieData.values().join(", ")
+                    
                     def htmlContent = """
                         <html>
                         <head>
-                            <title>Test Execution - ${fileName}</title>
+                            <title>Test Execution - ${params.FILE_NAME}</title>
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             <script>
                                 function getRandomColor() {
@@ -444,11 +434,17 @@ pipeline {
                         </head>
                         <body>
                             <h1>Test Execution</h1>
-                            <h2>Nom du fichier : ${fileName}</h2>
+                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
                             <canvas id="barChart"></canvas>
+                            <canvas id="pieChart"></canvas>
+                            <h2>Defects (FAIL & BLOCKED)</h2>
+                            <table border="1">
+                                <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+                                ${defectsData.collect { "<tr><td>\${it.id}</td><td>\${it.summary}</td><td>\${it.priority}</td></tr>" }.join("\n")}
+                            </table>
                             <script>
-                                var ctx = document.getElementById('barChart').getContext('2d');
-                                new Chart(ctx, {
+                                var ctxBar = document.getElementById('barChart').getContext('2d');
+                                new Chart(ctxBar, {
                                     type: 'bar',
                                     data: {
                                         labels: [${featureLabels}],
@@ -463,6 +459,18 @@ pipeline {
                                             x: { stacked: true },
                                             y: { stacked: true, beginAtZero: true }
                                         }
+                                    }
+                                });
+                                
+                                var ctxPie = document.getElementById('pieChart').getContext('2d');
+                                new Chart(ctxPie, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: [${pieLabels}],
+                                        datasets: [{
+                                            data: [${pieValues}],
+                                            backgroundColor: [getRandomColor(), getRandomColor(), getRandomColor()]
+                                        }]
                                     }
                                 });
                             </script>
