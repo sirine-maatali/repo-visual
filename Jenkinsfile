@@ -1147,72 +1147,61 @@ pipeline {
 
                     def jsonData = readJSON text: jsonOutput
                     
-                    def statusCounts = [:]
-                    def defectsData = []
+                    def featureStatusData = [:]
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
-                        def priority = entry.defects ? entry.defects[0]?.priority : null
-                        
-                        if (!statusCounts[feature]) {
-                            statusCounts[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMinor: 0, NOKMajor: 0]
+                        def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
+
+                        if (!featureStatusData[feature]) {
+                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
                         }
-                        
-                        switch (status) {
-                            case 'PASS':
-                                statusCounts[feature].PASS++
-                                break
-                            case 'ABORTED':
-                            case 'TODO':
-                                statusCounts[feature].NOTEXECUTED++
-                                break
-                            case 'FAIL':
-                            case 'BLOCKED':
-                                if (priority == 'Medium' || priority == 'High') {
-                                    statusCounts[feature].NOKMinor++
-                                } else if (priority == 'Very High' || priority == 'Blocker') {
-                                    statusCounts[feature].NOKMajor++
-                                }
-                                break
-                        }
-                        
-                        if (status == 'FAIL' || status == 'BLOCKED') {
-                            entry.defects.each { defect ->
-                                defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
+
+                        if (status == 'PASS') {
+                            featureStatusData[feature].PASS++
+                        } else if (status in ['ABORTED', 'TODO']) {
+                            featureStatusData[feature].NOTEXECUTED++
+                        } else if (status in ['FAIL', 'BLOCKED']) {
+                            if (priority in ['medium', 'high']) {
+                                featureStatusData[feature].NOKMINOR++
+                            } else if (priority in ['very high', 'blocker']) {
+                                featureStatusData[feature].NOKMAJOR++
                             }
                         }
                     }
-                    
-                    def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
-                    def datasets = [
-                        {
-                            label: 'PASS',
-                            backgroundColor: '#4CAF50',
-                            data: statusCounts.collect { it.value.PASS }
-                        },
-                        {
-                            label: 'NOTEXECUTED',
-                            backgroundColor: '#FFEB3B',
-                            data: statusCounts.collect { it.value.NOTEXECUTED }
-                        },
-                        {
-                            label: 'NOKMinor',
-                            backgroundColor: '#FF9800',
-                            data: statusCounts.collect { it.value.NOKMinor }
-                        },
-                        {
-                            label: 'NOKMajor',
-                            backgroundColor: '#F44336',
-                            data: statusCounts.collect { it.value.NOKMajor }
-                        }
+
+                    def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def featureStatusDatasets = [
+                        """
+                            {
+                                label: "PASS",
+                                backgroundColor: "#4CAF50",
+                                data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOT EXECUTED",
+                                backgroundColor: "#FFEB3B",
+                                data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOK MINOR",
+                                backgroundColor: "#FF9800",
+                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOK MAJOR",
+                                backgroundColor: "#F44336",
+                                data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
+                            }
+                        """
                     ]
-                    
-                    def pieData = statusCounts.collectEntries { feature, statuses ->
-                        [(feature): statuses.collect { k, v -> v }.sum()]
-                    }
-                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
-                    def pieValues = pieData.values().join(", ")
-                    
+
                     def htmlContent = """
                         <html>
                         <head>
@@ -1225,28 +1214,6 @@ pipeline {
                                 }
                                 h1, h2 {
                                     color: #2E7D32;
-                                }
-                                table {
-                                    width: 100%;
-                                    border-collapse: collapse;
-                                    margin-top: 20px;
-                                }
-                                table, th, td {
-                                    border: 1px solid #ddd;
-                                }
-                                th, td {
-                                    padding: 12px;
-                                    text-align: left;
-                                }
-                                th {
-                                    background-color: #4CAF50;
-                                    color: white;
-                                }
-                                tr:nth-child(even) {
-                                    background-color: #f2f2f2;
-                                }
-                                tr:hover {
-                                    background-color: #ddd;
                                 }
                                 canvas {
                                     margin-top: 20px;
@@ -1263,25 +1230,16 @@ pipeline {
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
                             <div class="chart-container">
-                                <canvas id="stackedBarChart"></canvas>
+                                <canvas id="featureStatusChart"></canvas>
                             </div>
-                            <div class="chart-container">
-                                <canvas id="pieChart"></canvas>
-                            </div>
-                            <h2>Defects (FAIL & BLOCKED)</h2>
-                            <table>
-                                <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-                                ${defectsData.join("\n")}
-                            </table>
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                    // Stacked Bar Chart
-                                    var ctxStackedBar = document.getElementById('stackedBarChart').getContext('2d');
-                                    new Chart(ctxStackedBar, {
+                                    var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+                                    new Chart(ctxFeatureStatus, {
                                         type: 'bar',
                                         data: {
-                                            labels: [${featureLabels}],
-                                            datasets: ${new groovy.json.JsonBuilder(datasets).toString()}
+                                            labels: [${featureStatusLabels}],
+                                            datasets: [${featureStatusDatasets.join(", ")}]
                                         },
                                         options: {
                                             responsive: true,
@@ -1291,25 +1249,6 @@ pipeline {
                                             scales: {
                                                 x: { stacked: true },
                                                 y: { stacked: true, beginAtZero: true }
-                                            }
-                                        }
-                                    });
-                                    
-                                    // Pie Chart
-                                    var ctxPie = document.getElementById('pieChart').getContext('2d');
-                                    new Chart(ctxPie, {
-                                        type: 'pie',
-                                        data: {
-                                            labels: [${pieLabels}],
-                                            datasets: [{
-                                                data: [${pieValues}],
-                                                backgroundColor: ['#4CAF50', '#FFEB3B', '#FF9800', '#F44336']
-                                            }]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
                                             }
                                         }
                                     });
@@ -1327,13 +1266,9 @@ pipeline {
         stage('Convertir en PDF') {
             steps {
                 script {
-                    // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
                     bat 'wkhtmltopdf --version'
-                    
-                    // Convertir le fichier HTML en PDF
                     bat 'wkhtmltopdf report.html report.pdf'
-                    
-                    // Vérifier que le fichier PDF a été généré
+
                     if (!fileExists('report.pdf')) {
                         error "Le fichier report.pdf n'a pas été généré !"
                     }
@@ -1343,10 +1278,7 @@ pipeline {
 
         stage('Publier le rapport') {
             steps {
-                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
-                
-                // Publier le fichier PDF
-                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Test Execution Report'])
             }
         }
     }
