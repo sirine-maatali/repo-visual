@@ -375,41 +375,23 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
-                    
                     bat "python app.py ${params.FILE_NAME} output.json"
-                    
+
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
 
                     def jsonOutput = readFile('output.json').trim()
-                    echo "Sortie JSON récupérée : ${jsonOutput}"
-
                     if (!jsonOutput) {
                         error "Le fichier JSON est vide !"
                     }
 
-                    def jsonData
-                    try {
-                        jsonData = readJSON text: jsonOutput
-                        echo "JSON Parsé avec succès"
-                    } catch (Exception e) {
-                        error "Erreur lors du parsing du JSON : ${e.message}"
-                    }
-
-                    if (!(jsonData instanceof List)) {
-                        error "Le JSON parsé n'est pas une liste d'objets !"
-                    }
-
-                    def features = jsonData.findAll { it.feature }
-                                          .collect { it.feature.toString().replaceAll("[\\[\\]']", "").trim() }
-                                          .unique()
+                    def jsonData = readJSON text: jsonOutput
 
                     def statusCounts = [:]
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
-
                         if (!statusCounts[feature]) {
                             statusCounts[feature] = [:]
                         }
@@ -425,16 +407,6 @@ pipeline {
                         datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
                     }
 
-                    def statusSummary = [:]
-                    statusCounts.each { feature, counts ->
-                        counts.each { status, count ->
-                            statusSummary[status] = (statusSummary[status] ?: 0) + count
-                        }
-                    }
-
-                    def pieLabels = statusSummary.keySet().collect { "\"${it}\"" }.join(", ")
-                    def pieData = statusSummary.values().join(", ")
-
                     def htmlContent = """
                         <html>
                         <head>
@@ -449,10 +421,7 @@ pipeline {
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-
                             <canvas id="barChart"></canvas>
-                            <canvas id="pieChart"></canvas>
-
                             <script>
                                 var ctx = document.getElementById('barChart').getContext('2d');
                                 new Chart(ctx, {
@@ -466,16 +435,10 @@ pipeline {
                                         plugins: {
                                             legend: { position: 'top' }
                                         },
-                                        scales: { y: { beginAtZero: true } }
-                                    }
-                                });
-
-                                var ctx2 = document.getElementById('pieChart').getContext('2d');
-                                new Chart(ctx2, {
-                                    type: 'pie',
-                                    data: {
-                                        labels: [${pieLabels}],
-                                        datasets: [{ data: [${pieData}], backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'] }]
+                                        scales: {
+                                            x: { stacked: true },
+                                            y: { stacked: true, beginAtZero: true }
+                                        }
                                     }
                                 });
                             </script>
@@ -488,28 +451,9 @@ pipeline {
             }
         }
 
-        stage('Vérifier génération du fichier HTML') {
-            steps {
-                script {
-                    if (fileExists('report.html')) {
-                        echo 'Le fichier report.html a été généré avec succès !'
-                    } else {
-                        error 'Le fichier report.html n\'a pas été généré !'
-                    }
-                }
-            }
-        }
-
         stage('Publier le rapport') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
-            }
-        }
-
-        stage('Générer un PDF') {
-            steps {
-                bat 'wkhtmltopdf report.html report.pdf'
-                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
     }
