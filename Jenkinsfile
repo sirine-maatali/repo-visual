@@ -884,6 +884,229 @@
 
 
 
+// pipeline {
+//     agent any
+
+//     parameters {
+//         string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX")')
+//     }
+
+//     stages {
+//         stage('Cloner le Repo') {
+//             steps {
+//                 git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
+//             }
+//         }
+
+//         stage('Vérifier Python') {
+//             steps {
+//                 script {
+//                     bat 'where python'
+//                     bat 'python --version'
+//                 }
+//             }
+//         }
+
+//         stage('Exécuter le script Python') {
+//             steps {
+//                 script {
+//                     echo "Début de l'exécution du script Python"
+//                     bat "python app.py ${params.FILE_NAME} output.json"
+
+//                     if (!fileExists('output.json')) {
+//                         error "Le fichier output.json n'a pas été généré !"
+//                     }
+
+//                     def jsonOutput = readFile('output.json').trim()
+//                     if (!jsonOutput) {
+//                         error "Le fichier JSON est vide !"
+//                     }
+
+//                     def jsonData = readJSON text: jsonOutput
+                    
+//                     def statusCounts = [:]
+//                     def defectsData = []
+//                     jsonData.each { entry ->
+//                         def feature = entry.feature.toString().trim()
+//                         def status = entry.status.toString().trim()
+                        
+//                         if (!statusCounts[feature]) {
+//                             statusCounts[feature] = [:]
+//                         }
+//                         statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+                        
+//                         if (status == 'FAIL' || status == 'BLOCKED') {
+//                             entry.defects.each { defect ->
+//                                 defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
+//                             }
+//                         }
+//                     }
+                    
+//                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
+//                     def datasets = []
+//                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
+                    
+//                     // Couleurs fixes pour les barres (nuances de vert)
+//                     def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
+                    
+//                     statusTypes.eachWithIndex { status, index ->
+//                         def data = statusCounts.collect { it.value[status] ?: 0 }
+//                         datasets.add("""
+//                             {
+//                                 label: "${status}",
+//                                 backgroundColor: "${greenShades[index % greenShades.size()]}",
+//                                 data: [${data.join(", ")}]
+//                             }
+//                         """)
+//                     }
+                    
+//                     def pieData = statusCounts.collectEntries { feature, statuses ->
+//                         [(feature): statuses.collect { k, v -> v }.sum()]
+//                     }
+//                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+//                     def pieValues = pieData.values().join(", ")
+                    
+//                     def htmlContent = """
+//                         <html>
+//                         <head>
+//                             <title>Test Execution - ${params.FILE_NAME}</title>
+//                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+//                             <style>
+//                                 body {
+//                                     font-family: Arial, sans-serif;
+//                                     margin: 20px;
+//                                 }
+//                                 h1, h2 {
+//                                     color: #2E7D32;
+//                                 }
+//                                 table {
+//                                     width: 100%;
+//                                     border-collapse: collapse;
+//                                     margin-top: 20px;
+//                                 }
+//                                 table, th, td {
+//                                     border: 1px solid #ddd;
+//                                 }
+//                                 th, td {
+//                                     padding: 12px;
+//                                     text-align: left;
+//                                 }
+//                                 th {
+//                                     background-color: #4CAF50;
+//                                     color: white;
+//                                 }
+//                                 tr:nth-child(even) {
+//                                     background-color: #f2f2f2;
+//                                 }
+//                                 tr:hover {
+//                                     background-color: #ddd;
+//                                 }
+//                                 canvas {
+//                                     margin-top: 20px;
+//                                     margin-bottom: 40px;
+//                                     max-width: 800px;
+//                                 }
+//                                 .chart-container {
+//                                     width: 50%;
+//                                     margin: 0 auto;
+//                                 }
+//                             </style>
+//                         </head>
+//                         <body>
+//                             <h1>Test Execution</h1>
+//                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+//                             <div class="chart-container">
+//                                 <canvas id="barChart"></canvas>
+//                             </div>
+//                             <div class="chart-container">
+//                                 <canvas id="pieChart"></canvas>
+//                             </div>
+//                             <h2>Defects (FAIL & BLOCKED)</h2>
+//                             <table>
+//                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+//                                 ${defectsData.join("\n")}
+//                             </table>
+//                             <script>
+//                                 document.addEventListener('DOMContentLoaded', function() {
+//                                     // Bar Chart
+//                                     var ctxBar = document.getElementById('barChart').getContext('2d');
+//                                     new Chart(ctxBar, {
+//                                         type: 'bar',
+//                                         data: {
+//                                             labels: [${featureLabels}],
+//                                             datasets: [${datasets.join(", ")}]
+//                                         },
+//                                         options: {
+//                                             responsive: true,
+//                                             plugins: {
+//                                                 legend: { position: 'top' }
+//                                             },
+//                                             scales: {
+//                                                 x: { stacked: true },
+//                                                 y: { stacked: true, beginAtZero: true }
+//                                             }
+//                                         }
+//                                     });
+                                    
+//                                     // Pie Chart
+//                                     var ctxPie = document.getElementById('pieChart').getContext('2d');
+//                                     new Chart(ctxPie, {
+//                                         type: 'pie',
+//                                         data: {
+//                                             labels: [${pieLabels}],
+//                                             datasets: [{
+//                                                 data: [${pieValues}],
+//                                                 backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+//                                             }]
+//                                         },
+//                                         options: {
+//                                             responsive: true,
+//                                             plugins: {
+//                                                 legend: { position: 'top' }
+//                                             }
+//                                         }
+//                                     });
+//                                 });
+//                             </script>
+//                         </body>
+//                         </html>
+//                     """
+
+//                     writeFile file: 'report.html', text: htmlContent
+//                 }
+//             }
+//         }
+
+//         stage('Convertir en PDF') {
+//             steps {
+//                 script {
+//                     // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
+//                     bat 'wkhtmltopdf --version'
+                    
+//                     // Convertir le fichier HTML en PDF
+//                     bat 'wkhtmltopdf report.html report.pdf'
+                    
+//                     // Vérifier que le fichier PDF a été généré
+//                     if (!fileExists('report.pdf')) {
+//                         error "Le fichier report.pdf n'a pas été généré !"
+//                     }
+//                 }
+//             }
+//         }
+
+//         stage('Publier le rapport') {
+//             steps {
+//                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+                
+//                 // Publier le fichier PDF
+//                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+//             }
+//         }
+//     }
+// }
+
+
+
 pipeline {
     agent any
 
@@ -929,11 +1152,23 @@ pipeline {
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
+                        def priority = entry.defects ? entry.defects[0].priority : null
                         
                         if (!statusCounts[feature]) {
-                            statusCounts[feature] = [:]
+                            statusCounts[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMinor: 0, NOKMajor: 0]
                         }
-                        statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+                        
+                        if (status == 'PASS') {
+                            statusCounts[feature].PASS++
+                        } else if (status == 'ABORTED' || status == 'TODO') {
+                            statusCounts[feature].NOTEXECUTED++
+                        } else if (status == 'FAIL' || status == 'BLOCKED') {
+                            if (priority == 'medium' || priority == 'high') {
+                                statusCounts[feature].NOKMinor++
+                            } else if (priority == 'very high' || priority == 'blocker') {
+                                statusCounts[feature].NOKMajor++
+                            }
+                        }
                         
                         if (status == 'FAIL' || status == 'BLOCKED') {
                             entry.defects.each { defect ->
@@ -943,28 +1178,28 @@ pipeline {
                     }
                     
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
-                    def datasets = []
-                    def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
-                    
-                    // Couleurs fixes pour les barres (nuances de vert)
-                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
-                    
-                    statusTypes.eachWithIndex { status, index ->
-                        def data = statusCounts.collect { it.value[status] ?: 0 }
-                        datasets.add("""
-                            {
-                                label: "${status}",
-                                backgroundColor: "${greenShades[index % greenShades.size()]}",
-                                data: [${data.join(", ")}]
-                            }
-                        """)
-                    }
-                    
-                    def pieData = statusCounts.collectEntries { feature, statuses ->
-                        [(feature): statuses.collect { k, v -> v }.sum()]
-                    }
-                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
-                    def pieValues = pieData.values().join(", ")
+                    def datasets = [
+                        {
+                            label: 'PASS',
+                            backgroundColor: '#4CAF50',
+                            data: statusCounts.collect { it.value.PASS }
+                        },
+                        {
+                            label: 'NOTEXECUTED',
+                            backgroundColor: '#FFEB3B',
+                            data: statusCounts.collect { it.value.NOTEXECUTED }
+                        },
+                        {
+                            label: 'NOKMinor',
+                            backgroundColor: '#FF9800',
+                            data: statusCounts.collect { it.value.NOKMinor }
+                        },
+                        {
+                            label: 'NOKMajor',
+                            backgroundColor: '#F44336',
+                            data: statusCounts.collect { it.value.NOKMajor }
+                        }
+                    ]
                     
                     def htmlContent = """
                         <html>
@@ -1016,10 +1251,7 @@ pipeline {
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
                             <div class="chart-container">
-                                <canvas id="barChart"></canvas>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="pieChart"></canvas>
+                                <canvas id="statusBarChart"></canvas>
                             </div>
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table>
@@ -1028,13 +1260,13 @@ pipeline {
                             </table>
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                    // Bar Chart
-                                    var ctxBar = document.getElementById('barChart').getContext('2d');
-                                    new Chart(ctxBar, {
+                                    // Status Bar Chart
+                                    var ctxStatusBar = document.getElementById('statusBarChart').getContext('2d');
+                                    new Chart(ctxStatusBar, {
                                         type: 'bar',
                                         data: {
                                             labels: [${featureLabels}],
-                                            datasets: [${datasets.join(", ")}]
+                                            datasets: ${datasets}
                                         },
                                         options: {
                                             responsive: true,
@@ -1044,25 +1276,6 @@ pipeline {
                                             scales: {
                                                 x: { stacked: true },
                                                 y: { stacked: true, beginAtZero: true }
-                                            }
-                                        }
-                                    });
-                                    
-                                    // Pie Chart
-                                    var ctxPie = document.getElementById('pieChart').getContext('2d');
-                                    new Chart(ctxPie, {
-                                        type: 'pie',
-                                        data: {
-                                            labels: [${pieLabels}],
-                                            datasets: [{
-                                                data: [${pieValues}],
-                                                backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-                                            }]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
                                             }
                                         }
                                     });
