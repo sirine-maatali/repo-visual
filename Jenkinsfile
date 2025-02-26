@@ -560,9 +560,18 @@ pipeline {
                     def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
                     
-                    statusTypes.each { status ->
+                    // Couleurs fixes pour les barres (nuances de vert)
+                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9']
+                    
+                    statusTypes.eachWithIndex { status, index ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
-                        datasets.add("{label: \"${status}\", backgroundColor: getGreenGradient(${data.size()}), data: [${data.join(", ")}]}")
+                        datasets.add("""
+                            {
+                                label: "${status}",
+                                backgroundColor: "${greenShades[index % greenShades.size()]}",
+                                data: [${data.join(", ")}]
+                            }
+                        """)
                     }
                     
                     def pieData = statusCounts.collectEntries { feature, statuses ->
@@ -582,7 +591,7 @@ pipeline {
                                     margin: 20px;
                                 }
                                 h1, h2 {
-                                    color: #333;
+                                    color: #2E7D32;
                                 }
                                 table {
                                     width: 100%;
@@ -606,21 +615,11 @@ pipeline {
                                 tr:hover {
                                     background-color: #ddd;
                                 }
+                                canvas {
+                                    margin-top: 20px;
+                                    margin-bottom: 40px;
+                                }
                             </style>
-                            <script>
-                                function getGreenGradient(count) {
-                                    const colors = [];
-                                    for (let i = 0; i < count; i++) {
-                                        const intensity = Math.floor((i / count) * 128) + 128;
-                                        colors.push(`rgba(0, ${intensity}, 0, 0.6)`);
-                                    }
-                                    return colors;
-                                }
-
-                                function getRandomColor() {
-                                    return '#' + Math.floor(Math.random()*16777215).toString(16);
-                                }
-                            </script>
                         </head>
                         <body>
                             <h1>Test Execution</h1>
@@ -659,7 +658,7 @@ pipeline {
                                         labels: [${pieLabels}],
                                         datasets: [{
                                             data: [${pieValues}],
-                                            backgroundColor: getGreenGradient(${pieData.size()})
+                                            backgroundColor: ${greenShades.collect { "\"${it}\"" }.join(", ")}
                                         }]
                                     }
                                 });
