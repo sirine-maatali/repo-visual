@@ -964,8 +964,8 @@ pipeline {
                     def pieData = statusCounts.collectEntries { feature, statuses ->
                         [(feature): statuses.collect { k, v -> v }.sum()]
                     }
-                    def pieLabels = pieData.keySet().collect { it }.join(", ")
-                    def pieValues = pieData.values().join(", ")
+                    def pieLabels = pieData.keySet().collect { it }
+                    def pieValues = pieData.values()
                     
                     def htmlContent = """
                         <html>
@@ -1039,7 +1039,7 @@ pipeline {
                                     tooltip: { trigger: 'item' },
                                     series: [{
                                         type: 'pie',
-                                        data: [${pieLabels.split(", ").collect { label, i -> "{ value: ${pieValues.split(", ")[i]}, name: '${label}' }" }.join(", ")}],
+                                        data: [${pieLabels.withIndex().collect { label, i -> "{ value: ${pieValues[i]}, name: '${label}' }" }.join(", ")}],
                                         itemStyle: { color: function(params) { return ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9'][params.dataIndex]; } }
                                     }]
                                 };
@@ -1056,7 +1056,14 @@ pipeline {
 
         stage('Publier le rapport') {
             steps {
-                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+                publishHTML(target: [
+                    reportDir: '', // Répertoire du fichier HTML
+                    reportFiles: 'report.html', // Nom du fichier HTML
+                    reportName: 'Visualisation des Features', // Nom du rapport dans Jenkins
+                    keepAll: true, // Conserver tous les rapports
+                    allowMissing: false, // Échouer si le fichier est manquant
+                    alwaysLinkToLastBuild: true // Toujours lier au dernier build
+                ])
             }
         }
     }
