@@ -942,21 +942,20 @@ pipeline {
                         }
                     }
                     
-                    def featureLabels = statusCounts.keySet().collect { it }.join(", ")
+                    def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
                     
                     // Couleurs fixes pour les barres (nuances de vert)
-                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9']
+                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
                     
                     statusTypes.eachWithIndex { status, index ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("""
                             {
-                                name: '${status}',
-                                type: 'bar',
-                                data: [${data.join(", ")}],
-                                itemStyle: { color: '${greenShades[index % greenShades.size()]}' }
+                                label: "${status}",
+                                backgroundColor: "${greenShades[index % greenShades.size()]}",
+                                data: [${data.join(", ")}]
                             }
                         """)
                     }
@@ -964,14 +963,14 @@ pipeline {
                     def pieData = statusCounts.collectEntries { feature, statuses ->
                         [(feature): statuses.collect { k, v -> v }.sum()]
                     }
-                    def pieLabels = pieData.keySet().collect { it }
-                    def pieValues = pieData.values()
+                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def pieValues = pieData.values().join(", ")
                     
                     def htmlContent = """
                         <html>
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
-                            <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             <style>
                                 body {
                                     font-family: Arial, sans-serif;
@@ -1002,48 +1001,72 @@ pipeline {
                                 tr:hover {
                                     background-color: #ddd;
                                 }
+                                canvas {
+                                    margin-top: 20px;
+                                    margin-bottom: 40px;
+                                    max-width: 800px;
+                                }
                                 .chart-container {
-                                    width: 100%;
-                                    height: 400px;
-                                    margin: 20px 0;
+                                    width: 50%;
+                                    margin: 0 auto;
                                 }
                             </style>
                         </head>
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <div id="barChart" class="chart-container"></div>
-                            <div id="pieChart" class="chart-container"></div>
+                            <div class="chart-container">
+                                <canvas id="barChart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="pieChart"></canvas>
+                            </div>
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table>
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
                                 ${defectsData.join("\n")}
                             </table>
                             <script>
-                                // Bar Chart
-                                var barChart = echarts.init(document.getElementById('barChart'));
-                                var barOption = {
-                                    title: { text: 'Statut des Features' },
-                                    tooltip: { trigger: 'axis' },
-                                    legend: { data: [${statusTypes.collect { "'${it}'" }.join(", ")}] },
-                                    xAxis: { type: 'category', data: [${featureLabels.split(", ").collect { "'${it}'" }.join(", ")}] },
-                                    yAxis: { type: 'value' },
-                                    series: [${datasets.join(", ")}]
-                                };
-                                barChart.setOption(barOption);
-                                
-                                // Pie Chart
-                                var pieChart = echarts.init(document.getElementById('pieChart'));
-                                var pieOption = {
-                                    title: { text: 'Répartition des Features' },
-                                    tooltip: { trigger: 'item' },
-                                    series: [{
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    // Bar Chart
+                                    var ctxBar = document.getElementById('barChart').getContext('2d');
+                                    new Chart(ctxBar, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: [${featureLabels}],
+                                            datasets: [${datasets.join(", ")}]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            },
+                                            scales: {
+                                                x: { stacked: true },
+                                                y: { stacked: true, beginAtZero: true }
+                                            }
+                                        }
+                                    });
+                                    
+                                    // Pie Chart
+                                    var ctxPie = document.getElementById('pieChart').getContext('2d');
+                                    new Chart(ctxPie, {
                                         type: 'pie',
-                                        data: [${pieLabels.withIndex().collect { label, i -> "{ value: ${pieValues[i]}, name: '${label}' }" }.join(", ")}],
-                                        itemStyle: { color: function(params) { return ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9'][params.dataIndex]; } }
-                                    }]
-                                };
-                                pieChart.setOption(pieOption);
+                                        data: {
+                                            labels: [${pieLabels}],
+                                            datasets: [{
+                                                data: [${pieValues}],
+                                                backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            }
+                                        }
+                                    });
+                                });
                             </script>
                         </body>
                         </html>
@@ -1056,14 +1079,7 @@ pipeline {
 
         stage('Publier le rapport') {
             steps {
-                publishHTML(target: [
-                    reportDir: '', // Répertoire du fichier HTML
-                    reportFiles: 'report.html', // Nom du fichier HTML
-                    reportName: 'Visualisation des Features', // Nom du rapport dans Jenkins
-                    keepAll: true, // Conserver tous les rapports
-                    allowMissing: false, // Échouer si le fichier est manquant
-                    alwaysLinkToLastBuild: true // Toujours lier au dernier build
-                ])
+                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
             }
         }
     }
