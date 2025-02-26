@@ -442,6 +442,7 @@ pipeline {
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
                                 ${defectsData.collect { "<tr><td>\${it.id}</td><td>\${it.summary}</td><td>\${it.priority}</td></tr>" }.join("\n")}
                             </table>
+                            <pre>${defectsData}</pre>
                             <script>
                                 var ctxBar = document.getElementById('barChart').getContext('2d');
                                 new Chart(ctxBar, {
