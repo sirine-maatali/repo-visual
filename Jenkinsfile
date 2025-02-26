@@ -365,8 +365,12 @@ pipeline {
         stage('Vérifier Python') {
             steps {
                 script {
-                    bat 'where python'
-                    bat 'python --version'
+                    try {
+                        bat 'where python'
+                        bat 'python --version'
+                    } catch (Exception e) {
+                        error "Python n'est pas installé ou introuvable : ${e.message}"
+                    }
                 }
             }
         }
@@ -375,7 +379,13 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
-                    bat "python app.py ${params.FILE_NAME} output.json"
+                    def fileName = params.FILE_NAME.trim()
+
+                    if (!fileName) {
+                        error "Le paramètre FILE_NAME est vide !"
+                    }
+
+                    bat "python app.py ${fileName} output.json"
 
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
@@ -386,33 +396,32 @@ pipeline {
                         error "Le fichier JSON est vide !"
                     }
 
-                    def jsonData = readJSON text: jsonOutput
+                    def jsonData
+                    try {
+                        jsonData = readJSON text: jsonOutput
+                    } catch (Exception e) {
+                        error "Erreur de lecture du fichier JSON : ${e.message}"
+                    }
 
-                    def statusCounts = [:]
-                    def defectList = []
+                    if (!jsonData || !(jsonData instanceof List) || jsonData.isEmpty()) {
+                        error "Le fichier JSON ne contient pas de données exploitables !"
+                    }
+
+                    def statusCounts = [:].withDefault { [:].withDefault { 0 } }
 
                     jsonData.each { entry ->
-                        def feature = entry.feature.toString().trim()
-                        def status = entry.status.toString().trim()
+                        def feature = entry?.feature?.toString()?.trim()
+                        def status = entry?.status?.toString()?.trim()
 
-                        if (!statusCounts[feature]) {
-                            statusCounts[feature] = [:]
-                        }
-                        statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
-
-                        // Extraction des défauts (FAIL & BLOCKED)
-                        if (status == "FAIL" || status == "BLOCKED") {
-                            entry.defects.each { defect ->
-                                defectList.add([
-                                    id: defect.id,
-                                    summary: defect.summary,
-                                    priority: defect.priority
-                                ])
-                            }
+                        if (feature && status) {
+                            statusCounts[feature][status]++
                         }
                     }
 
-                    // Génération des labels et datasets pour Chart.js
+                    if (statusCounts.isEmpty()) {
+                        error "Aucune donnée valide trouvée après analyse du JSON !"
+                    }
+
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
@@ -422,54 +431,24 @@ pipeline {
                         datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
                     }
 
-                    // Données pour la Pie Chart (Répartition des statuts)
-                    def pieLabels = statusCounts.values().collectMany { it.keySet() }.unique().collect { "\"${it}\"" }
-                    def pieData = statusCounts.values().collectMany { it }.groupBy { it.key }.collect { it.value.sum { it.value } }
-
-                    // Génération du tableau des défauts
-                    def defectTableRows = defectList.collect {
-                        "<tr><td>${it.id}</td><td>${it.summary}</td><td>${it.priority}</td></tr>"
-                    }.join("\n")
-
-                    // Génération du HTML
                     def htmlContent = """
                         <html>
                         <head>
-                            <title>Test Execution - ${params.FILE_NAME}</title>
+                            <title>Test Execution - ${fileName}</title>
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             <script>
                                 function getRandomColor() {
                                     return '#' + Math.floor(Math.random()*16777215).toString(16);
                                 }
                             </script>
-                            <style>
-                                body { font-family: Arial, sans-serif; text-align: center; }
-                                table { width: 80%; margin: 20px auto; border-collapse: collapse; }
-                                th, td { border: 1px solid black; padding: 8px; }
-                                th { background-color: #f2f2f2; }
-                            </style>
                         </head>
                         <body>
                             <h1>Test Execution</h1>
-                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-
-                            <h3>Statistiques des Tests</h3>
+                            <h2>Nom du fichier : ${fileName}</h2>
                             <canvas id="barChart"></canvas>
-                            <canvas id="pieChart" style="max-width: 400px;"></canvas>
-
-                            <h3>Defects (FAIL & BLOCKED)</h3>
-                            <table>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Summary</th>
-                                    <th>Priority</th>
-                                </tr>
-                                ${defectTableRows}
-                            </table>
-
                             <script>
-                                var ctxBar = document.getElementById('barChart').getContext('2d');
-                                new Chart(ctxBar, {
+                                var ctx = document.getElementById('barChart').getContext('2d');
+                                new Chart(ctx, {
                                     type: 'bar',
                                     data: {
                                         labels: [${featureLabels}],
@@ -484,18 +463,6 @@ pipeline {
                                             x: { stacked: true },
                                             y: { stacked: true, beginAtZero: true }
                                         }
-                                    }
-                                });
-
-                                var ctxPie = document.getElementById('pieChart').getContext('2d');
-                                new Chart(ctxPie, {
-                                    type: 'pie',
-                                    data: {
-                                        labels: [${pieLabels.join(", ")}],
-                                        datasets: [{
-                                            data: [${pieData.join(", ")}],
-                                            backgroundColor: ["#ff6384", "#36a2eb", "#ffce56", "#4bc0c0", "#9966ff"]
-                                        }]
                                     }
                                 });
                             </script>
