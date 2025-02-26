@@ -376,16 +376,18 @@ pipeline {
                 script {
                     echo "Début de l'exécution du script Python"
                     bat "python app.py ${params.FILE_NAME} output.json"
-
+                    
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
-
+                    
                     def jsonOutput = readFile('output.json').trim()
+                    echo "Sortie JSON récupérée : ${jsonOutput}"
+                    
                     if (!jsonOutput) {
                         error "Le fichier JSON est vide !"
                     }
-
+                    
                     def jsonData
                     try {
                         jsonData = readJSON text: jsonOutput
@@ -393,63 +395,71 @@ pipeline {
                     } catch (Exception e) {
                         error "Erreur lors du parsing du JSON : ${e.message}"
                     }
-
-                    if (!(jsonData instanceof List)) {
-                        error "Le JSON parsé n'est pas une liste d'objets !"
-                    }
-
-                    def featuresMap = [:]
-                    jsonData.each { item ->
-                        def feature = item.feature?.toString()?.trim()
-                        def status = item.status?.toString()?.trim()
+                    
+                    def featureCounts = [:]
+                    jsonData.each { entry ->
+                        def feature = entry.feature?.trim()
+                        def status = entry.status?.trim()
                         if (feature && status) {
-                            if (!featuresMap.containsKey(feature)) {
-                                featuresMap[feature] = [:]
-                            }
-                            featuresMap[feature][status] = (featuresMap[feature][status] ?: 0) + 1
+                            featureCounts[feature] = featureCounts.get(feature, [:])
+                            featureCounts[feature][status] = featureCounts[feature].get(status, 0) + 1
                         }
                     }
-
-                    def features = featuresMap.keySet().toList()
-                    def statusTypes = featuresMap.values().collectMany { it.keySet() }.unique()
-                    def datasets = statusTypes.collect { status ->
-                        return [
+                    
+                    def features = featureCounts.keySet().toList()
+                    def statuses = featureCounts.values().collectMany { it.keySet() }.unique()
+                    
+                    def dataset = statuses.collect { status ->
+                        [
                             label: status,
-                            data: features.collect { featuresMap[it]?.get(status, 0) ?: 0 },
-                            backgroundColor: "rgba(${(Math.random() * 255).intValue()}, ${(Math.random() * 255).intValue()}, ${(Math.random() * 255).intValue()}, 0.7)"
+                            backgroundColor: "#${Integer.toHexString((Math.random() * 0xFFFFFF).intValue()).padLeft(6, '0')}",
+                            data: features.collect { feature ->
+                                def total = featureCounts[feature].values().sum()
+                                total > 0 ? (featureCounts[feature][status] ?: 0) * 100 / total : 0
+                            }
                         ]
                     }
-
-                    def chartData = [ labels: features, datasets: datasets ]
-
+                    
+                    def chartData = [labels: features, datasets: dataset]
+                    
                     def htmlContent = """
                         <html>
                         <head>
-                            <title>Test Execution - ${params.FILE_NAME}</title>
+                            <title>Visualisation des Features</title>
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                            <style>
-                                body { font-family: Arial, sans-serif; margin: 20px; text-align: center; }
-                                h1 { color: #2c3e50; }
-                                canvas { max-width: 80%; margin: auto; }
-                            </style>
                         </head>
                         <body>
-                            <h1>Test Execution Report</h1>
-                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                            <h1>Visualisation des Features</h1>
                             <canvas id="featureChart"></canvas>
                             <script>
                                 var ctx = document.getElementById('featureChart').getContext('2d');
-                                var chart = new Chart(ctx, {
+                                new Chart(ctx, {
                                     type: 'bar',
-                                    data: ${groovy.json.JsonOutput.toJson(chartData)},
-                                    options: { responsive: true, plugins: { legend: { position: 'top' } } }
+                                    data: ${chartData},
+                                    options: {
+                                        responsive: true,
+                                        plugins: { legend: { position: 'top' } },
+                                        scales: { y: { beginAtZero: true, max: 100 } }
+                                    }
                                 });
                             </script>
                         </body>
                         </html>
                     """
-
+                    
                     writeFile file: 'report.html', text: htmlContent
+                }
+            }
+        }
+
+        stage('Vérifier génération du fichier HTML') {
+            steps {
+                script {
+                    if (fileExists('report.html')) {
+                        echo 'Le fichier report.html a été généré avec succès !'
+                    } else {
+                        error 'Le fichier report.html n\'a pas été généré !'
+                    }
                 }
             }
         }
