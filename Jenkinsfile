@@ -451,8 +451,8 @@ pipeline {
 
                             <script>
                                 // Préparer les données pour le graphique
-                                var featureStatusMap = ${groovy.json.JsonOutput.toJson(featureStatusMap)};
-                                var labels = ${groovy.json.JsonOutput.toJson(features)};
+                                var featureStatusMap = ${JsonOutput.toJson(featureStatusMap)};
+                                var labels = ${JsonOutput.toJson(features)};
                                 var data = labels.map(function(feature) {
                                     return featureStatusMap[feature]?.length || 0;
                                 });
