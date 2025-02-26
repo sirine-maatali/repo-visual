@@ -348,6 +348,156 @@
 // }
 
 
+//  hedha yaffichi *******************************
+
+
+
+
+
+// pipeline {
+//     agent any
+
+//     parameters {
+//         string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX")')
+//     }
+
+//     stages {
+//         stage('Cloner le Repo') {
+//             steps {
+//                 git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
+//             }
+//         }
+
+//         stage('Vérifier Python') {
+//             steps {
+//                 script {
+//                     bat 'where python'
+//                     bat 'python --version'
+//                 }
+//             }
+//         }
+
+//         stage('Exécuter le script Python') {
+//             steps {
+//                 script {
+//                     echo "Début de l'exécution du script Python"
+//                     bat "python app.py ${params.FILE_NAME} output.json"
+
+//                     if (!fileExists('output.json')) {
+//                         error "Le fichier output.json n'a pas été généré !"
+//                     }
+
+//                     def jsonOutput = readFile('output.json').trim()
+//                     if (!jsonOutput) {
+//                         error "Le fichier JSON est vide !"
+//                     }
+
+//                     def jsonData = readJSON text: jsonOutput
+                    
+//                     def statusCounts = [:]
+//                     def defectsData = []
+//                     jsonData.each { entry ->
+//                         def feature = entry.feature.toString().trim()
+//                         def status = entry.status.toString().trim()
+                        
+//                         if (!statusCounts[feature]) {
+//                             statusCounts[feature] = [:]
+//                         }
+//                         statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+                        
+//                         if (status == 'FAIL' || status == 'BLOCKED') {
+//                             entry.defects.each { defect ->
+//                                 defectsData.add("{id: ${defect.id}, summary: \"${defect.summary}\", priority: \"${defect.priority}\"}")
+//                             }
+//                         }
+//                     }
+                    
+//                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
+//                     def datasets = []
+//                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
+                    
+//                     statusTypes.each { status ->
+//                         def data = statusCounts.collect { it.value[status] ?: 0 }
+//                         datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
+//                     }
+                    
+//                     def pieData = statusCounts.collectEntries { feature, statuses ->
+//                         [(feature): statuses.collect { k, v -> v }.sum()]
+//                     }
+//                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+//                     def pieValues = pieData.values().join(", ")
+                    
+//                     def htmlContent = """
+//                         <html>
+//                         <head>
+//                             <title>Test Execution - ${params.FILE_NAME}</title>
+//                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+//                             <script>
+//                                 function getRandomColor() {
+//                                     return '#' + Math.floor(Math.random()*16777215).toString(16);
+//                                 }
+//                             </script>
+//                         </head>
+//                         <body>
+//                             <h1>Test Execution</h1>
+//                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+//                             <canvas id="barChart"></canvas>
+//                             <canvas id="pieChart"></canvas>
+//                             <h2>Defects (FAIL & BLOCKED)</h2>
+//                             <table border="1">
+//                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+//                                 ${defectsData.collect { "<tr><td>\${it.id}</td><td>\${it.summary}</td><td>\${it.priority}</td></tr>" }.join("\n")}
+//                             </table>
+//                             <script>
+//                                 var ctxBar = document.getElementById('barChart').getContext('2d');
+//                                 new Chart(ctxBar, {
+//                                     type: 'bar',
+//                                     data: {
+//                                         labels: [${featureLabels}],
+//                                         datasets: [${datasets.join(", ")}]
+//                                     },
+//                                     options: {
+//                                         responsive: true,
+//                                         plugins: {
+//                                             legend: { position: 'top' }
+//                                         },
+//                                         scales: {
+//                                             x: { stacked: true },
+//                                             y: { stacked: true, beginAtZero: true }
+//                                         }
+//                                     }
+//                                 });
+                                
+//                                 var ctxPie = document.getElementById('pieChart').getContext('2d');
+//                                 new Chart(ctxPie, {
+//                                     type: 'pie',
+//                                     data: {
+//                                         labels: [${pieLabels}],
+//                                         datasets: [{
+//                                             data: [${pieValues}],
+//                                             backgroundColor: [getRandomColor(), getRandomColor(), getRandomColor()]
+//                                         }]
+//                                     }
+//                                 });
+//                             </script>
+//                         </body>
+//                         </html>
+//                     """
+
+//                     writeFile file: 'report.html', text: htmlContent
+//                 }
+//             }
+//         }
+
+//         stage('Publier le rapport') {
+//             steps {
+//                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+//             }
+//         }
+//     }
+// }
+
+
 pipeline {
     agent any
 
@@ -401,7 +551,7 @@ pipeline {
                         
                         if (status == 'FAIL' || status == 'BLOCKED') {
                             entry.defects.each { defect ->
-                                defectsData.add("{id: ${defect.id}, summary: \"${defect.summary}\", priority: \"${defect.priority}\"}")
+                                defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
                             }
                         }
                     }
@@ -440,7 +590,7 @@ pipeline {
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table border="1">
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-                                ${defectsData.collect { "<tr><td>\${it.id}</td><td>\${it.summary}</td><td>\${it.priority}</td></tr>" }.join("\n")}
+                                ${defectsData.join("\n")}
                             </table>
                             <script>
                                 var ctxBar = document.getElementById('barChart').getContext('2d');
