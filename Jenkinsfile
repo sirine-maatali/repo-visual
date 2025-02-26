@@ -1152,6 +1152,9 @@ pipeline {
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
                         def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
+                        echo "hedhiiiiiiiiiii priority ${priority}"
+                        echo "hedhiiiiiiiiiii status ${status}"
+                        echo "hedhiiiiiiiiiii feature ${feature}"
 
                         if (!featureStatusData[feature]) {
                             featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
