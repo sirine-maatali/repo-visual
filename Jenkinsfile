@@ -353,7 +353,6 @@
 
 
 
-
 // pipeline {
 //     agent any
 
@@ -407,7 +406,7 @@
                         
 //                         if (status == 'FAIL' || status == 'BLOCKED') {
 //                             entry.defects.each { defect ->
-//                                 defectsData.add("{id: ${defect.id}, summary: \"${defect.summary}\", priority: \"${defect.priority}\"}")
+//                                 defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
 //                             }
 //                         }
 //                     }
@@ -446,7 +445,7 @@
 //                             <h2>Defects (FAIL & BLOCKED)</h2>
 //                             <table border="1">
 //                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-//                                 ${defectsData.collect { "<tr><td>\${it.id}</td><td>\${it.summary}</td><td>\${it.priority}</td></tr>" }.join("\n")}
+//                                 ${defectsData.join("\n")}
 //                             </table>
 //                             <script>
 //                                 var ctxBar = document.getElementById('barChart').getContext('2d');
@@ -496,6 +495,7 @@
 //         }
 //     }
 // }
+
 
 
 pipeline {
@@ -562,7 +562,7 @@ pipeline {
                     
                     statusTypes.each { status ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
-                        datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
+                        datasets.add("{label: \"${status}\", backgroundColor: getGreenGradient(${data.size()}), data: [${data.join(", ")}]}")
                     }
                     
                     def pieData = statusCounts.collectEntries { feature, statuses ->
@@ -576,7 +576,47 @@ pipeline {
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            <style>
+                                body {
+                                    font-family: Arial, sans-serif;
+                                    margin: 20px;
+                                }
+                                h1, h2 {
+                                    color: #333;
+                                }
+                                table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    margin-top: 20px;
+                                }
+                                table, th, td {
+                                    border: 1px solid #ddd;
+                                }
+                                th, td {
+                                    padding: 12px;
+                                    text-align: left;
+                                }
+                                th {
+                                    background-color: #4CAF50;
+                                    color: white;
+                                }
+                                tr:nth-child(even) {
+                                    background-color: #f2f2f2;
+                                }
+                                tr:hover {
+                                    background-color: #ddd;
+                                }
+                            </style>
                             <script>
+                                function getGreenGradient(count) {
+                                    const colors = [];
+                                    for (let i = 0; i < count; i++) {
+                                        const intensity = Math.floor((i / count) * 128) + 128;
+                                        colors.push(`rgba(0, ${intensity}, 0, 0.6)`);
+                                    }
+                                    return colors;
+                                }
+
                                 function getRandomColor() {
                                     return '#' + Math.floor(Math.random()*16777215).toString(16);
                                 }
@@ -588,7 +628,7 @@ pipeline {
                             <canvas id="barChart"></canvas>
                             <canvas id="pieChart"></canvas>
                             <h2>Defects (FAIL & BLOCKED)</h2>
-                            <table border="1">
+                            <table>
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
                                 ${defectsData.join("\n")}
                             </table>
@@ -619,7 +659,7 @@ pipeline {
                                         labels: [${pieLabels}],
                                         datasets: [{
                                             data: [${pieValues}],
-                                            backgroundColor: [getRandomColor(), getRandomColor(), getRandomColor()]
+                                            backgroundColor: getGreenGradient(${pieData.size()})
                                         }]
                                     }
                                 });
