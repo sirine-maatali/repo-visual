@@ -1172,10 +1172,10 @@ pipeline {
                             featureStatusData[feature].NOTEXECUTED++
                             echo "Statut ABORTED ou TODO détecté pour la feature: ${feature}. Nouveau compte NOTEXECUTED: ${featureStatusData[feature].NOTEXECUTED}"
                         } else if (status == 'FAIL' || status == 'BLOCKED') {
-                            if (priority in ['medium', 'high']) {
+                            if (priority =='medium'|| status == 'high') {
                                 featureStatusData[feature].NOKMINOR++
                                 echo "Statut FAIL ou BLOCKED avec priorité ${priority} détecté pour la feature: ${feature}. Nouveau compte NOKMINOR: ${featureStatusData[feature].NOKMINOR}"
-                            } else if (priority in ['very high', 'blocker']) {
+                            } else if (priority == 'very high' || priority == 'blocker') {
                                 featureStatusData[feature].NOKMAJOR++
                                 echo "Statut FAIL ou BLOCKED avec priorité ${priority} détecté pour la feature: ${feature}. Nouveau compte NOKMAJOR: ${featureStatusData[feature].NOKMAJOR}"
                             }
