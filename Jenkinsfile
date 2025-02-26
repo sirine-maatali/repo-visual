@@ -1162,9 +1162,9 @@ pipeline {
                         } else if (status in ['ABORTED', 'TODO']) {
                             featureStatusData[feature].NOTEXECUTED++
                         } else if (status in ['FAIL', 'BLOCKED']) {
-                            if (priority in ['medium', 'high']) {
+                            if (priority in ['Medium', 'High']) {
                                 featureStatusData[feature].NOKMINOR++
-                            } else if (priority in ['very high', 'blocker']) {
+                            } else if (priority in ['Very High', 'Blocker']) {
                                 featureStatusData[feature].NOKMAJOR++
                             }
                         }
