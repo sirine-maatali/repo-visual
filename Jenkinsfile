@@ -387,9 +387,9 @@ pipeline {
                     }
 
                     def jsonData = readJSON text: jsonOutput
-
+                    
                     def statusCounts = [:]
-                    def globalStatusCounts = [:]
+                    def defectsData = []
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
@@ -399,21 +399,28 @@ pipeline {
                         }
                         statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
                         
-                        globalStatusCounts[status] = (globalStatusCounts[status] ?: 0) + 1
+                        if (status == 'FAIL' || status == 'BLOCKED') {
+                            entry.defects.each { defect ->
+                                defectsData.add("{id: ${defect.id}, summary: \"${defect.summary}\", priority: \"${defect.priority}\"}")
+                            }
+                        }
                     }
-
+                    
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
-
+                    
                     statusTypes.each { status ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
                     }
-
-                    def pieLabels = globalStatusCounts.keySet().collect { "\"${it}\"" }.join(", ")
-                    def pieData = globalStatusCounts.values().join(", ")
-
+                    
+                    def pieData = statusCounts.collectEntries { feature, statuses ->
+                        [(feature): statuses.collect { k, v -> v }.sum()]
+                    }
+                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def pieValues = pieData.values().join(", ")
+                    
                     def htmlContent = """
                         <html>
                         <head>
@@ -430,10 +437,14 @@ pipeline {
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
                             <canvas id="barChart"></canvas>
                             <canvas id="pieChart"></canvas>
-                            
+                            <h2>Defects (FAIL & BLOCKED)</h2>
+                            <table border="1">
+                                <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+                                ${defectsData.collect { "<tr><td>\${it.id}</td><td>\${it.summary}</td><td>\${it.priority}</td></tr>" }.join("\n")}
+                            </table>
                             <script>
-                                var ctx = document.getElementById('barChart').getContext('2d');
-                                new Chart(ctx, {
+                                var ctxBar = document.getElementById('barChart').getContext('2d');
+                                new Chart(ctxBar, {
                                     type: 'bar',
                                     data: {
                                         labels: [${featureLabels}],
@@ -450,13 +461,16 @@ pipeline {
                                         }
                                     }
                                 });
-
-                                var ctx2 = document.getElementById('pieChart').getContext('2d');
-                                new Chart(ctx2, {
+                                
+                                var ctxPie = document.getElementById('pieChart').getContext('2d');
+                                new Chart(ctxPie, {
                                     type: 'pie',
                                     data: {
                                         labels: [${pieLabels}],
-                                        datasets: [{ data: [${pieData}], backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'] }]
+                                        datasets: [{
+                                            data: [${pieValues}],
+                                            backgroundColor: [getRandomColor(), getRandomColor(), getRandomColor()]
+                                        }]
                                     }
                                 });
                             </script>
