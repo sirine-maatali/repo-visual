@@ -1077,9 +1077,29 @@ pipeline {
             }
         }
 
+        stage('Convertir en PDF') {
+            steps {
+                script {
+                    // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
+                    bat 'wkhtmltopdf --version'
+                    
+                    // Convertir le fichier HTML en PDF
+                    bat 'wkhtmltopdf report.html report.pdf'
+                    
+                    // Vérifier que le fichier PDF a été généré
+                    if (!fileExists('report.pdf')) {
+                        error "Le fichier report.pdf n'a pas été généré !"
+                    }
+                }
+            }
+        }
+
         stage('Publier le rapport') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+                
+                // Publier le fichier PDF
+                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
     }
