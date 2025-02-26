@@ -1179,26 +1179,26 @@ pipeline {
                     
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = [
-                        {
+                        [
                             label: 'PASS',
                             backgroundColor: '#4CAF50',
                             data: statusCounts.collect { it.value.PASS }
-                        },
-                        {
+                        ],
+                        [
                             label: 'NOTEXECUTED',
                             backgroundColor: '#FFEB3B',
                             data: statusCounts.collect { it.value.NOTEXECUTED }
-                        },
-                        {
+                        ],
+                        [
                             label: 'NOKMinor',
                             backgroundColor: '#FF9800',
                             data: statusCounts.collect { it.value.NOKMinor }
-                        },
-                        {
+                        ],
+                        [
                             label: 'NOKMajor',
                             backgroundColor: '#F44336',
                             data: statusCounts.collect { it.value.NOKMajor }
-                        }
+                        ]
                     ]
                     
                     def htmlContent = """
