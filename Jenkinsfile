@@ -387,40 +387,51 @@ pipeline {
                     }
 
                     def jsonData = readJSON text: jsonOutput
-                    
+
                     def statusCounts = [:]
-                    def defectsData = []
+                    def defectList = []
+
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
-                        
+
                         if (!statusCounts[feature]) {
                             statusCounts[feature] = [:]
                         }
                         statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
-                        
-                        if (status == 'FAIL' || status == 'BLOCKED') {
+
+                        // Extraction des défauts (FAIL & BLOCKED)
+                        if (status == "FAIL" || status == "BLOCKED") {
                             entry.defects.each { defect ->
-                                defectsData.add("{id: ${defect.id}, summary: \"${defect.summary}\", priority: \"${defect.priority}\"}")
+                                defectList.add([
+                                    id: defect.id,
+                                    summary: defect.summary,
+                                    priority: defect.priority
+                                ])
                             }
                         }
                     }
-                    
+
+                    // Génération des labels et datasets pour Chart.js
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
-                    
+
                     statusTypes.each { status ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
                     }
-                    
-                    def pieData = statusCounts.collectEntries { feature, statuses ->
-                        [(feature): statuses.collect { k, v -> v }.sum()]
-                    }
-                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
-                    def pieValues = pieData.values().join(", ")
-                    
+
+                    // Données pour la Pie Chart (Répartition des statuts)
+                    def pieLabels = statusCounts.values().collectMany { it.keySet() }.unique().collect { "\"${it}\"" }
+                    def pieData = statusCounts.values().collectMany { it }.groupBy { it.key }.collect { it.value.sum { it.value } }
+
+                    // Génération du tableau des défauts
+                    def defectTableRows = defectList.collect {
+                        "<tr><td>${it.id}</td><td>${it.summary}</td><td>${it.priority}</td></tr>"
+                    }.join("\n")
+
+                    // Génération du HTML
                     def htmlContent = """
                         <html>
                         <head>
@@ -431,17 +442,31 @@ pipeline {
                                     return '#' + Math.floor(Math.random()*16777215).toString(16);
                                 }
                             </script>
+                            <style>
+                                body { font-family: Arial, sans-serif; text-align: center; }
+                                table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+                                th, td { border: 1px solid black; padding: 8px; }
+                                th { background-color: #f2f2f2; }
+                            </style>
                         </head>
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+
+                            <h3>Statistiques des Tests</h3>
                             <canvas id="barChart"></canvas>
-                            <canvas id="pieChart"></canvas>
-                            <h2>Defects (FAIL & BLOCKED)</h2>
-                            <table border="1">
-                                <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-                                ${defectsData.collect { "<tr><td>\${it.id}</td><td>\${it.summary}</td><td>\${it.priority}</td></tr>" }.join("\n")}
+                            <canvas id="pieChart" style="max-width: 400px;"></canvas>
+
+                            <h3>Defects (FAIL & BLOCKED)</h3>
+                            <table>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Summary</th>
+                                    <th>Priority</th>
+                                </tr>
+                                ${defectTableRows}
                             </table>
+
                             <script>
                                 var ctxBar = document.getElementById('barChart').getContext('2d');
                                 new Chart(ctxBar, {
@@ -461,15 +486,15 @@ pipeline {
                                         }
                                     }
                                 });
-                                
+
                                 var ctxPie = document.getElementById('pieChart').getContext('2d');
                                 new Chart(ctxPie, {
                                     type: 'pie',
                                     data: {
-                                        labels: [${pieLabels}],
+                                        labels: [${pieLabels.join(", ")}],
                                         datasets: [{
-                                            data: [${pieValues}],
-                                            backgroundColor: [getRandomColor(), getRandomColor(), getRandomColor()]
+                                            data: [${pieData.join(", ")}],
+                                            backgroundColor: ["#ff6384", "#36a2eb", "#ffce56", "#4bc0c0", "#9966ff"]
                                         }]
                                     }
                                 });
