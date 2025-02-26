@@ -1152,11 +1152,29 @@ pipeline {
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
+                        def priority = entry.defects ? entry.defects[0]?.priority : null
                         
                         if (!statusCounts[feature]) {
-                            statusCounts[feature] = [:]
+                            statusCounts[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMinor: 0, NOKMajor: 0]
                         }
-                        statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+                        
+                        switch (status) {
+                            case 'PASS':
+                                statusCounts[feature].PASS++
+                                break
+                            case 'ABORTED':
+                            case 'TODO':
+                                statusCounts[feature].NOTEXECUTED++
+                                break
+                            case 'FAIL':
+                            case 'BLOCKED':
+                                if (priority == 'Medium' || priority == 'High') {
+                                    statusCounts[feature].NOKMinor++
+                                } else if (priority == 'Very High' || priority == 'Blocker') {
+                                    statusCounts[feature].NOKMajor++
+                                }
+                                break
+                        }
                         
                         if (status == 'FAIL' || status == 'BLOCKED') {
                             entry.defects.each { defect ->
@@ -1166,84 +1184,34 @@ pipeline {
                     }
                     
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
-                    def datasets = []
-                    def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
-                    
-                    // Couleurs fixes pour les barres (nuances de vert)
-                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
-                    
-                    statusTypes.eachWithIndex { status, index ->
-                        def data = statusCounts.collect { it.value[status] ?: 0 }
-                        datasets.add("""
-                            {
-                                label: "${status}",
-                                backgroundColor: "${greenShades[index % greenShades.size()]}",
-                                data: [${data.join(", ")}]
-                            }
-                        """)
-                    }
+                    def datasets = [
+                        {
+                            label: 'PASS',
+                            backgroundColor: '#4CAF50',
+                            data: statusCounts.collect { it.value.PASS }
+                        },
+                        {
+                            label: 'NOTEXECUTED',
+                            backgroundColor: '#FFEB3B',
+                            data: statusCounts.collect { it.value.NOTEXECUTED }
+                        },
+                        {
+                            label: 'NOKMinor',
+                            backgroundColor: '#FF9800',
+                            data: statusCounts.collect { it.value.NOKMinor }
+                        },
+                        {
+                            label: 'NOKMajor',
+                            backgroundColor: '#F44336',
+                            data: statusCounts.collect { it.value.NOKMajor }
+                        }
+                    ]
                     
                     def pieData = statusCounts.collectEntries { feature, statuses ->
                         [(feature): statuses.collect { k, v -> v }.sum()]
                     }
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
-                    
-                    // Nouveau jeu de données pour le nouvel histogramme
-                    def featureStatusData = [:]
-                    jsonData.each { entry ->
-                        def feature = entry.feature.toString().trim()
-                        def status = entry.status.toString().trim()
-                        def priority = entry.defects?.priority?.toString()?.trim() ?: ""
-                        
-                        if (!featureStatusData[feature]) {
-                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
-                        }
-                        
-                        if (status == 'PASS') {
-                            featureStatusData[feature].PASS++
-                        } else if (status == 'ABORTED' || status == 'TODO') {
-                            featureStatusData[feature].NOTEXECUTED++
-                        } else if (status == 'FAIL' || status == 'BLOCKED') {
-                            if (priority == 'medium' || priority == 'high') {
-                                featureStatusData[feature].NOKMINOR++
-                            } else if (priority == 'very high' || priority == 'blocker') {
-                                featureStatusData[feature].NOKMAJOR++
-                            }
-                        }
-                    }
-                    
-                    def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
-                    def featureStatusDatasets = [
-                        """
-                            {
-                                label: "PASS",
-                                backgroundColor: "#4CAF50",
-                                data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
-                            }
-                        """,
-                        """
-                            {
-                                label: "NOTEXECUTED",
-                                backgroundColor: "#FFEB3B",
-                                data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
-                            }
-                        """,
-                        """
-                            {
-                                label: "NOKMINOR",
-                                backgroundColor: "#FF9800",
-                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
-                            }
-                        """,
-                        """
-                            {
-                                label: "NOKMAJOR",
-                                backgroundColor: "#F44336",
-                                data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
-                            }
-                        """
-                    ]
                     
                     def htmlContent = """
                         <html>
@@ -1295,13 +1263,10 @@ pipeline {
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
                             <div class="chart-container">
-                                <canvas id="barChart"></canvas>
+                                <canvas id="stackedBarChart"></canvas>
                             </div>
                             <div class="chart-container">
                                 <canvas id="pieChart"></canvas>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="featureStatusChart"></canvas>
                             </div>
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table>
@@ -1310,13 +1275,13 @@ pipeline {
                             </table>
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                    // Bar Chart
-                                    var ctxBar = document.getElementById('barChart').getContext('2d');
-                                    new Chart(ctxBar, {
+                                    // Stacked Bar Chart
+                                    var ctxStackedBar = document.getElementById('stackedBarChart').getContext('2d');
+                                    new Chart(ctxStackedBar, {
                                         type: 'bar',
                                         data: {
                                             labels: [${featureLabels}],
-                                            datasets: [${datasets.join(", ")}]
+                                            datasets: ${new groovy.json.JsonBuilder(datasets).toString()}
                                         },
                                         options: {
                                             responsive: true,
@@ -1338,33 +1303,13 @@ pipeline {
                                             labels: [${pieLabels}],
                                             datasets: [{
                                                 data: [${pieValues}],
-                                                backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+                                                backgroundColor: ['#4CAF50', '#FFEB3B', '#FF9800', '#F44336']
                                             }]
                                         },
                                         options: {
                                             responsive: true,
                                             plugins: {
                                                 legend: { position: 'top' }
-                                            }
-                                        }
-                                    });
-                                    
-                                    // Feature Status Chart
-                                    var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
-                                    new Chart(ctxFeatureStatus, {
-                                        type: 'bar',
-                                        data: {
-                                            labels: [${featureStatusLabels}],
-                                            datasets: [${featureStatusDatasets.join(", ")}]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
-                                            },
-                                            scales: {
-                                                x: { stacked: true },
-                                                y: { stacked: true, beginAtZero: true }
                                             }
                                         }
                                     });
