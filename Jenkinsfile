@@ -352,7 +352,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX" ou "HGWXRAY-XXXX")')
+        string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX")')
     }
 
     stages {
@@ -375,19 +375,20 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
+                    
                     bat "python app.py ${params.FILE_NAME} output.json"
                     
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
-                    
+
                     def jsonOutput = readFile('output.json').trim()
                     echo "Sortie JSON récupérée : ${jsonOutput}"
-                    
+
                     if (!jsonOutput) {
                         error "Le fichier JSON est vide !"
                     }
-                    
+
                     def jsonData
                     try {
                         jsonData = readJSON text: jsonOutput
@@ -395,58 +396,93 @@ pipeline {
                     } catch (Exception e) {
                         error "Erreur lors du parsing du JSON : ${e.message}"
                     }
-                    
-                    def featureCounts = [:]
+
+                    if (!(jsonData instanceof List)) {
+                        error "Le JSON parsé n'est pas une liste d'objets !"
+                    }
+
+                    def features = jsonData.findAll { it.feature }
+                                          .collect { it.feature.toString().replaceAll("[\\[\\]']", "").trim() }
+                                          .unique()
+
+                    def statusCounts = [:]
                     jsonData.each { entry ->
-                        def feature = entry.feature?.trim()
-                        def status = entry.status?.trim()
-                        if (feature && status) {
-                            featureCounts[feature] = featureCounts.get(feature, [:])
-                            featureCounts[feature][status] = featureCounts[feature].get(status, 0) + 1
+                        def feature = entry.feature.toString().trim()
+                        def status = entry.status.toString().trim()
+
+                        if (!statusCounts[feature]) {
+                            statusCounts[feature] = [:]
+                        }
+                        statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+                    }
+
+                    def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
+                    def datasets = []
+                    def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
+
+                    statusTypes.each { status ->
+                        def data = statusCounts.collect { it.value[status] ?: 0 }
+                        datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
+                    }
+
+                    def statusSummary = [:]
+                    statusCounts.each { feature, counts ->
+                        counts.each { status, count ->
+                            statusSummary[status] = (statusSummary[status] ?: 0) + count
                         }
                     }
-                    
-                    def features = featureCounts.keySet().toList()
-                    def statuses = featureCounts.values().collectMany { it.keySet() }.unique()
-                    
-                    def dataset = statuses.collect { status ->
-                        [
-                            label: status,
-                            backgroundColor: "#${Integer.toHexString((Math.random() * 0xFFFFFF).intValue()).padLeft(6, '0')}",
-                            data: features.collect { feature ->
-                                def total = featureCounts[feature].values().sum()
-                                total > 0 ? (featureCounts[feature][status] ?: 0) * 100 / total : 0
-                            }
-                        ]
-                    }
-                    
-                    def chartData = [labels: features, datasets: dataset]
-                    
+
+                    def pieLabels = statusSummary.keySet().collect { "\"${it}\"" }.join(", ")
+                    def pieData = statusSummary.values().join(", ")
+
                     def htmlContent = """
                         <html>
                         <head>
-                            <title>Visualisation des Features</title>
+                            <title>Test Execution - ${params.FILE_NAME}</title>
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            <script>
+                                function getRandomColor() {
+                                    return '#' + Math.floor(Math.random()*16777215).toString(16);
+                                }
+                            </script>
                         </head>
                         <body>
-                            <h1>Visualisation des Features</h1>
-                            <canvas id="featureChart"></canvas>
+                            <h1>Test Execution</h1>
+                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+
+                            <canvas id="barChart"></canvas>
+                            <canvas id="pieChart"></canvas>
+
                             <script>
-                                var ctx = document.getElementById('featureChart').getContext('2d');
+                                var ctx = document.getElementById('barChart').getContext('2d');
                                 new Chart(ctx, {
                                     type: 'bar',
-                                    data: ${chartData},
+                                    data: {
+                                        labels: [${featureLabels}],
+                                        datasets: [${datasets.join(", ")}]
+                                    },
                                     options: {
                                         responsive: true,
-                                        plugins: { legend: { position: 'top' } },
-                                        scales: { y: { beginAtZero: true, max: 100 } }
+                                        plugins: {
+                                            legend: { position: 'top' }
+                                        },
+                                        scales: { y: { beginAtZero: true } }
+                                    }
+                                });
+
+                                var ctx2 = document.getElementById('pieChart').getContext('2d');
+                                new Chart(ctx2, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: [${pieLabels}],
+                                        datasets: [{ data: [${pieData}], backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'] }]
                                     }
                                 });
                             </script>
                         </body>
                         </html>
                     """
-                    
+
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
@@ -467,6 +503,13 @@ pipeline {
         stage('Publier le rapport') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+            }
+        }
+
+        stage('Générer un PDF') {
+            steps {
+                bat 'wkhtmltopdf report.html report.pdf'
+                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
     }
