@@ -1147,31 +1147,43 @@ pipeline {
 
                     def jsonData = readJSON text: jsonOutput
                     
-                    def featureStatusData = [:]
+               def featureStatusData = [:]
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
                         def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
-                        echo "hedhiiiiiiiiiii priority ${priority}"
-                        echo "hedhiiiiiiiiiii status ${status}"
-                        echo "hedhiiiiiiiiiii feature ${feature}"
-
+                        
+                        // Affichage des valeurs initiales
+                        echo "hedhiiiiiiiiiii priority: ${priority}"
+                        echo "hedhiiiiiiiiiii status: ${status}"
+                        echo "hedhiiiiiiiiiii feature: ${feature}"
+                        
+                        // Initialisation de la structure de données pour la feature si elle n'existe pas encore
                         if (!featureStatusData[feature]) {
                             featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
+                            echo "Initialisation de la feature: ${feature} avec les valeurs par défaut: ${featureStatusData[feature]}"
                         }
-
+                        
+                        // Mise à jour des compteurs en fonction du statut et de la priorité
                         if (status == 'PASS') {
                             featureStatusData[feature].PASS++
-                        } else if (status in ['ABORTED', 'TODO']) {
+                            echo "Statut PASS détecté pour la feature: ${feature}. Nouveau compte PASS: ${featureStatusData[feature].PASS}"
+                        } else if (status == 'ABORTED' || status == 'TODO') {
                             featureStatusData[feature].NOTEXECUTED++
-                        } else if (status in ['FAIL', 'BLOCKED']) {
-                            if (priority in ['Medium', 'High']) {
+                            echo "Statut ABORTED ou TODO détecté pour la feature: ${feature}. Nouveau compte NOTEXECUTED: ${featureStatusData[feature].NOTEXECUTED}"
+                        } else if (status == 'FAIL' || status == 'BLOCKED') {
+                            if (priority in ['medium', 'high']) {
                                 featureStatusData[feature].NOKMINOR++
-                            } else if (priority in ['Very High', 'Blocker']) {
+                                echo "Statut FAIL ou BLOCKED avec priorité ${priority} détecté pour la feature: ${feature}. Nouveau compte NOKMINOR: ${featureStatusData[feature].NOKMINOR}"
+                            } else if (priority in ['very high', 'blocker']) {
                                 featureStatusData[feature].NOKMAJOR++
+                                echo "Statut FAIL ou BLOCKED avec priorité ${priority} détecté pour la feature: ${feature}. Nouveau compte NOKMAJOR: ${featureStatusData[feature].NOKMAJOR}"
                             }
                         }
-                    }
+                        
+                        // Affichage de l'état actuel de featureStatusData après chaque itération
+                        echo "État actuel de featureStatusData après traitement de la feature ${feature}: ${featureStatusData}"
+                }
 
                     def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
                     def featureStatusDatasets = [
