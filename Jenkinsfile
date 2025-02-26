@@ -439,9 +439,9 @@ pipeline {
                             <canvas id="pieChart"></canvas>
                             <h2>Defects (FAIL & BLOCKED)</h2>
                           <table border="1">
-    <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-    ${defectsData.collect { """<tr><td>${it.id}</td><td>${it.summary}</td><td>${it.priority}</td></tr>""" }.join("\n")}
-</table>
+                            <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+                            ${defectsData.collect { """<tr><td>${it.id.toString()}</td><td>${it.summary.toString()}</td><td>${it.priority.toString()}</td></tr>""" }.join("\n")}
+                            </table>
 
                             <pre>${defectsData}</pre>
                             <script>
