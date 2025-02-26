@@ -1147,144 +1147,74 @@ pipeline {
 
                     def jsonData = readJSON text: jsonOutput
                     
-                    def statusCounts = [:]
-                    def defectsData = []
+                    def featureStats = [
+                        'PASS': '#4CAF50',
+                        'ABORTED': '#FFEB3B', 'TODO': '#FFEB3B',
+                        'FAIL-MEDIUM': '#FF9800', 'BLOCKED-MEDIUM': '#FF9800',
+                        'FAIL-HIGH': '#F44336', 'BLOCKED-HIGH': '#F44336'
+                    ]
+                    
+                    def categorizedStats = [:]
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
-                        def priority = entry.defects ? entry.defects[0].priority : null
-                        
-                        if (!statusCounts[feature]) {
-                            statusCounts[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMinor: 0, NOKMajor: 0]
+                        def priority = entry.priority.toString().trim().toUpperCase()
+
+                        def category = status
+                        if (status in ['FAIL', 'BLOCKED']) {
+                            category += "-${priority}"
                         }
                         
-                        if (status == 'PASS') {
-                            statusCounts[feature].PASS++
-                        } else if (status == 'ABORTED' || status == 'TODO') {
-                            statusCounts[feature].NOTEXECUTED++
-                        } else if (status == 'FAIL' || status == 'BLOCKED') {
-                            if (priority == 'medium' || priority == 'high') {
-                                statusCounts[feature].NOKMinor++
-                            } else if (priority == 'very high' || priority == 'blocker') {
-                                statusCounts[feature].NOKMajor++
-                            }
+                        if (!categorizedStats[feature]) {
+                            categorizedStats[feature] = [:]
                         }
-                        
-                        if (status == 'FAIL' || status == 'BLOCKED') {
-                            entry.defects.each { defect ->
-                                defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
-                            }
-                        }
+                        categorizedStats[feature][category] = (categorizedStats[feature][category] ?: 0) + 1
                     }
                     
-                    def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
-                    def datasets = [
-                        [
-                            label: 'PASS',
-                            backgroundColor: '#4CAF50',
-                            data: statusCounts.collect { it.value.PASS }
-                        ],
-                        [
-                            label: 'NOTEXECUTED',
-                            backgroundColor: '#FFEB3B',
-                            data: statusCounts.collect { it.value.NOTEXECUTED }
-                        ],
-                        [
-                            label: 'NOKMinor',
-                            backgroundColor: '#FF9800',
-                            data: statusCounts.collect { it.value.NOKMinor }
-                        ],
-                        [
-                            label: 'NOKMajor',
-                            backgroundColor: '#F44336',
-                            data: statusCounts.collect { it.value.NOKMajor }
-                        ]
-                    ]
+                    def featureLabels = categorizedStats.keySet().collect { "\"${it}\"" }.join(", ")
+                    def datasets = []
+                    
+                    featureStats.each { category, color ->
+                        def data = categorizedStats.collect { it.value[category] ?: 0 }
+                        datasets.add("""
+                            {
+                                label: "${category}",
+                                backgroundColor: "${color}",
+                                data: [${data.join(", ")}]
+                            }
+                        """)
+                    }
                     
                     def htmlContent = """
                         <html>
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                            <style>
-                                body {
-                                    font-family: Arial, sans-serif;
-                                    margin: 20px;
-                                }
-                                h1, h2 {
-                                    color: #2E7D32;
-                                }
-                                table {
-                                    width: 100%;
-                                    border-collapse: collapse;
-                                    margin-top: 20px;
-                                }
-                                table, th, td {
-                                    border: 1px solid #ddd;
-                                }
-                                th, td {
-                                    padding: 12px;
-                                    text-align: left;
-                                }
-                                th {
-                                    background-color: #4CAF50;
-                                    color: white;
-                                }
-                                tr:nth-child(even) {
-                                    background-color: #f2f2f2;
-                                }
-                                tr:hover {
-                                    background-color: #ddd;
-                                }
-                                canvas {
-                                    margin-top: 20px;
-                                    margin-bottom: 40px;
-                                    max-width: 800px;
-                                }
-                                .chart-container {
-                                    width: 50%;
-                                    margin: 0 auto;
-                                }
-                            </style>
                         </head>
                         <body>
-                            <h1>Test Execution</h1>
-                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <div class="chart-container">
-                                <canvas id="statusBarChart"></canvas>
-                            </div>
-                            <h2>Defects (FAIL & BLOCKED)</h2>
-                            <table>
-                                <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-                                ${defectsData.join("\n")}
-                            </table>
+                            <h1>Test Execution - ${params.FILE_NAME}</h1>
+                            <canvas id="statusChart"></canvas>
                             <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    // Status Bar Chart
-                                    var ctxStatusBar = document.getElementById('statusBarChart').getContext('2d');
-                                    new Chart(ctxStatusBar, {
-                                        type: 'bar',
-                                        data: {
-                                            labels: [${featureLabels}],
-                                            datasets: ${datasets}
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
-                                            },
-                                            scales: {
-                                                x: { stacked: true },
-                                                y: { stacked: true, beginAtZero: true }
-                                            }
+                                var ctx = document.getElementById('statusChart').getContext('2d');
+                                new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: [${featureLabels}],
+                                        datasets: [${datasets.join(", ")}]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        scales: {
+                                            x: { stacked: true },
+                                            y: { stacked: true, beginAtZero: true }
                                         }
-                                    });
+                                    }
                                 });
                             </script>
                         </body>
                         </html>
                     """
-
+                    
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
@@ -1293,13 +1223,7 @@ pipeline {
         stage('Convertir en PDF') {
             steps {
                 script {
-                    // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
-                    bat 'wkhtmltopdf --version'
-                    
-                    // Convertir le fichier HTML en PDF
                     bat 'wkhtmltopdf report.html report.pdf'
-                    
-                    // Vérifier que le fichier PDF a été généré
                     if (!fileExists('report.pdf')) {
                         error "Le fichier report.pdf n'a pas été généré !"
                     }
@@ -1310,8 +1234,6 @@ pipeline {
         stage('Publier le rapport') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
-                
-                // Publier le fichier PDF
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
