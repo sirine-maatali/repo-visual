@@ -448,41 +448,47 @@ pipeline {
                                 <pre>${jsonOutput}</pre>
                             </div>
 
-                            <script>
-                                // Préparer les données pour le graphique
-                                var featureStatusMap = ${groovy.json.JsonOutput.toJson(featureStatusMap).replaceAll('\"','\\\"')};
-                                var labels = ${features.collect { it.replaceAll('"', '\\\"') }.join(",")};
-                                var data = labels.map(function(feature) {
-                                    return featureStatusMap[feature]?.length || 0;
-                                });
+                        <script>
+                        console.log("Feature-Status Map : ", featureStatusMap);
+                        console.log("Labels : ", labels);
 
-                                var ctx = document.getElementById('featureStatusChart').getContext('2d');
-                                var chartData = {
-                                    labels: labels,
-                                    datasets: [{
-                                        label: 'Nombre de statuts par Feature',
-                                        data: data,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    }]
-                                };
+                        // Préparer les données pour le graphique
+                        var featureStatusMap = ${JsonOutput.toJson(featureStatusMap)};
+                        var labels = ${JsonOutput.toJson(features)};
+                        var data = labels.map(function(feature) {
+                            return featureStatusMap[feature]?.length || 0;
+                        });
 
-                                var config = {
-                                    type: 'bar',
-                                    data: chartData,
-                                    options: {
-                                        responsive: true,
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true
-                                            }
-                                        }
+                        console.log("Data for chart : ", data);
+
+                        var ctx = document.getElementById('featureStatusChart').getContext('2d');
+                        var chartData = {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Nombre de statuts par Feature',
+                                data: data,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        };
+
+                        var config = {
+                            type: 'bar',
+                            data: chartData,
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
                                     }
-                                };
+                                }
+                            }
+                        };
 
-                                new Chart(ctx, config);
-                            </script>
+                        new Chart(ctx, config);
+                    </script>
+
                         </body>
                         </html>
                     """
