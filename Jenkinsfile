@@ -438,10 +438,11 @@ pipeline {
                             <canvas id="barChart"></canvas>
                             <canvas id="pieChart"></canvas>
                             <h2>Defects (FAIL & BLOCKED)</h2>
-                            <table border="1">
-                                <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-                                ${defectsData.collect { "<tr><td>\${it.id}</td><td>\${it.summary}</td><td>\${it.priority}</td></tr>" }.join("\n")}
-                            </table>
+                          <table border="1">
+    <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+    ${defectsData.collect { """<tr><td>${it.id}</td><td>${it.summary}</td><td>${it.priority}</td></tr>""" }.join("\n")}
+</table>
+
                             <pre>${defectsData}</pre>
                             <script>
                                 var ctxBar = document.getElementById('barChart').getContext('2d');
