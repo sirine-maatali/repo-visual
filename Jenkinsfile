@@ -421,25 +421,6 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
                     
-
-                    if (defectsData instanceof List) {
-                    defectsData.each { defect ->
-                            echo "Traitement du défaut ID: ${defect.id}"
-                        }
-                    } else {
-                        echo "Erreur : defectsData n'est pas une liste ou est vide !"
-                    }
-
-                    if (defectsData && defectsData.size() > 0) {
-                        defectsData.each { defect ->
-                            echo "ID: ${defect.id}, Résumé: ${defect.summary}"
-                        }
-                            } else {
-                                echo "Aucun défaut trouvé dans defectsData."
-                            }
-
-
-
                     def htmlContent = """
                         <html>
                         <head>
@@ -458,17 +439,9 @@ pipeline {
                             <canvas id="pieChart"></canvas>
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table border="1">
-                            <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-                            <% defectsData.each { defect -> %>
-                                <tr>
-                                    <td>${defect.id}</td>
-                                    <td>${defect.summary}</td>
-                                    <td>${defect.priority}</td>
-                                </tr>
-                                <% } %>
+                                <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+                                ${defectsData.collect { "<tr><td>\${it.id}</td><td>\${it.summary}</td><td>\${it.priority}</td></tr>" }.join("\n")}
                             </table>
-
-                            <pre>${defectsData}</pre>
                             <script>
                                 var ctxBar = document.getElementById('barChart').getContext('2d');
                                 new Chart(ctxBar, {
