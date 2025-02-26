@@ -400,11 +400,33 @@ pipeline {
 
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
+                    def pieDatasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
 
                     statusTypes.each { status ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
+                    }
+                    
+                    statusCounts.each { feature, counts ->
+                        def data = counts.values().join(", ")
+                        def labels = counts.keySet().collect { "\"${it}\"" }.join(", ")
+                        pieDatasets.add("""
+                            <canvas id='pieChart_${feature}'></canvas>
+                            <script>
+                                var ctxPie_${feature} = document.getElementById('pieChart_${feature}').getContext('2d');
+                                new Chart(ctxPie_${feature}, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: [${labels}],
+                                        datasets: [{
+                                            data: [${data}],
+                                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+                                        }]
+                                    }
+                                });
+                            </script>
+                        """)
                     }
 
                     def htmlContent = """
@@ -421,6 +443,7 @@ pipeline {
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+
                             <canvas id="barChart"></canvas>
                             <script>
                                 var ctx = document.getElementById('barChart').getContext('2d');
@@ -442,6 +465,9 @@ pipeline {
                                     }
                                 });
                             </script>
+
+                            <h2>Répartition des statuts par Feature</h2>
+                            ${pieDatasets.join("\n")}
                         </body>
                         </html>
                     """
