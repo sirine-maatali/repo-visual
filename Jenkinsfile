@@ -561,7 +561,7 @@ pipeline {
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
                     
                     // Couleurs fixes pour les barres (nuances de vert)
-                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9']
+                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
                     
                     statusTypes.eachWithIndex { status, index ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
@@ -641,37 +641,45 @@ pipeline {
                                 ${defectsData.join("\n")}
                             </table>
                             <script>
-                                // Bar Chart
-                                var ctxBar = document.getElementById('barChart').getContext('2d');
-                                new Chart(ctxBar, {
-                                    type: 'bar',
-                                    data: {
-                                        labels: [${featureLabels}],
-                                        datasets: [${datasets.join(", ")}]
-                                    },
-                                    options: {
-                                        responsive: true,
-                                        plugins: {
-                                            legend: { position: 'top' }
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    // Bar Chart
+                                    var ctxBar = document.getElementById('barChart').getContext('2d');
+                                    new Chart(ctxBar, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: [${featureLabels}],
+                                            datasets: [${datasets.join(", ")}]
                                         },
-                                        scales: {
-                                            x: { stacked: true },
-                                            y: { stacked: true, beginAtZero: true }
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            },
+                                            scales: {
+                                                x: { stacked: true },
+                                                y: { stacked: true, beginAtZero: true }
+                                            }
                                         }
-                                    }
-                                });
-                                
-                                // Pie Chart
-                                var ctxPie = document.getElementById('pieChart').getContext('2d');
-                                new Chart(ctxPie, {
-                                    type: 'pie',
-                                    data: {
-                                        labels: [${pieLabels}],
-                                        datasets: [{
-                                            data: [${pieValues}],
-                                            backgroundColor: ${greenShades.collect { "\"${it}\"" }.join(", ")}
-                                        }]
-                                    }
+                                    });
+                                    
+                                    // Pie Chart
+                                    var ctxPie = document.getElementById('pieChart').getContext('2d');
+                                    new Chart(ctxPie, {
+                                        type: 'pie',
+                                        data: {
+                                            labels: [${pieLabels}],
+                                            datasets: [{
+                                                data: [${pieValues}],
+                                                backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            }
+                                        }
+                                    });
                                 });
                             </script>
                         </body>
