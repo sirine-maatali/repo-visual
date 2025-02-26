@@ -375,25 +375,17 @@ pipeline {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
-                    
-                    // Exécuter et rediriger la sortie vers un fichier
                     bat "python app.py ${params.FILE_NAME} output.json"
-                    
-                    // Vérifier si output.json existe
+
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
 
-                    // Lire le fichier JSON
                     def jsonOutput = readFile('output.json').trim()
-                    echo "Sortie JSON récupérée : ${jsonOutput}"
-
-                    // Vérification si jsonOutput est vide
                     if (!jsonOutput) {
                         error "Le fichier JSON est vide !"
                     }
 
-                    // Parsing JSON avec gestion des erreurs
                     def jsonData
                     try {
                         jsonData = readJSON text: jsonOutput
@@ -402,91 +394,56 @@ pipeline {
                         error "Erreur lors du parsing du JSON : ${e.message}"
                     }
 
-                    // Extraire les features uniques
-                    def features = jsonData.findAll { it.feature }
-                                          .collect { it.feature.toString().replaceAll("[\\[\\]']", "").trim() }
-                                          .unique()
-                    echo "Liste finale des features uniques : ${features}"
-
-                    // Extraire les statuts associés aux features
-                    def featureStatusMap = [:]
-                    jsonData.each { item ->
-                        def feature = item.feature.toString().replaceAll("[\\[\\]']", "").trim()
-                        def status = item.status.toString().trim()
-                        featureStatusMap[feature] = featureStatusMap.get(feature, [])
-                        featureStatusMap[feature] << status
+                    if (!(jsonData instanceof List)) {
+                        error "Le JSON parsé n'est pas une liste d'objets !"
                     }
 
-                    echo "Feature-Status Map : ${featureStatusMap}"
+                    def featuresMap = [:]
+                    jsonData.each { item ->
+                        def feature = item.feature?.toString()?.trim()
+                        def status = item.status?.toString()?.trim()
+                        if (feature && status) {
+                            if (!featuresMap.containsKey(feature)) {
+                                featuresMap[feature] = [:]
+                            }
+                            featuresMap[feature][status] = (featuresMap[feature][status] ?: 0) + 1
+                        }
+                    }
 
-                    // Générer le contenu HTML avec le graphique
+                    def features = featuresMap.keySet().toList()
+                    def statusTypes = featuresMap.values().collectMany { it.keySet() }.unique()
+                    def datasets = statusTypes.collect { status ->
+                        return [
+                            label: status,
+                            data: features.collect { featuresMap[it]?.get(status, 0) ?: 0 },
+                            backgroundColor: "rgba(${(Math.random() * 255).intValue()}, ${(Math.random() * 255).intValue()}, ${(Math.random() * 255).intValue()}, 0.7)"
+                        ]
+                    }
+
+                    def chartData = [ labels: features, datasets: datasets ]
+
                     def htmlContent = """
                         <html>
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             <style>
-                                body { font-family: Arial, sans-serif; margin: 20px; }
-                                h1 { color: #2c3e50; text-align: center; }
-                                h2 { color: #34495e; }
-                                h3 { color: #16a085; }
-                                pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
-                                .container { max-width: 800px; margin: auto; }
-                                .feature-list { background: #ecf0f1; padding: 10px; border-radius: 5px; }
-                                canvas { max-width: 100%; height: auto; }
+                                body { font-family: Arial, sans-serif; margin: 20px; text-align: center; }
+                                h1 { color: #2c3e50; }
+                                canvas { max-width: 80%; margin: auto; }
                             </style>
                         </head>
                         <body>
-                            <div class="container">
-                                <h1>Test Execution</h1>
-                                <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                                <h3>Features uniques :</h3>
-                                <pre>${features.join("\n")}</pre>
-                                <h3>Statuts par Feature :</h3>
-                                <canvas id="featureStatusChart"></canvas>
-                                <h3>Résultat JSON :</h3>
-                                <pre>${jsonOutput}</pre>
-                            </div>
-
+                            <h1>Test Execution Report</h1>
+                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                            <canvas id="featureChart"></canvas>
                             <script>
-                                console.log("Feature-Status Map : ", featureStatusMap);
-                                console.log("Labels : ", labels);
-
-                                // Préparer les données pour le graphique
-                                var featureStatusMap = ${JsonOutput.toJson(featureStatusMap)};
-                                var labels = ${JsonOutput.toJson(features)};
-                                var data = labels.map(function(feature) {
-                                    return featureStatusMap[feature]?.length || 0;
-                                });
-
-                                console.log("Data for chart : ", data);
-
-                                var ctx = document.getElementById('featureStatusChart').getContext('2d');
-                                var chartData = {
-                                    labels: labels,
-                                    datasets: [{
-                                        label: 'Nombre de statuts par Feature',
-                                        data: data,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    }]
-                                };
-
-                                var config = {
+                                var ctx = document.getElementById('featureChart').getContext('2d');
+                                var chart = new Chart(ctx, {
                                     type: 'bar',
-                                    data: chartData,
-                                    options: {
-                                        responsive: true,
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true
-                                            }
-                                        }
-                                    }
-                                };
-
-                                new Chart(ctx, config);
+                                    data: ${groovy.json.JsonOutput.toJson(chartData)},
+                                    options: { responsive: true, plugins: { legend: { position: 'top' } } }
+                                });
                             </script>
                         </body>
                         </html>
@@ -497,28 +454,9 @@ pipeline {
             }
         }
 
-        stage('Vérifier génération du fichier HTML') {
-            steps {
-                script {
-                    if (fileExists('report.html')) {
-                        echo 'Le fichier report.html a été généré avec succès !'
-                    } else {
-                        error 'Le fichier report.html n\'a pas été généré !'
-                    }
-                }
-            }
-        }
-
         stage('Publier le rapport') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
-            }
-        }
-
-        stage('Générer un PDF') {
-            steps {
-                bat 'wkhtmltopdf report.html report.pdf'
-                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
     }
