@@ -389,45 +389,30 @@ pipeline {
                     def jsonData = readJSON text: jsonOutput
 
                     def statusCounts = [:]
+                    def globalStatusCounts = [:]
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
+                        
                         if (!statusCounts[feature]) {
                             statusCounts[feature] = [:]
                         }
                         statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+                        
+                        globalStatusCounts[status] = (globalStatusCounts[status] ?: 0) + 1
                     }
 
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
-                    def pieDatasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
 
                     statusTypes.each { status ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("{label: \"${status}\", backgroundColor: getRandomColor(), data: [${data.join(", ")}]}")
                     }
-                    
-                    statusCounts.each { feature, counts ->
-                        def data = counts.values().join(", ")
-                        def labels = counts.keySet().collect { "\"${it}\"" }.join(", ")
-                        pieDatasets.add("""
-                            <canvas id='pieChart_${feature}'></canvas>
-                            <script>
-                                var ctxPie_${feature} = document.getElementById('pieChart_${feature}').getContext('2d');
-                                new Chart(ctxPie_${feature}, {
-                                    type: 'pie',
-                                    data: {
-                                        labels: [${labels}],
-                                        datasets: [{
-                                            data: [${data}],
-                                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
-                                        }]
-                                    }
-                                });
-                            </script>
-                        """)
-                    }
+
+                    def pieLabels = globalStatusCounts.keySet().collect { "\"${it}\"" }.join(", ")
+                    def pieData = globalStatusCounts.values().join(", ")
 
                     def htmlContent = """
                         <html>
@@ -443,8 +428,9 @@ pipeline {
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-
                             <canvas id="barChart"></canvas>
+                            <canvas id="pieChart"></canvas>
+                            
                             <script>
                                 var ctx = document.getElementById('barChart').getContext('2d');
                                 new Chart(ctx, {
@@ -464,10 +450,16 @@ pipeline {
                                         }
                                     }
                                 });
-                            </script>
 
-                            <h2>Répartition des statuts par Feature</h2>
-                            ${pieDatasets.join("\n")}
+                                var ctx2 = document.getElementById('pieChart').getContext('2d');
+                                new Chart(ctx2, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: [${pieLabels}],
+                                        datasets: [{ data: [${pieData}], backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'] }]
+                                    }
+                                });
+                            </script>
                         </body>
                         </html>
                     """
