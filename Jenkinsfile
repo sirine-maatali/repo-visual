@@ -348,7 +348,6 @@
 // }
 
 
-
 pipeline { 
     agent any
 
@@ -451,8 +450,8 @@ pipeline {
 
                             <script>
                                 // Préparer les données pour le graphique
-                                var featureStatusMap = ${JsonOutput.toJson(featureStatusMap)};
-                                var labels = ${JsonOutput.toJson(features)};
+                                var featureStatusMap = ${groovy.json.JsonOutput.toJson(featureStatusMap).replaceAll('\"','\\\"')};
+                                var labels = ${features.collect { it.replaceAll('"', '\\\"') }.join(",")};
                                 var data = labels.map(function(feature) {
                                     return featureStatusMap[feature]?.length || 0;
                                 });
