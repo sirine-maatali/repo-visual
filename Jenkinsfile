@@ -1147,74 +1147,194 @@ pipeline {
 
                     def jsonData = readJSON text: jsonOutput
                     
-                    def featureStats = [
-                        'PASS': '#4CAF50',
-                        'ABORTED': '#FFEB3B', 'TODO': '#FFEB3B',
-                        'FAIL-MEDIUM': '#FF9800', 'BLOCKED-MEDIUM': '#FF9800',
-                        'FAIL-HIGH': '#F44336', 'BLOCKED-HIGH': '#F44336'
-                    ]
-                    
-                    def categorizedStats = [:]
+                    def statusCounts = [:]
+                    def defectsData = []
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
-                        def priority = entry.priority.toString().trim().toUpperCase()
-
-                        def category = status
-                        if (status in ['FAIL', 'BLOCKED']) {
-                            category += "-${priority}"
+                        def priority = entry.defects ? entry.defects[0].priority : null
+                        
+                        if (!statusCounts[feature]) {
+                            statusCounts[feature] = [:]
                         }
                         
-                        if (!categorizedStats[feature]) {
-                            categorizedStats[feature] = [:]
+                        if (status == 'PASS') {
+                            statusCounts[feature]['PASS'] = (statusCounts[feature]['PASS'] ?: 0) + 1
+                        } else if (status == 'ABORTED' || status == 'TODO') {
+                            statusCounts[feature]['NOTEXECUTED'] = (statusCounts[feature]['NOTEXECUTED'] ?: 0) + 1
+                        } else if (status == 'FAIL' || status == 'BLOCKED') {
+                            if (priority == 'medium' || priority == 'high') {
+                                statusCounts[feature]['NOKMinor'] = (statusCounts[feature]['NOKMinor'] ?: 0) + 1
+                            } else if (priority == 'very high' || priority == 'blocker') {
+                                statusCounts[feature]['NOKMajor'] = (statusCounts[feature]['NOKMajor'] ?: 0) + 1
+                            }
                         }
-                        categorizedStats[feature][category] = (categorizedStats[feature][category] ?: 0) + 1
+                        
+                        if (status == 'FAIL' || status == 'BLOCKED') {
+                            entry.defects.each { defect ->
+                                defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
+                            }
+                        }
                     }
                     
-                    def featureLabels = categorizedStats.keySet().collect { "\"${it}\"" }.join(", ")
+                    def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
+                    def statusTypes = ['PASS', 'NOTEXECUTED', 'NOKMinor', 'NOKMajor']
                     
-                    featureStats.each { category, color ->
-                        def data = categorizedStats.collect { it.value[category] ?: 0 }
+                    // Couleurs pour chaque statut
+                    def statusColors = [
+                        'PASS': '#4CAF50', // Vert
+                        'NOTEXECUTED': '#FFEB3B', // Jaune
+                        'NOKMinor': '#FF9800', // Orange
+                        'NOKMajor': '#F44336' // Rouge
+                    ]
+                    
+                    statusTypes.each { status ->
+                        def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("""
                             {
-                                label: "${category}",
-                                backgroundColor: "${color}",
+                                label: "${status}",
+                                backgroundColor: "${statusColors[status]}",
                                 data: [${data.join(", ")}]
                             }
                         """)
                     }
+                    
+                    def pieData = statusCounts.collectEntries { feature, statuses ->
+                        [(feature): statuses.collect { k, v -> v }.sum()]
+                    }
+                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def pieValues = pieData.values().join(", ")
                     
                     def htmlContent = """
                         <html>
                         <head>
                             <title>Test Execution - ${params.FILE_NAME}</title>
                             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            <style>
+                                body {
+                                    font-family: Arial, sans-serif;
+                                    margin: 20px;
+                                }
+                                h1, h2 {
+                                    color: #2E7D32;
+                                }
+                                table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    margin-top: 20px;
+                                }
+                                table, th, td {
+                                    border: 1px solid #ddd;
+                                }
+                                th, td {
+                                    padding: 12px;
+                                    text-align: left;
+                                }
+                                th {
+                                    background-color: #4CAF50;
+                                    color: white;
+                                }
+                                tr:nth-child(even) {
+                                    background-color: #f2f2f2;
+                                }
+                                tr:hover {
+                                    background-color: #ddd;
+                                }
+                                canvas {
+                                    margin-top: 20px;
+                                    margin-bottom: 40px;
+                                    max-width: 800px;
+                                }
+                                .chart-container {
+                                    width: 50%;
+                                    margin: 0 auto;
+                                }
+                            </style>
                         </head>
                         <body>
-                            <h1>Test Execution - ${params.FILE_NAME}</h1>
-                            <canvas id="statusChart"></canvas>
+                            <h1>Test Execution</h1>
+                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                            <div class="chart-container">
+                                <canvas id="barChart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="statusBarChart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="pieChart"></canvas>
+                            </div>
+                            <h2>Defects (FAIL & BLOCKED)</h2>
+                            <table>
+                                <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+                                ${defectsData.join("\n")}
+                            </table>
                             <script>
-                                var ctx = document.getElementById('statusChart').getContext('2d');
-                                new Chart(ctx, {
-                                    type: 'bar',
-                                    data: {
-                                        labels: [${featureLabels}],
-                                        datasets: [${datasets.join(", ")}]
-                                    },
-                                    options: {
-                                        responsive: true,
-                                        scales: {
-                                            x: { stacked: true },
-                                            y: { stacked: true, beginAtZero: true }
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    // Bar Chart
+                                    var ctxBar = document.getElementById('barChart').getContext('2d');
+                                    new Chart(ctxBar, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: [${featureLabels}],
+                                            datasets: [${datasets.join(", ")}]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            },
+                                            scales: {
+                                                x: { stacked: true },
+                                                y: { stacked: true, beginAtZero: true }
+                                            }
                                         }
-                                    }
+                                    });
+                                    
+                                    // Status Bar Chart
+                                    var ctxStatusBar = document.getElementById('statusBarChart').getContext('2d');
+                                    new Chart(ctxStatusBar, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: [${featureLabels}],
+                                            datasets: [${datasets.join(", ")}]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            },
+                                            scales: {
+                                                x: { stacked: true },
+                                                y: { stacked: true, beginAtZero: true }
+                                            }
+                                        }
+                                    });
+                                    
+                                    // Pie Chart
+                                    var ctxPie = document.getElementById('pieChart').getContext('2d');
+                                    new Chart(ctxPie, {
+                                        type: 'pie',
+                                        data: {
+                                            labels: [${pieLabels}],
+                                            datasets: [{
+                                                data: [${pieValues}],
+                                                backgroundColor: [${statusTypes.collect { "\"${statusColors[it]}\"" }.join(", ")}]
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            }
+                                        }
+                                    });
                                 });
                             </script>
                         </body>
                         </html>
                     """
-                    
+
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
@@ -1223,7 +1343,13 @@ pipeline {
         stage('Convertir en PDF') {
             steps {
                 script {
+                    // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
+                    bat 'wkhtmltopdf --version'
+                    
+                    // Convertir le fichier HTML en PDF
                     bat 'wkhtmltopdf report.html report.pdf'
+                    
+                    // Vérifier que le fichier PDF a été généré
                     if (!fileExists('report.pdf')) {
                         error "Le fichier report.pdf n'a pas été généré !"
                     }
@@ -1234,6 +1360,8 @@ pipeline {
         stage('Publier le rapport') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+                
+                // Publier le fichier PDF
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
