@@ -1401,6 +1401,16 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
                     
+                    // Données pour la deuxième pie chart (basée sur featureStatusData)
+                    def featureStatusPieData = [
+                        featureStatusData.collect { it.value.PASS }.sum(),
+                        featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
+                        featureStatusData.collect { it.value.NOKMINOR }.sum(),
+                        featureStatusData.collect { it.value.NOKMAJOR }.sum()
+                    ]
+                    def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
+                    def featureStatusPieColors = ['#4CAF50', '#FFEB3B', '#FF9800', '#F44336']
+                    
                     def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
                     def featureStatusDatasets = [
                         """
@@ -1476,44 +1486,29 @@ pipeline {
                                 .chart-container {
                                     width: 50%;
                                     margin: 0 auto;
-                                    text-align: center;
-                                }
-                                .chart-title {
-                                    font-size: 18px;
-                                    font-weight: bold;
-                                    margin-bottom: 10px;
                                 }
                             </style>
                         </head>
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            
-                            <!-- Bar Chart -->
                             <div class="chart-container">
-                                <div class="chart-title">Répartition des statuts par feature</div>
                                 <canvas id="barChart"></canvas>
                             </div>
-                            
-                            <!-- Pie Chart -->
                             <div class="chart-container">
-                                <div class="chart-title">Répartition globale des statuts</div>
                                 <canvas id="pieChart"></canvas>
                             </div>
-                            
-                            <!-- Feature Status Chart -->
                             <div class="chart-container">
-                                <div class="chart-title">Détail des statuts par feature</div>
                                 <canvas id="featureStatusChart"></canvas>
                             </div>
-                            
-                            <!-- Defects Table -->
+                            <div class="chart-container">
+                                <canvas id="featureStatusPieChart"></canvas>
+                            </div>
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table>
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
                                 ${defectsData.join("\n")}
                             </table>
-                            
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
                                     // Bar Chart
@@ -1527,18 +1522,7 @@ pipeline {
                                         options: {
                                             responsive: true,
                                             plugins: {
-                                                legend: { position: 'top' },
-                                                tooltip: {
-                                                    callbacks: {
-                                                        label: function(context) {
-                                                            let label = context.dataset.label || '';
-                                                            let value = context.raw || 0;
-                                                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                                            let percentage = ((value / total) * 100).toFixed(2) + '%';
-                                                            return label + ': ' + value + ' (' + percentage + ')';
-                                                        }
-                                                    }
-                                                }
+                                                legend: { position: 'top' }
                                             },
                                             scales: {
                                                 x: { stacked: true },
@@ -1561,18 +1545,7 @@ pipeline {
                                         options: {
                                             responsive: true,
                                             plugins: {
-                                                legend: { position: 'top' },
-                                                tooltip: {
-                                                    callbacks: {
-                                                        label: function(context) {
-                                                            let label = context.label || '';
-                                                            let value = context.raw || 0;
-                                                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                                            let percentage = ((value / total) * 100).toFixed(2) + '%';
-                                                            return label + ': ' + value + ' (' + percentage + ')';
-                                                        }
-                                                    }
-                                                }
+                                                legend: { position: 'top' }
                                             }
                                         }
                                     });
@@ -1588,22 +1561,30 @@ pipeline {
                                         options: {
                                             responsive: true,
                                             plugins: {
-                                                legend: { position: 'top' },
-                                                tooltip: {
-                                                    callbacks: {
-                                                        label: function(context) {
-                                                            let label = context.dataset.label || '';
-                                                            let value = context.raw || 0;
-                                                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                                            let percentage = ((value / total) * 100).toFixed(2) + '%';
-                                                            return label + ': ' + value + ' (' + percentage + ')';
-                                                        }
-                                                    }
-                                                }
+                                                legend: { position: 'top' }
                                             },
                                             scales: {
                                                 x: { stacked: true },
                                                 y: { stacked: true, beginAtZero: true }
+                                            }
+                                        }
+                                    });
+                                    
+                                    // Feature Status Pie Chart
+                                    var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+                                    new Chart(ctxFeatureStatusPie, {
+                                        type: 'pie',
+                                        data: {
+                                            labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+                                            datasets: [{
+                                                data: ${featureStatusPieData},
+                                                backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
                                             }
                                         }
                                     });
