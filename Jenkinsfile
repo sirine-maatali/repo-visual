@@ -1839,7 +1839,6 @@ pipeline {
             }
             h1, h2 {
                 color: #2E7D32;
-                text-shadow: 2px 2px 4px rgba(46, 125, 50, 0.2);
             }
             table {
                 width: 100%;
@@ -1869,7 +1868,6 @@ pipeline {
                 margin-bottom: 40px;
                 max-width: 100%;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                border-radius: 10px;
             }
             .chart-container {
                 width: 48%;
@@ -1878,9 +1876,9 @@ pipeline {
                 display: inline-block;
                 vertical-align: top;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                border-radius: 10px;
                 background-color: white;
                 padding: 20px;
+                border-radius: 10px;
             }
             .chart-description {
                 margin-top: 10px;
@@ -1888,19 +1886,19 @@ pipeline {
                 color: #555;
             }
             .card {
-                background: linear-gradient(135deg, #4CAF50, #81C784);
+                background-color: #4CAF50;
                 color: white;
                 padding: 20px;
                 border-radius: 10px;
                 width: 18%;
                 text-align: center;
                 margin: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: transform 0.2s, box-shadow 0.2s;
             }
             .card:hover {
                 transform: translateY(-5px);
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             }
             .card-container {
                 display: flex;
@@ -1925,29 +1923,25 @@ pipeline {
                 <h3>Total Tests</h3>
                 <p>${totalTests}</p>
             </div>
-            <div class="card" style="background: linear-gradient(135deg, #4CAF50, #66BB6A);">
+            <div class="card" style="background-color:#4CAF50;">
                 <h3>PASS</h3>
                 <p>${totalPass}</p>
             </div>
-            <div class="card" style="background: linear-gradient(135deg, #FF9800, #FFA726);">
-                <h3>FAIL</h3>
-                <p>${totalFail}</p>
-            </div>
-            <div class="card" style="background: linear-gradient(135deg, #FFEB3B, #FFEE58); color: black;">
+            <div class="card" style="background-color:rgb(103, 179, 70); color: black;">
                 <h3>NOT EXECUTED</h3>
                 <p>${totalNotExecuted}</p>
             </div>
-            <div class="card" style="background: linear-gradient(135deg, #FFC107, #FFCA28); color: black;">
+            <div class="card" style="background-color:rgb(138, 201, 96); color: black;">
                 <h3>NOK MINOR</h3>
                 <p>${totalNokMinor}</p>
             </div>
-            <div class="card" style="background: linear-gradient(135deg, #F44336, #EF5350);">
+            <div class="card" style="background-color:rgb(219, 66, 55);">
                 <h3>NOK MAJOR</h3>
                 <p>${totalNokMajor}</p>
             </div>
         </div>
 
-        <!-- Bar 1 et Pie 1 en parallèle -->
+        <!-- Bar 1 and Pie 1 -->
         <div class="chart-row">
             <div class="chart-container">
                 <h3>Répartition des statuts par feature</h3>
@@ -1961,7 +1955,7 @@ pipeline {
             </div>
         </div>
 
-        <!-- Bar 2 et Pie 2 en parallèle -->
+        <!-- Bar 2 and Pie 2 -->
         <div class="chart-row">
             <div class="chart-container">
                 <h3>Répartition des statuts détaillés par feature</h3>
