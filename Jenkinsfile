@@ -1830,10 +1830,11 @@ pipeline {
     <html>
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Plugins locaux -->
-    <script src="plugins/chartjs-plugin-datalabels.min.js"></script>
-    <script src="plugins/chartjs-plugin-3d.min.js"></script>
+    <!-- Plugins via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://unpkg.com/chartjs-plugin-3d"></script>
     <style>
         /* Votre CSS ici */
     </style>
