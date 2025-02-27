@@ -1766,7 +1766,7 @@ pipeline {
                         featureStatusData.collect { it.value.NOKMAJOR }.sum()
                     ]
                     def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
-                    def featureStatusPieColors = ['#4CAF50', '#FFEB3B', '#FF9800', '#F44336']
+                    def featureStatusPieColors = ['#4CAF50', '#A5D6A7', '#FF9800', '#F44336']
                     
                     def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
                     def featureStatusDatasets = [
@@ -1827,7 +1827,7 @@ pipeline {
                     }
 
                 def htmlContent = """
-    <html>
+<html>
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1941,6 +1941,28 @@ pipeline {
         .footer a:hover {
             text-decoration: underline;
         }
+        /* Pagination Styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .pagination button:hover {
+            background-color: #45a049;
+        }
+        .pagination button.active {
+            background-color: #2E7D32;
+        }
     </style>
 </head>
 <body>
@@ -2002,10 +2024,19 @@ pipeline {
     <!-- Defects Table -->
     <h2>Defects (FAIL & BLOCKED)</h2>
     <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
-    <table>
-        <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-        ${defectsData.join("\n")}
+    <table id="defectsTable">
+        <thead>
+            <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+        </thead>
+        <tbody>
+            ${defectsData.join("\n")}
+        </tbody>
     </table>
+
+    <!-- Pagination -->
+    <div class="pagination" id="pagination">
+        <!-- Pagination buttons will be dynamically added here -->
+    </div>
 
     <!-- Footer Section -->
     <div class="footer">
@@ -2091,6 +2122,47 @@ pipeline {
                     }
                 }
             });
+
+            // Pagination Script
+            const table = document.getElementById('defectsTable');
+            const rows = table.querySelectorAll('tbody tr');
+            const rowsPerPage = 10; // Number of rows per page
+            const pageCount = Math.ceil(rows.length / rowsPerPage);
+            const paginationDiv = document.getElementById('pagination');
+
+            // Function to show rows for a specific page
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                rows.forEach((row, index) => {
+                    row.style.display = (index >= start && index < end) ? '' : 'none';
+                });
+            }
+
+            // Function to create pagination buttons
+            function createPagination() {
+                for (let i = 1; i <= pageCount; i++) {
+                    const button = document.createElement('button');
+                    button.innerText = i;
+                    button.addEventListener('click', () => {
+                        showPage(i);
+                        setActiveButton(button);
+                    });
+                    paginationDiv.appendChild(button);
+                }
+                showPage(1); // Show first page by default
+                setActiveButton(paginationDiv.querySelector('button'));
+            }
+
+            // Function to set the active button
+            function setActiveButton(activeButton) {
+                paginationDiv.querySelectorAll('button').forEach(button => {
+                    button.classList.remove('active');
+                });
+                activeButton.classList.add('active');
+            }
+
+            createPagination(); // Initialize pagination
         });
     </script>
 </body>
