@@ -925,10 +925,30 @@ pipeline {
                     def jsonData = readJSON text: jsonOutput
                     
                     def statusCounts = [:]
+                    def featureStatusData = [:]
                     def defectsData = []
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
+                        def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
+                        
+                        // Initialisation de la structure de données pour la feature si elle n'existe pas encore
+                        if (!featureStatusData[feature]) {
+                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
+                        }
+                        
+                        // Mise à jour des compteurs en fonction du statut et de la priorité
+                        if (status == 'PASS') {
+                            featureStatusData[feature].PASS++
+                        } else if (status == 'ABORTED' || status == 'TODO') {
+                            featureStatusData[feature].NOTEXECUTED++
+                        } else if (status == 'FAIL' || status == 'BLOCKED') {
+                            if (priority =='[medium]'|| status == '[high]') {
+                                featureStatusData[feature].NOKMINOR++
+                            } else if (priority == '[very high]' || priority == '[blocker]') {
+                                featureStatusData[feature].NOKMAJOR++
+                            }
+                        }
                         
                         if (!statusCounts[feature]) {
                             statusCounts[feature] = [:]
@@ -966,6 +986,38 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
                     
+                    def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def featureStatusDatasets = [
+                        """
+                            {
+                                label: "PASS",
+                                backgroundColor: "#4CAF50",
+                                data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOT EXECUTED",
+                                backgroundColor: "#FFEB3B",
+                                data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOK MINOR",
+                                backgroundColor: "#FF9800",
+                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOK MAJOR",
+                                backgroundColor: "#F44336",
+                                data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
+                            }
+                        """
+                    ]
+
                     def htmlContent = """
                         <html>
                         <head>
@@ -1021,6 +1073,9 @@ pipeline {
                             <div class="chart-container">
                                 <canvas id="pieChart"></canvas>
                             </div>
+                            <div class="chart-container">
+                                <canvas id="featureStatusChart"></canvas>
+                            </div>
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table>
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
@@ -1063,6 +1118,26 @@ pipeline {
                                             responsive: true,
                                             plugins: {
                                                 legend: { position: 'top' }
+                                            }
+                                        }
+                                    });
+                                    
+                                    // Feature Status Chart
+                                    var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+                                    new Chart(ctxFeatureStatus, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: [${featureStatusLabels}],
+                                            datasets: [${featureStatusDatasets.join(", ")}]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            },
+                                            scales: {
+                                                x: { stacked: true },
+                                                y: { stacked: true, beginAtZero: true }
                                             }
                                         }
                                     });
