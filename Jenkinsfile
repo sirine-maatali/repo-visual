@@ -1826,7 +1826,7 @@ pipeline {
                         }
                     }
 
-                def htmlContent = """
+             def htmlContent = """
     <html>
     <head>
         <title>Test Execution - ${params.FILE_NAME}</title>
@@ -1835,14 +1835,17 @@ pipeline {
             body {
                 font-family: Arial, sans-serif;
                 margin: 20px;
+                background-color: #f5f5f5;
             }
             h1, h2 {
                 color: #2E7D32;
+                text-shadow: 2px 2px 4px rgba(46, 125, 50, 0.2);
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
             table, th, td {
                 border: 1px solid #ddd;
@@ -1864,12 +1867,20 @@ pipeline {
             canvas {
                 margin-top: 20px;
                 margin-bottom: 40px;
-                max-width: 800px;
+                max-width: 100%;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
             }
             .chart-container {
-                width: 50%;
-                margin: 0 auto;
+                width: 48%;
+                margin: 1%;
                 text-align: center;
+                display: inline-block;
+                vertical-align: top;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+                background-color: white;
+                padding: 20px;
             }
             .chart-description {
                 margin-top: 10px;
@@ -1877,17 +1888,29 @@ pipeline {
                 color: #555;
             }
             .card {
-                background-color: #4CAF50;
+                background: linear-gradient(135deg, #4CAF50, #81C784);
                 color: white;
                 padding: 20px;
                 border-radius: 10px;
-                width: 20%;
+                width: 18%;
                 text-align: center;
                 margin: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             }
             .card-container {
                 display: flex;
                 justify-content: space-around;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }
+            .chart-row {
+                display: flex;
+                justify-content: space-between;
                 margin-bottom: 20px;
             }
         </style>
@@ -1902,51 +1925,54 @@ pipeline {
                 <h3>Total Tests</h3>
                 <p>${totalTests}</p>
             </div>
-            <div class="card" style="background-color:#4CAF50;">
+            <div class="card" style="background: linear-gradient(135deg, #4CAF50, #66BB6A);">
                 <h3>PASS</h3>
                 <p>${totalPass}</p>
             </div>
-         
-            <div class="card" style="background-color:rgb(103, 179, 70); color: black;">
+            <div class="card" style="background: linear-gradient(135deg, #FF9800, #FFA726);">
+                <h3>FAIL</h3>
+                <p>${totalFail}</p>
+            </div>
+            <div class="card" style="background: linear-gradient(135deg, #FFEB3B, #FFEE58); color: black;">
                 <h3>NOT EXECUTED</h3>
                 <p>${totalNotExecuted}</p>
             </div>
-            <div class="card" style="background-color:rgb(138, 201, 96); color: black;">
+            <div class="card" style="background: linear-gradient(135deg, #FFC107, #FFCA28); color: black;">
                 <h3>NOK MINOR</h3>
                 <p>${totalNokMinor}</p>
             </div>
-             <div class="card" style="background-color:rgb(219, 66, 55);">
+            <div class="card" style="background: linear-gradient(135deg, #F44336, #EF5350);">
                 <h3>NOK MAJOR</h3>
                 <p>${totalNokMajor}</p>
             </div>
         </div>
 
-        <!-- Bar Chart -->
-        <div class="chart-container">
-            <h3>Répartition des statuts par feature</h3>
-            <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
-            <canvas id="barChart"></canvas>
+        <!-- Bar 1 et Pie 1 en parallèle -->
+        <div class="chart-row">
+            <div class="chart-container">
+                <h3>Répartition des statuts par feature</h3>
+                <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Répartition globale des statuts</h3>
+                <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
+                <canvas id="pieChart"></canvas>
+            </div>
         </div>
 
-        <!-- Pie Chart -->
-        <div class="chart-container">
-            <h3>Répartition globale des statuts</h3>
-            <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
-            <canvas id="pieChart"></canvas>
-        </div>
-
-        <!-- Feature Status Chart -->
-        <div class="chart-container">
-            <h3>Répartition des statuts détaillés par feature</h3>
-            <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
-            <canvas id="featureStatusChart"></canvas>
-        </div>
-
-        <!-- Feature Status Pie Chart -->
-        <div class="chart-container">
-            <h3>Répartition globale des statuts détaillés</h3>
-            <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
-            <canvas id="featureStatusPieChart"></canvas>
+        <!-- Bar 2 et Pie 2 en parallèle -->
+        <div class="chart-row">
+            <div class="chart-container">
+                <h3>Répartition des statuts détaillés par feature</h3>
+                <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
+                <canvas id="featureStatusChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Répartition globale des statuts détaillés</h3>
+                <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
+                <canvas id="featureStatusPieChart"></canvas>
+            </div>
         </div>
 
         <!-- Defects Table -->
@@ -2041,7 +2067,6 @@ pipeline {
     </body>
     </html>
 """
-
 
                     writeFile file: 'report.html', text: htmlContent
                 }
