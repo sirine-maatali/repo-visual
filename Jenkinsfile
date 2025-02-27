@@ -1780,7 +1780,7 @@ pipeline {
                         """
                             {
                                 label: "NOT EXECUTED",
-                                backgroundColor: "#FFEB3B",
+                                backgroundColor: "#A5D6A7",
                                 data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
                             }
                         """,
@@ -2175,22 +2175,45 @@ pipeline {
             }
         }
 
-        stage('Convertir en PDF') {
+         stage('Convertir en PDF avec Puppeteer') {
             steps {
                 script {
-                    // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
-                    bat 'wkhtmltopdf --version'
-                    
-                    // Convertir le fichier HTML en PDF
-                    bat 'wkhtmltopdf report.html report.pdf'
-                    
-                    // Vérifier que le fichier PDF a été généré
-                    if (!fileExists('report.pdf')) {
-                        error "Le fichier report.pdf n'a pas été généré !"
-                    }
+                    // Installer Puppeteer et convertir le HTML en PDF
+                    sh '''
+                        npm install puppeteer
+                        node <<EOF
+                        const puppeteer = require('puppeteer');
+                        (async () => {
+                            const browser = await puppeteer.launch();
+                            const page = await browser.newPage();
+                            await page.goto('file://${WORKSPACE}/report.html', { waitUntil: 'networkidle2' });
+                            await page.pdf({ path: 'report.pdf', format: 'A4' });
+                            await browser.close();
+                        })();
+                        EOF
+                    '''
                 }
             }
         }
+
+        stage('Publier les artefacts') {
+            steps {
+                // Archiver le fichier HTML et PDF
+                archiveArtifacts artifacts: 'report.html', fingerprint: true
+                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+
+                // Publier le rapport HTML dans Jenkins
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: '',
+                    reportFiles: 'report.html',
+                    reportName: 'Rapport de Test'
+                ])
+            }
+        }
+
 
         stage('Publier le rapport') {
             steps {
