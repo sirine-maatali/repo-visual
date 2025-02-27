@@ -1804,7 +1804,6 @@ pipeline {
                     // données cards 
                     def totalTests = 0
                     def totalPass = 0
-                    def totalFail = 0
                     def totalNotExecuted = 0
                     def totalNokMinor = 0
                     def totalNokMajor = 0
@@ -1903,25 +1902,22 @@ pipeline {
                 <h3>Total Tests</h3>
                 <p>${totalTests}</p>
             </div>
-            <div class="card" style="background-color: #81C784;">
+            <div class="card" style="background-color:#4CAF50;">
                 <h3>PASS</h3>
                 <p>${totalPass}</p>
             </div>
-            <div class="card" style="background-color: #FF9800;">
-                <h3>FAIL</h3>
-                <p>${totalFail}</p>
-            </div>
-            <div class="card" style="background-color: #FFEB3B; color: black;">
+         
+            <div class="card" style="background-color:rgb(139, 214, 85); color: black;">
                 <h3>NOT EXECUTED</h3>
                 <p>${totalNotExecuted}</p>
             </div>
-            <div class="card" style="background-color: #F44336;">
-                <h3>NOK MAJOR</h3>
-                <p>${totalNokMajor}</p>
-            </div>
-            <div class="card" style="background-color: #FFC107; color: black;">
+            <div class="card" style="background-color:rgb(249, 179, 87); color: black;">
                 <h3>NOK MINOR</h3>
                 <p>${totalNokMinor}</p>
+            </div>
+             <div class="card" style="background-color:rgb(219, 66, 55);">
+                <h3>NOK MAJOR</h3>
+                <p>${totalNokMajor}</p>
             </div>
         </div>
 
