@@ -1657,30 +1657,45 @@
 
 
 pipeline {
-    agent any    parameters {
+    agent any
+
+    parameters {
         string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX")')
-    } stages {
+    }
+
+    stages {
         stage('Cloner le Repo') {
             steps {
                 git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
-            }   }
+            }
+        }
+
         stage('Vérifier Python') {
             steps {
                 script {
                     bat 'where python'
                     bat 'python --version'
-                }}}        stage('Exécuter le script Python') {
+                }
+            }
+        }
+
+        stage('Exécuter le script Python') {
             steps {
-                script {  echo "Début de l'exécution du script Python"
+                script {
+                    echo "Début de l'exécution du script Python"
                     bat "python app.py ${params.FILE_NAME} output.json"
 
                     if (!fileExists('output.json')) {
                         error "Le fichier output.json n'a pas été généré !"
                     }
+
                     def jsonOutput = readFile('output.json').trim()
                     if (!jsonOutput) {
-                        error "Le fichier JSON est vide !"  }
+                        error "Le fichier JSON est vide !"
+                    }
+
                     def jsonData = readJSON text: jsonOutput
+                    
                     def statusCounts = [:]
                     def featureStatusData = [:]
                     def defectsData = []
@@ -1688,9 +1703,12 @@ pipeline {
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
                         def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
+                        
                         // Initialisation de la structure de données pour la feature si elle n'existe pas encore
                         if (!featureStatusData[feature]) {
-                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]  }
+                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
+                        }
+                        
                         // Mise à jour des compteurs en fonction du statut et de la priorité
                         if (status == 'PASS') {
                             featureStatusData[feature].PASS++
@@ -1700,29 +1718,46 @@ pipeline {
                             if (priority =='[medium]'|| status == '[high]') {
                                 featureStatusData[feature].NOKMINOR++
                             } else if (priority == '[very high]' || priority == '[blocker]') {
-                                featureStatusData[feature].NOKMAJOR++    }}
+                                featureStatusData[feature].NOKMAJOR++
+                            }
+                        }
+                        
                         if (!statusCounts[feature]) {
-                            statusCounts[feature] = [:]                       }
+                            statusCounts[feature] = [:]
+                        }
                         statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+                        
                         if (status == 'FAIL' || status == 'BLOCKED') {
                             entry.defects.each { defect ->
-                                defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")        }    }}
+                                defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
+                            }
+                        }
+                    }
+                    
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
+                    
                     // Couleurs fixes pour les barres (nuances de vert)
                     def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
+                    
                     statusTypes.eachWithIndex { status, index ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("""
-                            {                                label: "${status}",
+                            {
+                                label: "${status}",
                                 backgroundColor: "${greenShades[index % greenShades.size()]}",
-                                data: [${data.join(", ")}]        }                        """)}
+                                data: [${data.join(", ")}]
+                            }
+                        """)
+                    }
+                    
                     def pieData = statusCounts.collectEntries { feature, statuses ->
                         [(feature): statuses.collect { k, v -> v }.sum()]
                     }
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
+                    
                     // Données pour la deuxième pie chart (basée sur featureStatusData)
                     def featureStatusPieData = [
                         featureStatusData.collect { it.value.PASS }.sum(),
@@ -1732,6 +1767,7 @@ pipeline {
                     ]
                     def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
                     def featureStatusPieColors = ['#4CAF50', '#FFEB3B', '#FF9800', '#F44336']
+                    
                     def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
                     def featureStatusDatasets = [
                         """
@@ -1752,7 +1788,8 @@ pipeline {
                             {
                                 label: "NOK MINOR",
                                 backgroundColor: "#FF9800",
-                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]    }
+                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
+                            }
                         """,
                         """
                             {
@@ -1760,7 +1797,9 @@ pipeline {
                                 backgroundColor: "#F44336",
                                 data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
                             }
-                        """]
+                        """
+                    ]
+
                  def htmlContent = """
                     <html>
                     <head>
@@ -1816,36 +1855,44 @@ pipeline {
                     <body>
                         <h1>Test Execution</h1>
                         <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+
                         <!-- Bar Chart -->
                         <div class="chart-container">
                             <h3>Répartition des statuts par feature</h3>
                             <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
                             <canvas id="barChart"></canvas>
                         </div>
+
                         <!-- Pie Chart -->
                         <div class="chart-container">
                             <h3>Répartition globale des statuts</h3>
                             <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
                             <canvas id="pieChart"></canvas>
                         </div>
+
                         <!-- Feature Status Chart -->
                         <div class="chart-container">
                             <h3>Répartition des statuts détaillés par feature</h3>
                             <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
                             <canvas id="featureStatusChart"></canvas>
                         </div>
+
                         <!-- Feature Status Pie Chart -->
                         <div class="chart-container">
                             <h3>Répartition globale des statuts détaillés</h3>
                             <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
                             <canvas id="featureStatusPieChart"></canvas>
-                        </div>                        <!-- Defects Table -->
+                        </div>
+
+                        <!-- Defects Table -->
                         <h2>Defects (FAIL & BLOCKED)</h2>
                         <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
                         <table>
                             <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
                             ${defectsData.join("\n")}
-                        </table>           <script>
+                        </table>
+
+                        <script>
                             document.addEventListener('DOMContentLoaded', function() {
                                 // Bar Chart
                                 var ctxBar = document.getElementById('barChart').getContext('2d');
@@ -1854,7 +1901,8 @@ pipeline {
                                     data: {
                                         labels: [${featureLabels}],
                                         datasets: [${datasets.join(", ")}]
-                                    },      options: {
+                                    },
+                                    options: {
                                         responsive: true,
                                         plugins: {
                                             legend: { position: 'top' }
@@ -1863,7 +1911,9 @@ pipeline {
                                             x: { stacked: true },
                                             y: { stacked: true, beginAtZero: true }
                                         }
-                                    }});        
+                                    }
+                                });
+                                
                                 // Pie Chart
                                 var ctxPie = document.getElementById('pieChart').getContext('2d');
                                 new Chart(ctxPie, {
@@ -1879,7 +1929,10 @@ pipeline {
                                         responsive: true,
                                         plugins: {
                                             legend: { position: 'top' }
-                                        }  }     });
+                                        }
+                                    }
+                                });
+                                
                                 // Feature Status Chart
                                 var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
                                 new Chart(ctxFeatureStatus, {
@@ -1899,6 +1952,7 @@ pipeline {
                                         }
                                     }
                                 });
+                                
                                 // Feature Status Pie Chart
                                 var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
                                 new Chart(ctxFeatureStatusPie, {
@@ -1914,23 +1968,47 @@ pipeline {
                                         responsive: true,
                                         plugins: {
                                             legend: { position: 'top' }
-                                        }}               });
+                                        }
+                                    }
+                                });
                             });
                         </script>
                     </body>
                     </html>
-                """   writeFile file: 'report.html', text: htmlContent
-                }} }
+                """
+
+
+
+                    writeFile file: 'report.html', text: htmlContent
+                }
+            }
+        }
+
         stage('Convertir en PDF') {
-            steps {                script {                    // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
-                    bat 'wkhtmltopdf --version'     
+            steps {
+                script {
+                    // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
+                    bat 'wkhtmltopdf --version'
+                    
                     // Convertir le fichier HTML en PDF
                     bat 'wkhtmltopdf report.html report.pdf'
+                    
                     // Vérifier que le fichier PDF a été généré
                     if (!fileExists('report.pdf')) {
                         error "Le fichier report.pdf n'a pas été généré !"
-                    } } }}
+                    }
+                }
+            }
+        }
+
         stage('Publier le rapport') {
-            steps {                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+            steps {
+                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+                
                 // Publier le fichier PDF
-                archiveArtifacts artifacts: 'report.pdf', fingerprint: true } }}}
+                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+            }
+        }
+    }
+}
+
