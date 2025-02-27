@@ -1826,13 +1826,143 @@ pipeline {
                         }
                     }
 
-             def htmlContent = """
+                def htmlContent = """
 <html>
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Votre CSS ici */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #2E7D32;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        canvas {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            max-width: 100%;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+        .chart-wrapper {
+            width: 48%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chart-wrapper.pie {
+            width: 30%;
+        }
+        .chart-wrapper.bar {
+            width: 68%;
+        }
+        .chart-description {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+            text-align: center;
+        }
+        .card {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 18%;
+            text-align: center;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+        }
+        .card h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .card p {
+            margin: 10px 0 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        /* Pagination Styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .pagination button:hover {
+            background-color: #45a049;
+        }
+        .pagination button.active {
+            background-color: #2E7D32;
+        }
     </style>
 </head>
 <body>
@@ -1920,8 +2050,8 @@ pipeline {
             new Chart(ctxBar, {
                 type: 'bar',
                 data: {
-                    labels: ${featureLabels.collect { "\"${it}\"" }},
-                    datasets: ${datasets}
+                    labels: [${featureLabels}],
+                    datasets: [${datasets.join(", ")}]
                 },
                 options: {
                     responsive: true,
@@ -1940,10 +2070,10 @@ pipeline {
             new Chart(ctxPie, {
                 type: 'pie',
                 data: {
-                    labels: ${pieLabels.collect { "\"${it}\"" }},
+                    labels: [${pieLabels}],
                     datasets: [{
-                        data: ${pieValues},
-                        backgroundColor: ${greenShades.collect { "\"${it}\"" }}
+                        data: [${pieValues}],
+                        backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
                     }]
                 },
                 options: {
@@ -1959,8 +2089,8 @@ pipeline {
             new Chart(ctxFeatureStatus, {
                 type: 'bar',
                 data: {
-                    labels: ${featureStatusLabels.collect { "\"${it}\"" }},
-                    datasets: ${featureStatusDatasets}
+                    labels: [${featureStatusLabels}],
+                    datasets: [${featureStatusDatasets.join(", ")}]
                 },
                 options: {
                     responsive: true,
@@ -1972,94 +2102,92 @@ pipeline {
                         y: { stacked: true, beginAtZero: true }
                     }
                 }
-            });
-            
-            // Feature Status Pie Chart
-            var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-            new Chart(ctxFeatureStatusPie, {
-                type: 'pie',
-                data: {
-                    labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-                    datasets: [{
-                        data: ${featureStatusPieData},
-                        backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' }
-                    }
-                }
-            });
+                            });
+                            
+                            // Feature Status Pie Chart
+                            var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+                            new Chart(ctxFeatureStatusPie, {
+                                type: 'pie',
+                                data: {
+                                    labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+                                    datasets: [{
+                                        data: ${featureStatusPieData},
+                                        backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: { position: 'top' }
+                                    }
+                                }
+                            });
 
-            // Pagination Script
-            const table = document.getElementById('defectsTable');
-            const rows = table.querySelectorAll('tbody tr');
-            const rowsPerPage = 10; // Number of rows per page
-            const pageCount = Math.ceil(rows.length / rowsPerPage);
-            const paginationDiv = document.getElementById('pagination');
+                            // Pagination Script
+                            const table = document.getElementById('defectsTable');
+                            const rows = table.querySelectorAll('tbody tr');
+                            const rowsPerPage = 10; // Number of rows per page
+                            const pageCount = Math.ceil(rows.length / rowsPerPage);
+                            const paginationDiv = document.getElementById('pagination');
 
-            // Function to show rows for a specific page
-            function showPage(page) {
-                const start = (page - 1) * rowsPerPage;
-                const end = start + rowsPerPage;
-                rows.forEach((row, index) => {
-                    row.style.display = (index >= start && index < end) ? '' : 'none';
-                });
-            }
+                            // Function to show rows for a specific page
+                            function showPage(page) {
+                                const start = (page - 1) * rowsPerPage;
+                                const end = start + rowsPerPage;
+                                rows.forEach((row, index) => {
+                                    row.style.display = (index >= start && index < end) ? '' : 'none';
+                                });
+                            }
 
-            // Function to create pagination buttons
-            function createPagination() {
-                for (let i = 1; i <= pageCount; i++) {
-                    const button = document.createElement('button');
-                    button.innerText = i;
-                    button.addEventListener('click', () => {
-                        showPage(i);
-                        setActiveButton(button);
-                    });
-                    paginationDiv.appendChild(button);
-                }
-                showPage(1); // Show first page by default
-                setActiveButton(paginationDiv.querySelector('button'));
-            }
+                            // Function to create pagination buttons
+                            function createPagination() {
+                                for (let i = 1; i <= pageCount; i++) {
+                                    const button = document.createElement('button');
+                                    button.innerText = i;
+                                    button.addEventListener('click', () => {
+                                        showPage(i);
+                                        setActiveButton(button);
+                                    });
+                                    paginationDiv.appendChild(button);
+                                }
+                                showPage(1); // Show first page by default
+                                setActiveButton(paginationDiv.querySelector('button'));
+                            }
 
-            // Function to set the active button
-            function setActiveButton(activeButton) {
-                paginationDiv.querySelectorAll('button').forEach(button => {
-                    button.classList.remove('active');
-                });
-                activeButton.classList.add('active');
-            }
+                            // Function to set the active button
+                            function setActiveButton(activeButton) {
+                                paginationDiv.querySelectorAll('button').forEach(button => {
+                                    button.classList.remove('active');
+                                });
+                                activeButton.classList.add('active');
+                            }
 
-            createPagination(); // Initialize pagination
-        });
-    </script>
-</body>
-</html>
-"""
+                            createPagination(); // Initialize pagination
+                        });
+                    </script>
+                </body>
+                </html>
+                """
 
-writeFile file: 'report.html', text: htmlContent
+
+                    writeFile file: 'report.html', text: htmlContent
                 }
             }
         }
 
-      stage('Publier le rapport') {
-    steps {
-        publishHTML(target: [
-            allowMissing: false,
-            alwaysLinkToLastBuild: false,
-            keepAll: true,
-            reportDir: 'C:/ProgramData/Jenkins/.jenkins/jobs/Job-Git-Pipeline/htmlreports/Visualisation_20des_20Features/',
-            reportFiles: 'report.html',
-            reportName: 'Visualisation des Features'
-        ])
-        
-        // Publier le fichier PDF
-        archiveArtifacts artifacts: 'report.pdf', fingerprint: true
-    }
-}
-
+     stage('Publier le rapport HTML') {
+            steps {
+                // Utiliser le plugin publishHTML pour publier le rapport
+                publishHTML(target: [
+                    allowMissing: false, // Échoue si le fichier est manquant
+                    alwaysLinkToLastBuild: true, // Toujours lier au dernier build
+                    keepAll: true, // Conserver tous les rapports
+                    reportDir: '', // Répertoire où se trouve le fichier HTML (ici, le répertoire courant)
+                    reportFiles: 'report.html', // Nom du fichier HTML
+                    reportName: 'Visualisation des Features' // Nom du rapport dans Jenkins
+                ])
+            }
+        }
     }
 }
 
