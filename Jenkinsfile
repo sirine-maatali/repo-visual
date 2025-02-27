@@ -1826,108 +1826,16 @@ pipeline {
                         }
                     }
 
-             def htmlContent = """
-<html>
+                def htmlContent = """
+    <html>
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Plugin pour les étiquettes de données -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <!-- Plugin pour l'effet 3D -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-3d"></script>
+    <!-- Plugins locaux -->
+    <script src="plugins/chartjs-plugin-datalabels.min.js"></script>
+    <script src="plugins/chartjs-plugin-3d.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
-        }
-        h1, h2 {
-            color: #2E7D32;
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #ddd;
-        }
-        canvas {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            max-width: 100%;
-        }
-        .chart-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 40px;
-            gap: 20px;
-        }
-        .chart-wrapper {
-            width: 48%;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .chart-wrapper.pie {
-            width: 30%;
-        }
-        .chart-wrapper.bar {
-            width: 68%;
-        }
-        .chart-description {
-            margin-top: 10px;
-            font-style: italic;
-            color: #555;
-            text-align: center;
-        }
-        .card {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 18%;
-            text-align: center;
-            margin: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-        .card-container {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 40px;
-        }
-        .card h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-        .card p {
-            margin: 10px 0 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
+        /* Votre CSS ici */
     </style>
 </head>
 <body>
@@ -2098,7 +2006,8 @@ pipeline {
         });
     </script>
 </body>
-</html>"""
+</html>
+"""
 
 
                     writeFile file: 'report.html', text: htmlContent
