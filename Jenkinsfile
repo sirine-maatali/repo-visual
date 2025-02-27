@@ -883,6 +883,7 @@
 // }
 
 
+
 pipeline {
     agent any
 
@@ -922,102 +923,49 @@ pipeline {
                     }
 
                     def jsonData = readJSON text: jsonOutput
-
-                    // Initialisation des structures de données
-                    def statusCounts = [:] // Pour le premier histogramme
-                    def defectsData = []  // Pour le tableau des défauts
-                    def featureStatusData = [:] // Pour le deuxième histogramme
-
+                    
+                    def statusCounts = [:]
+                    def defectsData = []
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
-                        def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
-
-                        // Premier histogramme : Comptage des statuts par feature
+                        
                         if (!statusCounts[feature]) {
                             statusCounts[feature] = [:]
                         }
                         statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
-
-                        // Tableau des défauts pour les statuts FAIL et BLOCKED
+                        
                         if (status == 'FAIL' || status == 'BLOCKED') {
                             entry.defects.each { defect ->
                                 defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
                             }
                         }
-
-                        // Deuxième histogramme : Comptage des statuts avec priorité
-                        if (!featureStatusData[feature]) {
-                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
-                        }
-                        if (status == 'PASS') {
-                            featureStatusData[feature].PASS++
-                        } else if (status == 'ABORTED' || status == 'TODO') {
-                            featureStatusData[feature].NOTEXECUTED++
-                        } else if (status == 'FAIL' || status == 'BLOCKED') {
-                            if (priority == '[medium]' || priority == '[high]') {
-                                featureStatusData[feature].NOKMINOR++
-                            } else if (priority == '[very high]' || priority == '[blocker]') {
-                                featureStatusData[feature].NOKMAJOR++
-                            }
-                        }
                     }
-
-                    // Préparation des données pour les graphiques
+                    
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
+                    def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
+                    
+                    // Couleurs fixes pour les barres (nuances de vert)
                     def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
-                    def datasets = statusTypes.eachWithIndex { status, index ->
-                        """
+                    
+                    statusTypes.eachWithIndex { status, index ->
+                        def data = statusCounts.collect { it.value[status] ?: 0 }
+                        datasets.add("""
                             {
                                 label: "${status}",
                                 backgroundColor: "${greenShades[index % greenShades.size()]}",
-                                data: [${statusCounts.collect { it.value[status] ?: 0 }.join(", ")}]
+                                data: [${data.join(", ")}]
                             }
-                        """
+                        """)
                     }
-
-                    // Données pour le graphique en camembert
+                    
                     def pieData = statusCounts.collectEntries { feature, statuses ->
                         [(feature): statuses.collect { k, v -> v }.sum()]
                     }
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
-
-                    // Données pour le deuxième histogramme
-                    def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
-                    def featureStatusDatasets = [
-                        """
-                            {
-                                label: "PASS",
-                                backgroundColor: "#4CAF50",
-                                data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
-                            }
-                        """,
-                        """
-                            {
-                                label: "NOT EXECUTED",
-                                backgroundColor: "#FFEB3B",
-                                data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
-                            }
-                        """,
-                        """
-                            {
-                                label: "NOK MINOR",
-                                backgroundColor: "#FF9800",
-                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
-                            }
-                        """,
-                        """
-                            {
-                                label: "NOK MAJOR",
-                                backgroundColor: "#F44336",
-                                data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
-                            }
-                        """
-                    ]
-
-                    // Génération du rapport HTML
+                    
                     def htmlContent = """
                         <html>
                         <head>
@@ -1067,32 +1015,20 @@ pipeline {
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            
-                            <!-- Premier histogramme -->
                             <div class="chart-container">
                                 <canvas id="barChart"></canvas>
                             </div>
-                            
-                            <!-- Deuxième histogramme -->
-                            <div class="chart-container">
-                                <canvas id="featureStatusChart"></canvas>
-                            </div>
-                            
-                            <!-- Graphique en camembert -->
                             <div class="chart-container">
                                 <canvas id="pieChart"></canvas>
                             </div>
-                            
-                            <!-- Tableau des défauts -->
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table>
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
                                 ${defectsData.join("\n")}
                             </table>
-                            
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                    // Premier histogramme
+                                    // Bar Chart
                                     var ctxBar = document.getElementById('barChart').getContext('2d');
                                     new Chart(ctxBar, {
                                         type: 'bar',
@@ -1111,28 +1047,8 @@ pipeline {
                                             }
                                         }
                                     });
-
-                                    // Deuxième histogramme
-                                    var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
-                                    new Chart(ctxFeatureStatus, {
-                                        type: 'bar',
-                                        data: {
-                                            labels: [${featureStatusLabels}],
-                                            datasets: [${featureStatusDatasets.join(", ")}]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
-                                            },
-                                            scales: {
-                                                x: { stacked: true },
-                                                y: { stacked: true, beginAtZero: true }
-                                            }
-                                        }
-                                    });
-
-                                    // Graphique en camembert
+                                    
+                                    // Pie Chart
                                     var ctxPie = document.getElementById('pieChart').getContext('2d');
                                     new Chart(ctxPie, {
                                         type: 'pie',
@@ -1156,7 +1072,6 @@ pipeline {
                         </html>
                     """
 
-                    // Écriture du fichier HTML
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
@@ -1165,9 +1080,13 @@ pipeline {
         stage('Convertir en PDF') {
             steps {
                 script {
+                    // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
                     bat 'wkhtmltopdf --version'
+                    
+                    // Convertir le fichier HTML en PDF
                     bat 'wkhtmltopdf report.html report.pdf'
-
+                    
+                    // Vérifier que le fichier PDF a été généré
                     if (!fileExists('report.pdf')) {
                         error "Le fichier report.pdf n'a pas été généré !"
                     }
@@ -1178,11 +1097,14 @@ pipeline {
         stage('Publier le rapport') {
             steps {
                 publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+                
+                // Publier le fichier PDF
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
     }
 }
+
 
 
 // pipeline {
