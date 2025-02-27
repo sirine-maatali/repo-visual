@@ -883,7 +883,6 @@
 // }
 
 
-
 pipeline {
     agent any
 
@@ -923,33 +922,53 @@ pipeline {
                     }
 
                     def jsonData = readJSON text: jsonOutput
-                    
+
+                    // Initialisation des structures de données
                     def statusCounts = [:]
                     def defectsData = []
+                    def featureStatusData = [:]
+
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
                         def status = entry.status.toString().trim()
-                        
+                        def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
+
+                        // Collecte des données pour le premier histogramme (statuts)
                         if (!statusCounts[feature]) {
                             statusCounts[feature] = [:]
                         }
                         statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
-                        
+
+                        // Collecte des données pour le tableau des défauts
                         if (status == 'FAIL' || status == 'BLOCKED') {
                             entry.defects.each { defect ->
                                 defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
                             }
                         }
+
+                        // Collecte des données pour le deuxième histogramme (statuts avec priorité)
+                        if (!featureStatusData[feature]) {
+                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
+                        }
+
+                        if (status == 'PASS') {
+                            featureStatusData[feature].PASS++
+                        } else if (status == 'ABORTED' || status == 'TODO') {
+                            featureStatusData[feature].NOTEXECUTED++
+                        } else if (status == 'FAIL' || status == 'BLOCKED') {
+                            if (priority == '[medium]' || priority == '[high]') {
+                                featureStatusData[feature].NOKMINOR++
+                            } else if (priority == '[very high]' || priority == '[blocker]') {
+                                featureStatusData[feature].NOKMAJOR++
+                            }
+                        }
                     }
-                    
+
+                    // Préparation des données pour les graphiques
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
-                    def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
-                    
-                    // Couleurs fixes pour les barres (nuances de vert)
                     def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
-                    
-                    statusTypes.eachWithIndex { status, index ->
+                    def datasets = statusTypes.eachWithIndex { status, index ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("""
                             {
@@ -959,54 +978,8 @@ pipeline {
                             }
                         """)
                     }
-                    
-                    def pieData = statusCounts.collectEntries { feature, statuses ->
-                        [(feature): statuses.collect { k, v -> v }.sum()]
-                    }
-                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
-                    def pieValues = pieData.values().join(", ")
-                    
 
-
-// 
-                    def featureStatusData = [:]
-                        jsonData.each { entry ->
-                        def feature = entry.feature.toString().trim()
-                        def status = entry.status.toString().trim()
-                        def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
-                        
-                        // Affichage des valeurs initiales
-                        echo "hedhiiiiiiiiiii priority: ${priority}"
-                        echo "hedhiiiiiiiiiii status: ${status}"
-                        echo "hedhiiiiiiiiiii feature: ${feature}"
-                        
-                        // Initialisation de la structure de données pour la feature si elle n'existe pas encore
-                        if (!featureStatusData[feature]) {
-                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
-                            echo "Initialisation de la feature: ${feature} avec les valeurs par défaut: ${featureStatusData[feature]}"
-                        }
-                        
-                        // Mise à jour des compteurs en fonction du statut et de la priorité
-                        if (status == 'PASS') {
-                            featureStatusData[feature].PASS++
-                            echo "Statut PASS détecté pour la feature: ${feature}. Nouveau compte PASS: ${featureStatusData[feature].PASS}"
-                        } else if (status == 'ABORTED' || status == 'TODO') {
-                            featureStatusData[feature].NOTEXECUTED++
-                            echo "Statut ABORTED ou TODO détecté pour la feature: ${feature}. Nouveau compte NOTEXECUTED: ${featureStatusData[feature].NOTEXECUTED}"
-                        } else if (status == 'FAIL' || status == 'BLOCKED') {
-                            if (priority =='[medium]'|| status == '[high]') {
-                                featureStatusData[feature].NOKMINOR++
-                                echo "Statut FAIL ou BLOCKED avec priorité ${priority} détecté pour la feature: ${feature}. Nouveau compte NOKMINOR: ${featureStatusData[feature].NOKMINOR}"
-                            } else if (priority == '[very high]' || priority == '[blocker]') {
-                                featureStatusData[feature].NOKMAJOR++
-                                echo "Statut FAIL ou BLOCKED avec priorité ${priority} détecté pour la feature: ${feature}. Nouveau compte NOKMAJOR: ${featureStatusData[feature].NOKMAJOR}"
-                            }
-                        }
-                        
-                        // Affichage de l'état actuel de featureStatusData après chaque itération
-                        echo "État actuel de featureStatusData après traitement de la feature ${feature}: ${featureStatusData}"
-                }
-
+                    // Données pour le deuxième histogramme (statuts avec priorité)
                     def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
                     def featureStatusDatasets = [
                         """
@@ -1039,9 +1012,14 @@ pipeline {
                         """
                     ]
 
+                    // Données pour le graphique en camembert
+                    def pieData = statusCounts.collectEntries { feature, statuses ->
+                        [(feature): statuses.collect { k, v -> v }.sum()]
+                    }
+                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def pieValues = pieData.values().join(", ")
 
-
-
+                    // Génération du rapport HTML
                     def htmlContent = """
                         <html>
                         <head>
@@ -1095,6 +1073,9 @@ pipeline {
                                 <canvas id="barChart"></canvas>
                             </div>
                             <div class="chart-container">
+                                <canvas id="featureStatusChart"></canvas>
+                            </div>
+                            <div class="chart-container">
                                 <canvas id="pieChart"></canvas>
                             </div>
                             <h2>Defects (FAIL & BLOCKED)</h2>
@@ -1104,7 +1085,7 @@ pipeline {
                             </table>
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                    // Bar Chart
+                                    // Bar Chart (Statuts)
                                     var ctxBar = document.getElementById('barChart').getContext('2d');
                                     new Chart(ctxBar, {
                                         type: 'bar',
@@ -1123,33 +1104,27 @@ pipeline {
                                             }
                                         }
                                     });
-                                    // bar 2
-                                          <div class="chart-container">
-                                 <canvas id="featureStatusChart"></canvas>
-                             </div>
-                             <script>
-                                 document.addEventListener('DOMContentLoaded', function() {
-                                     var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
-                                     new Chart(ctxFeatureStatus, {
-                                         type: 'bar',
-                                         data: {
-                                             labels: [${featureStatusLabels}],
-                                             datasets: [${featureStatusDatasets.join(", ")}]
-                                         },
-                                         options: {
-                                             responsive: true,
-                                             plugins: {
-                                                 legend: { position: 'top' }
-                                             },
-                                             scales: {
-                                                 x: { stacked: true },
-                                                 y: { stacked: true, beginAtZero: true }
-                                             }
-                                         }
-                                     });
-                                 });
-                             </script>
-                       
+
+                                    // Bar Chart (Statuts avec priorité)
+                                    var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+                                    new Chart(ctxFeatureStatus, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: [${featureStatusLabels}],
+                                            datasets: [${featureStatusDatasets.join(", ")}]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: { position: 'top' }
+                                            },
+                                            scales: {
+                                                x: { stacked: true },
+                                                y: { stacked: true, beginAtZero: true }
+                                            }
+                                        }
+                                    });
+
                                     // Pie Chart
                                     var ctxPie = document.getElementById('pieChart').getContext('2d');
                                     new Chart(ctxPie, {
@@ -1174,6 +1149,7 @@ pipeline {
                         </html>
                     """
 
+                    // Écriture du fichier HTML
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
@@ -1182,13 +1158,9 @@ pipeline {
         stage('Convertir en PDF') {
             steps {
                 script {
-                    // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
                     bat 'wkhtmltopdf --version'
-                    
-                    // Convertir le fichier HTML en PDF
                     bat 'wkhtmltopdf report.html report.pdf'
-                    
-                    // Vérifier que le fichier PDF a été généré
+
                     if (!fileExists('report.pdf')) {
                         error "Le fichier report.pdf n'a pas été généré !"
                     }
@@ -1198,15 +1170,12 @@ pipeline {
 
         stage('Publier le rapport') {
             steps {
-                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
-                
-                // Publier le fichier PDF
+                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Test Execution Report'])
                 archiveArtifacts artifacts: 'report.pdf', fingerprint: true
             }
         }
     }
 }
-
 
 
 // pipeline {
