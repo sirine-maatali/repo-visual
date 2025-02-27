@@ -1569,7 +1569,7 @@ pipeline {
                                                             let label = context.label || '';
                                                             let value = context.raw || 0;
                                                             let percentage = ${piePercentages}[context.dataIndex];
-                                                            return \`\${label}: \${value} (\${percentage}%)\`;
+                                                            return "${label}: ${value} (${percentage}%)";
                                                         }
                                                     }
                                                 }
