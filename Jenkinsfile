@@ -1868,14 +1868,15 @@ pipeline {
             margin-top: 20px;
             margin-bottom: 40px;
             max-width: 100%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
         }
         .chart-container {
-            width: 45%;
-            display: inline-block;
-            margin: 1%;
-            vertical-align: top;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .chart-wrapper {
+            width: 48%;
             background-color: white;
             padding: 20px;
             border-radius: 10px;
@@ -1905,32 +1906,16 @@ pipeline {
         .card-container {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            margin-bottom: 40px;
         }
         .card h3 {
             margin: 0;
-            font-size: 1.2em;
+            font-size: 18px;
         }
         .card p {
             margin: 10px 0 0;
-            font-size: 1.5em;
+            font-size: 24px;
             font-weight: bold;
-        }
-        .chart-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        @media (max-width: 768px) {
-            .chart-container {
-                width: 100%;
-                margin: 10px 0;
-            }
-            .card {
-                width: 45%;
-                margin: 5px;
-            }
         }
     </style>
 </head>
@@ -1940,50 +1925,50 @@ pipeline {
 
     <!-- Cards Section -->
     <div class="card-container">
-        <div class="card">
+        <div class="card" style="background-color: #4CAF50;">
             <h3>Total Tests</h3>
             <p>${totalTests}</p>
         </div>
-        <div class="card" style="background-color:#4CAF50;">
+        <div class="card" style="background-color: #81C784;">
             <h3>PASS</h3>
             <p>${totalPass}</p>
         </div>
-        <div class="card" style="background-color:rgb(103, 179, 70); color: black;">
+        <div class="card" style="background-color: #A5D6A7; color: black;">
             <h3>NOT EXECUTED</h3>
             <p>${totalNotExecuted}</p>
         </div>
-        <div class="card" style="background-color:rgb(138, 201, 96); color: black;">
+        <div class="card" style="background-color: #FF9800;">
             <h3>NOK MINOR</h3>
             <p>${totalNokMinor}</p>
         </div>
-        <div class="card" style="background-color:rgb(219, 66, 55);">
+        <div class="card" style="background-color: #F44336;">
             <h3>NOK MAJOR</h3>
             <p>${totalNokMajor}</p>
         </div>
     </div>
 
-    <!-- Bar 1 and Pie 1 Row -->
-    <div class="chart-row">
-        <div class="chart-container">
+    <!-- Bar Chart 1 and Pie Chart 1 -->
+    <div class="chart-container">
+        <div class="chart-wrapper">
             <h3>Répartition des statuts par feature</h3>
             <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
             <canvas id="barChart"></canvas>
         </div>
-        <div class="chart-container">
+        <div class="chart-wrapper">
             <h3>Répartition globale des statuts</h3>
             <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
             <canvas id="pieChart"></canvas>
         </div>
     </div>
 
-    <!-- Bar 2 and Pie 2 Row -->
-    <div class="chart-row">
-        <div class="chart-container">
+    <!-- Bar Chart 2 and Pie Chart 2 -->
+    <div class="chart-container">
+        <div class="chart-wrapper">
             <h3>Répartition des statuts détaillés par feature</h3>
             <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
             <canvas id="featureStatusChart"></canvas>
         </div>
-        <div class="chart-container">
+        <div class="chart-wrapper">
             <h3>Répartition globale des statuts détaillés</h3>
             <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
             <canvas id="featureStatusPieChart"></canvas>
