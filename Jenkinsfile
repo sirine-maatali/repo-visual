@@ -2207,7 +2207,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'C:/ProgramData/Jenkins/.jenkins/jobs/Job-Git-Pipeline/htmlreports/Visualisation_20des_20Features/report.html',
+                    reportDir: 'C:/ProgramData/Jenkins/.jenkins/jobs/Job-Git-Pipeline/htmlreports/Visualisation_20des_20Features',
                     reportFiles: 'report.html',
                     reportName: 'Rapport de Test'
                 ])
