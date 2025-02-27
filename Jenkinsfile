@@ -2179,7 +2179,7 @@ pipeline {
             steps {
                 script {
                     // Installer Puppeteer et convertir le HTML en PDF
-                    bat """
+                    bat '''
                         npm install puppeteer
                         node <<EOF
                         const puppeteer = require('puppeteer');
@@ -2191,7 +2191,7 @@ pipeline {
                             await browser.close();
                         })();
                         EOF
-                    """
+                    '''
                 }
             }
         }
