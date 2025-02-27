@@ -1400,6 +1400,8 @@ pipeline {
                     }
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
+                    def pieTotal = pieValues.split(',').collect { it.toInteger() }.sum()
+                    def piePercentages = pieValues.split(',').collect { ((it.toDouble() / pieTotal) * 100).round(2) }
                     
                     // Données pour la deuxième pie chart (basée sur featureStatusData)
                     def featureStatusPieData = [
@@ -1410,6 +1412,8 @@ pipeline {
                     ]
                     def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
                     def featureStatusPieColors = ['#4CAF50', '#FFEB3B', '#FF9800', '#F44336']
+                    def featureStatusPieTotal = featureStatusPieData.sum()
+                    def featureStatusPiePercentages = featureStatusPieData.collect { ((it.toDouble() / featureStatusPieTotal) * 100 }.collect { it.round(2) }
                     
                     def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
                     def featureStatusDatasets = [
@@ -1453,7 +1457,7 @@ pipeline {
                                     font-family: Arial, sans-serif;
                                     margin: 20px;
                                 }
-                                h1, h2 {
+                                h1, h2, h3 {
                                     color: #2E7D32;
                                 }
                                 table {
@@ -1487,23 +1491,37 @@ pipeline {
                                     width: 50%;
                                     margin: 0 auto;
                                 }
+                                .chart-title {
+                                    text-align: center;
+                                    font-size: 1.2em;
+                                    margin-bottom: 10px;
+                                }
                             </style>
                         </head>
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                            
                             <div class="chart-container">
+                                <h3>Statuts par Feature (Bar Chart)</h3>
                                 <canvas id="barChart"></canvas>
                             </div>
+                            
                             <div class="chart-container">
+                                <h3>Répartition des Statuts par Feature (Pie Chart)</h3>
                                 <canvas id="pieChart"></canvas>
                             </div>
+                            
                             <div class="chart-container">
+                                <h3>Statuts PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR (Bar Chart)</h3>
                                 <canvas id="featureStatusChart"></canvas>
                             </div>
+                            
                             <div class="chart-container">
+                                <h3>Répartition des Statuts Globaux (Pie Chart)</h3>
                                 <canvas id="featureStatusPieChart"></canvas>
                             </div>
+                            
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <table>
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
@@ -1545,7 +1563,17 @@ pipeline {
                                         options: {
                                             responsive: true,
                                             plugins: {
-                                                legend: { position: 'top' }
+                                                legend: { position: 'top' },
+                                                tooltip: {
+                                                    callbacks: {
+                                                        label: function(context) {
+                                                            let label = context.label || '';
+                                                            let value = context.raw || 0;
+                                                            let percentage = ${piePercentages}[context.dataIndex];
+                                                            return \`\${label}: \${value} (\${percentage}%)\`;
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     });
@@ -1584,7 +1612,17 @@ pipeline {
                                         options: {
                                             responsive: true,
                                             plugins: {
-                                                legend: { position: 'top' }
+                                                legend: { position: 'top' },
+                                                tooltip: {
+                                                    callbacks: {
+                                                        label: function(context) {
+                                                            let label = context.label || '';
+                                                            let value = context.raw || 0;
+                                                            let percentage = ${featureStatusPiePercentages}[context.dataIndex];
+                                                            return \`\${label}: \${value} (\${percentage}%)\`;
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     });
