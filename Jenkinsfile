@@ -966,6 +966,82 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
                     
+
+
+// 
+                    def featureStatusData = [:]
+                        jsonData.each { entry ->
+                        def feature = entry.feature.toString().trim()
+                        def status = entry.status.toString().trim()
+                        def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
+                        
+                        // Affichage des valeurs initiales
+                        echo "hedhiiiiiiiiiii priority: ${priority}"
+                        echo "hedhiiiiiiiiiii status: ${status}"
+                        echo "hedhiiiiiiiiiii feature: ${feature}"
+                        
+                        // Initialisation de la structure de données pour la feature si elle n'existe pas encore
+                        if (!featureStatusData[feature]) {
+                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
+                            echo "Initialisation de la feature: ${feature} avec les valeurs par défaut: ${featureStatusData[feature]}"
+                        }
+                        
+                        // Mise à jour des compteurs en fonction du statut et de la priorité
+                        if (status == 'PASS') {
+                            featureStatusData[feature].PASS++
+                            echo "Statut PASS détecté pour la feature: ${feature}. Nouveau compte PASS: ${featureStatusData[feature].PASS}"
+                        } else if (status == 'ABORTED' || status == 'TODO') {
+                            featureStatusData[feature].NOTEXECUTED++
+                            echo "Statut ABORTED ou TODO détecté pour la feature: ${feature}. Nouveau compte NOTEXECUTED: ${featureStatusData[feature].NOTEXECUTED}"
+                        } else if (status == 'FAIL' || status == 'BLOCKED') {
+                            if (priority =='[medium]'|| status == '[high]') {
+                                featureStatusData[feature].NOKMINOR++
+                                echo "Statut FAIL ou BLOCKED avec priorité ${priority} détecté pour la feature: ${feature}. Nouveau compte NOKMINOR: ${featureStatusData[feature].NOKMINOR}"
+                            } else if (priority == '[very high]' || priority == '[blocker]') {
+                                featureStatusData[feature].NOKMAJOR++
+                                echo "Statut FAIL ou BLOCKED avec priorité ${priority} détecté pour la feature: ${feature}. Nouveau compte NOKMAJOR: ${featureStatusData[feature].NOKMAJOR}"
+                            }
+                        }
+                        
+                        // Affichage de l'état actuel de featureStatusData après chaque itération
+                        echo "État actuel de featureStatusData après traitement de la feature ${feature}: ${featureStatusData}"
+                }
+
+                    def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def featureStatusDatasets = [
+                        """
+                            {
+                                label: "PASS",
+                                backgroundColor: "#4CAF50",
+                                data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOT EXECUTED",
+                                backgroundColor: "#FFEB3B",
+                                data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOK MINOR",
+                                backgroundColor: "#FF9800",
+                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOK MAJOR",
+                                backgroundColor: "#F44336",
+                                data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
+                            }
+                        """
+                    ]
+
+
+
+
                     def htmlContent = """
                         <html>
                         <head>
@@ -1047,7 +1123,33 @@ pipeline {
                                             }
                                         }
                                     });
-                                    
+                                    // bar 2
+                                          <div class="chart-container">
+                                 <canvas id="featureStatusChart"></canvas>
+                             </div>
+                             <script>
+                                 document.addEventListener('DOMContentLoaded', function() {
+                                     var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+                                     new Chart(ctxFeatureStatus, {
+                                         type: 'bar',
+                                         data: {
+                                             labels: [${featureStatusLabels}],
+                                             datasets: [${featureStatusDatasets.join(", ")}]
+                                         },
+                                         options: {
+                                             responsive: true,
+                                             plugins: {
+                                                 legend: { position: 'top' }
+                                             },
+                                             scales: {
+                                                 x: { stacked: true },
+                                                 y: { stacked: true, beginAtZero: true }
+                                             }
+                                         }
+                                     });
+                                 });
+                             </script>
+                       
                                     // Pie Chart
                                     var ctxPie = document.getElementById('pieChart').getContext('2d');
                                     new Chart(ctxPie, {
