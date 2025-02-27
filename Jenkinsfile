@@ -1297,6 +1297,8 @@
 //     }
 // }
 
+
+
 pipeline {
     agent any
 
@@ -1441,156 +1443,184 @@ pipeline {
                         """
                     ]
 
-                    def htmlContent = """
-                        <html>
-                        <head>
-                            <title>Test Execution - ${params.FILE_NAME}</title>
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                            <style>
-                                body {
-                                    font-family: Arial, sans-serif;
-                                    margin: 20px;
-                                }
-                                h1, h2 {
-                                    color: #2E7D32;
-                                }
-                                table {
-                                    width: 100%;
-                                    border-collapse: collapse;
-                                    margin-top: 20px;
-                                }
-                                table, th, td {
-                                    border: 1px solid #ddd;
-                                }
-                                th, td {
-                                    padding: 12px;
-                                    text-align: left;
-                                }
-                                th {
-                                    background-color: #4CAF50;
-                                    color: white;
-                                }
-                                tr:nth-child(even) {
-                                    background-color: #f2f2f2;
-                                }
-                                tr:hover {
-                                    background-color: #ddd;
-                                }
-                                canvas {
-                                    margin-top: 20px;
-                                    margin-bottom: 40px;
-                                    max-width: 800px;
-                                }
-                                .chart-container {
-                                    width: 50%;
-                                    margin: 0 auto;
-                                }
-                            </style>
-                        </head>
-                        <body>
-                            <h1>Test Execution</h1>
-                            <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-                            <div class="chart-container">
-                                <canvas id="barChart"></canvas>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="pieChart"></canvas>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="featureStatusChart"></canvas>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="featureStatusPieChart"></canvas>
-                            </div>
-                            <h2>Defects (FAIL & BLOCKED)</h2>
-                            <table>
-                                <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-                                ${defectsData.join("\n")}
-                            </table>
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    // Bar Chart
-                                    var ctxBar = document.getElementById('barChart').getContext('2d');
-                                    new Chart(ctxBar, {
-                                        type: 'bar',
-                                        data: {
-                                            labels: [${featureLabels}],
-                                            datasets: [${datasets.join(", ")}]
+                 def htmlContent = """
+                    <html>
+                    <head>
+                        <title>Test Execution - ${params.FILE_NAME}</title>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                margin: 20px;
+                            }
+                            h1, h2 {
+                                color: #2E7D32;
+                            }
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 20px;
+                            }
+                            table, th, td {
+                                border: 1px solid #ddd;
+                            }
+                            th, td {
+                                padding: 12px;
+                                text-align: left;
+                            }
+                            th {
+                                background-color: #4CAF50;
+                                color: white;
+                            }
+                            tr:nth-child(even) {
+                                background-color: #f2f2f2;
+                            }
+                            tr:hover {
+                                background-color: #ddd;
+                            }
+                            canvas {
+                                margin-top: 20px;
+                                margin-bottom: 40px;
+                                max-width: 800px;
+                            }
+                            .chart-container {
+                                width: 50%;
+                                margin: 0 auto;
+                                text-align: center;
+                            }
+                            .chart-description {
+                                margin-top: 10px;
+                                font-style: italic;
+                                color: #555;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Test Execution</h1>
+                        <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+
+                        <!-- Bar Chart -->
+                        <div class="chart-container">
+                            <h3>Répartition des statuts par feature</h3>
+                            <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
+                            <canvas id="barChart"></canvas>
+                        </div>
+
+                        <!-- Pie Chart -->
+                        <div class="chart-container">
+                            <h3>Répartition globale des statuts</h3>
+                            <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
+                            <canvas id="pieChart"></canvas>
+                        </div>
+
+                        <!-- Feature Status Chart -->
+                        <div class="chart-container">
+                            <h3>Répartition des statuts détaillés par feature</h3>
+                            <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
+                            <canvas id="featureStatusChart"></canvas>
+                        </div>
+
+                        <!-- Feature Status Pie Chart -->
+                        <div class="chart-container">
+                            <h3>Répartition globale des statuts détaillés</h3>
+                            <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
+                            <canvas id="featureStatusPieChart"></canvas>
+                        </div>
+
+                        <!-- Defects Table -->
+                        <h2>Defects (FAIL & BLOCKED)</h2>
+                        <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
+                        <table>
+                            <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+                            ${defectsData.join("\n")}
+                        </table>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                // Bar Chart
+                                var ctxBar = document.getElementById('barChart').getContext('2d');
+                                new Chart(ctxBar, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: [${featureLabels}],
+                                        datasets: [${datasets.join(", ")}]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        plugins: {
+                                            legend: { position: 'top' }
                                         },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
-                                            },
-                                            scales: {
-                                                x: { stacked: true },
-                                                y: { stacked: true, beginAtZero: true }
-                                            }
+                                        scales: {
+                                            x: { stacked: true },
+                                            y: { stacked: true, beginAtZero: true }
                                         }
-                                    });
-                                    
-                                    // Pie Chart
-                                    var ctxPie = document.getElementById('pieChart').getContext('2d');
-                                    new Chart(ctxPie, {
-                                        type: 'pie',
-                                        data: {
-                                            labels: [${pieLabels}],
-                                            datasets: [{
-                                                data: [${pieValues}],
-                                                backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-                                            }]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
-                                            }
-                                        }
-                                    });
-                                    
-                                    // Feature Status Chart
-                                    var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
-                                    new Chart(ctxFeatureStatus, {
-                                        type: 'bar',
-                                        data: {
-                                            labels: [${featureStatusLabels}],
-                                            datasets: [${featureStatusDatasets.join(", ")}]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
-                                            },
-                                            scales: {
-                                                x: { stacked: true },
-                                                y: { stacked: true, beginAtZero: true }
-                                            }
-                                        }
-                                    });
-                                    
-                                    // Feature Status Pie Chart
-                                    var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-                                    new Chart(ctxFeatureStatusPie, {
-                                        type: 'pie',
-                                        data: {
-                                            labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-                                            datasets: [{
-                                                data: ${featureStatusPieData},
-                                                backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-                                            }]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            plugins: {
-                                                legend: { position: 'top' }
-                                            }
-                                        }
-                                    });
+                                    }
                                 });
-                            </script>
-                        </body>
-                        </html>
-                    """
+                                
+                                // Pie Chart
+                                var ctxPie = document.getElementById('pieChart').getContext('2d');
+                                new Chart(ctxPie, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: [${pieLabels}],
+                                        datasets: [{
+                                            data: [${pieValues}],
+                                            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        plugins: {
+                                            legend: { position: 'top' }
+                                        }
+                                    }
+                                });
+                                
+                                // Feature Status Chart
+                                var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+                                new Chart(ctxFeatureStatus, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: [${featureStatusLabels}],
+                                        datasets: [${featureStatusDatasets.join(", ")}]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        plugins: {
+                                            legend: { position: 'top' }
+                                        },
+                                        scales: {
+                                            x: { stacked: true },
+                                            y: { stacked: true, beginAtZero: true }
+                                        }
+                                    }
+                                });
+                                
+                                // Feature Status Pie Chart
+                                var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+                                new Chart(ctxFeatureStatusPie, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+                                        datasets: [{
+                                            data: ${featureStatusPieData},
+                                            backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        plugins: {
+                                            legend: { position: 'top' }
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
+                    </body>
+                    </html>
+                """
+
+
 
                     writeFile file: 'report.html', text: htmlContent
                 }
