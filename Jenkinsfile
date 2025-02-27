@@ -1404,7 +1404,7 @@ pipeline {
                     def piePercentages = pieValues.split(',').collect { ((it.toDouble() / pieTotal) * 100).round(2) }
                     
                     // Données pour la deuxième pie chart (basée sur featureStatusData)
-                    def featureStatusPieData = [
+                   def featureStatusPieData = [
                         featureStatusData.collect { it.value.PASS }.sum(),
                         featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
                         featureStatusData.collect { it.value.NOKMINOR }.sum(),
@@ -1413,8 +1413,7 @@ pipeline {
                     def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
                     def featureStatusPieColors = ['#4CAF50', '#FFEB3B', '#FF9800', '#F44336']
                     def featureStatusPieTotal = featureStatusPieData.sum()
-                    def featureStatusPiePercentages = featureStatusPieData.collect { ((it.toDouble() / featureStatusPieTotal) * 100 }.collect { it.round(2) }
-                    
+                    def featureStatusPiePercentages = featureStatusPieData.collect { ((it.toDouble() / featureStatusPieTotal) * 100).round(2) }                 
                     def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
                     def featureStatusDatasets = [
                         """
