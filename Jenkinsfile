@@ -1866,14 +1866,15 @@ pipeline {
         }
         canvas {
             margin-top: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             max-width: 100%;
         }
         .chart-container {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 40px;
+            gap: 20px;
         }
         .chart-wrapper {
             width: 48%;
@@ -1881,6 +1882,12 @@ pipeline {
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chart-wrapper.pie {
+            width: 30%;
+        }
+        .chart-wrapper.bar {
+            width: 68%;
         }
         .chart-description {
             margin-top: 10px;
@@ -1949,12 +1956,12 @@ pipeline {
 
     <!-- Bar Chart 1 and Pie Chart 1 -->
     <div class="chart-container">
-        <div class="chart-wrapper">
+        <div class="chart-wrapper bar">
             <h3>Répartition des statuts par feature</h3>
             <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
             <canvas id="barChart"></canvas>
         </div>
-        <div class="chart-wrapper">
+        <div class="chart-wrapper pie">
             <h3>Répartition globale des statuts</h3>
             <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
             <canvas id="pieChart"></canvas>
@@ -1963,12 +1970,12 @@ pipeline {
 
     <!-- Bar Chart 2 and Pie Chart 2 -->
     <div class="chart-container">
-        <div class="chart-wrapper">
+        <div class="chart-wrapper bar">
             <h3>Répartition des statuts détaillés par feature</h3>
             <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
             <canvas id="featureStatusChart"></canvas>
         </div>
-        <div class="chart-wrapper">
+        <div class="chart-wrapper pie">
             <h3>Répartition globale des statuts détaillés</h3>
             <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
             <canvas id="featureStatusPieChart"></canvas>
@@ -2065,8 +2072,8 @@ pipeline {
         });
     </script>
 </body>
-</html>
-"""
+</html>"""
+
 
                     writeFile file: 'report.html', text: htmlContent
                 }
