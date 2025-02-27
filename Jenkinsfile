@@ -1827,347 +1827,347 @@ pipeline {
                     }
 
                 def htmlContent = """
-<html>
-<head>
-    <title>Test Execution - ${params.FILE_NAME}</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
-        }
-        h1, h2 {
-            color: #2E7D32;
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #ddd;
-        }
-        canvas {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            max-width: 100%;
-        }
-        .chart-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 40px;
-            gap: 20px;
-        }
-        .chart-wrapper {
-            width: 48%;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .chart-wrapper.pie {
-            width: 30%;
-        }
-        .chart-wrapper.bar {
-            width: 68%;
-        }
-        .chart-description {
-            margin-top: 10px;
-            font-style: italic;
-            color: #555;
-            text-align: center;
-        }
-        .card {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 18%;
-            text-align: center;
-            margin: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-        .card-container {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 40px;
-        }
-        .card h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-        .card p {
-            margin: 10px 0 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .footer a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        /* Pagination Styles */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .pagination button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            margin: 0 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .pagination button:hover {
-            background-color: #45a049;
-        }
-        .pagination button.active {
-            background-color: #2E7D32;
-        }
-    </style>
-</head>
-<body>
-    <h1>Test Execution</h1>
-    <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+                <html>
+                <head>
+                    <title>Test Execution - ${params.FILE_NAME}</title>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                            background-color: #f5f5f5;
+                        }
+                        h1, h2 {
+                            color: #2E7D32;
+                            text-align: center;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        }
+                        table, th, td {
+                            border: 1px solid #ddd;
+                        }
+                        th, td {
+                            padding: 12px;
+                            text-align: left;
+                        }
+                        th {
+                            background-color: #4CAF50;
+                            color: white;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #f2f2f2;
+                        }
+                        tr:hover {
+                            background-color: #ddd;
+                        }
+                        canvas {
+                            margin-top: 20px;
+                            margin-bottom: 20px;
+                            max-width: 100%;
+                        }
+                        .chart-container {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-start;
+                            margin-bottom: 40px;
+                            gap: 20px;
+                        }
+                        .chart-wrapper {
+                            width: 48%;
+                            background-color: white;
+                            padding: 20px;
+                            border-radius: 10px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        }
+                        .chart-wrapper.pie {
+                            width: 30%;
+                        }
+                        .chart-wrapper.bar {
+                            width: 68%;
+                        }
+                        .chart-description {
+                            margin-top: 10px;
+                            font-style: italic;
+                            color: #555;
+                            text-align: center;
+                        }
+                        .card {
+                            background-color: #4CAF50;
+                            color: white;
+                            padding: 20px;
+                            border-radius: 10px;
+                            width: 18%;
+                            text-align: center;
+                            margin: 10px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                            transition: transform 0.2s, box-shadow 0.2s;
+                        }
+                        .card:hover {
+                            transform: translateY(-5px);
+                            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+                        }
+                        .card-container {
+                            display: flex;
+                            justify-content: space-around;
+                            margin-bottom: 40px;
+                        }
+                        .card h3 {
+                            margin: 0;
+                            font-size: 18px;
+                        }
+                        .card p {
+                            margin: 10px 0 0;
+                            font-size: 24px;
+                            font-weight: bold;
+                        }
+                        .footer {
+                            text-align: center;
+                            margin-top: 40px;
+                            padding: 20px;
+                            background-color: #4CAF50;
+                            color: white;
+                            border-radius: 10px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        }
+                        .footer a {
+                            color: white;
+                            text-decoration: none;
+                            font-weight: bold;
+                        }
+                        .footer a:hover {
+                            text-decoration: underline;
+                        }
+                        /* Pagination Styles */
+                        .pagination {
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 20px;
+                        }
+                        .pagination button {
+                            background-color: #4CAF50;
+                            color: white;
+                            border: none;
+                            padding: 10px 15px;
+                            margin: 0 5px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: background-color 0.3s;
+                        }
+                        .pagination button:hover {
+                            background-color: #45a049;
+                        }
+                        .pagination button.active {
+                            background-color: #2E7D32;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Test Execution</h1>
+                    <h2>Nom du fichier : ${params.FILE_NAME}</h2>
 
-    <!-- Cards Section -->
-    <div class="card-container">
-        <div class="card" style="background-color: #4CAF50;">
-            <h3>Total Tests</h3>
-            <p>${totalTests}</p>
-        </div>
-        <div class="card" style="background-color: #81C784;">
-            <h3>PASS</h3>
-            <p>${totalPass}</p>
-        </div>
-        <div class="card" style="background-color: #A5D6A7; color: black;">
-            <h3>NOT EXECUTED</h3>
-            <p>${totalNotExecuted}</p>
-        </div>
-        <div class="card" style="background-color: #FF9800;">
-            <h3>NOK MINOR</h3>
-            <p>${totalNokMinor}</p>
-        </div>
-        <div class="card" style="background-color: #F44336;">
-            <h3>NOK MAJOR</h3>
-            <p>${totalNokMajor}</p>
-        </div>
-    </div>
+                    <!-- Cards Section -->
+                    <div class="card-container">
+                        <div class="card" style="background-color: #4CAF50;">
+                            <h3>Total Tests</h3>
+                            <p>${totalTests}</p>
+                        </div>
+                        <div class="card" style="background-color: #81C784;">
+                            <h3>PASS</h3>
+                            <p>${totalPass}</p>
+                        </div>
+                        <div class="card" style="background-color: #A5D6A7; color: black;">
+                            <h3>NOT EXECUTED</h3>
+                            <p>${totalNotExecuted}</p>
+                        </div>
+                        <div class="card" style="background-color: #FF9800;">
+                            <h3>NOK MINOR</h3>
+                            <p>${totalNokMinor}</p>
+                        </div>
+                        <div class="card" style="background-color: #F44336;">
+                            <h3>NOK MAJOR</h3>
+                            <p>${totalNokMajor}</p>
+                        </div>
+                    </div>
 
-    <!-- Bar Chart 1 and Pie Chart 1 -->
-    <div class="chart-container">
-        <div class="chart-wrapper bar">
-            <h3>Répartition des statuts par feature</h3>
-            <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
-            <canvas id="barChart"></canvas>
-        </div>
-        <div class="chart-wrapper pie">
-            <h3>Répartition globale des statuts</h3>
-            <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
-            <canvas id="pieChart"></canvas>
-        </div>
-    </div>
+                    <!-- Bar Chart 1 and Pie Chart 1 -->
+                    <div class="chart-container">
+                        <div class="chart-wrapper bar">
+                            <h3>Répartition des statuts par feature</h3>
+                            <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
+                            <canvas id="barChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper pie">
+                            <h3>Répartition globale des statuts</h3>
+                            <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
 
-    <!-- Bar Chart 2 and Pie Chart 2 -->
-    <div class="chart-container">
-        <div class="chart-wrapper bar">
-            <h3>Répartition des statuts détaillés par feature</h3>
-            <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
-            <canvas id="featureStatusChart"></canvas>
-        </div>
-        <div class="chart-wrapper pie">
-            <h3>Répartition globale des statuts détaillés</h3>
-            <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
-            <canvas id="featureStatusPieChart"></canvas>
-        </div>
-    </div>
+                    <!-- Bar Chart 2 and Pie Chart 2 -->
+                    <div class="chart-container">
+                        <div class="chart-wrapper bar">
+                            <h3>Répartition des statuts détaillés par feature</h3>
+                            <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
+                            <canvas id="featureStatusChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper pie">
+                            <h3>Répartition globale des statuts détaillés</h3>
+                            <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
+                            <canvas id="featureStatusPieChart"></canvas>
+                        </div>
+                    </div>
 
-    <!-- Defects Table -->
-    <h2>Defects (FAIL & BLOCKED)</h2>
-    <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
-    <table id="defectsTable">
-        <thead>
-            <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
-        </thead>
-        <tbody>
-            ${defectsData.join("\n")}
-        </tbody>
-    </table>
+                    <!-- Defects Table -->
+                    <h2>Defects (FAIL & BLOCKED)</h2>
+                    <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
+                    <table id="defectsTable">
+                        <thead>
+                            <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+                        </thead>
+                        <tbody>
+                            ${defectsData.join("\n")}
+                        </tbody>
+                    </table>
 
-    <!-- Pagination -->
-    <div class="pagination" id="pagination">
-        <!-- Pagination buttons will be dynamically added here -->
-    </div>
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <!-- Pagination buttons will be dynamically added here -->
+                    </div>
 
-    <!-- Footer Section -->
-    <div class="footer">
-        <p>Generated by <a href="https://example.com" target="_blank">Test Automation Tool</a> on ${new Date().toLocaleString()}</p>
-    </div>
+                    <!-- Footer Section -->
+                    <div class="footer">
+                        <p>Generated by <a href="https://example.com" target="_blank">Test Automation Tool</a> on ${new Date().toLocaleString()}</p>
+                    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Bar Chart
-            var ctxBar = document.getElementById('barChart').getContext('2d');
-            new Chart(ctxBar, {
-                type: 'bar',
-                data: {
-                    labels: [${featureLabels}],
-                    datasets: [${datasets.join(", ")}]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' }
-                    },
-                    scales: {
-                        x: { stacked: true },
-                        y: { stacked: true, beginAtZero: true }
-                    }
-                }
-            });
-            
-            // Pie Chart
-            var ctxPie = document.getElementById('pieChart').getContext('2d');
-            new Chart(ctxPie, {
-                type: 'pie',
-                data: {
-                    labels: [${pieLabels}],
-                    datasets: [{
-                        data: [${pieValues}],
-                        backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' }
-                    }
-                }
-            });
-            
-            // Feature Status Chart
-            var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
-            new Chart(ctxFeatureStatus, {
-                type: 'bar',
-                data: {
-                    labels: [${featureStatusLabels}],
-                    datasets: [${featureStatusDatasets.join(", ")}]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' }
-                    },
-                    scales: {
-                        x: { stacked: true },
-                        y: { stacked: true, beginAtZero: true }
-                    }
-                }
-            });
-            
-            // Feature Status Pie Chart
-            var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-            new Chart(ctxFeatureStatusPie, {
-                type: 'pie',
-                data: {
-                    labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-                    datasets: [{
-                        data: ${featureStatusPieData},
-                        backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' }
-                    }
-                }
-            });
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Bar Chart
+                            var ctxBar = document.getElementById('barChart').getContext('2d');
+                            new Chart(ctxBar, {
+                                type: 'bar',
+                                data: {
+                                    labels: [${featureLabels}],
+                                    datasets: [${datasets.join(", ")}]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: { position: 'top' }
+                                    },
+                                    scales: {
+                                        x: { stacked: true },
+                                        y: { stacked: true, beginAtZero: true }
+                                    }
+                                }
+                            });
+                            
+                            // Pie Chart
+                            var ctxPie = document.getElementById('pieChart').getContext('2d');
+                            new Chart(ctxPie, {
+                                type: 'pie',
+                                data: {
+                                    labels: [${pieLabels}],
+                                    datasets: [{
+                                        data: [${pieValues}],
+                                        backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: { position: 'top' }
+                                    }
+                                }
+                            });
+                            
+                            // Feature Status Chart
+                            var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+                            new Chart(ctxFeatureStatus, {
+                                type: 'bar',
+                                data: {
+                                    labels: [${featureStatusLabels}],
+                                    datasets: [${featureStatusDatasets.join(", ")}]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: { position: 'top' }
+                                    },
+                                    scales: {
+                                        x: { stacked: true },
+                                        y: { stacked: true, beginAtZero: true }
+                                    }
+                                }
+                            });
+                            
+                            // Feature Status Pie Chart
+                            var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+                            new Chart(ctxFeatureStatusPie, {
+                                type: 'pie',
+                                data: {
+                                    labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+                                    datasets: [{
+                                        data: ${featureStatusPieData},
+                                        backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: { position: 'top' }
+                                    }
+                                }
+                            });
 
-            // Pagination Script
-            const table = document.getElementById('defectsTable');
-            const rows = table.querySelectorAll('tbody tr');
-            const rowsPerPage = 10; // Number of rows per page
-            const pageCount = Math.ceil(rows.length / rowsPerPage);
-            const paginationDiv = document.getElementById('pagination');
+                            // Pagination Script
+                            const table = document.getElementById('defectsTable');
+                            const rows = table.querySelectorAll('tbody tr');
+                            const rowsPerPage = 10; // Number of rows per page
+                            const pageCount = Math.ceil(rows.length / rowsPerPage);
+                            const paginationDiv = document.getElementById('pagination');
 
-            // Function to show rows for a specific page
-            function showPage(page) {
-                const start = (page - 1) * rowsPerPage;
-                const end = start + rowsPerPage;
-                rows.forEach((row, index) => {
-                    row.style.display = (index >= start && index < end) ? '' : 'none';
-                });
-            }
+                            // Function to show rows for a specific page
+                            function showPage(page) {
+                                const start = (page - 1) * rowsPerPage;
+                                const end = start + rowsPerPage;
+                                rows.forEach((row, index) => {
+                                    row.style.display = (index >= start && index < end) ? '' : 'none';
+                                });
+                            }
 
-            // Function to create pagination buttons
-            function createPagination() {
-                for (let i = 1; i <= pageCount; i++) {
-                    const button = document.createElement('button');
-                    button.innerText = i;
-                    button.addEventListener('click', () => {
-                        showPage(i);
-                        setActiveButton(button);
-                    });
-                    paginationDiv.appendChild(button);
-                }
-                showPage(1); // Show first page by default
-                setActiveButton(paginationDiv.querySelector('button'));
-            }
+                            // Function to create pagination buttons
+                            function createPagination() {
+                                for (let i = 1; i <= pageCount; i++) {
+                                    const button = document.createElement('button');
+                                    button.innerText = i;
+                                    button.addEventListener('click', () => {
+                                        showPage(i);
+                                        setActiveButton(button);
+                                    });
+                                    paginationDiv.appendChild(button);
+                                }
+                                showPage(1); // Show first page by default
+                                setActiveButton(paginationDiv.querySelector('button'));
+                            }
 
-            // Function to set the active button
-            function setActiveButton(activeButton) {
-                paginationDiv.querySelectorAll('button').forEach(button => {
-                    button.classList.remove('active');
-                });
-                activeButton.classList.add('active');
-            }
+                            // Function to set the active button
+                            function setActiveButton(activeButton) {
+                                paginationDiv.querySelectorAll('button').forEach(button => {
+                                    button.classList.remove('active');
+                                });
+                                activeButton.classList.add('active');
+                            }
 
-            createPagination(); // Initialize pagination
-        });
-    </script>
-</body>
-</html>
-"""
+                            createPagination(); // Initialize pagination
+                        });
+                    </script>
+                </body>
+                </html>
+                """
 
 
                     writeFile file: 'report.html', text: htmlContent
@@ -2207,7 +2207,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: '',
+                    reportDir: 'C:/ProgramData/Jenkins/.jenkins/jobs/Job-Git-Pipeline/htmlreports/Visualisation_20des_20Features/report.html',
                     reportFiles: 'report.html',
                     reportName: 'Rapport de Test'
                 ])
@@ -2215,14 +2215,14 @@ pipeline {
         }
 
 
-        stage('Publier le rapport') {
-            steps {
-                publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
+        // stage('Publier le rapport') {
+        //     steps {
+        //         publishHTML(target: [reportDir: '', reportFiles: 'report.html', reportName: 'Visualisation des Features'])
                 
-                // Publier le fichier PDF
-                archiveArtifacts artifacts: 'report.pdf', fingerprint: true
-            }
-        }
+        //         // Publier le fichier PDF
+        //         archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+        //     }
+        // }
     }
 }
 
