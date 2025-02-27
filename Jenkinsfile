@@ -1703,10 +1703,12 @@ pipeline {
                         def status = entry.status.toString().trim()
                         def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
 
+                        // Initialisation de la structure de données pour la feature si elle n'existe pas encore
                         if (!featureStatusData[feature]) {
                             featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
                         }
 
+                        // Mise à jour des compteurs en fonction du statut et de la priorité
                         if (status == 'PASS') {
                             featureStatusData[feature].PASS++
                         } else if (status == 'ABORTED' || status == 'TODO') {
@@ -1731,11 +1733,19 @@ pipeline {
                         }
                     }
 
+                    // Calcul des totaux
+                    def totalTests = jsonData.size()
+                    def totalPass = jsonData.count { it.status == 'PASS' }
+                    def totalFail = jsonData.count { it.status == 'FAIL' }
+                    def totalBlocked = jsonData.count { it.status == 'BLOCKED' }
+                    def totalNotExecuted = jsonData.count { it.status == 'ABORTED' || it.status == 'TODO' }
+
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
                     def datasets = []
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
-                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
 
+                    // Couleurs fixes pour les barres (nuances de vert)
+                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
                     statusTypes.eachWithIndex { status, index ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
                         datasets.add("""
@@ -1753,6 +1763,7 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
 
+                    // Données pour la deuxième pie chart (basée sur featureStatusData)
                     def featureStatusPieData = [
                         featureStatusData.collect { it.value.PASS }.sum(),
                         featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
@@ -1843,35 +1854,86 @@ pipeline {
                                     font-style: italic;
                                     color: #555;
                                 }
+                                .cards-container {
+                                    display: flex;
+                                    justify-content: space-around;
+                                    margin-bottom: 20px;
+                                }
+                                .card {
+                                    background-color: #f9f9f9;
+                                    border: 1px solid #ddd;
+                                    border-radius: 5px;
+                                    padding: 15px;
+                                    width: 20%;
+                                    text-align: center;
+                                }
+                                .card h3 {
+                                    margin: 0;
+                                    color: #2E7D32;
+                                }
+                                .card p {
+                                    margin: 5px 0 0;
+                                    font-size: 1.2em;
+                                    color: #333;
+                                }
                             </style>
                         </head>
                         <body>
                             <h1>Test Execution</h1>
                             <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+
+                            <!-- Cards for Total Tests and Status Counts -->
+                            <div class="cards-container">
+                                <div class="card">
+                                    <h3>Total Tests</h3>
+                                    <p>${totalTests}</p>
+                                </div>
+                                <div class="card">
+                                    <h3>Pass</h3>
+                                    <p>${totalPass}</p>
+                                </div>
+                                <div class="card">
+                                    <h3>Fail</h3>
+                                    <p>${totalFail}</p>
+                                </div>
+                                <div class="card">
+                                    <h3>Blocked</h3>
+                                    <p>${totalBlocked}</p>
+                                </div>
+                                <div class="card">
+                                    <h3>Not Executed</h3>
+                                    <p>${totalNotExecuted}</p>
+                                </div>
+                            </div>
+
                             <!-- Bar Chart -->
                             <div class="chart-container">
                                 <h3>Répartition des statuts par feature</h3>
                                 <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
                                 <canvas id="barChart"></canvas>
                             </div>
+
                             <!-- Pie Chart -->
                             <div class="chart-container">
                                 <h3>Répartition globale des statuts</h3>
                                 <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
                                 <canvas id="pieChart"></canvas>
                             </div>
+
                             <!-- Feature Status Chart -->
                             <div class="chart-container">
                                 <h3>Répartition des statuts détaillés par feature</h3>
                                 <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
                                 <canvas id="featureStatusChart"></canvas>
                             </div>
+
                             <!-- Feature Status Pie Chart -->
                             <div class="chart-container">
                                 <h3>Répartition globale des statuts détaillés</h3>
                                 <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
                                 <canvas id="featureStatusPieChart"></canvas>
                             </div>
+
                             <!-- Defects Table -->
                             <h2>Defects (FAIL & BLOCKED)</h2>
                             <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
@@ -1879,6 +1941,7 @@ pipeline {
                                 <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
                                 ${defectsData.join("\n")}
                             </table>
+
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
                                     // Bar Chart
@@ -1963,6 +2026,7 @@ pipeline {
                         </body>
                         </html>
                     """
+
                     writeFile file: 'report.html', text: htmlContent
                 }
             }
@@ -1973,8 +2037,10 @@ pipeline {
                 script {
                     // Assurez-vous que wkhtmltopdf est installé sur l'agent Jenkins
                     bat 'wkhtmltopdf --version'
+
                     // Convertir le fichier HTML en PDF
                     bat 'wkhtmltopdf report.html report.pdf'
+
                     // Vérifier que le fichier PDF a été généré
                     if (!fileExists('report.pdf')) {
                         error "Le fichier report.pdf n'a pas été généré !"
