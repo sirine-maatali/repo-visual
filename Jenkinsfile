@@ -1535,7 +1535,7 @@ pipeline {
                                                             let value = context.raw || 0;
                                                             let total = context.dataset.data.reduce((a, b) => a + b, 0);
                                                             let percentage = ((value / total) * 100).toFixed(2) + '%';
-                                                            return \`\${label}: \${value} (\${percentage})\`;
+                                                            return label + ': ' + value + ' (' + percentage + ')';
                                                         }
                                                     }
                                                 }
@@ -1569,7 +1569,7 @@ pipeline {
                                                             let value = context.raw || 0;
                                                             let total = context.dataset.data.reduce((a, b) => a + b, 0);
                                                             let percentage = ((value / total) * 100).toFixed(2) + '%';
-                                                            return \`\${label}: \${value} (\${percentage})\`;
+                                                            return label + ': ' + value + ' (' + percentage + ')';
                                                         }
                                                     }
                                                 }
@@ -1596,7 +1596,7 @@ pipeline {
                                                             let value = context.raw || 0;
                                                             let total = context.dataset.data.reduce((a, b) => a + b, 0);
                                                             let percentage = ((value / total) * 100).toFixed(2) + '%';
-                                                            return \`\${label}: \${value} (\${percentage})\`;
+                                                            return label + ': ' + value + ' (' + percentage + ')';
                                                         }
                                                     }
                                                 }
