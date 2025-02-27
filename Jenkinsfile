@@ -1831,6 +1831,10 @@ pipeline {
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Plugin pour les étiquettes de données -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <!-- Plugin pour l'effet 3D -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-3d"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -2012,7 +2016,7 @@ pipeline {
                 }
             });
             
-            // Pie Chart
+            // Pie Chart (3D)
             var ctxPie = document.getElementById('pieChart').getContext('2d');
             new Chart(ctxPie, {
                 type: 'pie',
@@ -2026,9 +2030,20 @@ pipeline {
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'top' }
+                        legend: { position: 'top' },
+                        datalabels: {
+                            color: '#fff',
+                            font: { size: 14 },
+                            formatter: (value) => value > 0 ? value : ''
+                        },
+                        'chartjs-plugin-3d': {
+                            enabled: true,
+                            alpha: 45, // Angle de rotation
+                            depth: 50 // Profondeur de l'effet 3D
+                        }
                     }
-                }
+                },
+                plugins: [ChartDataLabels, Chart3D] // Activer les plugins
             });
             
             // Feature Status Chart
@@ -2051,7 +2066,7 @@ pipeline {
                 }
             });
             
-            // Feature Status Pie Chart
+            // Feature Status Pie Chart (3D)
             var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
             new Chart(ctxFeatureStatusPie, {
                 type: 'pie',
@@ -2065,9 +2080,20 @@ pipeline {
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'top' }
+                        legend: { position: 'top' },
+                        datalabels: {
+                            color: '#fff',
+                            font: { size: 14 },
+                            formatter: (value) => value > 0 ? value : ''
+                        },
+                        'chartjs-plugin-3d': {
+                            enabled: true,
+                            alpha: 45, // Angle de rotation
+                            depth: 50 // Profondeur de l'effet 3D
+                        }
                     }
-                }
+                },
+                plugins: [ChartDataLabels, Chart3D] // Activer les plugins
             });
         });
     </script>
