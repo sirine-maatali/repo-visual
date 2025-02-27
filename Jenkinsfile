@@ -1907,11 +1907,11 @@ pipeline {
                 <p>${totalPass}</p>
             </div>
          
-            <div class="card" style="background-color:rgb(249, 179, 87); color: black;">
+            <div class="card" style="background-color:rgb(103, 179, 70); color: black;">
                 <h3>NOT EXECUTED</h3>
                 <p>${totalNotExecuted}</p>
             </div>
-            <div class="card" style="background-color:rgb(190, 128, 47); color: black;">
+            <div class="card" style="background-color:rgb(138, 201, 96); color: black;">
                 <h3>NOK MINOR</h3>
                 <p>${totalNokMinor}</p>
             </div>
