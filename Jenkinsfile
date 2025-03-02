@@ -1745,7 +1745,7 @@ pipeline {
                 
                 if (status == 'FAIL' || status == 'BLOCKED') {
                     entry.defects.each { defect ->
-                        defectsData.add("<tr><td></td><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
+                        defectsData.add("<tr><td>${feature}</td><td>${defect.id}</td><td>${defect.summary}</td><td>${result}</td></tr>")
                     }
                 }
             }
@@ -1816,7 +1816,6 @@ pipeline {
                     }
                 """
             ]
-
 
 
                 def htmlContent = """
@@ -2019,7 +2018,7 @@ pipeline {
     <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
     <table id="defectsTable">
         <thead>
-            <tr><th>ID</th><th>Summary</th><th>Priority</th></tr>
+            <tr><th>Feature</th><th>ID</th><th>Summary</th><th>Priority</th></tr>
         </thead>
         <tbody>
             ${defectsData.join("\n")}
