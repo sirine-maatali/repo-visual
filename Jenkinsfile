@@ -1819,31 +1819,6 @@ pipeline {
 
 
 
-                    // données cards 
-                    def totalTests = 0
-                    def totalPass = 0
-                    def totalNotExecuted = 0
-                    def totalNokMinor = 0
-                    def totalNokMajor = 0
-
-                    jsonData.each { entry ->
-                        def status = entry.status.toString().trim()
-                        totalTests++
-                        
-                        if (status == 'PASS') {
-                            totalPass++
-                        } else if (status == 'ABORTED' || status == 'TODO') {
-                            totalNotExecuted++
-                        } else if (status == 'FAIL' || status == 'BLOCKED') {
-                            def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
-                            if (priority == '[medium]' || priority == '[high]') {
-                                totalNokMinor++
-                            } else if (priority == '[very high]' || priority == '[blocker]') {
-                                totalNokMajor++
-                            }
-                        }
-                    }
-
                 def htmlContent = """
 <html>
 <head>
