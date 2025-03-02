@@ -1679,7 +1679,7 @@ pipeline {
             }
         }
 
-        stage('Exécuter le script Python') {
+     stage('Exécuter le script Python') {
             steps {
                 script {
                     echo "Début de l'exécution du script Python"
@@ -1729,7 +1729,7 @@ pipeline {
                         
                         if (status == 'FAIL' || status == 'BLOCKED') {
                             entry.defects.each { defect ->
-                                defectsData.add("<tr><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
+                                defectsData.add("<tr><td></td><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
                             }
                         }
                     }
@@ -2171,23 +2171,41 @@ pipeline {
 
 
                     writeFile file: 'report.html', text: htmlContent
+                    bat 'scp report.html user@webserver:/var/www/html/report.html'
+
                 }
             }
         }
 
-     stage('Publier le rapport HTML') {
+       stage('Convertir en PDF') {
             steps {
-                // Utiliser le plugin publishHTML pour publier le rapport
-                publishHTML(target: [
-                    allowMissing: false, // Échoue si le fichier est manquant
-                    alwaysLinkToLastBuild: true, // Toujours lier au dernier build
-                    keepAll: true, // Conserver tous les rapports
-                    reportDir: '', // Répertoire où se trouve le fichier HTML (ici, le répertoire courant)
-                    reportFiles: 'report.html', // Nom du fichier HTML
-                    reportName: 'Visualisation des Features' // Nom du rapport dans Jenkins
-                ])
+                script {
+                
+                    bat 'wkhtmltopdf --version'
+                    
+                    // Convertir le fichier HTML en PDF
+                    bat 'wkhtmltopdf report.html report.pdf'
+                    
+                    // Vérifier que le fichier PDF a été généré
+                    if (!fileExists('report.pdf')) {
+                        error "Le fichier report.pdf n'a pas été généré !"
+                    }
+                }
             }
         }
+
+      stage('Publier le rapport HTML') {
+    steps {
+        publishHTML(target: [
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: "${WORKSPACE}",
+            reportFiles: 'report.html',
+            reportName: 'Visualisation des Features'
+        ])
+    }
+}
     }
 }
 
