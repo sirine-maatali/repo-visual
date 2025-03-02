@@ -1696,109 +1696,127 @@ pipeline {
 
                     def jsonData = readJSON text: jsonOutput
                     
-                    def statusCounts = [:]
-                    def featureStatusData = [:]
-                    def defectsData = []
-                    jsonData.each { entry ->
-                        def feature = entry.feature.toString().trim()
-                        def status = entry.status.toString().trim()
-                        def priority = entry.defects?.priority?.toString()?.trim()?.toLowerCase() ?: ""
+                   def statusCounts = [:]
+            def featureStatusData = [:]
+            def defectsData = []
+            
+            // Initialisation des compteurs
+            def totalTests = 0
+            def totalPass = 0
+            def totalNotExecuted = 0
+            def totalNokMinor = 0
+            def totalNokMajor = 0
                         
-                        // Initialisation de la structure de données pour la feature si elle n'existe pas encore
-                        if (!featureStatusData[feature]) {
-                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
-                        }
-                        
-                        // Mise à jour des compteurs en fonction du statut et de la priorité
-                        if (status == 'PASS') {
-                            featureStatusData[feature].PASS++
-                        } else if (status == 'ABORTED' || status == 'TODO') {
-                            featureStatusData[feature].NOTEXECUTED++
-                        } else if (status == 'FAIL' || status == 'BLOCKED') {
-                            if (priority =='[medium]'|| status == '[high]') {
-                                featureStatusData[feature].NOKMINOR++
-                            } else if (priority == '[very high]' || priority == '[blocker]') {
-                                featureStatusData[feature].NOKMAJOR++
-                            }
-                        }
-                        
-                        if (!statusCounts[feature]) {
-                            statusCounts[feature] = [:]
-                        }
-                        statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
-                        
-                        if (status == 'FAIL' || status == 'BLOCKED') {
-                            entry.defects.each { defect ->
-                                defectsData.add("<tr><td></td><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
-                            }
-                        }
+                          jsonData.each { entry ->
+                def feature = entry.feature.toString().trim()
+                def status = entry.status.toString().trim()
+                def result = entry.result.toString().trim() // Récupération du champ "result"
+                
+                // Initialisation de la structure de données pour la feature si elle n'existe pas encore
+                if (!featureStatusData[feature]) {
+                    featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
+                }
+                
+                // Mise à jour des compteurs en fonction du champ "result"
+                totalTests++
+                switch (result) {
+                    case "ok":
+                        featureStatusData[feature].PASS++
+                        totalPass++
+                        break
+                    case "NOT EXECUTED":
+                        featureStatusData[feature].NOTEXECUTED++
+                        totalNotExecuted++
+                        break
+                    case "NOK MINOR":
+                        featureStatusData[feature].NOKMINOR++
+                        totalNokMinor++
+                        break
+                    case "NOK MAJOR":
+                        featureStatusData[feature].NOKMAJOR++
+                        totalNokMajor++
+                        break
+                }
+                
+                if (!statusCounts[feature]) {
+                    statusCounts[feature] = [:]
+                }
+                statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+                
+                if (status == 'FAIL' || status == 'BLOCKED') {
+                    entry.defects.each { defect ->
+                        defectsData.add("<tr><td></td><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td></tr>")
                     }
-                    
-                    def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
-                    def datasets = []
-                    def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
-                    
-                    // Couleurs fixes pour les barres (nuances de vert)
-                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
-                    
-                    statusTypes.eachWithIndex { status, index ->
-                        def data = statusCounts.collect { it.value[status] ?: 0 }
-                        datasets.add("""
-                            {
-                                label: "${status}",
-                                backgroundColor: "${greenShades[index % greenShades.size()]}",
-                                data: [${data.join(", ")}]
-                            }
-                        """)
+                }
+            }
+            
+            // Les autres parties du code (graphiques, HTML, etc.) restent inchangées
+            def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
+            def datasets = []
+            def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
+            
+            // Couleurs fixes pour les barres (nuances de vert)
+            def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
+            
+            statusTypes.eachWithIndex { status, index ->
+                def data = statusCounts.collect { it.value[status] ?: 0 }
+                datasets.add("""
+                    {
+                        label: "${status}",
+                        backgroundColor: "${greenShades[index % greenShades.size()]}",
+                        data: [${data.join(", ")}]
                     }
-                    
-                    def pieData = statusCounts.collectEntries { feature, statuses ->
-                        [(feature): statuses.collect { k, v -> v }.sum()]
+                """)
+            }
+            
+            def pieData = statusCounts.collectEntries { feature, statuses ->
+                [(feature): statuses.collect { k, v -> v }.sum()]
+            }
+            def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+            def pieValues = pieData.values().join(", ")
+            
+            // Données pour la deuxième pie chart (basée sur featureStatusData)
+            def featureStatusPieData = [
+                featureStatusData.collect { it.value.PASS }.sum(),
+                featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
+                featureStatusData.collect { it.value.NOKMINOR }.sum(),
+                featureStatusData.collect { it.value.NOKMAJOR }.sum()
+            ]
+            def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
+            def featureStatusPieColors = ['#4CAF50', '#A5D6A7', '#FF9800', '#F44336']
+            
+            def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
+            def featureStatusDatasets = [
+                """
+                    {
+                        label: "PASS",
+                        backgroundColor: "#4CAF50",
+                        data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
                     }
-                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
-                    def pieValues = pieData.values().join(", ")
-                    
-                    // Données pour la deuxième pie chart (basée sur featureStatusData)
-                    def featureStatusPieData = [
-                        featureStatusData.collect { it.value.PASS }.sum(),
-                        featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
-                        featureStatusData.collect { it.value.NOKMINOR }.sum(),
-                        featureStatusData.collect { it.value.NOKMAJOR }.sum()
-                    ]
-                    def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
-                    def featureStatusPieColors = ['#4CAF50', '#A5D6A7', '#FF9800', '#F44336']
-                    
-                    def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
-                    def featureStatusDatasets = [
-                        """
-                            {
-                                label: "PASS",
-                                backgroundColor: "#4CAF50",
-                                data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
-                            }
-                        """,
-                        """
-                            {
-                                label: "NOT EXECUTED",
-                                backgroundColor: "#A5D6A7",
-                                data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
-                            }
-                        """,
-                        """
-                            {
-                                label: "NOK MINOR",
-                                backgroundColor: "#FF9800",
-                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
-                            }
-                        """,
-                        """
-                            {
-                                label: "NOK MAJOR",
-                                backgroundColor: "#F44336",
-                                data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
-                            }
-                        """
-                    ]
+                """,
+                """
+                    {
+                        label: "NOT EXECUTED",
+                        backgroundColor: "#A5D6A7",
+                        data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
+                    }
+                """,
+                """
+                    {
+                        label: "NOK MINOR",
+                        backgroundColor: "#FF9800",
+                        data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
+                    }
+                """,
+                """
+                    {
+                        label: "NOK MAJOR",
+                        backgroundColor: "#F44336",
+                        data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
+                    }
+                """
+            ]
+
 
 
                     // données cards 
