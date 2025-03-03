@@ -2196,16 +2196,7 @@ pipeline {
                 }
             }
         }
-        stage('Générer PDF avec WeasyPrint') {
-    steps {
-        script {
-            bat 'python -c "from weasyprint import HTML; HTML(\'report.html\').write_pdf(\'report.pdf\')"'
-            if (!fileExists('report.pdf')) {
-                error "Le fichier report.pdf n'a pas été généré !"
-            }
-        }
-    }
-}
+     
 
 
 
