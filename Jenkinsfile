@@ -1058,32 +1058,71 @@ pipeline {
                     </script>
 
  <!-- Script pour générer le PDF -->
-    <script>
-    document.getElementById('generatePdfButton').addEventListener('click', function() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
+     <script>
+        // Script pour générer le PDF
+        document.getElementById('generatePdfButton').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
 
-        // Afficher temporairement toutes les lignes du tableau
+            // Afficher temporairement toutes les lignes du tableau
+            const table = document.getElementById('defectsTable');
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => row.style.display = ''); // Afficher toutes les lignes
+
+            // Capturer le contenu HTML en tant qu'image avec html2canvas
+            html2canvas(document.body).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210; // Largeur de la page A4 en mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                // Ajouter l'image au PDF
+                doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                doc.save('report.pdf'); // Télécharger le PDF
+
+                // Réappliquer la pagination après la génération du PDF
+                showPage(1); // Revenir à la première page
+                setActiveButton(paginationDiv.querySelector('button'));
+            });
+        });
+
+        // Fonctions de pagination existantes
         const table = document.getElementById('defectsTable');
         const rows = table.querySelectorAll('tbody tr');
-        rows.forEach(row => row.style.display = ''); // Afficher toutes les lignes
+        const rowsPerPage = 10; // Nombre de lignes par page
+        const pageCount = Math.ceil(rows.length / rowsPerPage);
+        const paginationDiv = document.getElementById('pagination');
 
-        // Capturer le contenu HTML en tant qu'image avec html2canvas
-        html2canvas(document.body).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-            const imgWidth = 210; // Largeur de la page A4 en mm
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        function showPage(page) {
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            rows.forEach((row, index) => {
+                row.style.display = (index >= start && index < end) ? '' : 'none';
+            });
+        }
 
-            // Ajouter l'image au PDF
-            doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-            doc.save('report.pdf'); // Télécharger le PDF
-
-            // Réappliquer la pagination après la génération du PDF
-            showPage(1); // Revenir à la première page
+        function createPagination() {
+            for (let i = 1; i <= pageCount; i++) {
+                const button = document.createElement('button');
+                button.innerText = i;
+                button.addEventListener('click', () => {
+                    showPage(i);
+                    setActiveButton(button);
+                });
+                paginationDiv.appendChild(button);
+            }
+            showPage(1); // Afficher la première page par défaut
             setActiveButton(paginationDiv.querySelector('button'));
-        });
-    });
-</script>
+        }
+
+        function setActiveButton(activeButton) {
+            paginationDiv.querySelectorAll('button').forEach(button => {
+                button.classList.remove('active');
+            });
+            activeButton.classList.add('active');
+        }
+
+        createPagination(); // Initialiser la pagination
+    </script>
 
                 </body>
                 </html>
