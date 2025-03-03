@@ -1823,6 +1823,7 @@ pipeline {
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -2170,22 +2171,43 @@ pipeline {
             }
         }
 
-       stage('Convertir en PDF') {
+    //    stage('Convertir en PDF') {
+    //         steps {
+    //             script {
+                
+    //                 bat 'wkhtmltopdf --version'
+                    
+    //                 // Convertir le fichier HTML en PDF
+    //                 bat 'wkhtmltopdf report.html report.pdf'
+                    
+    //                 // Vérifier que le fichier PDF a été généré
+    //                 if (!fileExists('report.pdf')) {
+    //                     error "Le fichier report.pdf n'a pas été généré !"
+    //                 }
+    //             }
+    //         }
+    //     }
+
+
+        stage('Installer WeasyPrint') {
             steps {
                 script {
-                
-                    bat 'wkhtmltopdf --version'
-                    
-                    // Convertir le fichier HTML en PDF
-                    bat 'wkhtmltopdf report.html report.pdf'
-                    
-                    // Vérifier que le fichier PDF a été généré
-                    if (!fileExists('report.pdf')) {
-                        error "Le fichier report.pdf n'a pas été généré !"
-                    }
+                    bat 'pip install weasyprint'
                 }
             }
         }
+        stage('Générer PDF avec WeasyPrint') {
+    steps {
+        script {
+            bat 'python -c "from weasyprint import HTML; HTML(\'report.html\').write_pdf(\'report.pdf\')"'
+            if (!fileExists('report.pdf')) {
+                error "Le fichier report.pdf n'a pas été généré !"
+            }
+        }
+    }
+}
+
+
 
       stage('Publier le rapport HTML') {
     steps {
@@ -2193,10 +2215,11 @@ pipeline {
             allowMissing: false,
             alwaysLinkToLastBuild: true,
             keepAll: true,
-            reportDir: "${WORKSPACE}",
+            reportDir: "${WORKSPACE}", // Spécifiez le répertoire correct
             reportFiles: 'report.html',
             reportName: 'Visualisation des Features'
         ])
+    
     }
 }
     }
