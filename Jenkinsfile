@@ -1059,23 +1059,31 @@ pipeline {
 
  <!-- Script pour générer le PDF -->
     <script>
-        document.getElementById('generatePdfButton').addEventListener('click', function() {
-            // Créer un nouveau document PDF
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4');
+    document.getElementById('generatePdfButton').addEventListener('click', function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
 
-            // Capturer le contenu HTML en tant qu'image avec html2canvas
-            html2canvas(document.body).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 210; // Largeur de la page A4 en mm
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        // Afficher temporairement toutes les lignes du tableau
+        const table = document.getElementById('defectsTable');
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => row.style.display = ''); // Afficher toutes les lignes
 
-                // Ajouter l'image au PDF
-                doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                doc.save('report.pdf'); // Télécharger le PDF
-            });
+        // Capturer le contenu HTML en tant qu'image avec html2canvas
+        html2canvas(document.body).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = 210; // Largeur de la page A4 en mm
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            // Ajouter l'image au PDF
+            doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+            doc.save('report.pdf'); // Télécharger le PDF
+
+            // Réappliquer la pagination après la génération du PDF
+            showPage(1); // Revenir à la première page
+            setActiveButton(paginationDiv.querySelector('button'));
         });
-    </script>
+    });
+</script>
 
                 </body>
                 </html>
