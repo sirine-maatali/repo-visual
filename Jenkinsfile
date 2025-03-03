@@ -1658,18 +1658,15 @@
 
 pipeline {
     agent any
-
     parameters {
         string(name: 'FILE_NAME', defaultValue: '', description: 'Nom du fichier (format "HGWXRAY-XXXXX")')
     }
-
     stages {
         stage('Cloner le Repo') {
             steps {
                 git branch: 'main', url: 'https://github.com/sirine-maatali/repo-visual.git'
             }
         }
-
         stage('Vérifier Python') {
             steps {
                 script {
@@ -1707,7 +1704,7 @@ pipeline {
             def totalNokMinor = 0
             def totalNokMajor = 0
                         
-                          jsonData.each { entry ->
+                    jsonData.each { entry ->
                 def feature = entry.feature.toString().trim()
                 def status = entry.status.toString().trim()
                 def result = entry.result.toString().trim() // Récupération du champ "result"
@@ -1823,7 +1820,9 @@ pipeline {
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -1959,6 +1958,12 @@ pipeline {
     </style>
 </head>
 <body>
+  <div style="text-align: center; margin-bottom: 20px;">
+        <button id="generatePdfButton" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Générer un PDF
+        </button>
+    </div>
+    
     <h1>Test Execution</h1>
     <h2>Nom du fichier : ${params.FILE_NAME}</h2>
 
@@ -2158,48 +2163,37 @@ pipeline {
                             createPagination(); // Initialize pagination
                         });
                     </script>
+
+ <!-- Script pour générer le PDF -->
+    <script>
+        document.getElementById('generatePdfButton').addEventListener('click', function() {
+            // Créer un nouveau document PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+
+            // Capturer le contenu HTML en tant qu'image avec html2canvas
+            html2canvas(document.body).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210; // Largeur de la page A4 en mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                // Ajouter l'image au PDF
+                doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                doc.save('report.pdf'); // Télécharger le PDF
+            });
+        });
+    </script>
+
                 </body>
                 </html>
                 """
 
-
                     writeFile file: 'report.html', text: htmlContent
-                 //  bat 'scp report.html user@webserver:/var/www/html/report.html'
                  archiveArtifacts artifacts: 'report.html', fingerprint: true
 
                 }
             }
         }
-
-       stage('Convertir en PDF') {
-            steps {
-                script {
-                
-                    bat 'wkhtmltopdf --version'
-                    
-                    // Convertir le fichier HTML en PDF
-                    bat 'wkhtmltopdf report.html report.pdf'
-                    
-                    // Vérifier que le fichier PDF a été généré
-                    if (!fileExists('report.pdf')) {
-                        error "Le fichier report.pdf n'a pas été généré !"
-                    }
-                    archiveArtifacts artifacts: 'report.pdf', fingerprint: true
-
-                }
-            }
-        }
-
-
-        stage('Installer WeasyPrint') {
-            steps {
-                script {
-                    bat 'pip install weasyprint'
-                }
-            }
-        }
-     
-
 
 
       stage('Publier le rapport HTML') {
