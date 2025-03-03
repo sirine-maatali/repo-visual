@@ -1,0 +1,3700 @@
+{
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "id": "129636",
+    "self": "https://jira.softathome.com/rest/api/2/issue/129636",
+    "key": "HGWXRAY-924",
+    "fields": {
+        "customfield_12251": null,
+        "customfield_12250": null,
+        "customfield_12253": null,
+        "customfield_12252": null,
+        "customfield_12255": null,
+        "customfield_12254": null,
+        "customfield_12257": null,
+        "customfield_12256": null,
+        "customfield_12259": null,
+        "customfield_12258": null,
+        "customfield_10500": null,
+        "customfield_12800": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/13200",
+            "value": "Manual",
+            "id": "13200",
+            "disabled": false
+        },
+        "customfield_12249": null,
+        "customfield_12007": null,
+        "customfield_10501": null,
+        "customfield_10502": null,
+        "customfield_10503": null,
+        "customfield_10504": null,
+        "customfield_10505": null,
+        "customfield_10506": null,
+        "customfield_10507": null,
+        "customfield_10508": null,
+        "customfield_10509": null,
+        "lastViewed": null,
+        "customfield_12240": null,
+        "customfield_12242": null,
+        "customfield_12241": null,
+        "customfield_14301": null,
+        "customfield_12244": null,
+        "customfield_12243": null,
+        "customfield_12004": null,
+        "customfield_12246": null,
+        "customfield_12245": null,
+        "customfield_12248": null,
+        "customfield_12247": null,
+        "customfield_12005": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/11518",
+            "value": "External",
+            "id": "11518",
+            "disabled": false
+        },
+        "customfield_11700": null,
+        "customfield_12239": null,
+        "customfield_12238": null,
+        "aggregatetimeoriginalestimate": null,
+        "issuelinks": [
+            {
+                "id": "452907",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/452907",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "338324",
+                    "key": "SSW-9972",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/338324",
+                    "fields": {
+                        "summary": "[VZ_WiFi7][WebUI] Wrong connection type of WLAN Clients ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/3",
+                            "description": "This issue is being actively worked on at the moment by the assignee.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/inprogress.png",
+                            "name": "In Progress",
+                            "id": "3",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "inprogress",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "147431",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/147431",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "179328",
+                    "key": "HOP-2601",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/179328",
+                    "fields": {
+                        "summary": "[WiFi] 2.4GHz WiFi is not broadcasted",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "220472",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/220472",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "228283",
+                    "key": "HOP-4541",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/228283",
+                    "fields": {
+                        "summary": "[SAFRAN_PRPL] [WebUI] Conncted devices appear offline",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "247095",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/247095",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "241845",
+                    "key": "SSW-7542",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/241845",
+                    "fields": {
+                        "summary": "[OJO_PRPL][WiFI][RANDOM] Incorrect 'active' Parameter in Data Model Leads to Misrepresentation of WLAN Device Connectivity Status in Web UI",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "135026",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/135026",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "181037",
+                    "key": "HGWPR-20808",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/181037",
+                    "fields": {
+                        "summary": "[WiFi][Regression] Cannot modify the OperatingStandards ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "211747",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/211747",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "224599",
+                    "key": "HOP-4344",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/224599",
+                    "fields": {
+                        "summary": "[SAFRAN_PRPL][WEBUI] devices do not appear on the connected devices page",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "218484",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/218484",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "227363",
+                    "key": "HOP-4480",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/227363",
+                    "fields": {
+                        "summary": "[Orange POC][WEBUI] devices do not appear on the connected devices page",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "252970",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/252970",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "243308",
+                    "key": "HOP-5371",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/243308",
+                    "fields": {
+                        "summary": "wifi webui nok on prpl mainline",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "305999",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/305999",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "258281",
+                    "key": "SHG-3837",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/258281",
+                    "fields": {
+                        "summary": "[Regression][GENERIC-IB4][WebUI][WiFi][Missing WiFi Settings in Webui  ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "135340",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/135340",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "181205",
+                    "key": "SSW-6108",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/181205",
+                    "fields": {
+                        "summary": "[WiFi][Regression] Cannot modify the OperatingStandards ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "429225",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/429225",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "328053",
+                    "key": "TMASAH-865",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/328053",
+                    "fields": {
+                        "summary": "[LB3][WEBUI] The \"Save\" button in the wireless field is ineffective",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "267550",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/267550",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "252092",
+                    "key": "HOP-5716",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/252092",
+                    "fields": {
+                        "summary": "[PRPL_SAFRAN][WiFi]Wifi parameters has been modified under DM after updating only one Vap's parameters from WebUI",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "252591",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/252591",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "241348",
+                    "key": "SHG-3541",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/241348",
+                    "fields": {
+                        "summary": "[WebUI][Legacy][Wi-Fi] Incorrect label for different SSID",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "354566",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/354566",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "291133",
+                    "key": "TMASAH-817",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/291133",
+                    "fields": {
+                        "summary": "[LB3] iphone is detected as pc",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "307876",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/307876",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "270522",
+                    "key": "CSSP-4452",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/270522",
+                    "fields": {
+                        "summary": "[SCS] [IB3] 2.4GHz Wifi Enabled but not broadcasted",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "313646",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/313646",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "274873",
+                    "key": "HGWPR-28540",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/274873",
+                    "fields": {
+                        "summary": "[OJO Prpl] Redirected to login page after login",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "277718",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/277718",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "256563",
+                    "key": "SCSAS-9905",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/256563",
+                    "fields": {
+                        "summary": "Impossible to connect a station through WiFi to HGW",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "292164",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/292164",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "262969",
+                    "key": "SCSAS-10156",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/262969",
+                    "fields": {
+                        "summary": "[IB5PRO] Gpon is down at boot, also after setting the wan mode and reboot",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "307160",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/307160",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "269578",
+                    "key": "SCSAS-10423",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/269578",
+                    "fields": {
+                        "summary": "[SCS] [IB3] 2.4GHz Wifi Enabled but not broadcasted",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "333560",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/333560",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "283050",
+                    "key": "SCSAS-10828",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/283050",
+                    "fields": {
+                        "summary": "[IB5/Pro] SSID WLAN 2.4 GHz is not broadcasted ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "287926",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/287926",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "261788",
+                    "key": "VZ-2038",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/261788",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB] [Wifi] Wifi is not functionnal",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "353675",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/353675",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "287803",
+                    "key": "VZ-3412",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/287803",
+                    "fields": {
+                        "summary": "[VZ_WiFi7][WebUI] The webui is supper buggy",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "315811",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/315811",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "275396",
+                    "key": "VZ-2609",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/275396",
+                    "fields": {
+                        "summary": "[VZ_CHR2fA][WEBui] WiFi Primary Page and Radio Management are not accessible after Upgrade to version 4.0.12.10",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "367130",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/367130",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "296967",
+                    "key": "VZ-3990",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/296967",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB][WebUI] WebUI is not Accessible ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "413804",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/413804",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "322423",
+                    "key": "VZ-5363",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/322423",
+                    "fields": {
+                        "summary": "[VZ_WIFI7][Webui]When access to Wi-Fi field, the session unexpectedly logs out",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "385578",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/385578",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "306395",
+                    "key": "HGWPR-31205",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/306395",
+                    "fields": {
+                        "summary": "[LB77] The supported mode cannot be changed",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "247737",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/247737",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "242226",
+                    "key": "HOP-5324",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/242226",
+                    "fields": {
+                        "summary": "[Safran PRPL] Segmentaion fault on gmap-mod-upnp",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "375126",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/375126",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "300946",
+                    "key": "VZ-4149",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/300946",
+                    "fields": {
+                        "summary": "[VZ_WiFi7][WebUI] Lot of fields are missing on WebUI",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "367631",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/367631",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "291567",
+                    "key": "VZ-3644",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/291567",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB][Webui] IPv6 address for equipments is not displayed in WebUI",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "367644",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/367644",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "297275",
+                    "key": "VZ-4011",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/297275",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB][WebUI] Security mode modifications are not displayed until the page is refreshed",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "345872",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/345872",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "287405",
+                    "key": "HGWPR-29700",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/287405",
+                    "fields": {
+                        "summary": "[Nautilus][Robustness] [Multiloop]: Wifi 2.4 ghz is not broadcasted ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "457949",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/457949",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "340675",
+                    "key": "VZ-6481",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/340675",
+                    "fields": {
+                        "summary": "[2fB][Regression][UI] \"Devices\" Page is Not Working",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "177103",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/177103",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "186916",
+                    "key": "HGWO2-1014",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/186916",
+                    "fields": {
+                        "summary": "Connected WLAN Devices not Displayed",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "223362",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/223362",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "230009",
+                    "key": "HGWPR-25178",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/230009",
+                    "fields": {
+                        "summary": "[OJO_PRPL][WEBUI] WebUI Not Showing Connected Devices",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "218646",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/218646",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "224621",
+                    "key": "HOP-4346",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/224621",
+                    "fields": {
+                        "summary": "[SAFRAN_PRPL][WIFI]Not possible to associate wlan devices after switch from default security mode to WPA2-Perso/WPA-WPA2-Perso",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "411495",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/411495",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "321568",
+                    "key": "VZ-5311",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/321568",
+                    "fields": {
+                        "summary": "[VZ_WiFi7][WebUI] No effect when selected Security mode ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "197777",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/197777",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "110552",
+                    "key": "HGWO2-845",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/110552",
+                    "fields": {
+                        "summary": " [O2] [SBv1] [WebUI] Wan page not correctly rendered in Internet Explorer",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "422832",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/422832",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "326096",
+                    "key": "HGWO2-1394",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/326096",
+                    "fields": {
+                        "summary": "[SBv3 DSL][WebUI] Connected WLAN Devices not Displayed",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "300653",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/300653",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "168071",
+                    "key": "HGWPR-20177",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/168071",
+                    "fields": {
+                        "summary": "the  phone appears like pc  ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "231089",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/231089",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "233608",
+                    "key": "HGWPR-25421",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/233608",
+                    "fields": {
+                        "summary": "[PRPL_OJO][WEBUI]Connected WLAN Devices Not Displayed",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "253406",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/253406",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "245243",
+                    "key": "HGWPR-26142",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/245243",
+                    "fields": {
+                        "summary": "[OJO_NOKIA-G140WH] The name of mobile connected is PC-35",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "294410",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/294410",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "249070",
+                    "key": "HGWPR-26394",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/249070",
+                    "fields": {
+                        "summary": "CLONE - [MCO][WebUI] IPv6 adress is not expected to be present on \"My connected devices\"",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "295012",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/295012",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "264733",
+                    "key": "HGWPR-27834",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/264733",
+                    "fields": {
+                        "summary": "[WebUI] Android phones appear as a PCs",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "322711",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/322711",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "275285",
+                    "key": "SHG-4060",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/275285",
+                    "fields": {
+                        "summary": "[GENERIC-IB4][WiFi] When modifying the SSID of both VAP 5 and 2.4 of the Wi-Fi, the old SSID is the one that is broadcasted",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10300",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "Rejected",
+                            "id": "10300",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "381393",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/381393",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "304042",
+                    "key": "SSW-9101",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/304042",
+                    "fields": {
+                        "summary": "[GENERIC-IB4][WiFi] When modifying the SSID of both VAP 5 and 2.4 of the Wi-Fi, the old SSID is the one that is broadcasted",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10300",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "Rejected",
+                            "id": "10300",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "245856",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/245856",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "241101",
+                    "key": "HGWPR-25896",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/241101",
+                    "fields": {
+                        "summary": "[OJO_PRPL][WiFI][RANDOM] Incorrect 'active' Parameter in Data Model Leads to Misrepresentation of WLAN Device Connectivity Status in Web UI",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10404",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "Action Required",
+                            "id": "10404",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "inprogress",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "391494",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/391494",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "309236",
+                    "key": "SCSAS-11536",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/309236",
+                    "fields": {
+                        "summary": "[WEBUI][IB5]wrong webui information ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10404",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "Action Required",
+                            "id": "10404",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "inprogress",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "440338",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/440338",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "333346",
+                    "key": "VZ-6033",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/333346",
+                    "fields": {
+                        "summary": "[VZ_WiFi7][WebUI] Wrong connection type of WLAN Clients ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10701",
+                            "description": "Component is released, ready for integration.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "Component Released",
+                            "id": "10701",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "inprogress",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "161685",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/161685",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "196925",
+                    "key": "HGWPR-22300",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/196925",
+                    "fields": {
+                        "summary": "[lb3][wbeui] the phone appears like pc",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10702",
+                            "description": "SW with updated config was released",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "INTEGRATED",
+                            "id": "10702",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "232480",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/232480",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "234509",
+                    "key": "VZ-715",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/234509",
+                    "fields": {
+                        "summary": "[VZ][GUI] WiFi devices appear offline",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10702",
+                            "description": "SW with updated config was released",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "INTEGRATED",
+                            "id": "10702",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "297523",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/297523",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "265446",
+                    "key": "SCSAS-10264",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/265446",
+                    "fields": {
+                        "summary": "[5.04l04 BSP Upstep] IB4 WLAN 2.4GHz issue",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10801",
+                            "description": "Validation is blocked",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "Validation Standby",
+                            "id": "10801",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "inprogress",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "367787",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/367787",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "297338",
+                    "key": "EXTVZ-3271",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/297338",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB][Webui] IPv6 address for equipments is not displayed in WebUI :: PRPLC-11796",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/11101",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "SW integrated",
+                            "id": "11101",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "inprogress",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "368927",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/368927",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "297686",
+                    "key": "EXTVZ-3279",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/297686",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB][WebUI] Security mode modifications are not displayed until the page is refreshed :: PRPLC-11804",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/11101",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "SW integrated",
+                            "id": "11101",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "inprogress",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            }
+        ],
+        "assignee": null,
+        "customfield_12235": null,
+        "customfield_12234": null,
+        "customfield_12237": null,
+        "customfield_12236": null,
+        "customfield_10600": null,
+        "customfield_12901": null,
+        "customfield_10601": null,
+        "customfield_12229": [],
+        "customfield_10602": null,
+        "customfield_12900": null,
+        "customfield_10603": null,
+        "customfield_12903": null,
+        "customfield_12902": [],
+        "customfield_12905": null,
+        "customfield_12904": null,
+        "customfield_12907": null,
+        "customfield_12906": null,
+        "customfield_12909": null,
+        "customfield_12908": null,
+        "subtasks": [],
+        "customfield_14400": null,
+        "reporter": {
+            "self": "https://jira.softathome.com/rest/api/2/user?username=sah5600",
+            "name": "sah5600",
+            "key": "sah5600",
+            "emailAddress": "do_not_replay@softathome.com",
+            "avatarUrls": {
+                "48x48": "https://jira.softathome.com/secure/useravatar?ownerId=sah5600&avatarId=12313",
+                "24x24": "https://jira.softathome.com/secure/useravatar?size=small&ownerId=sah5600&avatarId=12313",
+                "16x16": "https://jira.softathome.com/secure/useravatar?size=xsmall&ownerId=sah5600&avatarId=12313",
+                "32x32": "https://jira.softathome.com/secure/useravatar?size=medium&ownerId=sah5600&avatarId=12313"
+            },
+            "displayName": "Wijgmaal Jenkins User",
+            "active": true,
+            "timeZone": "Europe/Paris"
+        },
+        "customfield_10710": null,
+        "customfield_13305": [
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14606",
+                "value": "DTAG_GR_ARCADYAN-SPEEDPORTSM",
+                "id": "14606",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14607",
+                "value": "DTAG_HR_ARCADYAN-SPEEDPORTSM",
+                "id": "14607",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14614",
+                "value": "FT_FBWIFI6PL_SAGEM-FAST5670",
+                "id": "14614",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19500",
+                "value": "FT_LB77_SAGEM-FAST5698",
+                "id": "19500",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14616",
+                "value": "FT_LBV3FR_SAGEM-LBV3",
+                "id": "14616",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14617",
+                "value": "FT_LBWIFI6BE_SAGEM-FAST5670",
+                "id": "14617",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14619",
+                "value": "FT_LBWIFI6LU_SAGEM-FAST5670",
+                "id": "14619",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14620",
+                "value": "FT_LBWIFI6RO_SAGEM-FAST5670",
+                "id": "14620",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20104",
+                "value": "FT_LB10-7_SAGEM-FAST5698",
+                "id": "20104",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14621",
+                "value": "FT_MIB4_SAGEM-MIB4",
+                "id": "14621",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14624",
+                "value": "FT_ONTBOXES-OSP_SAGEM-FAST5656",
+                "id": "14624",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14626",
+                "value": "FT_ONTBOXFR_SAGEM-FAST5656",
+                "id": "14626",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14627",
+                "value": "FT_ONTBOXFR-PRO_SAGEM-FAST5656",
+                "id": "14627",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14628",
+                "value": "FT_ONTBOXJO_NOKIA-G140WH",
+                "id": "14628",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14629",
+                "value": "FT_ONTBOXJO_SAGEM-FAST5656",
+                "id": "14629",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14630",
+                "value": "FT_ONTBOXPL_SAGEM-FAST5656",
+                "id": "14630",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/18706",
+                "value": "FT_NAUTILUS_ARCADYAN-PRV33AX346B-H2",
+                "id": "18706",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19801",
+                "value": "FT_NEVERA_ARCADYAN-PRV36BE346B-H2",
+                "id": "19801",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/16701",
+                "value": "FT_OJO_NOKIA-G2426GP_PRPL",
+                "id": "16701",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15501",
+                "value": "FT_REGLISSE_SAGEM-FAST5694",
+                "id": "15501",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15619",
+                "value": "FT_REGLISSE-PRO_SAGEM-FAST5694",
+                "id": "15619",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14636",
+                "value": "FT_SAFRAN_SAGEM-FAST5670",
+                "id": "14636",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/16203",
+                "value": "FT_SAFRAN_SAGEM-FAST5670_PRPLPOC",
+                "id": "16203",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14643",
+                "value": "O2_PEXESO_KAON-DG2100CR",
+                "id": "14643",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14644",
+                "value": "O2_SMARTBOX2_KAON-DG2300CR",
+                "id": "14644",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19805",
+                "value": "O2_SMARTBOX3_KAON-DG2500CR",
+                "id": "19805",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19806",
+                "value": "O2_SMARTBOX3_TPLINK-EX820",
+                "id": "19806",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17107",
+                "value": "PRPL_PRPLWARE_SAFRAN_SAGEM-FAST5670",
+                "id": "17107",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14646",
+                "value": "PRPL_PRPLWARE_WNC-G107",
+                "id": "14646",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20800",
+                "value": "PRPL_PRPLWARE_WNC-LVR5",
+                "id": "20800",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15503",
+                "value": "SAH_GENERIC_ARCADYAN-INTERNETBOX4",
+                "id": "15503",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20501",
+                "value": "SAH_GENERIC_ARCADYAN-INTERNETBOX5-PRO",
+                "id": "20501",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15506",
+                "value": "SAH_GENERIC_SERCOMM-RP562B-HGW",
+                "id": "15506",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14658",
+                "value": "SWISSCOM_STARGATE_SILIGENCE-CUT2",
+                "id": "14658",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14661",
+                "value": "SWISSCOM_STARLITE_ARCADYAN-STARLITE",
+                "id": "14661",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14660",
+                "value": "SWISSCOM_STARLINK_ASKEY-STARLINK",
+                "id": "14660",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14659",
+                "value": "SWISSCOM_STARGATEV2_ASKEY-STARGATEV2",
+                "id": "14659",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14656",
+                "value": "SWISSCOM_INTERNETBOX3_ARCADYAN-INTERNETBOX3",
+                "id": "14656",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14657",
+                "value": "SWISSCOM_INTERNETBOX4_ARCADYAN-INTERNETBOX4",
+                "id": "14657",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17800",
+                "value": "SWISSCOM_INTERNETBOX5_ARCADYAN-INTERNETBOX5",
+                "id": "17800",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17801",
+                "value": "SWISSCOM_INTERNETBOX5_ARCADYAN-INTERNETBOX5-PRO",
+                "id": "17801",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14666",
+                "value": "TELENOR_BRAHE_KAON-AP2400TN",
+                "id": "14666",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14669",
+                "value": "TELENOR_BOHR_KAON-DG2200TN",
+                "id": "14669",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14670",
+                "value": "TELENOR_BRAHE_KAON-DG2400TN",
+                "id": "14670",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17103",
+                "value": "VERIZON_CHR2_WNC-CHR2FA",
+                "id": "17103",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17104",
+                "value": "VERIZON_CHR2_ARCADYAN-CHR2FB",
+                "id": "17104",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19204",
+                "value": "VERIZON_WIFI7_WNC-LVR5",
+                "id": "19204",
+                "disabled": false
+            }
+        ],
+        "customfield_11801": null,
+        "customfield_11803": null,
+        "customfield_11802": null,
+        "customfield_11805": null,
+        "customfield_11804": null,
+        "progress": {
+            "progress": 0,
+            "total": 0
+        },
+        "votes": {
+            "self": "https://jira.softathome.com/rest/api/2/issue/HGWXRAY-924/votes",
+            "votes": 0,
+            "hasVoted": false
+        },
+        "worklog": {
+            "startAt": 0,
+            "maxResults": 20,
+            "total": 0,
+            "worklogs": []
+        },
+        "archivedby": null,
+        "issuetype": {
+            "self": "https://jira.softathome.com/rest/api/2/issuetype/10700",
+            "id": "10700",
+            "description": "Represents a Test",
+            "iconUrl": "https://jira.softathome.com/download/resources/com.xpandit.plugins.xray/images/test.png",
+            "name": "Test",
+            "subtask": false
+        },
+        "project": {
+            "self": "https://jira.softathome.com/rest/api/2/project/12402",
+            "id": "12402",
+            "key": "HGWXRAY",
+            "name": "HGW QA XRAY",
+            "projectTypeKey": "business",
+            "avatarUrls": {
+                "48x48": "https://jira.softathome.com/secure/projectavatar?avatarId=10324",
+                "24x24": "https://jira.softathome.com/secure/projectavatar?size=small&avatarId=10324",
+                "16x16": "https://jira.softathome.com/secure/projectavatar?size=xsmall&avatarId=10324",
+                "32x32": "https://jira.softathome.com/secure/projectavatar?size=medium&avatarId=10324"
+            },
+            "projectCategory": {
+                "self": "https://jira.softathome.com/rest/api/2/projectCategory/10200",
+                "id": "10200",
+                "description": "",
+                "name": "Tools"
+            }
+        },
+        "customfield_11000": null,
+        "customfield_13300": null,
+        "customfield_12210": 3.0,
+        "customfield_12213": [
+            "HGWXRAY-49115",
+            "HGWXRAY-35630",
+            "HGWXRAY-32574",
+            "HGWXRAY-16137",
+            "HGWXRAY-49092",
+            "HGWXRAY-49061",
+            "HGWXRAY-49090",
+            "HGWXRAY-49107",
+            "HGWXRAY-49116",
+            "HGWXRAY-84638",
+            "HGWXRAY-23144",
+            "HGWXRAY-17122",
+            "HGWXRAY-41306",
+            "HGWXRAY-49088",
+            "HGWXRAY-68546",
+            "HGWXRAY-49086",
+            "HGWXRAY-49064",
+            "HGWXRAY-18161",
+            "HGWXRAY-61326",
+            "HGWXRAY-35918",
+            "HGWXRAY-69380",
+            "HGWXRAY-49070",
+            "HGWXRAY-49075",
+            "HGWXRAY-14764",
+            "HGWXRAY-38737",
+            "HGWXRAY-49065",
+            "HGWXRAY-49142",
+            "HGWXRAY-51911",
+            "HGWXRAY-69230",
+            "HGWXRAY-21213",
+            "HGWXRAY-38115",
+            "HGWXRAY-25139",
+            "HGWXRAY-49109",
+            "HGWXRAY-36179",
+            "HGWXRAY-85957",
+            "HGWXRAY-52126",
+            "HGWXRAY-49069",
+            "HGWXRAY-49105",
+            "HGWXRAY-49103",
+            "HGWXRAY-49082",
+            "HGWXRAY-25327",
+            "HGWXRAY-49058",
+            "HGWXRAY-49094",
+            "HGWXRAY-19622",
+            "HGWXRAY-38404",
+            "HGWXRAY-16935",
+            "HGWXRAY-49095",
+            "HGWXRAY-49073",
+            "HGWXRAY-79865",
+            "HGWXRAY-90204",
+            "HGWXRAY-91841",
+            "HGWXRAY-91873",
+            "HGWXRAY-96404",
+            "HGWXRAY-103376",
+            "HGWXRAY-57705",
+            "HGWXRAY-101684",
+            "HGWXRAY-104905"
+        ],
+        "customfield_13302": null,
+        "customfield_12212": [],
+        "customfield_13301": null,
+        "customfield_12215": "/HGW/Webui/Common/My WiFi/Advanced WiFi/Different configuration for WiFi 5GHz and WiFi 2.4 GHz",
+        "customfield_13304": [
+            "Webui"
+        ],
+        "customfield_12214": {
+            "issueId": 129636,
+            "statuses": [
+                {
+                    "group": "HGWXRAY-49103",
+                    "statusResults": [
+                        {
+                            "latest": 1,
+                            "latestFinal": 0,
+                            "latestId": 3707306,
+                            "latestFinalId": 3519512
+                        }
+                    ]
+                },
+                {
+                    "statusResults": [
+                        {
+                            "latest": 1,
+                            "latestFinal": 0,
+                            "latestId": 3707306,
+                            "latestFinalId": 3704546
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-84638",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3704546,
+                            "latestFinalId": 3704546
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-51911",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3704624,
+                            "latestFinalId": 3704624
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-69380",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3704316,
+                            "latestFinalId": 3704316
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-103376",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3657299,
+                            "latestFinalId": 3657299
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-68546",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3653492,
+                            "latestFinalId": 3653492
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-79865",
+                    "statusResults": [
+                        {
+                            "latest": 3,
+                            "latestFinal": 3,
+                            "latestId": 3585472,
+                            "latestFinalId": 3585472
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49107",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3618263,
+                            "latestFinalId": 3618263
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49116",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3609103,
+                            "latestFinalId": 3609103
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-69230",
+                    "statusResults": [
+                        {
+                            "latest": 3,
+                            "latestFinal": 3,
+                            "latestId": 3585613,
+                            "latestFinalId": 3585613
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-23144",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3580031,
+                            "latestFinalId": 3580031
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-35918",
+                    "statusResults": [
+                        {
+                            "latest": 1,
+                            "latestFinal": 0,
+                            "latestId": 3565733,
+                            "latestFinalId": 539711
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-91841",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3534470,
+                            "latestFinalId": 3534470
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-101684",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3521313,
+                            "latestFinalId": 3521313
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-57705",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3489574,
+                            "latestFinalId": 3489574
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-21213",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3464582,
+                            "latestFinalId": 3464582
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-96404",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3439976,
+                            "latestFinalId": 3439976
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49092",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1753917,
+                            "latestFinalId": 1753917
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49061",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1260644,
+                            "latestFinalId": 1260644
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-17122",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2332879,
+                            "latestFinalId": 2332879
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49086",
+                    "statusResults": [
+                        {
+                            "latest": 3,
+                            "latestFinal": 3,
+                            "latestId": 1168957,
+                            "latestFinalId": 1168957
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-61326",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3152117,
+                            "latestFinalId": 3152117
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49070",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3059599,
+                            "latestFinalId": 3059599
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49075",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2799086,
+                            "latestFinalId": 2799086
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49065",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1668161,
+                            "latestFinalId": 1668161
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49142",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3347520,
+                            "latestFinalId": 3347520
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-38115",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2131619,
+                            "latestFinalId": 2131619
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49109",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2676764,
+                            "latestFinalId": 2676764
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-36179",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 168256,
+                            "latestFinalId": 168256
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-85957",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2620515,
+                            "latestFinalId": 2620515
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-52126",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1345934,
+                            "latestFinalId": 1345934
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49069",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1474855,
+                            "latestFinalId": 1474855
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49082",
+                    "statusResults": [
+                        {
+                            "latest": 1,
+                            "latestFinal": 0,
+                            "latestId": 2847193,
+                            "latestFinalId": 2303420
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49058",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1205251,
+                            "latestFinalId": 1205251
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49094",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1698540,
+                            "latestFinalId": 1698540
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49095",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 644882,
+                            "latestFinalId": 644882
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49073",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1400253,
+                            "latestFinalId": 1400253
+                        }
+                    ]
+                }
+            ],
+            "timestamp": 1739802238750
+        },
+        "customfield_13303": null,
+        "customfield_12206": null,
+        "customfield_12205": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/11708",
+            "value": "Manual",
+            "id": "11708",
+            "disabled": false
+        },
+        "customfield_12208": null,
+        "customfield_12207": null,
+        "customfield_12209": {
+            "steps": [
+                {
+                    "id": 8147,
+                    "index": 1,
+                    "fields": {
+                        "Action": "From the WebUI, try to modify the current WiFi parameters for 2.4Ghz and 5 Ghz band.\n - SSID: \"Change to different SSID\"\n - Encryption: \"Change to different mode\"\n - Key: \"Change to different key\"",
+                        "Expected Result": "It should be possible to change those wi-fi parameters\u00a0\u00a0for 2.4Ghz and 5Ghz band."
+                    },
+                    "attachments": [],
+                    "testVersionId": 3351
+                },
+                {
+                    "id": 8148,
+                    "index": 2,
+                    "fields": {
+                        "Action": "\n\tTry to connect a 2.4Ghz station to the DUT using the new wi-fi parameters\n",
+                        "Expected Result": "\n\tIt should be possible to connect the station to the DUT\n"
+                    },
+                    "attachments": [],
+                    "testVersionId": 3351
+                },
+                {
+                    "id": 8149,
+                    "index": 3,
+                    "fields": {
+                        "Action": "\n\tAccess to &quot;My connected devices&quot; page&nbsp;\n",
+                        "Expected Result": "\n\tPage should be available.\n\n\tDevice connected is displayed.\n"
+                    },
+                    "attachments": [],
+                    "testVersionId": 3351
+                }
+            ]
+        },
+        "resolutiondate": null,
+        "customfield_10705": null,
+        "customfield_10708": null,
+        "customfield_10709": null,
+        "watches": {
+            "self": "https://jira.softathome.com/rest/api/2/issue/HGWXRAY-924/watchers",
+            "watchCount": 1,
+            "isWatching": false
+        },
+        "customfield_14500": null,
+        "customfield_11900": null,
+        "updated": "2025-02-18T00:39:00.959+0100",
+        "timeoriginalestimate": null,
+        "description": "The test aims to check the ability to Change WiFi parameters\r\n\u00a0\r\n\r\n[Precondition]\r\n\r\nSame Configuration for 2.4GHz and 5GHz is chosen on the Webui.",
+        "customfield_11100": null,
+        "timetracking": {},
+        "customfield_10005": null,
+        "customfield_10006": null,
+        "customfield_10127": null,
+        "customfield_10800": " ",
+        "customfield_10801": null,
+        "summary": "[Webui] WiFi Parameters 2.4Ghz",
+        "customfield_10121": null,
+        "customfield_10000": "0|i0ih0o:",
+        "customfield_10122": null,
+        "customfield_10001": null,
+        "customfield_14601": null,
+        "customfield_12300": null,
+        "customfield_10123": null,
+        "customfield_10124": null,
+        "customfield_14600": null,
+        "customfield_10115": null,
+        "customfield_10116": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/10876",
+            "value": "---",
+            "id": "10876",
+            "disabled": false
+        },
+        "environment": null,
+        "customfield_10117": null,
+        "duedate": null,
+        "comment": {
+            "comments": [],
+            "maxResults": 0,
+            "total": 0,
+            "startAt": 0
+        },
+        "customfield_15000": null,
+        "customfield_10110": null,
+        "customfield_10111": null,
+        "customfield_10112": null,
+        "customfield_11201": null,
+        "customfield_13502": "98-62037",
+        "customfield_10113": null,
+        "customfield_10114": null,
+        "customfield_10105": null,
+        "customfield_10106": null,
+        "customfield_14702": null,
+        "customfield_10107": null,
+        "customfield_10108": null,
+        "customfield_10900": "{summaryBean=com.atlassian.jira.plugin.devstatus.rest.SummaryBean@4b05fed1[summary={pullrequest=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@2c172531[overall=PullRequestOverallBean{stateCount=0, state='OPEN', details=PullRequestOverallDetails{openCount=0, mergedCount=0, declinedCount=0}},byInstanceType={}], build=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@2d3f2556[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BuildOverallBean@3814a36d[failedBuildCount=0,successfulBuildCount=0,unknownBuildCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], review=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@7754eba3[overall=com.atlassian.jira.plugin.devstatus.summary.beans.ReviewsOverallBean@7b3e9a94[stateCount=0,state=<null>,dueDate=<null>,overDue=false,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], deployment-environment=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@2f7f0530[overall=com.atlassian.jira.plugin.devstatus.summary.beans.DeploymentOverallBean@326dd479[topEnvironments=[],showProjects=false,successfulCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], repository=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@62343864[overall=com.atlassian.jira.plugin.devstatus.summary.beans.CommitOverallBean@6dd1f48c[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], branch=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@3ad03a83[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BranchOverallBean@66c2ffbc[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}]},errors=[],configErrors=[]], devSummaryJson={\"cachedValue\":{\"errors\":[],\"configErrors\":[],\"summary\":{\"pullrequest\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":\"OPEN\",\"details\":{\"openCount\":0,\"mergedCount\":0,\"declinedCount\":0,\"total\":0},\"open\":true},\"byInstanceType\":{}},\"build\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"failedBuildCount\":0,\"successfulBuildCount\":0,\"unknownBuildCount\":0},\"byInstanceType\":{}},\"review\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":null,\"dueDate\":null,\"overDue\":false,\"completed\":false},\"byInstanceType\":{}},\"deployment-environment\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"topEnvironments\":[],\"showProjects\":false,\"successfulCount\":0},\"byInstanceType\":{}},\"repository\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}},\"branch\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}}}},\"isStale\":false}}",
+        "customfield_10109": null,
+        "priority": {
+            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+            "name": "Medium",
+            "id": "3"
+        },
+        "customfield_10100": null,
+        "customfield_14700": null,
+        "customfield_10101": " ",
+        "customfield_14701": null,
+        "customfield_10102": null,
+        "customfield_10103": null,
+        "timeestimate": null,
+        "status": {
+            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+            "description": "",
+            "iconUrl": "https://jira.softathome.com/",
+            "name": "Done",
+            "id": "10001",
+            "statusCategory": {
+                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                "id": 3,
+                "key": "done",
+                "colorName": "success",
+                "name": "Done"
+            }
+        },
+        "customfield_11300": null,
+        "customfield_11301": null,
+        "customfield_13601": [
+            "WEBUI"
+        ],
+        "archiveddate": null,
+        "aggregatetimeestimate": null,
+        "creator": {
+            "self": "https://jira.softathome.com/rest/api/2/user?username=sah5600",
+            "name": "sah5600",
+            "key": "sah5600",
+            "emailAddress": "do_not_replay@softathome.com",
+            "avatarUrls": {
+                "48x48": "https://jira.softathome.com/secure/useravatar?ownerId=sah5600&avatarId=12313",
+                "24x24": "https://jira.softathome.com/secure/useravatar?size=small&ownerId=sah5600&avatarId=12313",
+                "16x16": "https://jira.softathome.com/secure/useravatar?size=xsmall&ownerId=sah5600&avatarId=12313",
+                "32x32": "https://jira.softathome.com/secure/useravatar?size=medium&ownerId=sah5600&avatarId=12313"
+            },
+            "displayName": "Wijgmaal Jenkins User",
+            "active": true,
+            "timeZone": "Europe/Paris"
+        },
+        "aggregateprogress": {
+            "progress": 0,
+            "total": 0
+        },
+        "customfield_11410": null,
+        "customfield_10200": null,
+        "customfield_12501": null,
+        "customfield_10202": null,
+        "customfield_11411": null,
+        "customfield_12500": null,
+        "customfield_11403": null,
+        "customfield_11405": null,
+        "customfield_11404": null,
+        "customfield_11407": null,
+        "customfield_11406": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/10875",
+            "value": "-",
+            "id": "10875",
+            "disabled": false
+        },
+        "customfield_11409": null,
+        "customfield_11408": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/10877",
+            "value": "---",
+            "id": "10877",
+            "disabled": false
+        },
+        "timespent": null,
+        "aggregatetimespent": null,
+        "customfield_12602": {
+            "datasetRestBean": {
+                "params": []
+            }
+        },
+        "customfield_12601": null,
+        "workratio": -1,
+        "created": "2022-09-13T12:40:00.601+0200",
+        "customfield_10300": null,
+        "customfield_10301": null,
+        "customfield_13000": null,
+        "customfield_13003": null,
+        "customfield_13002": null,
+        "customfield_12701": null,
+        "customfield_10401": null,
+        "customfield_12700": null,
+        "security": {
+            "self": "https://jira.softathome.com/rest/api/2/securitylevel/10201",
+            "id": "10201",
+            "description": "Only SoftAtHome people can access the issue",
+            "name": "SAH"
+        },
+        "customfield_10403": null,
+        "customfield_12703": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/13149",
+            "value": "P0",
+            "id": "13149",
+            "disabled": false
+        },
+        "customfield_10404": null,
+        "customfield_12702": [
+            "BASIC-REQUIREMENTS",
+            "DOMAIN",
+            "SANITY"
+        ],
+        "attachment": [],
+        "customfield_10405": null,
+        "customfield_10406": null,
+        "customfield_12704": null,
+        "customfield_10407": null,
+        "customfield_12260": null,
+        "customfield_12262": null,
+        "customfield_12261": null,
+        "customfield_12263": null,
+        "customfield_10400": null,
+        "customfield_10511": null,
+        "customfield_13900": null,
+        "customfield_10512": null,
+        "customfield_10513": null,
+        "customfield_10517": null
+    }
+}

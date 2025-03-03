@@ -1,0 +1,2624 @@
+{
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "id": "129613",
+    "self": "https://jira.softathome.com/rest/api/2/issue/129613",
+    "key": "HGWXRAY-901",
+    "fields": {
+        "customfield_12251": null,
+        "customfield_12250": null,
+        "customfield_12253": null,
+        "customfield_12252": null,
+        "customfield_12255": null,
+        "customfield_12254": null,
+        "customfield_12257": null,
+        "customfield_12256": null,
+        "customfield_12259": null,
+        "customfield_12258": null,
+        "customfield_10500": null,
+        "customfield_12800": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/13201",
+            "value": "Automated",
+            "id": "13201",
+            "disabled": false
+        },
+        "customfield_12249": null,
+        "customfield_12007": null,
+        "customfield_10501": null,
+        "customfield_10502": null,
+        "customfield_10503": null,
+        "customfield_10504": null,
+        "customfield_10505": null,
+        "customfield_10506": null,
+        "customfield_10507": null,
+        "customfield_10508": null,
+        "customfield_10509": null,
+        "lastViewed": null,
+        "customfield_12240": null,
+        "customfield_12242": null,
+        "customfield_12241": null,
+        "customfield_14301": null,
+        "customfield_12244": null,
+        "customfield_12243": null,
+        "customfield_12004": null,
+        "customfield_12246": null,
+        "customfield_12245": null,
+        "customfield_12248": null,
+        "customfield_12247": null,
+        "customfield_12005": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/11518",
+            "value": "External",
+            "id": "11518",
+            "disabled": false
+        },
+        "customfield_11700": null,
+        "customfield_12239": null,
+        "customfield_12238": null,
+        "aggregatetimeoriginalestimate": null,
+        "issuelinks": [
+            {
+                "id": "411504",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/411504",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "321569",
+                    "key": "HGWQA-18713",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/321569",
+                    "fields": {
+                        "summary": "[PRPL CHr2[NAT][tr069_delete_udp, NAT hairpinning]+[Firewall][udp_conn_timeout_01]Test fails ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/1",
+                            "description": "The issue is open and ready for the assignee to start work on it.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/open.png",
+                            "name": "To-Do",
+                            "id": "1",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "380749",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/380749",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "303752",
+                    "key": "HGWKPN-4352",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/303752",
+                    "fields": {
+                        "summary": "[V10A][WEBUI] NAT/PAT rules cannot be changed or removed using the Webui",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "132009",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/132009",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "178181",
+                    "key": "HGWKPN-1920",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/178181",
+                    "fields": {
+                        "summary": "[NAT] Hairpinning feature doesn't work",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "147474",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/147474",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "180856",
+                    "key": "HOP-2616",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/180856",
+                    "fields": {
+                        "summary": "[NAT] Hairpinning feature doesn't work",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "364674",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/364674",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "287803",
+                    "key": "VZ-3412",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/287803",
+                    "fields": {
+                        "summary": "[VZ_WiFi7][WebUI] The webui is supper buggy",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "315920",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/315920",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "275927",
+                    "key": "VZ-2627",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/275927",
+                    "fields": {
+                        "summary": "CHR2fA][WEBui] Adding a Port Forwarding Rule in WebUI is Not Working  Due to Empty Interface Parameter",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "195860",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/195860",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "215124",
+                    "key": "HGWPR-24232",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/215124",
+                    "fields": {
+                        "summary": "CLONE - [REGLISSE][Webui] NAT/PAT Rule Given the Name of the Last Deleted Rule",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "232707",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/232707",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "229935",
+                    "key": "VZ-566",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/229935",
+                    "fields": {
+                        "summary": "[VZ][NAT] LAN Users cannot take advantage from NAT when using the Box Wan IP to reach services",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "466962",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/466962",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "344456",
+                    "key": "HGWPR-33950",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/344456",
+                    "fields": {
+                        "summary": "[OBE-OLU][LB10-7][NAT] Unable create NAT/PAT rule",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "365447",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/365447",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "296049",
+                    "key": "HGWPR-30650",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/296049",
+                    "fields": {
+                        "summary": "[Nautilus] NAt/PAT Hairpinning behaviour :  LAN_1 didnot receives the traffic from LAN_2",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "469692",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/469692",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "345156",
+                    "key": "HOP-8842",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/345156",
+                    "fields": {
+                        "summary": "[PRPL_SAFRAN][Webui][Regression]NAT/PAT rules are not displayed on the WebUI",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10120",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "OPEN",
+                            "id": "10120",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/2",
+                                "id": 2,
+                                "key": "new",
+                                "colorName": "default",
+                                "name": "To Do"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+                            "name": "Medium",
+                            "id": "3"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "130012",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/130012",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "126871",
+                    "key": "HGWPR-18305",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/126871",
+                    "fields": {
+                        "summary": "[Safran] [NAT/PAT] Can't modify a rule",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10300",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "Rejected",
+                            "id": "10300",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "148566",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/148566",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "190280",
+                    "key": "HGWKPN-2083",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/190280",
+                    "fields": {
+                        "summary": "[KPN][V12] [NAT/PAT] Refuse action doesn't work",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10404",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "Action Required",
+                            "id": "10404",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/4",
+                                "id": 4,
+                                "key": "indeterminate",
+                                "colorName": "inprogress",
+                                "name": "In Progress"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "161973",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/161973",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "193696",
+                    "key": "HGWPR-21905",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/193696",
+                    "fields": {
+                        "summary": "[NAT DS Lite]No TCP / UDP traffic (WAN to LAN) is passing through",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10702",
+                            "description": "SW with updated config was released",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "INTEGRATED",
+                            "id": "10702",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "411907",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/411907",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "317797",
+                    "key": "VZ-5147",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/317797",
+                    "fields": {
+                        "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10702",
+                            "description": "SW with updated config was released",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/generic.png",
+                            "name": "INTEGRATED",
+                            "id": "10702",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            }
+        ],
+        "assignee": null,
+        "customfield_12235": null,
+        "customfield_12234": null,
+        "customfield_12237": null,
+        "customfield_12236": null,
+        "customfield_10600": null,
+        "customfield_12901": null,
+        "customfield_10601": null,
+        "customfield_12229": [],
+        "customfield_10602": null,
+        "customfield_12900": null,
+        "customfield_10603": null,
+        "customfield_12903": null,
+        "customfield_12902": [],
+        "customfield_12905": null,
+        "customfield_12904": null,
+        "customfield_12907": null,
+        "customfield_12906": null,
+        "customfield_12909": null,
+        "customfield_12908": null,
+        "subtasks": [],
+        "customfield_14400": null,
+        "reporter": {
+            "self": "https://jira.softathome.com/rest/api/2/user?username=sah5600",
+            "name": "sah5600",
+            "key": "sah5600",
+            "emailAddress": "do_not_replay@softathome.com",
+            "avatarUrls": {
+                "48x48": "https://jira.softathome.com/secure/useravatar?ownerId=sah5600&avatarId=12313",
+                "24x24": "https://jira.softathome.com/secure/useravatar?size=small&ownerId=sah5600&avatarId=12313",
+                "16x16": "https://jira.softathome.com/secure/useravatar?size=xsmall&ownerId=sah5600&avatarId=12313",
+                "32x32": "https://jira.softathome.com/secure/useravatar?size=medium&ownerId=sah5600&avatarId=12313"
+            },
+            "displayName": "Wijgmaal Jenkins User",
+            "active": true,
+            "timeZone": "Europe/Paris"
+        },
+        "customfield_10710": null,
+        "customfield_13305": [
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14606",
+                "value": "DTAG_GR_ARCADYAN-SPEEDPORTSM",
+                "id": "14606",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14614",
+                "value": "FT_FBWIFI6PL_SAGEM-FAST5670",
+                "id": "14614",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19500",
+                "value": "FT_LB77_SAGEM-FAST5698",
+                "id": "19500",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14616",
+                "value": "FT_LBV3FR_SAGEM-LBV3",
+                "id": "14616",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14617",
+                "value": "FT_LBWIFI6BE_SAGEM-FAST5670",
+                "id": "14617",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14618",
+                "value": "FT_LBWIFI6ES_SAGEM-FAST5670",
+                "id": "14618",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14619",
+                "value": "FT_LBWIFI6LU_SAGEM-FAST5670",
+                "id": "14619",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14620",
+                "value": "FT_LBWIFI6RO_SAGEM-FAST5670",
+                "id": "14620",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20104",
+                "value": "FT_LB10-7_SAGEM-FAST5698",
+                "id": "20104",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14621",
+                "value": "FT_MIB4_SAGEM-MIB4",
+                "id": "14621",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14624",
+                "value": "FT_ONTBOXES-OSP_SAGEM-FAST5656",
+                "id": "14624",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14626",
+                "value": "FT_ONTBOXFR_SAGEM-FAST5656",
+                "id": "14626",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14628",
+                "value": "FT_ONTBOXJO_NOKIA-G140WH",
+                "id": "14628",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14629",
+                "value": "FT_ONTBOXJO_SAGEM-FAST5656",
+                "id": "14629",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14630",
+                "value": "FT_ONTBOXPL_SAGEM-FAST5656",
+                "id": "14630",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14633",
+                "value": "FT_OPLFB2.6_ARCADYAN",
+                "id": "14633",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/16207",
+                "value": "FT_BOLIDE_SAGEMCOM-FAST5698",
+                "id": "16207",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20000",
+                "value": "FT_BOLIDE7UP_SAGEM-FAST5698",
+                "id": "20000",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20201",
+                "value": "FT_MM-WIFI6_SAGEM-FAST5657",
+                "id": "20201",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/18301",
+                "value": "FT_MM-WIFI6_SAGEM-FAST5670",
+                "id": "18301",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/18706",
+                "value": "FT_NAUTILUS_ARCADYAN-PRV33AX346B-H2",
+                "id": "18706",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19801",
+                "value": "FT_NEVERA_ARCADYAN-PRV36BE346B-H2",
+                "id": "19801",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/16701",
+                "value": "FT_OJO_NOKIA-G2426GP_PRPL",
+                "id": "16701",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15501",
+                "value": "FT_REGLISSE_SAGEM-FAST5694",
+                "id": "15501",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15619",
+                "value": "FT_REGLISSE-PRO_SAGEM-FAST5694",
+                "id": "15619",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14636",
+                "value": "FT_SAFRAN_SAGEM-FAST5670",
+                "id": "14636",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/16203",
+                "value": "FT_SAFRAN_SAGEM-FAST5670_PRPLPOC",
+                "id": "16203",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15621",
+                "value": "FT_SAFRAN_SERCOMM-FAST5670",
+                "id": "15621",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17200",
+                "value": "KPN_DIJKSTRA_ARCADYAN-BCM4912",
+                "id": "17200",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17203",
+                "value": "KPN_HAUER_ZTE-BCM63138",
+                "id": "17203",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14640",
+                "value": "KPN_HUYGENS_SAGEM-FAST5359",
+                "id": "14640",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17505",
+                "value": "KPN_VERMEER_ARCADYAN-BCM63138",
+                "id": "17505",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14643",
+                "value": "O2_PEXESO_KAON-DG2100CR",
+                "id": "14643",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14644",
+                "value": "O2_SMARTBOX2_KAON-DG2300CR",
+                "id": "14644",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19805",
+                "value": "O2_SMARTBOX3_KAON-DG2500CR",
+                "id": "19805",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19806",
+                "value": "O2_SMARTBOX3_TPLINK-EX820",
+                "id": "19806",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17107",
+                "value": "PRPL_PRPLWARE_SAFRAN_SAGEM-FAST5670",
+                "id": "17107",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17903",
+                "value": "PRPL_PRPLWARE_WNC-CHR2",
+                "id": "17903",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14646",
+                "value": "PRPL_PRPLWARE_WNC-G107",
+                "id": "14646",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20800",
+                "value": "PRPL_PRPLWARE_WNC-LVR5",
+                "id": "20800",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15503",
+                "value": "SAH_GENERIC_ARCADYAN-INTERNETBOX4",
+                "id": "15503",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15506",
+                "value": "SAH_GENERIC_SERCOMM-RP562B-HGW",
+                "id": "15506",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14658",
+                "value": "SWISSCOM_STARGATE_SILIGENCE-CUT2",
+                "id": "14658",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14661",
+                "value": "SWISSCOM_STARLITE_ARCADYAN-STARLITE",
+                "id": "14661",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14659",
+                "value": "SWISSCOM_STARGATEV2_ASKEY-STARGATEV2",
+                "id": "14659",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14656",
+                "value": "SWISSCOM_INTERNETBOX3_ARCADYAN-INTERNETBOX3",
+                "id": "14656",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14657",
+                "value": "SWISSCOM_INTERNETBOX4_ARCADYAN-INTERNETBOX4",
+                "id": "14657",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17800",
+                "value": "SWISSCOM_INTERNETBOX5_ARCADYAN-INTERNETBOX5",
+                "id": "17800",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17801",
+                "value": "SWISSCOM_INTERNETBOX5_ARCADYAN-INTERNETBOX5-PRO",
+                "id": "17801",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14666",
+                "value": "TELENOR_BRAHE_KAON-AP2400TN",
+                "id": "14666",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14669",
+                "value": "TELENOR_BOHR_KAON-DG2200TN",
+                "id": "14669",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14670",
+                "value": "TELENOR_BRAHE_KAON-DG2400TN",
+                "id": "14670",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17103",
+                "value": "VERIZON_CHR2_WNC-CHR2FA",
+                "id": "17103",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17104",
+                "value": "VERIZON_CHR2_ARCADYAN-CHR2FB",
+                "id": "17104",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19204",
+                "value": "VERIZON_WIFI7_WNC-LVR5",
+                "id": "19204",
+                "disabled": false
+            }
+        ],
+        "customfield_11801": null,
+        "customfield_11803": null,
+        "customfield_11802": null,
+        "customfield_11805": null,
+        "customfield_11804": null,
+        "progress": {
+            "progress": 0,
+            "total": 0
+        },
+        "votes": {
+            "self": "https://jira.softathome.com/rest/api/2/issue/HGWXRAY-901/votes",
+            "votes": 0,
+            "hasVoted": false
+        },
+        "worklog": {
+            "startAt": 0,
+            "maxResults": 20,
+            "total": 0,
+            "worklogs": []
+        },
+        "archivedby": null,
+        "issuetype": {
+            "self": "https://jira.softathome.com/rest/api/2/issuetype/10700",
+            "id": "10700",
+            "description": "Represents a Test",
+            "iconUrl": "https://jira.softathome.com/download/resources/com.xpandit.plugins.xray/images/test.png",
+            "name": "Test",
+            "subtask": false
+        },
+        "project": {
+            "self": "https://jira.softathome.com/rest/api/2/project/12402",
+            "id": "12402",
+            "key": "HGWXRAY",
+            "name": "HGW QA XRAY",
+            "projectTypeKey": "business",
+            "avatarUrls": {
+                "48x48": "https://jira.softathome.com/secure/projectavatar?avatarId=10324",
+                "24x24": "https://jira.softathome.com/secure/projectavatar?size=small&avatarId=10324",
+                "16x16": "https://jira.softathome.com/secure/projectavatar?size=xsmall&avatarId=10324",
+                "32x32": "https://jira.softathome.com/secure/projectavatar?size=medium&avatarId=10324"
+            },
+            "projectCategory": {
+                "self": "https://jira.softathome.com/rest/api/2/projectCategory/10200",
+                "id": "10200",
+                "description": "",
+                "name": "Tools"
+            }
+        },
+        "customfield_11000": null,
+        "customfield_13300": null,
+        "customfield_12210": 2.0,
+        "customfield_12213": [
+            "HGWXRAY-37653",
+            "HGWXRAY-52379",
+            "HGWXRAY-18370",
+            "HGWXRAY-82288",
+            "HGWXRAY-63213",
+            "HGWXRAY-57705",
+            "HGWXRAY-37186",
+            "HGWXRAY-30159",
+            "HGWXRAY-29582",
+            "HGWXRAY-27574",
+            "HGWXRAY-51911",
+            "HGWXRAY-89548",
+            "HGWXRAY-39583",
+            "HGWXRAY-68598",
+            "HGWXRAY-49082",
+            "HGWXRAY-49110",
+            "HGWXRAY-51266",
+            "HGWXRAY-49070",
+            "HGWXRAY-84638",
+            "HGWXRAY-32104",
+            "HGWXRAY-30003",
+            "HGWXRAY-29959",
+            "HGWXRAY-35410",
+            "HGWXRAY-41181",
+            "HGWXRAY-29343",
+            "HGWXRAY-4950",
+            "HGWXRAY-25308",
+            "HGWXRAY-22103",
+            "HGWXRAY-29751",
+            "HGWXRAY-49103",
+            "HGWXRAY-61275",
+            "HGWXRAY-51013",
+            "HGWXRAY-41189",
+            "HGWXRAY-30801",
+            "HGWXRAY-34009",
+            "HGWXRAY-33308",
+            "HGWXRAY-35587",
+            "HGWXRAY-37921",
+            "HGWXRAY-38498",
+            "HGWXRAY-33512",
+            "HGWXRAY-28583",
+            "HGWXRAY-36030",
+            "HGWXRAY-36335",
+            "HGWXRAY-63183",
+            "HGWXRAY-69469",
+            "HGWXRAY-31145",
+            "HGWXRAY-32643",
+            "HGWXRAY-16446",
+            "HGWXRAY-35423",
+            "HGWXRAY-37939",
+            "HGWXRAY-29870",
+            "HGWXRAY-8385",
+            "HGWXRAY-50892",
+            "HGWXRAY-2603",
+            "HGWXRAY-36462",
+            "HGWXRAY-20026",
+            "HGWXRAY-69230",
+            "HGWXRAY-34875",
+            "HGWXRAY-41309",
+            "HGWXRAY-948",
+            "HGWXRAY-61965",
+            "HGWXRAY-86727",
+            "HGWXRAY-85957",
+            "HGWXRAY-52126",
+            "HGWXRAY-49061",
+            "HGWXRAY-17122",
+            "HGWXRAY-69380",
+            "HGWXRAY-79865",
+            "HGWXRAY-86767",
+            "HGWXRAY-79909",
+            "HGWXRAY-55252",
+            "HGWXRAY-58459",
+            "HGWXRAY-89853",
+            "HGWXRAY-90169",
+            "HGWXRAY-90179",
+            "HGWXRAY-91851",
+            "HGWXRAY-91882",
+            "HGWXRAY-93414",
+            "HGWXRAY-93446",
+            "HGWXRAY-103336",
+            "HGWXRAY-101684"
+        ],
+        "customfield_13302": null,
+        "customfield_12212": [],
+        "customfield_13301": null,
+        "customfield_12215": "/HGW/NAT",
+        "customfield_13304": [
+            "NAT"
+        ],
+        "customfield_12214": {
+            "issueId": 129613,
+            "statuses": [
+                {
+                    "group": "HGWXRAY-86767",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3704674,
+                            "latestFinalId": 3704674
+                        }
+                    ]
+                },
+                {
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3704674,
+                            "latestFinalId": 3704674
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-84638",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3704533,
+                            "latestFinalId": 3704533
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-58459",
+                    "statusResults": [
+                        {
+                            "latest": 1000,
+                            "latestFinal": 1000,
+                            "latestId": 3710566,
+                            "latestFinalId": 3710566
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49103",
+                    "statusResults": [
+                        {
+                            "latest": 1,
+                            "latestFinal": 0,
+                            "latestId": 3707282,
+                            "latestFinalId": 3519488
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-69380",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3704304,
+                            "latestFinalId": 3704304
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-51911",
+                    "statusResults": [
+                        {
+                            "latest": 3,
+                            "latestFinal": 3,
+                            "latestId": 3704628,
+                            "latestFinalId": 3704628
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-4950",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3705067,
+                            "latestFinalId": 3705067
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-82288",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3701063,
+                            "latestFinalId": 3701063
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-89853",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3700631,
+                            "latestFinalId": 3700631
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-16446",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3698082,
+                            "latestFinalId": 3698082
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-79909",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3692868,
+                            "latestFinalId": 3692868
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-69469",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3691910,
+                            "latestFinalId": 3691910
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-50892",
+                    "statusResults": [
+                        {
+                            "latest": 1002,
+                            "latestFinal": 1002,
+                            "latestId": 3687954,
+                            "latestFinalId": 3687954
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-55252",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3688213,
+                            "latestFinalId": 3688213
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-8385",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3685591,
+                            "latestFinalId": 3685591
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-18370",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3678088,
+                            "latestFinalId": 3678088
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-86727",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3678054,
+                            "latestFinalId": 3678054
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-52379",
+                    "statusResults": [
+                        {
+                            "latest": 1002,
+                            "latestFinal": 1002,
+                            "latestId": 3672262,
+                            "latestFinalId": 3672262
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-103336",
+                    "statusResults": [
+                        {
+                            "latest": 3,
+                            "latestFinal": 3,
+                            "latestId": 3670648,
+                            "latestFinalId": 3670648
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-2603",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3644195,
+                            "latestFinalId": 3644195
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-63213",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1798848,
+                            "latestFinalId": 1798848
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-57705",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3489587,
+                            "latestFinalId": 3489587
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-37186",
+                    "statusResults": [
+                        {
+                            "latest": 1000,
+                            "latestFinal": 1000,
+                            "latestId": 1218521,
+                            "latestFinalId": 1218521
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-30159",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1410689,
+                            "latestFinalId": 1410689
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-29582",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3561059,
+                            "latestFinalId": 3561059
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-27574",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3443871,
+                            "latestFinalId": 3443871
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-89548",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3555525,
+                            "latestFinalId": 3555525
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-39583",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2421120,
+                            "latestFinalId": 2421120
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-68598",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3615046,
+                            "latestFinalId": 3615046
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49082",
+                    "statusResults": [
+                        {
+                            "latest": 1,
+                            "latestFinal": 0,
+                            "latestId": 2847171,
+                            "latestFinalId": 2303397
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49110",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2257348,
+                            "latestFinalId": 2257348
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-51266",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3087100,
+                            "latestFinalId": 3087100
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49070",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3059578,
+                            "latestFinalId": 3059578
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-32104",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1293216,
+                            "latestFinalId": 1293216
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-30003",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3186638,
+                            "latestFinalId": 3186638
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-29959",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1482009,
+                            "latestFinalId": 1482009
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-35410",
+                    "statusResults": [
+                        {
+                            "latest": 1000,
+                            "latestFinal": 1000,
+                            "latestId": 1240174,
+                            "latestFinalId": 1240174
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-41181",
+                    "statusResults": [
+                        {
+                            "latest": 1000,
+                            "latestFinal": 1000,
+                            "latestId": 794427,
+                            "latestFinalId": 794427
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-29343",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 985867,
+                            "latestFinalId": 985867
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-25308",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3584329,
+                            "latestFinalId": 3584329
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-22103",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3554583,
+                            "latestFinalId": 3554583
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-61275",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3539902,
+                            "latestFinalId": 3539902
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-30801",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2305229,
+                            "latestFinalId": 2305229
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-34009",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3240065,
+                            "latestFinalId": 3240065
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-33308",
+                    "statusResults": [
+                        {
+                            "latest": 1000,
+                            "latestFinal": 1000,
+                            "latestId": 1018325,
+                            "latestFinalId": 1018325
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-37921",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 827060,
+                            "latestFinalId": 827060
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-38498",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2118973,
+                            "latestFinalId": 2118973
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-33512",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3135673,
+                            "latestFinalId": 3135673
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-28583",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 967418,
+                            "latestFinalId": 967418
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-36030",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3445338,
+                            "latestFinalId": 3445338
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-36335",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 531939,
+                            "latestFinalId": 531939
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-63183",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3209676,
+                            "latestFinalId": 3209676
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-31145",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3389510,
+                            "latestFinalId": 3389510
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-32643",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3050656,
+                            "latestFinalId": 3050656
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-37939",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2325499,
+                            "latestFinalId": 2325499
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-29870",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1730496,
+                            "latestFinalId": 1730496
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-36462",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3218220,
+                            "latestFinalId": 3218220
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-20026",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3537673,
+                            "latestFinalId": 3537673
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-69230",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3585600,
+                            "latestFinalId": 3585600
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-34875",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3231404,
+                            "latestFinalId": 3231404
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-948",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3609729,
+                            "latestFinalId": 3609729
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-61965",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3562747,
+                            "latestFinalId": 3562747
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-85957",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2620483,
+                            "latestFinalId": 2620483
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-52126",
+                    "statusResults": [
+                        {
+                            "latest": 1,
+                            "latestFinal": 0,
+                            "latestId": 1345938,
+                            "latestFinalId": 1007845
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-49061",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1260621,
+                            "latestFinalId": 1260621
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-17122",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2332846,
+                            "latestFinalId": 2332846
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-79865",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3585460,
+                            "latestFinalId": 3585460
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-90179",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3630547,
+                            "latestFinalId": 3630547
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-91851",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3564900,
+                            "latestFinalId": 3546218
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-93446",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3186106,
+                            "latestFinalId": 3186106
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-101684",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3521314,
+                            "latestFinalId": 3521314
+                        }
+                    ]
+                }
+            ],
+            "timestamp": 1739888748939
+        },
+        "customfield_13303": null,
+        "customfield_12206": null,
+        "customfield_12205": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/11708",
+            "value": "Manual",
+            "id": "11708",
+            "disabled": false
+        },
+        "customfield_12208": null,
+        "customfield_12207": null,
+        "customfield_12209": {
+            "steps": [
+                {
+                    "id": 8101,
+                    "index": 1,
+                    "fields": {
+                        "Action": "Using the WebUI, modify the following rule:\nExternal IP address: IP address of the DUT\nExternal port: port_ext_11\nProtocol: UDP\nInternel IP&nbsp;address: IP address of LAN_1\nInternal port: port_11\nSave the rule.",
+                        "Expected Result": "The DUT must not reboot in order to apply the rule.\nCheck that the rule is present in the data model, under:\nInternetGatewayDevice.Layer3Forwarding.\nCheck that the iptables have been modified in order to take into account the rule."
+                    },
+                    "attachments": [],
+                    "testVersionId": 3328
+                },
+                {
+                    "id": 8102,
+                    "index": 2,
+                    "fields": {
+                        "Action": "Using LAN_2, send the following traffic to the DUT:\nIP destination address: WAN IP address of the DUT \nProtocol: UDP\nPort: port_ext_11",
+                        "Expected Result": "Check that LAN_1 receives the traffic on port_11."
+                    },
+                    "attachments": [],
+                    "testVersionId": 3328
+                }
+            ]
+        },
+        "resolutiondate": null,
+        "customfield_10705": null,
+        "customfield_10708": null,
+        "customfield_10709": null,
+        "watches": {
+            "self": "https://jira.softathome.com/rest/api/2/issue/HGWXRAY-901/watchers",
+            "watchCount": 1,
+            "isWatching": false
+        },
+        "customfield_14500": null,
+        "customfield_11900": null,
+        "updated": "2025-02-18T05:27:09.497+0100",
+        "timeoriginalestimate": null,
+        "description": "\tCheck if the DUT supports the Hairpinning behaviour.\r\n\r\n\t&nbsp;\r\n\r\n\r\n[Precondition]\r\n\r\n\tThe DUT&nbsp;is on and connected to the Internet.\r\n\r\n\t2 LAN (or WLAN) PC are connected to the DUT: LAN_1 and LAN_2.\r\n\r\n\tOne station on the WAN (WAN_1) is able to send traffic to the DUT.\r\n\r\n\tNAT&nbsp;rules from the previous step (Create rule) are created on the DUT.\r\n\r\n\r\n",
+        "customfield_11100": null,
+        "timetracking": {},
+        "customfield_10005": null,
+        "customfield_10006": null,
+        "customfield_10127": null,
+        "customfield_10800": " ",
+        "customfield_10801": null,
+        "summary": "[NAT] NAT - PAT support - Hairpinning behaviour - Modify rule",
+        "customfield_10121": null,
+        "customfield_10000": "0|i0igvk:",
+        "customfield_10122": null,
+        "customfield_10001": null,
+        "customfield_14601": null,
+        "customfield_12300": null,
+        "customfield_10123": null,
+        "customfield_10124": null,
+        "customfield_14600": "NAT_1001",
+        "customfield_10115": null,
+        "customfield_10116": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/10876",
+            "value": "---",
+            "id": "10876",
+            "disabled": false
+        },
+        "environment": null,
+        "customfield_10117": null,
+        "duedate": null,
+        "comment": {
+            "comments": [],
+            "maxResults": 0,
+            "total": 0,
+            "startAt": 0
+        },
+        "customfield_15000": null,
+        "customfield_10110": null,
+        "customfield_10111": null,
+        "customfield_10112": null,
+        "customfield_11201": null,
+        "customfield_13502": "98-14780",
+        "customfield_10113": null,
+        "customfield_10114": null,
+        "customfield_10105": null,
+        "customfield_10106": null,
+        "customfield_14702": null,
+        "customfield_10107": null,
+        "customfield_10108": null,
+        "customfield_10900": "{summaryBean=com.atlassian.jira.plugin.devstatus.rest.SummaryBean@18204f8e[summary={pullrequest=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@658f51bf[overall=PullRequestOverallBean{stateCount=0, state='OPEN', details=PullRequestOverallDetails{openCount=0, mergedCount=0, declinedCount=0}},byInstanceType={}], build=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@571674b9[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BuildOverallBean@488bc54d[failedBuildCount=0,successfulBuildCount=0,unknownBuildCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], review=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@5b02acdb[overall=com.atlassian.jira.plugin.devstatus.summary.beans.ReviewsOverallBean@166a9c07[stateCount=0,state=<null>,dueDate=<null>,overDue=false,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], deployment-environment=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@72bd91cf[overall=com.atlassian.jira.plugin.devstatus.summary.beans.DeploymentOverallBean@640a9378[topEnvironments=[],showProjects=false,successfulCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], repository=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@2a208f56[overall=com.atlassian.jira.plugin.devstatus.summary.beans.CommitOverallBean@68e8a4b1[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], branch=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@7645738a[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BranchOverallBean@46e4af69[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}]},errors=[],configErrors=[]], devSummaryJson={\"cachedValue\":{\"errors\":[],\"configErrors\":[],\"summary\":{\"pullrequest\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":\"OPEN\",\"details\":{\"openCount\":0,\"mergedCount\":0,\"declinedCount\":0,\"total\":0},\"open\":true},\"byInstanceType\":{}},\"build\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"failedBuildCount\":0,\"successfulBuildCount\":0,\"unknownBuildCount\":0},\"byInstanceType\":{}},\"review\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":null,\"dueDate\":null,\"overDue\":false,\"completed\":false},\"byInstanceType\":{}},\"deployment-environment\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"topEnvironments\":[],\"showProjects\":false,\"successfulCount\":0},\"byInstanceType\":{}},\"repository\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}},\"branch\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}}}},\"isStale\":false}}",
+        "customfield_10109": null,
+        "priority": {
+            "self": "https://jira.softathome.com/rest/api/2/priority/3",
+            "iconUrl": "https://jira.softathome.com/images/icons/priorities/medium.svg",
+            "name": "Medium",
+            "id": "3"
+        },
+        "customfield_10100": null,
+        "customfield_14700": null,
+        "customfield_10101": " ",
+        "customfield_14701": null,
+        "customfield_10102": null,
+        "customfield_10103": null,
+        "timeestimate": null,
+        "status": {
+            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+            "description": "",
+            "iconUrl": "https://jira.softathome.com/",
+            "name": "Done",
+            "id": "10001",
+            "statusCategory": {
+                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                "id": 3,
+                "key": "done",
+                "colorName": "success",
+                "name": "Done"
+            }
+        },
+        "customfield_11300": null,
+        "customfield_11301": null,
+        "customfield_13601": [
+            "NAT"
+        ],
+        "archiveddate": null,
+        "aggregatetimeestimate": null,
+        "creator": {
+            "self": "https://jira.softathome.com/rest/api/2/user?username=sah5600",
+            "name": "sah5600",
+            "key": "sah5600",
+            "emailAddress": "do_not_replay@softathome.com",
+            "avatarUrls": {
+                "48x48": "https://jira.softathome.com/secure/useravatar?ownerId=sah5600&avatarId=12313",
+                "24x24": "https://jira.softathome.com/secure/useravatar?size=small&ownerId=sah5600&avatarId=12313",
+                "16x16": "https://jira.softathome.com/secure/useravatar?size=xsmall&ownerId=sah5600&avatarId=12313",
+                "32x32": "https://jira.softathome.com/secure/useravatar?size=medium&ownerId=sah5600&avatarId=12313"
+            },
+            "displayName": "Wijgmaal Jenkins User",
+            "active": true,
+            "timeZone": "Europe/Paris"
+        },
+        "aggregateprogress": {
+            "progress": 0,
+            "total": 0
+        },
+        "customfield_11410": null,
+        "customfield_10200": null,
+        "customfield_12501": null,
+        "customfield_10202": null,
+        "customfield_11411": null,
+        "customfield_12500": null,
+        "customfield_11403": null,
+        "customfield_11405": null,
+        "customfield_11404": null,
+        "customfield_11407": null,
+        "customfield_11406": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/10875",
+            "value": "-",
+            "id": "10875",
+            "disabled": false
+        },
+        "customfield_11409": null,
+        "customfield_11408": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/10877",
+            "value": "---",
+            "id": "10877",
+            "disabled": false
+        },
+        "timespent": null,
+        "aggregatetimespent": null,
+        "customfield_12602": {
+            "datasetRestBean": {
+                "params": []
+            }
+        },
+        "customfield_12601": null,
+        "workratio": -1,
+        "created": "2022-09-13T12:39:49.260+0200",
+        "customfield_10300": null,
+        "customfield_10301": null,
+        "customfield_13000": null,
+        "customfield_13003": null,
+        "customfield_13002": null,
+        "customfield_12701": "modify_hairpinning",
+        "customfield_10401": null,
+        "customfield_12700": [
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14705",
+                "value": "DTAG_GR_ARCADYAN-SPEEDPORTSM",
+                "id": "14705",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14713",
+                "value": "FT_FBWIFI6PL_SAGEM-FAST5670",
+                "id": "14713",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19501",
+                "value": "FT_LB77_SAGEM-FAST5698",
+                "id": "19501",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14715",
+                "value": "FT_LBV3FR_SAGEM-LBV3",
+                "id": "14715",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14716",
+                "value": "FT_LBWIFI6BE_SAGEM-FAST5670",
+                "id": "14716",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14717",
+                "value": "FT_LBWIFI6ES_SAGEM-FAST5670",
+                "id": "14717",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14718",
+                "value": "FT_LBWIFI6LU_SAGEM-FAST5670",
+                "id": "14718",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14719",
+                "value": "FT_LBWIFI6RO_SAGEM-FAST5670",
+                "id": "14719",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20105",
+                "value": "FT_LB10-7_SAGEM-FAST5698",
+                "id": "20105",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14720",
+                "value": "FT_MIB4_SAGEM-MIB4",
+                "id": "14720",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14723",
+                "value": "FT_ONTBOXES-OSP_SAGEM-FAST5656",
+                "id": "14723",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14725",
+                "value": "FT_ONTBOXFR_SAGEM-FAST5656",
+                "id": "14725",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14727",
+                "value": "FT_ONTBOXJO_NOKIA-G140WH",
+                "id": "14727",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14728",
+                "value": "FT_ONTBOXJO_SAGEM-FAST5656",
+                "id": "14728",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14729",
+                "value": "FT_ONTBOXPL_SAGEM-FAST5656",
+                "id": "14729",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14732",
+                "value": "FT_OPLFB2.6_ARCADYAN",
+                "id": "14732",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/16206",
+                "value": "FT_BOLIDE_SAGEMCOM-FAST5698",
+                "id": "16206",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20001",
+                "value": "FT_BOLIDE7UP_SAGEM-FAST5698",
+                "id": "20001",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20202",
+                "value": "FT_MM-WIFI6_SAGEM-FAST5657",
+                "id": "20202",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/18300",
+                "value": "FT_MM-WIFI6_SAGEM-FAST5670",
+                "id": "18300",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/18705",
+                "value": "FT_NAUTILUS_ARCADYAN-PRV33AX346B-H2",
+                "id": "18705",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19800",
+                "value": "FT_NEVERA_ARCADYAN-PRV36BE346B-H2",
+                "id": "19800",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/16702",
+                "value": "FT_OJO_NOKIA-G2426GP_PRPL",
+                "id": "16702",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15502",
+                "value": "FT_REGLISSE_SAGEM-FAST5694",
+                "id": "15502",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14735",
+                "value": "FT_SAFRAN_SAGEM-FAST5670",
+                "id": "14735",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15622",
+                "value": "FT_SAFRAN_SERCOMM-FAST5670",
+                "id": "15622",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17201",
+                "value": "KPN_DIJKSTRA_ARCADYAN-BCM4912",
+                "id": "17201",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17202",
+                "value": "KPN_HAUER_ZTE-BCM63138",
+                "id": "17202",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14739",
+                "value": "KPN_HUYGENS_SAGEM-FAST5359",
+                "id": "14739",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17506",
+                "value": "KPN_VERMEER_ARCADYAN-BCM63138",
+                "id": "17506",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14742",
+                "value": "O2_PEXESO_KAON-DG2100CR",
+                "id": "14742",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14743",
+                "value": "O2_SMARTBOX2_KAON-DG2300CR",
+                "id": "14743",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19803",
+                "value": "O2_SMARTBOX3_KAON-DG2500CR",
+                "id": "19803",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19804",
+                "value": "O2_SMARTBOX3_TPLINK-AX6000",
+                "id": "19804",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17106",
+                "value": "PRPL_PRPLWARE_SAFRAN_SAGEM-FAST5670",
+                "id": "17106",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17902",
+                "value": "PRPL_PRPLWARE_WNC-CHR2",
+                "id": "17902",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14745",
+                "value": "PRPL_PRPLWARE_WNC-G107",
+                "id": "14745",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15504",
+                "value": "SAH_GENERIC_ARCADYAN-INTERNETBOX4",
+                "id": "15504",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15505",
+                "value": "SAH_GENERIC_SERCOMM-RP562B-HGW",
+                "id": "15505",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14757",
+                "value": "SWISSCOM_STARGATE_SILIGENCE-CUT2",
+                "id": "14757",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14760",
+                "value": "SWISSCOM_STARLITE_ARCADYAN-STARLITE",
+                "id": "14760",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14758",
+                "value": "SWISSCOM_STARGATEV2_ASKEY-STARGATEV2",
+                "id": "14758",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14755",
+                "value": "SWISSCOM_INTERNETBOX3_ARCADYAN-INTERNETBOX3",
+                "id": "14755",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14756",
+                "value": "SWISSCOM_INTERNETBOX4_ARCADYAN-INTERNETBOX4",
+                "id": "14756",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17802",
+                "value": "SWISSCOM_INTERNETBOX5_ARCADYAN-INTERNETBOX5",
+                "id": "17802",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17803",
+                "value": "SWISSCOM_INTERNETBOX5_ARCADYAN-INTERNETBOX5-PRO",
+                "id": "17803",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14766",
+                "value": "TELENOR_BRAHE_KAON-AP2400TN",
+                "id": "14766",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14768",
+                "value": "TELENOR_BOHR_KAON-DG2200TN",
+                "id": "14768",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14769",
+                "value": "TELENOR_BRAHE_KAON-DG2400TN",
+                "id": "14769",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17100",
+                "value": "VERIZON_CHR2_WNC-CHR2FA",
+                "id": "17100",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17101",
+                "value": "VERIZON_CHR2_ARCADYAN-CHR2FB",
+                "id": "17101",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19202",
+                "value": "VERIZON_WIFI7_WNC-LVR5",
+                "id": "19202",
+                "disabled": false
+            }
+        ],
+        "security": {
+            "self": "https://jira.softathome.com/rest/api/2/securitylevel/10201",
+            "id": "10201",
+            "description": "Only SoftAtHome people can access the issue",
+            "name": "SAH"
+        },
+        "customfield_10403": null,
+        "customfield_12703": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/13149",
+            "value": "P0",
+            "id": "13149",
+            "disabled": false
+        },
+        "customfield_10404": null,
+        "customfield_12702": [
+            "DOMAIN",
+            "SANITY"
+        ],
+        "attachment": [],
+        "customfield_10405": null,
+        "customfield_10406": null,
+        "customfield_12704": null,
+        "customfield_10407": null,
+        "customfield_12260": null,
+        "customfield_12262": null,
+        "customfield_12261": null,
+        "customfield_12263": null,
+        "customfield_10400": null,
+        "customfield_10511": null,
+        "customfield_13900": null,
+        "customfield_10512": null,
+        "customfield_10513": null,
+        "customfield_10517": null
+    }
+}

@@ -1,0 +1,942 @@
+{
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "id": "144594",
+    "self": "https://jira.softathome.com/rest/api/2/issue/144594",
+    "key": "HGWXRAY-6917",
+    "fields": {
+        "customfield_12251": null,
+        "customfield_12250": null,
+        "customfield_12253": null,
+        "customfield_12252": null,
+        "customfield_12255": null,
+        "customfield_12254": null,
+        "customfield_12257": null,
+        "customfield_12256": null,
+        "customfield_12259": null,
+        "customfield_12258": null,
+        "customfield_10500": null,
+        "customfield_12800": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/13200",
+            "value": "Manual",
+            "id": "13200",
+            "disabled": false
+        },
+        "customfield_12249": null,
+        "customfield_12007": null,
+        "customfield_10501": null,
+        "customfield_10502": null,
+        "customfield_10503": null,
+        "customfield_10504": null,
+        "customfield_10505": null,
+        "customfield_10506": null,
+        "customfield_10507": null,
+        "customfield_10508": null,
+        "customfield_10509": null,
+        "lastViewed": null,
+        "customfield_12240": null,
+        "customfield_12242": null,
+        "customfield_12241": null,
+        "customfield_14301": null,
+        "customfield_12244": null,
+        "customfield_12243": null,
+        "customfield_12004": null,
+        "customfield_12246": null,
+        "customfield_12245": null,
+        "customfield_12248": null,
+        "customfield_12247": null,
+        "customfield_12005": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/11518",
+            "value": "External",
+            "id": "11518",
+            "disabled": false
+        },
+        "customfield_11700": null,
+        "customfield_12239": null,
+        "customfield_12238": null,
+        "aggregatetimeoriginalestimate": null,
+        "issuelinks": [
+            {
+                "id": "425022",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/425022",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "323263",
+                    "key": "VZ-5447",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/323263",
+                    "fields": {
+                        "summary": "[VZ_WiFi7][Regression][WiFi] Unable to connect to WiFi 6GHz ",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "337539",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/337539",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "285294",
+                    "key": "SSW-8643",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/285294",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB][ARCADYAN][WiFi]Device can't connect to WiFi 6GHz",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/6",
+                            "description": "The issue is considered finished, the resolution is correct. Issues which are closed can be reopened.",
+                            "iconUrl": "https://jira.softathome.com/images/icons/statuses/closed.png",
+                            "name": "Closed",
+                            "id": "6",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "287941",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/287941",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "261788",
+                    "key": "VZ-2038",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/261788",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB] [Wifi] Wifi is not functionnal",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "337512",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/337512",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "285264",
+                    "key": "VZ-3188",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/285264",
+                    "fields": {
+                        "summary": "[VZ_WiFi7][Wi-Fi] 6GHz radio remains DOWN",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/1",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/blocker.svg",
+                            "name": "Blocker",
+                            "id": "1"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            },
+            {
+                "id": "337281",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/337281",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "285122",
+                    "key": "VZ-3179",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/285122",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB][ARCADYAN][WiFi]Device can't connect to WiFi 6GHz",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "433277",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/433277",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "329192",
+                    "key": "VZ-5788",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/329192",
+                    "fields": {
+                        "summary": "[CHR2fB][WiFi] 6GHz SSID Not Broadcasted After FR and Configuration Changes",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/10000",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/critical.svg",
+                            "name": "Very High",
+                            "id": "10000"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10103",
+                            "id": "10103",
+                            "description": "Story for integration",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10308&avatarType=issuetype",
+                            "name": "INT Story",
+                            "subtask": false,
+                            "avatarId": 10308
+                        }
+                    }
+                }
+            },
+            {
+                "id": "355988",
+                "self": "https://jira.softathome.com/rest/api/2/issueLink/355988",
+                "type": {
+                    "id": "10801",
+                    "name": "Defect",
+                    "inward": "created by",
+                    "outward": "created",
+                    "self": "https://jira.softathome.com/rest/api/2/issueLinkType/10801"
+                },
+                "outwardIssue": {
+                    "id": "291761",
+                    "key": "VZ-3670",
+                    "self": "https://jira.softathome.com/rest/api/2/issue/291761",
+                    "fields": {
+                        "summary": "[VZ_CHR2FB] Weird behaviour of Wifi 6 GHz",
+                        "status": {
+                            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+                            "description": "",
+                            "iconUrl": "https://jira.softathome.com/",
+                            "name": "Done",
+                            "id": "10001",
+                            "statusCategory": {
+                                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                                "id": 3,
+                                "key": "done",
+                                "colorName": "success",
+                                "name": "Done"
+                            }
+                        },
+                        "priority": {
+                            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+                            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+                            "name": "High",
+                            "id": "2"
+                        },
+                        "issuetype": {
+                            "self": "https://jira.softathome.com/rest/api/2/issuetype/10007",
+                            "id": "10007",
+                            "description": "jira.translation.issuetype.bug.name.desc",
+                            "iconUrl": "https://jira.softathome.com/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+                            "name": "Bug",
+                            "subtask": false,
+                            "avatarId": 10303
+                        }
+                    }
+                }
+            }
+        ],
+        "assignee": null,
+        "customfield_12235": null,
+        "customfield_12234": null,
+        "customfield_12237": null,
+        "customfield_12236": null,
+        "customfield_10600": null,
+        "customfield_12901": null,
+        "customfield_10601": null,
+        "customfield_12229": [],
+        "customfield_10602": null,
+        "customfield_12900": null,
+        "customfield_10603": null,
+        "customfield_12903": null,
+        "customfield_12902": [],
+        "customfield_12905": null,
+        "customfield_12904": null,
+        "customfield_12907": null,
+        "customfield_12906": null,
+        "customfield_12909": null,
+        "customfield_12908": null,
+        "subtasks": [],
+        "customfield_14400": null,
+        "reporter": {
+            "self": "https://jira.softathome.com/rest/api/2/user?username=sah5600",
+            "name": "sah5600",
+            "key": "sah5600",
+            "emailAddress": "do_not_replay@softathome.com",
+            "avatarUrls": {
+                "48x48": "https://jira.softathome.com/secure/useravatar?ownerId=sah5600&avatarId=12313",
+                "24x24": "https://jira.softathome.com/secure/useravatar?size=small&ownerId=sah5600&avatarId=12313",
+                "16x16": "https://jira.softathome.com/secure/useravatar?size=xsmall&ownerId=sah5600&avatarId=12313",
+                "32x32": "https://jira.softathome.com/secure/useravatar?size=medium&ownerId=sah5600&avatarId=12313"
+            },
+            "displayName": "Wijgmaal Jenkins User",
+            "active": true,
+            "timeZone": "Europe/Paris"
+        },
+        "customfield_10710": null,
+        "customfield_13305": [
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/16701",
+                "value": "FT_OJO_NOKIA-G2426GP_PRPL",
+                "id": "16701",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15501",
+                "value": "FT_REGLISSE_SAGEM-FAST5694",
+                "id": "15501",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/14636",
+                "value": "FT_SAFRAN_SAGEM-FAST5670",
+                "id": "14636",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15621",
+                "value": "FT_SAFRAN_SERCOMM-FAST5670",
+                "id": "15621",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17107",
+                "value": "PRPL_PRPLWARE_SAFRAN_SAGEM-FAST5670",
+                "id": "17107",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/20800",
+                "value": "PRPL_PRPLWARE_WNC-LVR5",
+                "id": "20800",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/16602",
+                "value": "SAH_GENERIC_SAGEM-FAST5670",
+                "id": "16602",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/15507",
+                "value": "TELENOR_IBSEN_ZYXEL-MT7986",
+                "id": "15507",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17103",
+                "value": "VERIZON_CHR2_WNC-CHR2FA",
+                "id": "17103",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/17104",
+                "value": "VERIZON_CHR2_ARCADYAN-CHR2FB",
+                "id": "17104",
+                "disabled": false
+            },
+            {
+                "self": "https://jira.softathome.com/rest/api/2/customFieldOption/19204",
+                "value": "VERIZON_WIFI7_WNC-LVR5",
+                "id": "19204",
+                "disabled": false
+            }
+        ],
+        "customfield_11801": null,
+        "customfield_11803": null,
+        "customfield_11802": null,
+        "customfield_11805": null,
+        "customfield_11804": null,
+        "progress": {
+            "progress": 0,
+            "total": 0
+        },
+        "votes": {
+            "self": "https://jira.softathome.com/rest/api/2/issue/HGWXRAY-6917/votes",
+            "votes": 0,
+            "hasVoted": false
+        },
+        "worklog": {
+            "startAt": 0,
+            "maxResults": 20,
+            "total": 0,
+            "worklogs": []
+        },
+        "archivedby": null,
+        "issuetype": {
+            "self": "https://jira.softathome.com/rest/api/2/issuetype/10700",
+            "id": "10700",
+            "description": "Represents a Test",
+            "iconUrl": "https://jira.softathome.com/download/resources/com.xpandit.plugins.xray/images/test.png",
+            "name": "Test",
+            "subtask": false
+        },
+        "project": {
+            "self": "https://jira.softathome.com/rest/api/2/project/12402",
+            "id": "12402",
+            "key": "HGWXRAY",
+            "name": "HGW QA XRAY",
+            "projectTypeKey": "business",
+            "avatarUrls": {
+                "48x48": "https://jira.softathome.com/secure/projectavatar?avatarId=10324",
+                "24x24": "https://jira.softathome.com/secure/projectavatar?size=small&avatarId=10324",
+                "16x16": "https://jira.softathome.com/secure/projectavatar?size=xsmall&avatarId=10324",
+                "32x32": "https://jira.softathome.com/secure/projectavatar?size=medium&avatarId=10324"
+            },
+            "projectCategory": {
+                "self": "https://jira.softathome.com/rest/api/2/projectCategory/10200",
+                "id": "10200",
+                "description": "",
+                "name": "Tools"
+            }
+        },
+        "customfield_11000": null,
+        "customfield_13300": null,
+        "customfield_12210": 3.0,
+        "customfield_12213": [
+            "HGWXRAY-52328",
+            "HGWXRAY-6944",
+            "HGWXRAY-15755",
+            "HGWXRAY-12329",
+            "HGWXRAY-42324",
+            "HGWXRAY-69230",
+            "HGWXRAY-79865",
+            "HGWXRAY-79928",
+            "HGWXRAY-57705",
+            "HGWXRAY-62642",
+            "HGWXRAY-31719",
+            "HGWXRAY-79930",
+            "HGWXRAY-102568"
+        ],
+        "customfield_13302": null,
+        "customfield_12212": [],
+        "customfield_13301": null,
+        "customfield_12215": "/HGW/Wi-Fi Functional/6GHz/Ping",
+        "customfield_13304": null,
+        "customfield_12214": {
+            "issueId": 144594,
+            "statuses": [
+                {
+                    "group": "HGWXRAY-79865",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3585496,
+                            "latestFinalId": 3585496
+                        }
+                    ]
+                },
+                {
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3585496,
+                            "latestFinalId": 3585496
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-69230",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3585637,
+                            "latestFinalId": 3585637
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-62642",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3576014,
+                            "latestFinalId": 3576014
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-102568",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3576641,
+                            "latestFinalId": 3576641
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-57705",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 3489600,
+                            "latestFinalId": 3489600
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-52328",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1040955,
+                            "latestFinalId": 1040955
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-12329",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 916969,
+                            "latestFinalId": 916969
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-31719",
+                    "statusResults": [
+                        {
+                            "latest": 1,
+                            "latestFinal": 0,
+                            "latestId": 1638030,
+                            "latestFinalId": 271141
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-6944",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 1891016,
+                            "latestFinalId": 1891016
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-15755",
+                    "statusResults": [
+                        {
+                            "latest": 1,
+                            "latestFinal": 0,
+                            "latestId": 1754764,
+                            "latestFinalId": 1554675
+                        }
+                    ]
+                },
+                {
+                    "group": "HGWXRAY-79930",
+                    "statusResults": [
+                        {
+                            "latest": 0,
+                            "latestFinal": 0,
+                            "latestId": 2981358,
+                            "latestFinalId": 2981358
+                        }
+                    ]
+                }
+            ],
+            "timestamp": 1738764769148
+        },
+        "customfield_13303": null,
+        "customfield_12206": null,
+        "customfield_12205": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/11708",
+            "value": "Manual",
+            "id": "11708",
+            "disabled": false
+        },
+        "customfield_12208": null,
+        "customfield_12207": null,
+        "customfield_12209": {
+            "steps": [
+                {
+                    "id": 32826,
+                    "index": 1,
+                    "fields": {
+                        "Action": "\n\tConnect one 6GHz wifi station to the DUT\n",
+                        "Expected Result": "\n\tStation well connected\n\n\t&nbsp;\n"
+                    },
+                    "attachments": [],
+                    "testVersionId": 16605
+                },
+                {
+                    "id": 32827,
+                    "index": 2,
+                    "fields": {
+                        "Action": "\n\tFrom 6Ghz station try to ping a WAN server (Choose the closest server to the DUT)\n",
+                        "Expected Result": "\n\tPing is successful and delay is acceptable and no loss on ping requests\n"
+                    },
+                    "attachments": [],
+                    "testVersionId": 16605
+                },
+                {
+                    "id": 32828,
+                    "index": 3,
+                    "fields": {
+                        "Action": "\n\tFrom the serial of the DUT, ping again a WAN server (Choose the closest server to the DUT, same one as used in  2)\n\t\n\t\n\t&nbsp;\n",
+                        "Expected Result": "\n\tWrite down the difference of latency between the first test and the second (3 tries).\n\t\n\tThat difference should be less than 10ms\n\t\n\te.g. the test from the 2.4Ghz station provided 50ms, the test directly form the DUT provided 45ms (50-45=5ms) the test pass\n\tIn the measurements field, write donw the 2 measurements and the difference between them (3 results)\n"
+                    },
+                    "attachments": [],
+                    "testVersionId": 16605
+                }
+            ]
+        },
+        "resolutiondate": null,
+        "customfield_10705": null,
+        "customfield_10708": null,
+        "customfield_10709": null,
+        "watches": {
+            "self": "https://jira.softathome.com/rest/api/2/issue/HGWXRAY-6917/watchers",
+            "watchCount": 1,
+            "isWatching": false
+        },
+        "customfield_14500": null,
+        "customfield_11900": null,
+        "updated": "2025-01-30T15:29:21.098+0100",
+        "timeoriginalestimate": null,
+        "description": "\t&nbsp;Verify connectivity and latency on 6ghz towards the WAN\r\n",
+        "customfield_11100": null,
+        "timetracking": {},
+        "customfield_10005": null,
+        "customfield_10006": null,
+        "customfield_10127": null,
+        "customfield_10800": " ",
+        "customfield_10801": null,
+        "summary": "[WI-FI-FUNCTIONAL]  Ping 6GHz-WAN",
+        "customfield_10121": null,
+        "customfield_10000": "0|i0kzo8:",
+        "customfield_10122": null,
+        "customfield_10001": null,
+        "customfield_14601": null,
+        "customfield_12300": null,
+        "customfield_10123": null,
+        "customfield_10124": null,
+        "customfield_14600": null,
+        "customfield_10115": null,
+        "customfield_10116": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/10876",
+            "value": "---",
+            "id": "10876",
+            "disabled": false
+        },
+        "environment": null,
+        "customfield_10117": null,
+        "duedate": null,
+        "comment": {
+            "comments": [],
+            "maxResults": 0,
+            "total": 0,
+            "startAt": 0
+        },
+        "customfield_15000": null,
+        "customfield_10110": null,
+        "customfield_10111": null,
+        "customfield_10112": null,
+        "customfield_11201": null,
+        "customfield_13502": "98-92801",
+        "customfield_10113": null,
+        "customfield_10114": null,
+        "customfield_10105": null,
+        "customfield_10106": null,
+        "customfield_14702": null,
+        "customfield_10107": null,
+        "customfield_10108": null,
+        "customfield_10900": "{summaryBean=com.atlassian.jira.plugin.devstatus.rest.SummaryBean@6e457ce0[summary={pullrequest=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@139696bd[overall=PullRequestOverallBean{stateCount=0, state='OPEN', details=PullRequestOverallDetails{openCount=0, mergedCount=0, declinedCount=0}},byInstanceType={}], build=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@68871a5f[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BuildOverallBean@4f835a8c[failedBuildCount=0,successfulBuildCount=0,unknownBuildCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], review=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@1cef2c81[overall=com.atlassian.jira.plugin.devstatus.summary.beans.ReviewsOverallBean@37af7dda[stateCount=0,state=<null>,dueDate=<null>,overDue=false,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], deployment-environment=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@672acc92[overall=com.atlassian.jira.plugin.devstatus.summary.beans.DeploymentOverallBean@32a8bdc1[topEnvironments=[],showProjects=false,successfulCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], repository=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@57c61431[overall=com.atlassian.jira.plugin.devstatus.summary.beans.CommitOverallBean@1bcbe2be[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}], branch=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@2a34e309[overall=com.atlassian.jira.plugin.devstatus.summary.beans.BranchOverallBean@5d05153b[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>],byInstanceType={}]},errors=[],configErrors=[]], devSummaryJson={\"cachedValue\":{\"errors\":[],\"configErrors\":[],\"summary\":{\"pullrequest\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":\"OPEN\",\"details\":{\"openCount\":0,\"mergedCount\":0,\"declinedCount\":0,\"total\":0},\"open\":true},\"byInstanceType\":{}},\"build\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"failedBuildCount\":0,\"successfulBuildCount\":0,\"unknownBuildCount\":0},\"byInstanceType\":{}},\"review\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":null,\"dueDate\":null,\"overDue\":false,\"completed\":false},\"byInstanceType\":{}},\"deployment-environment\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"topEnvironments\":[],\"showProjects\":false,\"successfulCount\":0},\"byInstanceType\":{}},\"repository\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}},\"branch\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}}}},\"isStale\":false}}",
+        "customfield_10109": null,
+        "priority": {
+            "self": "https://jira.softathome.com/rest/api/2/priority/2",
+            "iconUrl": "https://jira.softathome.com/images/icons/priorities/high.svg",
+            "name": "High",
+            "id": "2"
+        },
+        "customfield_10100": null,
+        "customfield_14700": null,
+        "customfield_10101": " ",
+        "customfield_14701": null,
+        "customfield_10102": null,
+        "customfield_10103": null,
+        "timeestimate": null,
+        "status": {
+            "self": "https://jira.softathome.com/rest/api/2/status/10001",
+            "description": "",
+            "iconUrl": "https://jira.softathome.com/",
+            "name": "Done",
+            "id": "10001",
+            "statusCategory": {
+                "self": "https://jira.softathome.com/rest/api/2/statuscategory/3",
+                "id": 3,
+                "key": "done",
+                "colorName": "success",
+                "name": "Done"
+            }
+        },
+        "customfield_11300": null,
+        "customfield_11301": null,
+        "customfield_13601": [
+            "WI-FI-FUNCTIONAL"
+        ],
+        "archiveddate": null,
+        "aggregatetimeestimate": null,
+        "creator": {
+            "self": "https://jira.softathome.com/rest/api/2/user?username=sah5600",
+            "name": "sah5600",
+            "key": "sah5600",
+            "emailAddress": "do_not_replay@softathome.com",
+            "avatarUrls": {
+                "48x48": "https://jira.softathome.com/secure/useravatar?ownerId=sah5600&avatarId=12313",
+                "24x24": "https://jira.softathome.com/secure/useravatar?size=small&ownerId=sah5600&avatarId=12313",
+                "16x16": "https://jira.softathome.com/secure/useravatar?size=xsmall&ownerId=sah5600&avatarId=12313",
+                "32x32": "https://jira.softathome.com/secure/useravatar?size=medium&ownerId=sah5600&avatarId=12313"
+            },
+            "displayName": "Wijgmaal Jenkins User",
+            "active": true,
+            "timeZone": "Europe/Paris"
+        },
+        "aggregateprogress": {
+            "progress": 0,
+            "total": 0
+        },
+        "customfield_11410": null,
+        "customfield_10200": null,
+        "customfield_12501": null,
+        "customfield_10202": null,
+        "customfield_11411": null,
+        "customfield_12500": null,
+        "customfield_11403": null,
+        "customfield_11405": null,
+        "customfield_11404": null,
+        "customfield_11407": null,
+        "customfield_11406": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/10875",
+            "value": "-",
+            "id": "10875",
+            "disabled": false
+        },
+        "customfield_11409": null,
+        "customfield_11408": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/10877",
+            "value": "---",
+            "id": "10877",
+            "disabled": false
+        },
+        "timespent": null,
+        "aggregatetimespent": null,
+        "customfield_12602": {
+            "datasetRestBean": {
+                "params": []
+            }
+        },
+        "customfield_12601": null,
+        "workratio": -1,
+        "created": "2022-11-02T16:25:58.397+0100",
+        "customfield_10300": null,
+        "customfield_10301": null,
+        "customfield_13000": null,
+        "customfield_13003": null,
+        "customfield_13002": null,
+        "customfield_12701": null,
+        "customfield_10401": null,
+        "customfield_12700": null,
+        "security": {
+            "self": "https://jira.softathome.com/rest/api/2/securitylevel/10201",
+            "id": "10201",
+            "description": "Only SoftAtHome people can access the issue",
+            "name": "SAH"
+        },
+        "customfield_10403": null,
+        "customfield_12703": {
+            "self": "https://jira.softathome.com/rest/api/2/customFieldOption/13149",
+            "value": "P0",
+            "id": "13149",
+            "disabled": false
+        },
+        "customfield_10404": null,
+        "customfield_12702": [
+            "DOMAIN"
+        ],
+        "attachment": [],
+        "customfield_10405": null,
+        "customfield_10406": null,
+        "customfield_12704": null,
+        "customfield_10407": null,
+        "customfield_12260": null,
+        "customfield_12262": null,
+        "customfield_12261": null,
+        "customfield_12263": null,
+        "customfield_10400": null,
+        "customfield_10511": null,
+        "customfield_13900": null,
+        "customfield_10512": null,
+        "customfield_10513": null,
+        "customfield_10517": null
+    }
+}
