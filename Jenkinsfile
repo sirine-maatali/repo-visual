@@ -2184,6 +2184,8 @@ pipeline {
                     if (!fileExists('report.pdf')) {
                         error "Le fichier report.pdf n'a pas été généré !"
                     }
+                    archiveArtifacts artifacts: 'report.pdf', fingerprint: true
+
                 }
             }
         }
