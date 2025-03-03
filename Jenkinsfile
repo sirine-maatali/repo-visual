@@ -2171,22 +2171,22 @@ pipeline {
             }
         }
 
-    //    stage('Convertir en PDF') {
-    //         steps {
-    //             script {
+       stage('Convertir en PDF') {
+            steps {
+                script {
                 
-    //                 bat 'wkhtmltopdf --version'
+                    bat 'wkhtmltopdf --version'
                     
-    //                 // Convertir le fichier HTML en PDF
-    //                 bat 'wkhtmltopdf report.html report.pdf'
+                    // Convertir le fichier HTML en PDF
+                    bat 'wkhtmltopdf report.html report.pdf'
                     
-    //                 // Vérifier que le fichier PDF a été généré
-    //                 if (!fileExists('report.pdf')) {
-    //                     error "Le fichier report.pdf n'a pas été généré !"
-    //                 }
-    //             }
-    //         }
-    //     }
+                    // Vérifier que le fichier PDF a été généré
+                    if (!fileExists('report.pdf')) {
+                        error "Le fichier report.pdf n'a pas été généré !"
+                    }
+                }
+            }
+        }
 
 
         stage('Installer WeasyPrint') {
