@@ -2164,6 +2164,7 @@ pipeline {
 
                     writeFile file: 'report.html', text: htmlContent
                  //  bat 'scp report.html user@webserver:/var/www/html/report.html'
+                 archiveArtifacts artifacts: 'report.html', fingerprint: true
 
                 }
             }
