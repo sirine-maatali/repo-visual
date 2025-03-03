@@ -937,7 +937,7 @@ pipeline {
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Bar Chart
@@ -1070,31 +1070,26 @@ pipeline {
       const rows = table.querySelectorAll('tbody tr');
       rows.forEach(row => row.style.display = ''); // Afficher toutes les lignes
 
-      // Convertir le tableau en données pour jsPDF-autoTable
-      const tableData = [];
-      rows.forEach(row => {
-        const rowData = [];
-        row.querySelectorAll('td').forEach(cell => {
-          rowData.push(cell.innerText);
-        });
-        tableData.push(rowData);
+      // Capturer tout le contenu du rapport avec html2canvas
+      html2canvas(document.body, {
+        scale: 2, // Augmenter la résolution pour une meilleure qualité
+        logging: true,
+        useCORS: true,
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = doc.internal.pageSize.getWidth();
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        // Ajouter l'image au PDF
+        doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+        // Télécharger le PDF
+        doc.save('report.pdf');
+
+        // Réappliquer la pagination après la génération du PDF
+        showPage(1); // Revenir à la première page
+        setActiveButton(paginationDiv.querySelector('button'));
       });
-
-      // Ajouter le tableau au PDF avec autoTable
-      doc.autoTable({
-        head: [['Feature', 'ID', 'Summary', 'Priority', 'result']],
-        body: tableData,
-        margin: { top: 20 },
-        styles: { fontSize: 10 },
-        headStyles: { fillColor: [76, 175, 80] }, // Couleur verte pour l'en-tête
-      });
-
-      // Télécharger le PDF
-      doc.save('report.pdf');
-
-      // Réappliquer la pagination après la génération du PDF
-      showPage(1); // Revenir à la première page
-      setActiveButton(paginationDiv.querySelector('button'));
     });
   </script>
 </body>
