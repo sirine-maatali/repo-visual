@@ -1065,6 +1065,7 @@ pipeline {
     });
   </script>
 
+  <!-- Script pour générer le PDF -->
 <script>
   document.getElementById('generatePdfButton').addEventListener('click', function () {
     const { jsPDF } = window.jspdf;
@@ -1107,13 +1108,8 @@ pipeline {
         positionY += imgHeight + padding; // Mettre à jour la position Y
       }
 
-      // Générer le nom du fichier PDF
-      const now = new Date(); // Définir la variable `now` ici
-      const formattedDate = "${now.format('yyyy-MM-dd')}"; // Formater la date en Groovy
-      const fileName = "${params.FILE_NAME}_${formattedDate}.pdf";
-
-      // Sauvegarder le PDF avec le nom personnalisé
-      doc.save(fileName);
+      // Sauvegarder le PDF
+      doc.save('report.pdf');
 
       // Réappliquer la pagination après la génération du PDF
       showPage(1); // Revenir à la première page
