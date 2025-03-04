@@ -850,6 +850,26 @@ pipeline {
         .pagination button.active {
             background-color: #2E7D32;
         }
+        /* Styles pour les flèches */
+.chart-arrow {
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: black;
+    transform-origin: left;
+}
+
+.chart-arrow::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: -3px;
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 6px solid black;
+}
     </style>
 </head>
 <body>
@@ -966,7 +986,9 @@ pipeline {
         }
       });
 
-      var ctxPie = document.getElementById('pieChart').getContext('2d');
+
+//pie chart 1
+ var ctxPie = document.getElementById('pieChart').getContext('2d');
 new Chart(ctxPie, {
     type: 'pie',
     data: {
@@ -986,16 +1008,22 @@ new Chart(ctxPie, {
                     let percentage = (value * 100 / sum).toFixed(2) + "%";
                     return percentage;
                 },
-                color: '#fff',
+                color: '#000', // Couleur du texte
                 font: {
                     weight: 'bold',
                     size: 14
-                }
+                },
+                anchor: 'end', // Positionne l'étiquette à l'extérieur
+                align: 'end', // Aligne l'étiquette à la fin du segment
+                offset: 20, // Déplace l'étiquette plus loin du camembert
+                textAlign: 'center', // Centre le texte
+                clip: false // Permet à l'étiquette de sortir du graphique
             }
         }
     },
     plugins: [ChartDataLabels] // Activer le plugin
 });
+
 
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
@@ -1018,7 +1046,7 @@ new Chart(ctxPie, {
       });
 
       // Feature Status Pie Chart
-   var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+  var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
 new Chart(ctxFeatureStatusPie, {
     type: 'pie',
     data: {
@@ -1038,16 +1066,99 @@ new Chart(ctxFeatureStatusPie, {
                     let percentage = (value * 100 / sum).toFixed(2) + "%";
                     return percentage;
                 },
-                color: '#fff',
+                color: '#000', // Couleur du texte
                 font: {
                     weight: 'bold',
                     size: 14
-                }
+                },
+                anchor: 'end', // Positionne l'étiquette à l'extérieur
+                align: 'end', // Aligne l'étiquette à la fin du segment
+                offset: 20, // Déplace l'étiquette plus loin du camembert
+                textAlign: 'center', // Centre le texte
+                clip: false // Permet à l'étiquette de sortir du graphique
             }
         }
     },
     plugins: [ChartDataLabels] // Activer le plugin
 });
+
+// script fleche pie 
+
+function drawArrows(chart) {
+    const canvas = chart.canvas;
+    const ctx = canvas.getContext('2d');
+    const meta = chart.getDatasetMeta(0);
+
+    meta.data.forEach((segment, index) => {
+        const { x, y } = segment.tooltipPosition();
+        const label = chart.data.labels[index];
+        const percentage = chart.data.datasets[0].data[index];
+
+        // Position de l'étiquette
+        const labelX = x + Math.cos(segment._model.angle) * (segment._model.outerRadius + 20);
+        const labelY = y + Math.sin(segment._model.angle) * (segment._model.outerRadius + 20);
+
+        // Dessiner une ligne entre le segment et l'étiquette
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(labelX, labelY);
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Dessiner une flèche à la fin de la ligne
+        ctx.beginPath();
+        ctx.moveTo(labelX, labelY);
+        ctx.lineTo(labelX - 5, labelY - 5);
+        ctx.lineTo(labelX - 5, labelY + 5);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+    });
+}
+
+// Appeler la fonction après le rendu du graphique
+var ctxPie = document.getElementById('pieChart').getContext('2d');
+var pieChart = new Chart(ctxPie, {
+    type: 'pie',
+    data: {
+        labels: [${pieLabels}],
+        datasets: [{
+            data: [${pieValues}],
+            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            datalabels: {
+                formatter: (value, ctx) => {
+                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                    let percentage = (value * 100 / sum).toFixed(2) + "%";
+                    return percentage;
+                },
+                color: '#000',
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                anchor: 'end',
+                align: 'end',
+                offset: 20,
+                textAlign: 'center',
+                clip: false
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+
+pieChart.render();
+drawArrows(pieChart); // Dessiner les flèches après le rendu
+
+
+
+
 
       // Pagination Script
       const table = document.getElementById('defectsTable');
