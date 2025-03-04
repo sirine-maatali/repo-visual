@@ -926,6 +926,101 @@ pipeline {
       <canvas id="pieChart"></canvas>
     </div>
   </div>
+// 
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Pie Chart 1
+    var ctxPie = document.getElementById('pieChart').getContext('2d');
+    var pieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: [${pieLabels}],
+            datasets: [{
+                data: [${pieValues}],
+                backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#000',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    anchor: 'end',
+                    align: 'end',
+                    offset: 20,
+                    textAlign: 'center',
+                    clip: false
+                },
+                '3d': {
+                    enabled: true,
+                    alpha: 45, // Angle de rotation en 3D
+                    beta: 0
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+
+    // Feature Status Pie Chart
+    var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+    var featureStatusPieChart = new Chart(ctxFeatureStatusPie, {
+        type: 'pie',
+        data: {
+            labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+            datasets: [{
+                data: ${featureStatusPieData},
+                backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#000',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    anchor: 'end',
+                    align: 'end',
+                    offset: 20,
+                    textAlign: 'center',
+                    clip: false
+                },
+                '3d': {
+                    enabled: true,
+                    alpha: 45, // Angle de rotation en 3D
+                    beta: 0
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+});
+
+
+
+
+
 
   <!-- Bar Chart 2 and Pie Chart 2 -->
   <div class="chart-container">
@@ -990,46 +1085,42 @@ pipeline {
 
 
 //pie chart 1
-var ctxPie = document.getElementById('pieChart').getContext('2d');
-    var pieChart = new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-            labels: [${pieLabels}],
-            datasets: [{
-                data: [${pieValues}],
-                backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'top' },
-                datalabels: {
-                    formatter: (value, ctx) => {
-                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                        let percentage = (value * 100 / sum).toFixed(2) + "%";
-                        return percentage;
-                    },
-                    color: '#000',
-                    font: {
-                        weight: 'bold',
-                        size: 14
-                    },
-                    anchor: 'end',
-                    align: 'end',
-                    offset: 20,
-                    textAlign: 'center',
-                    clip: false
+ var ctxPie = document.getElementById('pieChart').getContext('2d');
+new Chart(ctxPie, {
+    type: 'pie',
+    data: {
+        labels: [${pieLabels}],
+        datasets: [{
+            data: [${pieValues}],
+            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            datalabels: {
+                formatter: (value, ctx) => {
+                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                    let percentage = (value * 100 / sum).toFixed(2) + "%";
+                    return percentage;
                 },
-                '3d': {
-                    enabled: true,
-                    alpha: 45, // Angle de rotation en 3D
-                    beta: 0
-                }
+                color: '#000', // Couleur du texte
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                anchor: 'end', // Positionne l'étiquette à l'extérieur
+                align: 'end', // Aligne l'étiquette à la fin du segment
+                offset: 20, // Déplace l'étiquette plus loin du camembert
+                textAlign: 'center', // Centre le texte
+                clip: false // Permet à l'étiquette de sortir du graphique
             }
-        },
-        plugins: [ChartDataLabels]
-    });
+        }
+    },
+    plugins: [ChartDataLabels] // Activer le plugin
+});
+
 
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
@@ -1053,45 +1144,40 @@ var ctxPie = document.getElementById('pieChart').getContext('2d');
 
       // Feature Status Pie Chart
   var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-    var featureStatusPieChart = new Chart(ctxFeatureStatusPie, {
-        type: 'pie',
-        data: {
-            labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-            datasets: [{
-                data: ${featureStatusPieData},
-                backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'top' },
-                datalabels: {
-                    formatter: (value, ctx) => {
-                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                        let percentage = (value * 100 / sum).toFixed(2) + "%";
-                        return percentage;
-                    },
-                    color: '#000',
-                    font: {
-                        weight: 'bold',
-                        size: 14
-                    },
-                    anchor: 'end',
-                    align: 'end',
-                    offset: 20,
-                    textAlign: 'center',
-                    clip: false
+new Chart(ctxFeatureStatusPie, {
+    type: 'pie',
+    data: {
+        labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+        datasets: [{
+            data: ${featureStatusPieData},
+            backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            datalabels: {
+                formatter: (value, ctx) => {
+                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                    let percentage = (value * 100 / sum).toFixed(2) + "%";
+                    return percentage;
                 },
-                '3d': {
-                    enabled: true,
-                    alpha: 45, // Angle de rotation en 3D
-                    beta: 0
-                }
+                color: '#000', // Couleur du texte
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                anchor: 'end', // Positionne l'étiquette à l'extérieur
+                align: 'end', // Aligne l'étiquette à la fin du segment
+                offset: 20, // Déplace l'étiquette plus loin du camembert
+                textAlign: 'center', // Centre le texte
+                clip: false // Permet à l'étiquette de sortir du graphique
             }
-        },
-        plugins: [ChartDataLabels]
-    });
+        }
+    },
+    plugins: [ChartDataLabels] // Activer le plugin
+});
 
       // Pagination Script
       const table = document.getElementById('defectsTable');
