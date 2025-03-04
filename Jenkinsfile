@@ -856,12 +856,12 @@ pipeline {
       Générer un PDF
     </button>
   </div>
+  <div class="pdf-section">
 
   <h1>Test Execution</h1>
   <h2>Nom du fichier : ${params.FILE_NAME}</h2>
 
   <!-- Cards Section -->
-  <div class="pdf-section">
   <div class="card-container">
 
     <div class="card" style="background-color: #4CAF50;">
