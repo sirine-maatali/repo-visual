@@ -716,8 +716,6 @@ pipeline {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-3d"></script>
-
 
 
     <style>
@@ -852,26 +850,6 @@ pipeline {
         .pagination button.active {
             background-color: #2E7D32;
         }
-        /* Styles pour les flèches */
-.chart-arrow {
-    position: absolute;
-    width: 20px;
-    height: 2px;
-    background-color: black;
-    transform-origin: left;
-}
-
-.chart-arrow::after {
-    content: '';
-    position: absolute;
-    right: -5px;
-    top: -3px;
-    width: 0;
-    height: 0;
-    border-top: 4px solid transparent;
-    border-bottom: 4px solid transparent;
-    border-left: 6px solid black;
-}
     </style>
 </head>
 <body>
