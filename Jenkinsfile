@@ -1083,13 +1083,14 @@ new Chart(ctxFeatureStatusPie, {
 });
 
 // script fleche pie 
-  featureStatusPieChart.options.animation = {
+// Dessiner les flèches après le rendu du graphique
+      featureStatusPieChart.options.animation = {
         onComplete: function() {
           drawArrows(featureStatusPieChart);
         }
       };
 
- // Fonction pour dessiner les flèches
+      // Fonction pour dessiner les flèches
       function drawArrows(chart) {
         const canvas = chart.canvas;
         const ctx = canvas.getContext('2d');
@@ -1121,11 +1122,6 @@ new Chart(ctxFeatureStatusPie, {
           ctx.fill();
         });
       }
-
-
-
-
-
 
 
       // Pagination Script
