@@ -1353,11 +1353,10 @@ pipeline {
 <head>
     <link rel="stylesheet" href="./styles.css">
     <title>Test Execution - ${params.FILE_NAME}</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-pie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-3d@2.0.0/dist/chartjs-plugin-3d.min.js"></script>
 </head>
 <body>
   <div style="text-align: center; margin-bottom: 20px;">
@@ -1405,7 +1404,7 @@ pipeline {
       <div class="chart-wrapper pie">
         <h3>Répartition globale des statuts</h3>
         <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
-        <canvas id="pieChart"></canvas>
+        <div id="pieChart" style="width: 100%; height: 400px;"></div>
       </div>
     </div>
 
@@ -1419,7 +1418,7 @@ pipeline {
       <div class="chart-wrapper pie">
         <h3>Répartition globale des statuts détaillés</h3>
         <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
-        <canvas id="featureStatusPieChart"></canvas>
+        <div id="featureStatusPieChart" style="width: 100%; height: 400px;"></div>
       </div>
     </div>
   </div>
@@ -1450,7 +1449,7 @@ pipeline {
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Bar Chart
+      // Bar Chart (Chart.js)
       var ctxBar = document.getElementById('barChart').getContext('2d');
       new Chart(ctxBar, {
         type: 'bar',
@@ -1470,46 +1469,24 @@ pipeline {
         }
       });
 
-      // Pie Chart 1 (3D)
-      var ctxPie = document.getElementById('pieChart').getContext('2d');
-      new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-          labels: [${pieLabels}],
-          datasets: [{
-            data: [${pieValues}],
-            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' },
-            datalabels: {
-              formatter: (value, ctx) => {
-                let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                let percentage = (value * 100 / sum).toFixed(2) + "%";
-                return percentage;
-              },
-              color: '#000',
-              font: { weight: 'bold', size: 14 },
-              anchor: 'end',
-              align: 'end',
-              offset: 20,
-              textAlign: 'center',
-              clip: false
-            },
-            '3d': {
-              enabled: true,
-              alpha: 45, // Angle de rotation en 3D
-              beta: 0
-            }
-          }
-        },
-        plugins: [ChartDataLabels]
+      // Pie Chart 1 (AnyChart)
+      anychart.onDocumentReady(function () {
+        // Données pour le camembert
+        var data = [
+          { x: "PASS", value: ${totalPass} },
+          { x: "NOT EXECUTED", value: ${totalNotExecuted} },
+          { x: "NOK MINOR", value: ${totalNokMinor} },
+          { x: "NOK MAJOR", value: ${totalNokMajor} }
+        ];
+
+        // Créer le camembert
+        var chart = anychart.pie3d(data);
+        chart.title("Répartition globale des statuts");
+        chart.container("pieChart");
+        chart.draw();
       });
 
-      // Feature Status Chart
+      // Feature Status Chart (Chart.js)
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
       new Chart(ctxFeatureStatus, {
         type: 'bar',
@@ -1529,43 +1506,21 @@ pipeline {
         }
       });
 
-      // Feature Status Pie Chart (3D)
-      var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-      new Chart(ctxFeatureStatusPie, {
-        type: 'pie',
-        data: {
-          labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-          datasets: [{
-            data: ${featureStatusPieData},
-            backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' },
-            datalabels: {
-              formatter: (value, ctx) => {
-                let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                let percentage = (value * 100 / sum).toFixed(2) + "%";
-                return percentage;
-              },
-              color: '#000',
-              font: { weight: 'bold', size: 14 },
-              anchor: 'end',
-              align: 'end',
-              offset: 20,
-              textAlign: 'center',
-              clip: false
-            },
-            '3d': {
-              enabled: true,
-              alpha: 45, // Angle de rotation en 3D
-              beta: 0
-            }
-          }
-        },
-        plugins: [ChartDataLabels]
+      // Feature Status Pie Chart 2 (AnyChart)
+      anychart.onDocumentReady(function () {
+        // Données pour le camembert
+        var data = [
+          { x: "PASS", value: ${totalPass} },
+          { x: "NOT EXECUTED", value: ${totalNotExecuted} },
+          { x: "NOK MINOR", value: ${totalNokMinor} },
+          { x: "NOK MAJOR", value: ${totalNokMajor} }
+        ];
+
+        // Créer le camembert
+        var chart = anychart.pie3d(data);
+        chart.title("Répartition globale des statuts détaillés");
+        chart.container("featureStatusPieChart");
+        chart.draw();
       });
 
       // Pagination Script
