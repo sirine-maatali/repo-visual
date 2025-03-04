@@ -640,7 +640,25 @@ jsonData.each { entry ->
     }
 }
 
-// Calcul des pourcentages pour les pie charts
+// Les autres parties du code (graphiques, HTML, etc.) restent inchangées
+def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
+def datasets = []
+def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
+
+// Couleurs fixes pour les barres (nuances de vert)
+def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
+
+statusTypes.eachWithIndex { status, index ->
+    def data = statusCounts.collect { it.value[status] ?: 0 }
+    datasets.add("""
+        {
+            label: "${status}",
+            backgroundColor: "${greenShades[index % greenShades.size()]}",
+            data: [${data.join(", ")}]
+        }
+    """)
+}
+
 def pieData = statusCounts.collectEntries { feature, statuses ->
     [(feature): statuses.collect { k, v -> v }.sum()]
 }
@@ -648,6 +666,7 @@ def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
 def pieValues = pieData.values().join(", ")
 def piePercentages = pieData.values().collect { (it / totalTests) * 100 } // Calcul des pourcentages
 
+// Données pour la deuxième pie chart (basée sur featureStatusData)
 def featureStatusPieData = [
     totalPass,
     totalNotExecuted,
@@ -656,41 +675,39 @@ def featureStatusPieData = [
 ]
 def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
 def featureStatusPieColors = ['#4CAF50', '#A5D6A7', '#FF9800', '#F44336']
-def featureStatusPiePercentages = featureStatusPieData.collect { (it / totalTests) * 100 } 
-            
-            def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
-            def featureStatusDatasets = [
-                """
-                    {
-                        label: "PASS",
-                        backgroundColor: "#4CAF50",
-                        data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
-                    }
-                """,
-                """
-                    {
-                        label: "NOT EXECUTED",
-                        backgroundColor: "#A5D6A7",
-                        data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
-                    }
-                """,
-                """
-                    {
-                        label: "NOK MINOR",
-                        backgroundColor: "#FF9800",
-                        data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
-                    }
-                """,
-                """
-                    {
-                        label: "NOK MAJOR",
-                        backgroundColor: "#F44336",
-                        data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
-                    }
-                """
-            ]
+def featureStatusPiePercentages = featureStatusPieData.collect { (it / totalTests) * 100 } // Calcul des pourcentages
 
-
+def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
+def featureStatusDatasets = [
+    """
+        {
+            label: "PASS",
+            backgroundColor: "#4CAF50",
+            data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
+        }
+    """,
+    """
+        {
+            label: "NOT EXECUTED",
+            backgroundColor: "#A5D6A7",
+            data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
+        }
+    """,
+    """
+        {
+            label: "NOK MINOR",
+            backgroundColor: "#FF9800",
+            data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
+        }
+    """,
+    """
+        {
+            label: "NOK MAJOR",
+            backgroundColor: "#F44336",
+            data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
+        }
+    """
+]
                 def htmlContent = """
 <html>
 <head>
