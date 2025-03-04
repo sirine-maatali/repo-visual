@@ -1357,139 +1357,8 @@ pipeline {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <style>
-    body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f5f5f5;
-}
-h1, h2 {
-    color: #2E7D32;
-    text-align: center;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-table, th, td {
-    border: 1px solid #ddd;
-}
-th, td {
-    padding: 12px;
-    text-align: left;
-}
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-tr:hover {
-    background-color: #ddd;
-}
-canvas {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    max-width: 100%;
-}
-.chart-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 40px;
-    gap: 20px;
-}
-.chart-wrapper {
-    width: 48%;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.chart-wrapper.pie {
-    width: 30%;
-}
-.chart-wrapper.bar {
-    width: 68%;
-}
-.chart-description {
-    margin-top: 10px;
-    font-style: italic;
-    color: #555;
-    text-align: center;
-}
-.card {
-    background-color: #4CAF50;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 18%;
-    text-align: center;
-    margin: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-.card-container {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 40px;
-}
-.card h3 {
-    margin: 0;
-    font-size: 18px;
-}
-.card p {
-    margin: 10px 0 0;
-    font-size: 24px;
-    font-weight: bold;
-}
-.footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.footer a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-.footer a:hover {
-    text-decoration: underline;
-}
-/* Pagination Styles */
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-.pagination button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin: 0 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.pagination button:hover {
-    background-color: #45a049;
-}
-.pagination button.active {
-    background-color: #2E7D32;
-}
-    </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    
 </head>
 <body>
   <div style="text-align: center; margin-bottom: 20px;">
@@ -1540,7 +1409,7 @@ canvas {
     <div class="chart-wrapper pie">
       <h3>Répartition globale des statuts</h3>
       <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
-      <canvas id="pieChart"></canvas>
+      <div id="pieChart3d"></div>
     </div>
   </div>
 
@@ -1554,7 +1423,7 @@ canvas {
     <div class="chart-wrapper pie">
       <h3>Répartition globale des statuts détaillés</h3>
       <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
-      <canvas id="featureStatusPieChart"></canvas>
+      <div id="featureStatusPieChart3d"></div>
     </div>
   </div>
   </div>
@@ -1605,45 +1474,6 @@ canvas {
         }
       });
 
-
-//pie chart 1
- var ctxPie = document.getElementById('pieChart').getContext('2d');
-new Chart(ctxPie, {
-    type: 'pie',
-    data: {
-        labels: [${pieLabels}],
-        datasets: [{
-            data: [${pieValues}],
-            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            datalabels: {
-                formatter: (value, ctx) => {
-                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                    let percentage = (value * 100 / sum).toFixed(2) + "%";
-                    return percentage;
-                },
-                color: '#000', // Couleur du texte
-                font: {
-                    weight: 'bold',
-                    size: 14
-                },
-                anchor: 'end', // Positionne l'étiquette à l'extérieur
-                align: 'end', // Aligne l'étiquette à la fin du segment
-                offset: 20, // Déplace l'étiquette plus loin du camembert
-                textAlign: 'center', // Centre le texte
-                clip: false // Permet à l'étiquette de sortir du graphique
-            }
-        }
-    },
-    plugins: [ChartDataLabels] // Activer le plugin
-});
-
-
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
       new Chart(ctxFeatureStatus, {
@@ -1664,42 +1494,49 @@ new Chart(ctxPie, {
         }
       });
 
-      // Feature Status Pie Chart
-  var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-new Chart(ctxFeatureStatusPie, {
-    type: 'pie',
-    data: {
-        labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-        datasets: [{
-            data: ${featureStatusPieData},
-            backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            datalabels: {
-                formatter: (value, ctx) => {
-                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                    let percentage = (value * 100 / sum).toFixed(2) + "%";
-                    return percentage;
-                },
-                color: '#000', // Couleur du texte
-                font: {
-                    weight: 'bold',
-                    size: 14
-                },
-                anchor: 'end', // Positionne l'étiquette à l'extérieur
-                align: 'end', // Aligne l'étiquette à la fin du segment
-                offset: 20, // Déplace l'étiquette plus loin du camembert
-                textAlign: 'center', // Centre le texte
-                clip: false // Permet à l'étiquette de sortir du graphique
-            }
-        }
-    },
-    plugins: [ChartDataLabels] // Activer le plugin
-});
+      // Pie Chart 3D
+      var pieData = [{
+          values: [${pieValues}],
+          labels: [${pieLabels}],
+          type: 'pie',
+          hole: 0.4,
+          marker: {
+              colors: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+          }
+      }];
+
+      var pieLayout = {
+          title: 'Répartition globale des statuts',
+          scene: {
+              camera: {
+                  eye: { x: 1.5, y: 1.5, z: 1.5 } // Ajustez la vue 3D
+              }
+          }
+      };
+
+      Plotly.newPlot('pieChart3d', pieData, pieLayout);
+
+      // Feature Status Pie Chart 3D
+      var featureStatusPieData = [{
+          values: ${featureStatusPieData},
+          labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+          type: 'pie',
+          hole: 0.4,
+          marker: {
+              colors: ${featureStatusPieColors.collect { "\"${it}\"" }}
+          }
+      }];
+
+      var featureStatusPieLayout = {
+          title: 'Répartition globale des statuts détaillés',
+          scene: {
+              camera: {
+                  eye: { x: 1.5, y: 1.5, z: 1.5 } // Ajustez la vue 3D
+              }
+          }
+      };
+
+      Plotly.newPlot('featureStatusPieChart3d', featureStatusPieData, featureStatusPieLayout);
 
       // Pagination Script
       const table = document.getElementById('defectsTable');
