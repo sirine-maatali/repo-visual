@@ -660,19 +660,26 @@ pipeline {
             }
             
             def pieData = statusCounts.collectEntries { feature, statuses ->
-                [(feature): statuses.collect { k, v -> v }.sum()]
-            }
-            def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+                [(feature): statuses.collect { k, v -> v }.sum()]}
+            def totalPie = pieData.values().sum()
+            def pieLabels = pieData.collect { feature, value -> 
+                def percentage = (value / totalPie) * 100
+                "\"${feature} (${percentage.round(2)}%)\""            }.join(", ")
             def pieValues = pieData.values().join(", ")
             
             // Données pour la deuxième pie chart (basée sur featureStatusData)
-            def featureStatusPieData = [
-                featureStatusData.collect { it.value.PASS }.sum(),
-                featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
-                featureStatusData.collect { it.value.NOKMINOR }.sum(),
-                featureStatusData.collect { it.value.NOKMAJOR }.sum()
-            ]
-            def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
+           def featureStatusPieData = [
+    featureStatusData.collect { it.value.PASS }.sum(),
+    featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
+    featureStatusData.collect { it.value.NOKMINOR }.sum(),
+    featureStatusData.collect { it.value.NOKMAJOR }.sum()
+]
+def totalFeatureStatusPie = featureStatusPieData.sum()
+def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR'].collect { label ->
+    def index = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR'].indexOf(label)
+    def percentage = (featureStatusPieData[index] / totalFeatureStatusPie) * 100
+    "\"${label} (${percentage.round(2)}%)\""
+}
             def featureStatusPieColors = ['#4CAF50', '#A5D6A7', '#FF9800', '#F44336']
             
             def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
@@ -1146,4 +1153,3 @@ pipeline {
 }
     }
 }
-
