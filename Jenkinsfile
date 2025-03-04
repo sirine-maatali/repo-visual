@@ -1108,7 +1108,9 @@ pipeline {
       }
 
       // Générer le nom du fichier PDF
-      const fileName = `${params.FILE_NAME}_${new Date().toISOString().slice(0, 10)}.pdf`;
+      const now = new Date();
+      const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+      const fileName = `${params.FILE_NAME}_${formattedDate}.pdf`;
 
       // Sauvegarder le PDF avec le nom personnalisé
       doc.save(fileName);
