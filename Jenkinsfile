@@ -1083,78 +1083,46 @@ new Chart(ctxFeatureStatusPie, {
 });
 
 // script fleche pie 
-
-function drawArrows(chart) {
-    const canvas = chart.canvas;
-    const ctx = canvas.getContext('2d');
-    const meta = chart.getDatasetMeta(0);
-
-    meta.data.forEach((segment, index) => {
-        const { x, y } = segment.tooltipPosition();
-        const label = chart.data.labels[index];
-        const percentage = chart.data.datasets[0].data[index];
-
-        // Position de l'étiquette
-        const labelX = x + Math.cos(segment._model.angle) * (segment._model.outerRadius + 20);
-        const labelY = y + Math.sin(segment._model.angle) * (segment._model.outerRadius + 20);
-
-        // Dessiner une ligne entre le segment et l'étiquette
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(labelX, labelY);
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // Dessiner une flèche à la fin de la ligne
-        ctx.beginPath();
-        ctx.moveTo(labelX, labelY);
-        ctx.lineTo(labelX - 5, labelY - 5);
-        ctx.lineTo(labelX - 5, labelY + 5);
-        ctx.fillStyle = 'black';
-        ctx.fill();
-    });
-}
-
-// Appeler la fonction après le rendu du graphique
-var ctxPie = document.getElementById('pieChart').getContext('2d');
-var pieChart = new Chart(ctxPie, {
-    type: 'pie',
-    data: {
-        labels: [${pieLabels}],
-        datasets: [{
-            data: [${pieValues}],
-            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            datalabels: {
-                formatter: (value, ctx) => {
-                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                    let percentage = (value * 100 / sum).toFixed(2) + "%";
-                    return percentage;
-                },
-                color: '#000',
-                font: {
-                    weight: 'bold',
-                    size: 14
-                },
-                anchor: 'end',
-                align: 'end',
-                offset: 20,
-                textAlign: 'center',
-                clip: false
-            }
+  featureStatusPieChart.options.animation = {
+        onComplete: function() {
+          drawArrows(featureStatusPieChart);
         }
-    },
-    plugins: [ChartDataLabels]
-});
+      };
 
-pieChart.render();
-drawArrows(pieChart); // Dessiner les flèches après le rendu
+ // Fonction pour dessiner les flèches
+      function drawArrows(chart) {
+        const canvas = chart.canvas;
+        const ctx = canvas.getContext('2d');
+        const meta = chart.getDatasetMeta(0);
+
+        meta.data.forEach((segment, index) => {
+          const { x, y } = segment.tooltipPosition();
+          const label = chart.data.labels[index];
+          const percentage = chart.data.datasets[0].data[index];
+
+          // Position de l'étiquette
+          const labelX = x + Math.cos(segment._model.angle) * (segment._model.outerRadius + 20);
+          const labelY = y + Math.sin(segment._model.angle) * (segment._model.outerRadius + 20);
+
+          // Dessiner une ligne entre le segment et l'étiquette
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(labelX, labelY);
+          ctx.strokeStyle = 'black';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          // Dessiner une flèche à la fin de la ligne
+          ctx.beginPath();
+          ctx.moveTo(labelX, labelY);
+          ctx.lineTo(labelX - 5, labelY - 5);
+          ctx.lineTo(labelX - 5, labelY + 5);
+          ctx.fillStyle = 'black';
+          ctx.fill();
+        });
+      }
+
+
 
 
 
