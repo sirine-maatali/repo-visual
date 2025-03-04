@@ -716,6 +716,8 @@ pipeline {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-3d"></script>
+
 
 
     <style>
@@ -988,42 +990,46 @@ pipeline {
 
 
 //pie chart 1
- var ctxPie = document.getElementById('pieChart').getContext('2d');
-new Chart(ctxPie, {
-    type: 'pie',
-    data: {
-        labels: [${pieLabels}],
-        datasets: [{
-            data: [${pieValues}],
-            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            datalabels: {
-                formatter: (value, ctx) => {
-                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                    let percentage = (value * 100 / sum).toFixed(2) + "%";
-                    return percentage;
+var ctxPie = document.getElementById('pieChart').getContext('2d');
+    var pieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: [${pieLabels}],
+            datasets: [{
+                data: [${pieValues}],
+                backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#000',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    anchor: 'end',
+                    align: 'end',
+                    offset: 20,
+                    textAlign: 'center',
+                    clip: false
                 },
-                color: '#000', // Couleur du texte
-                font: {
-                    weight: 'bold',
-                    size: 14
-                },
-                anchor: 'end', // Positionne l'étiquette à l'extérieur
-                align: 'end', // Aligne l'étiquette à la fin du segment
-                offset: 20, // Déplace l'étiquette plus loin du camembert
-                textAlign: 'center', // Centre le texte
-                clip: false // Permet à l'étiquette de sortir du graphique
+                '3d': {
+                    enabled: true,
+                    alpha: 45, // Angle de rotation en 3D
+                    beta: 0
+                }
             }
-        }
-    },
-    plugins: [ChartDataLabels] // Activer le plugin
-});
-
+        },
+        plugins: [ChartDataLabels]
+    });
 
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
@@ -1047,39 +1053,45 @@ new Chart(ctxPie, {
 
       // Feature Status Pie Chart
   var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-new Chart(ctxFeatureStatusPie, {
-    type: 'pie',
-    data: {
-        labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-        datasets: [{
-            data: ${featureStatusPieData},
-            backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            datalabels: {
-                formatter: (value, ctx) => {
-                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                    let percentage = (value * 100 / sum).toFixed(2) + "%";
-                    return percentage;
+    var featureStatusPieChart = new Chart(ctxFeatureStatusPie, {
+        type: 'pie',
+        data: {
+            labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+            datasets: [{
+                data: ${featureStatusPieData},
+                backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#000',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    anchor: 'end',
+                    align: 'end',
+                    offset: 20,
+                    textAlign: 'center',
+                    clip: false
                 },
-                color: '#000', // Couleur du texte
-                font: {
-                    weight: 'bold',
-                    size: 14
-                },
-                anchor: 'end', // Positionne l'étiquette à l'extérieur
-                align: 'end', // Aligne l'étiquette à la fin du segment
-                offset: 20, // Déplace l'étiquette plus loin du camembert
-                textAlign: 'center', // Centre le texte
-                clip: false // Permet à l'étiquette de sortir du graphique
+                '3d': {
+                    enabled: true,
+                    alpha: 45, // Angle de rotation en 3D
+                    beta: 0
+                }
             }
-        }
-    },
-    plugins: [ChartDataLabels] // Activer le plugin
+        },
+        plugins: [ChartDataLabels]
+    });
 });
 
       // Pagination Script
