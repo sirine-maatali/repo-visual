@@ -1108,9 +1108,9 @@ pipeline {
       }
 
       // Générer le nom du fichier PDF
-      const now = new Date();
-      const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-      const fileName = `${params.FILE_NAME}_${formattedDate}.pdf`;
+      const now = new Date(); // Définir la variable `now` ici
+      const formattedDate = "${now.format('yyyy-MM-dd')}"; // Formater la date en Groovy
+      const fileName = "${params.FILE_NAME}_${formattedDate}.pdf";
 
       // Sauvegarder le PDF avec le nom personnalisé
       doc.save(fileName);
