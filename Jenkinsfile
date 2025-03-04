@@ -591,13 +591,13 @@ pipeline {
             def defectsData = []
             
             // Initialisation des compteurs
-            def totalTests = 0
+            def totalTests = totalPass + totalNotExecuted + totalNokMinor + totalNokMajor
             def totalPass = 0
             def totalNotExecuted = 0
             def totalNokMinor = 0
             def totalNokMajor = 0
                         
-                    jsonData.each { entry ->
+                jsonData.each { entry ->
                 def feature = entry.feature.toString().trim()
                 def status = entry.status.toString().trim()
                 def result = entry.result.toString().trim() // Récupération du champ "result"
@@ -607,8 +607,7 @@ pipeline {
                     featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
                 }
                 
-                // Mise à jour des compteurs en fonction du champ "result"
-                totalTests++
+              
                 switch (result) {
                     case "ok":
                         featureStatusData[feature].PASS++
@@ -659,21 +658,23 @@ pipeline {
                 """)
             }
             
-            def pieData = statusCounts.collectEntries { feature, statuses ->
-                [(feature): statuses.collect { k, v -> v }.sum()]
-            }
+           def pieData = statusCounts.collectEntries { feature, statuses ->
+    [(feature): statuses.collect { k, v -> v }.sum()]
+        }
             def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
             def pieValues = pieData.values().join(", ")
-            
-            // Données pour la deuxième pie chart (basée sur featureStatusData)
-            def featureStatusPieData = [
-                featureStatusData.collect { it.value.PASS }.sum(),
-                featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
-                featureStatusData.collect { it.value.NOKMINOR }.sum(),
-                featureStatusData.collect { it.value.NOKMAJOR }.sum()
-            ]
+            def piePercentages = pieData.values().collect { (it / totalTests) * 100 } 
+                        
+                        // Données pour la deuxième pie chart (basée sur featureStatusData)
+                    def featureStatusPieData = [
+                            totalPass,
+                            totalNotExecuted,
+                            totalNokMinor,
+                            totalNokMajor
+                        ]
             def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
             def featureStatusPieColors = ['#4CAF50', '#A5D6A7', '#FF9800', '#F44336']
+            def featureStatusPiePercentages = featureStatusPieData.collect { (it / totalTests) * 100 } 
             
             def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
             def featureStatusDatasets = [
@@ -965,23 +966,38 @@ pipeline {
       });
 
       // Pie Chart
-      var ctxPie = document.getElementById('pieChart').getContext('2d');
-      new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-          labels: [${pieLabels}],
-          datasets: [{
+     var ctxPie = document.getElementById('pieChart').getContext('2d');
+new Chart(ctxPie, {
+    type: 'pie',
+    data: {
+        labels: [${pieLabels}],
+        datasets: [{
             data: [${pieValues}],
             backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' }
-          }
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        const value = context.raw || 0;
+                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        const percentage = ((value / total) * 100).toFixed(2); // Calcul du pourcentage
+                        label += `${value} (${percentage}%)`; // Ajout du pourcentage à l'étiquette
+                        return label;
+                    }
+                }
+            }
         }
-      });
+    }
+});
 
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
@@ -1005,22 +1021,37 @@ pipeline {
 
       // Feature Status Pie Chart
       var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-      new Chart(ctxFeatureStatusPie, {
-        type: 'pie',
-        data: {
-          labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-          datasets: [{
+new Chart(ctxFeatureStatusPie, {
+    type: 'pie',
+    data: {
+        labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+        datasets: [{
             data: ${featureStatusPieData},
             backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' }
-          }
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        const value = context.raw || 0;
+                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        const percentage = ((value / total) * 100).toFixed(2); // Calcul du pourcentage
+                        label += `${value} (${percentage}%)`; // Ajout du pourcentage à l'étiquette
+                        return label;
+                    }
+                }
+            }
         }
-      });
+    }
+});
 
       // Pagination Script
       const table = document.getElementById('defectsTable');
