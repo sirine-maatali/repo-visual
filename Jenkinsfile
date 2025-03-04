@@ -1065,48 +1065,38 @@ pipeline {
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
     const padding = 10; // Marge intérieure
+    let positionY = padding; // Position verticale actuelle sur la page
 
-    // Afficher temporairement toutes les lignes du tableau
-    const table = document.getElementById('defectsTable');
-    const rows = table.querySelectorAll('tbody tr');
-    rows.forEach(row => (row.style.display = '')); // Afficher toutes les lignes
-
-    // Capturer le contenu de la page avec html2canvas
-    html2canvas(document.body, { scale: 2 }).then((canvas) => {
+    // Fonction pour ajouter une section au PDF
+    async function addSectionToPdf(element, isTable = false) {
+      const canvas = await html2canvas(element, { scale: 2 });
       const imgData = canvas.toDataURL('image/png');
-      const imgWidth = pageWidth - 2 * padding; // Largeur de l'image
-      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Hauteur proportionnelle
+      const imgWidth = pageWidth - 2 * padding;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      let positionY = 0; // Position verticale actuelle sur la page
-      let remainingHeight = imgHeight;
-
-      // Ajouter l'image au PDF en plusieurs pages si nécessaire
-      while (remainingHeight > 0) {
-        if (positionY + remainingHeight > pageHeight) {
-          // Ajouter une nouvelle page si le contenu dépasse la hauteur de la page
-          doc.addPage();
-          positionY = 0; // Réinitialiser la position Y
-        }
-
-        // Calculer la hauteur à ajouter sur la page actuelle
-        const heightToAdd = Math.min(remainingHeight, pageHeight - positionY);
-
-        // Ajouter une partie de l'image à la page actuelle
-        doc.addImage(
-          imgData,
-          'PNG',
-          padding,
-          padding + positionY,
-          imgWidth,
-          heightToAdd,
-          undefined,
-          'FAST' // Option pour une compression rapide
-        );
-
-        // Mettre à jour la hauteur restante et la position Y
-        remainingHeight -= heightToAdd;
-        positionY += heightToAdd;
+      // Vérifier si la section dépasse la hauteur de la page
+      if (positionY + imgHeight > pageHeight) {
+        doc.addPage(); // Ajouter une nouvelle page
+        positionY = padding; // Réinitialiser la position Y
       }
+
+      // Ajouter l'image au PDF
+      doc.addImage(imgData, 'PNG', padding, positionY, imgWidth, imgHeight);
+      positionY += imgHeight + padding; // Mettre à jour la position Y
+    }
+
+    // Fonction pour générer le PDF
+    async function generatePdf() {
+      // Afficher temporairement toutes les lignes du tableau
+      const table = document.getElementById('defectsTable');
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(row => (row.style.display = ''));
+
+      // Ajouter chaque section au PDF
+      await addSectionToPdf(document.querySelector('.card-container')); // Cartes
+      await addSectionToPdf(document.querySelector('.chart-container:first-child')); // Graphiques 1
+      await addSectionToPdf(document.querySelector('.chart-container:last-child')); // Graphiques 2
+      await addSectionToPdf(table, true); // Tableau
 
       // Sauvegarder le PDF
       doc.save('report.pdf');
@@ -1114,7 +1104,9 @@ pipeline {
       // Réappliquer la pagination après la génération du PDF
       showPage(1); // Revenir à la première page
       setActiveButton(paginationDiv.querySelector('button'));
-    });
+    }
+
+    generatePdf();
   });
 </script>
 </body>
