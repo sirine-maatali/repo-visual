@@ -1350,16 +1350,6 @@ pipeline {
 
                     def htmlContent = """
 <html>
-<head>
-    <link rel="stylesheet" href="./styles.css">
-    <title>Test Execution - ${params.FILE_NAME}</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    
-</head>
 <body>
   <div style="text-align: center; margin-bottom: 20px;">
     <button id="generatePdfButton" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
@@ -1402,12 +1392,12 @@ pipeline {
       <div class="chart-wrapper bar">
         <h3>Répartition des statuts par feature</h3>
         <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
-        <div id="barChart3d"></div> <!-- Graphique 3D -->
+        <div id="barChart3d"></div> <!-- Graphique en barres 3D -->
       </div>
       <div class="chart-wrapper pie">
         <h3>Répartition globale des statuts</h3>
         <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
-        <div id="pieChart3d"></div> <!-- Graphique 3D -->
+        <div id="pieChart3d"></div> <!-- Graphique en camembert 3D -->
       </div>
     </div>
 
@@ -1416,12 +1406,12 @@ pipeline {
       <div class="chart-wrapper bar">
         <h3>Répartition des statuts détaillés par feature</h3>
         <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
-        <div id="featureStatusChart3d"></div> <!-- Graphique 3D -->
+        <div id="featureStatusBarChart3d"></div> <!-- Graphique en barres 3D -->
       </div>
       <div class="chart-wrapper pie">
         <h3>Répartition globale des statuts détaillés</h3>
         <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
-        <div id="featureStatusPieChart3d"></div> <!-- Graphique 3D -->
+        <div id="featureStatusPieChart3d"></div> <!-- Graphique en camembert 3D -->
       </div>
     </div>
   </div>
@@ -1454,71 +1444,99 @@ pipeline {
     document.addEventListener('DOMContentLoaded', function() {
       // Données pour les graphiques
       const featureLabels = [${featureLabels}];
-      const datasets = [${datasets.join(", ")}];
-      const pieLabels = [${pieLabels}];
       const pieValues = [${pieValues}];
-      const featureStatusLabels = [${featureStatusLabels}];
-      const featureStatusDatasets = [${featureStatusDatasets.join(", ")}];
-      const featureStatusPieLabels = ${featureStatusPieLabels.collect { "\"${it}\"" }};
+      const pieLabels = [${pieLabels}];
       const featureStatusPieData = ${featureStatusPieData};
-      const greenShades = [${greenShades.collect { "\"${it}\"" }.join(", ")}];
+      const featureStatusPieLabels = ${featureStatusPieLabels.collect { "\"${it}\"" }};
       const featureStatusPieColors = ${featureStatusPieColors.collect { "\"${it}\"" }};
 
       // Bar Chart 3D
-      const barData = featureLabels.map((label, index) => ({
-        x: [label],
-        y: datasets.map(dataset => dataset.data[index]),
+      const barChartData = [{
+        x: featureLabels,
+        y: [${datasets[0].data.join(", ")}], // Exemple de données pour PASS
         type: 'bar',
-        name: datasets[index].label,
-        marker: { color: greenShades[index % greenShades.length] }
-      }));
+        name: 'PASS',
+        marker: { color: '#4CAF50' }
+      }, {
+        x: featureLabels,
+        y: [${datasets[1].data.join(", ")}], // Exemple de données pour FAIL
+        type: 'bar',
+        name: 'FAIL',
+        marker: { color: '#F44336' }
+      }];
 
-      const barLayout = {
+      const barChartLayout = {
         title: 'Répartition des statuts par feature',
         barmode: 'stack',
         scene: {
-          camera: { eye: { x: 1.5, y: 1.5, z: 1.5 } } // Vue 3D
+          camera: {
+            eye: { x: 1.5, y: 1.5, z: 1.5 } // Vue 3D
+          }
         }
       };
 
-      Plotly.newPlot('barChart3d', barData, barLayout);
+      Plotly.newPlot('barChart3d', barChartData, barChartLayout);
 
       // Pie Chart 3D
-      const pieData = [{
+      const pieChartData = [{
         values: pieValues,
         labels: pieLabels,
         type: 'pie',
         hole: 0.4,
-        marker: { colors: greenShades }
+        marker: {
+          colors: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+        }
       }];
 
-      const pieLayout = {
+      const pieChartLayout = {
         title: 'Répartition globale des statuts',
         scene: {
-          camera: { eye: { x: 1.5, y: 1.5, z: 1.5 } } // Vue 3D
+          camera: {
+            eye: { x: 1.5, y: 1.5, z: 1.5 } // Vue 3D
+          }
         }
       };
 
-      Plotly.newPlot('pieChart3d', pieData, pieLayout);
+      Plotly.newPlot('pieChart3d', pieChartData, pieChartLayout);
 
       // Feature Status Bar Chart 3D
-      const featureStatusData = featureStatusLabels.map((label, index) => ({
-        x: [label],
-        y: featureStatusDatasets.map(dataset => dataset.data[index]),
+      const featureStatusBarChartData = [{
+        x: featureLabels,
+        y: [${featureStatusDatasets[0].data.join(", ")}], // PASS
         type: 'bar',
-        name: featureStatusDatasets[index].label,
-        marker: { color: featureStatusPieColors[index % featureStatusPieColors.length] }
-      }));
+        name: 'PASS',
+        marker: { color: '#4CAF50' }
+      }, {
+        x: featureLabels,
+        y: [${featureStatusDatasets[1].data.join(", ")}], // NOT EXECUTED
+        type: 'bar',
+        name: 'NOT EXECUTED',
+        marker: { color: '#A5D6A7' }
+      }, {
+        x: featureLabels,
+        y: [${featureStatusDatasets[2].data.join(", ")}], // NOK MINOR
+        type: 'bar',
+        name: 'NOK MINOR',
+        marker: { color: '#FF9800' }
+      }, {
+        x: featureLabels,
+        y: [${featureStatusDatasets[3].data.join(", ")}], // NOK MAJOR
+        type: 'bar',
+        name: 'NOK MAJOR',
+        marker: { color: '#F44336' }
+      }];
 
-      const featureStatusLayout = {
+      const featureStatusBarChartLayout = {
         title: 'Répartition des statuts détaillés par feature',
         barmode: 'stack',
         scene: {
-          camera: { eye: { x: 1.5, y: 1.5, z: 1.5 } } // Vue 3D
+          camera: {
+            eye: { x: 1.5, y: 1.5, z: 1.5 } // Vue 3D
+          }
         }
       };
 
-      Plotly.newPlot('featureStatusChart3d', featureStatusData, featureStatusLayout);
+      Plotly.newPlot('featureStatusBarChart3d', featureStatusBarChartData, featureStatusBarChartLayout);
 
       // Feature Status Pie Chart 3D
       const featureStatusPieChartData = [{
@@ -1526,13 +1544,17 @@ pipeline {
         labels: featureStatusPieLabels,
         type: 'pie',
         hole: 0.4,
-        marker: { colors: featureStatusPieColors }
+        marker: {
+          colors: featureStatusPieColors
+        }
       }];
 
       const featureStatusPieChartLayout = {
         title: 'Répartition globale des statuts détaillés',
         scene: {
-          camera: { eye: { x: 1.5, y: 1.5, z: 1.5 } } // Vue 3D
+          camera: {
+            eye: { x: 1.5, y: 1.5, z: 1.5 } // Vue 3D
+          }
         }
       };
 
@@ -1635,8 +1657,7 @@ pipeline {
       generatePdf();
     });
   </script>
-</body>
-</html>
+</body></html>
 """
 
                     writeFile file: 'report.html', text: htmlContent
