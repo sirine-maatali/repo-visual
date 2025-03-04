@@ -1092,7 +1092,6 @@ var ctxPie = document.getElementById('pieChart').getContext('2d');
         },
         plugins: [ChartDataLabels]
     });
-});
 
       // Pagination Script
       const table = document.getElementById('defectsTable');
