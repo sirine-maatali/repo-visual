@@ -1065,7 +1065,6 @@ pipeline {
     });
   </script>
 
-  <!-- Script pour générer le PDF -->
 <script>
   document.getElementById('generatePdfButton').addEventListener('click', function () {
     const { jsPDF } = window.jspdf;
@@ -1108,8 +1107,11 @@ pipeline {
         positionY += imgHeight + padding; // Mettre à jour la position Y
       }
 
-      // Sauvegarder le PDF
-      doc.save('report.pdf');
+      // Générer le nom du fichier PDF
+      const fileName = `${params.FILE_NAME}_${new Date().toISOString().slice(0, 10)}.pdf`;
+
+      // Sauvegarder le PDF avec le nom personnalisé
+      doc.save(fileName);
 
       // Réappliquer la pagination après la génération du PDF
       showPage(1); // Revenir à la première page
