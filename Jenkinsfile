@@ -1082,48 +1082,6 @@ new Chart(ctxFeatureStatusPie, {
     plugins: [ChartDataLabels] // Activer le plugin
 });
 
-// script fleche pie 
-// Dessiner les flèches après le rendu du graphique
-      featureStatusPieChart.options.animation = {
-        onComplete: function() {
-          drawArrows(featureStatusPieChart);
-        }
-      };
-
-      // Fonction pour dessiner les flèches
-      function drawArrows(chart) {
-        const canvas = chart.canvas;
-        const ctx = canvas.getContext('2d');
-        const meta = chart.getDatasetMeta(0);
-
-        meta.data.forEach((segment, index) => {
-          const { x, y } = segment.tooltipPosition();
-          const label = chart.data.labels[index];
-          const percentage = chart.data.datasets[0].data[index];
-
-          // Position de l'étiquette
-          const labelX = x + Math.cos(segment._model.angle) * (segment._model.outerRadius + 20);
-          const labelY = y + Math.sin(segment._model.angle) * (segment._model.outerRadius + 20);
-
-          // Dessiner une ligne entre le segment et l'étiquette
-          ctx.beginPath();
-          ctx.moveTo(x, y);
-          ctx.lineTo(labelX, labelY);
-          ctx.strokeStyle = 'black';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-
-          // Dessiner une flèche à la fin de la ligne
-          ctx.beginPath();
-          ctx.moveTo(labelX, labelY);
-          ctx.lineTo(labelX - 5, labelY - 5);
-          ctx.lineTo(labelX - 5, labelY + 5);
-          ctx.fillStyle = 'black';
-          ctx.fill();
-        });
-      }
-
-
       // Pagination Script
       const table = document.getElementById('defectsTable');
       const rows = table.querySelectorAll('tbody tr');
