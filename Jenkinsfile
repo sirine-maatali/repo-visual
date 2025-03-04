@@ -591,11 +591,15 @@ pipeline {
             def defectsData = []
             
             // Initialisation des compteurs
-           def totalTests = 0
+        def totalTests = 0
 def totalPass = 0
 def totalNotExecuted = 0
 def totalNokMinor = 0
 def totalNokMajor = 0
+
+def featureStatusData = [:]
+def statusCounts = [:]
+def defectsData = []
 
 jsonData.each { entry ->
     def feature = entry.feature.toString().trim()
@@ -675,10 +679,9 @@ def featureStatusPieData = [
 ]
 def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
 def featureStatusPieColors = ['#4CAF50', '#A5D6A7', '#FF9800', '#F44336']
-def featureStatusPiePercentages = featureStatusPieData.collect { (it / totalTests) * 100 } 
+def featureStatusPiePercentages = featureStatusPieData.collect { (it / totalTests) * 100 } // Calcul des pourcentages
 
 def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
-
 def featureStatusDatasets = [
     """
         {
@@ -686,19 +689,22 @@ def featureStatusDatasets = [
             backgroundColor: "#4CAF50",
             data: [${featureStatusData.collect { it.value?.PASS ?: 0 }.join(", ")}]
         }
-    ,
+    """,
+    """
         {
             label: "NOT EXECUTED",
             backgroundColor: "#A5D6A7",
             data: [${featureStatusData.collect { it.value?.NOTEXECUTED ?: 0 }.join(", ")}]
         }
-    ,
+    """,
+    """
         {
             label: "NOK MINOR",
             backgroundColor: "#FF9800",
             data: [${featureStatusData.collect { it.value?.NOKMINOR ?: 0 }.join(", ")}]
         }
-    ,
+    """,
+    """
         {
             label: "NOK MAJOR",
             backgroundColor: "#F44336",
