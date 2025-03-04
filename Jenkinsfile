@@ -591,7 +591,7 @@ pipeline {
             def defectsData = []
             
             // Initialisation des compteurs
-            def totalTests = totalPass + totalNotExecuted + totalNokMinor + totalNokMajor
+            def totalTests = 0
             def totalPass = 0
             def totalNotExecuted = 0
             def totalNokMinor = 0
@@ -607,7 +607,8 @@ pipeline {
                     featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
                 }
                 
-              
+                // Mise à jour des compteurs en fonction du champ "result"
+              def totalTests = totalPass + totalNotExecuted + totalNokMinor + totalNokMajor
                 switch (result) {
                     case "ok":
                         featureStatusData[feature].PASS++
