@@ -712,6 +712,7 @@ pipeline {
 <html>
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -965,23 +966,37 @@ pipeline {
       });
 
       // Pie Chart
-      var ctxPie = document.getElementById('pieChart').getContext('2d');
-      new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-          labels: [${pieLabels}],
-          datasets: [{
-            data: [${pieValues}],
-            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-          }]
+    var ctxPie = document.getElementById('pieChart').getContext('2d');
+new Chart(ctxPie, {
+  type: 'pie',
+  data: {
+    labels: [${pieLabels}],
+    datasets: [{
+      data: [${pieValues}],
+      backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        formatter: (value, ctx) => {
+          let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+          let percentage = ((value / sum) * 100).toFixed(1) + "%";
+          return percentage;
         },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' }
-          }
+        color: '#fff',
+        font: {
+          weight: 'bold',
+          size: 14
         }
-      });
+      }
+    }
+  },
+  plugins: [ChartDataLabels]
+});
+
 
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
