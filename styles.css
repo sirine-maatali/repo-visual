@@ -43,17 +43,18 @@ canvas {
     gap: 20px;
 }
 .chart-wrapper {
-    width: 48%;
     background-color: white;
-    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .chart-wrapper.pie {
-    width: 40%; /* Augmentez la largeur des camemberts */
+    width: 30%; /* Largeur du camembert */
+    padding: 30px; /* Espace autour du camembert */
+    margin-right: 20px; /* Marge à droite */
 }
 .chart-wrapper.bar {
-    width: 58%; /* Réduisez la largeur des barres */
+    width: 68%; /* Largeur des barres */
+    padding: 20px; /* Espace autour des barres */
 }
 .chart-description {
     margin-top: 10px;
