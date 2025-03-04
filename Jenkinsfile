@@ -1189,6 +1189,7 @@
 //     }
 // }
 
+
 pipeline {
     agent any
     parameters {
@@ -1236,9 +1237,6 @@ pipeline {
                     def totalNotExecuted = 0
                     def totalNokMinor = 0
                     def totalNokMajor = 0
-
-                    // Définir les nuances de vert pour les graphiques
-                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
                     
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
@@ -1283,29 +1281,84 @@ pipeline {
                         }
                     }
                     
-                    // Données pour les graphiques
+                    // Les autres parties du code (graphiques, HTML, etc.) restent inchangées
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
-                    def pieLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
-                    def pieValues = statusCounts.collect { it.value.values().sum() }.join(", ")
-                    def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ") // Initialisation de featureStatusLabels
-                    def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
+                    def datasets = []
+                    def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
+                    
+                    // Couleurs fixes pour les barres (nuances de vert)
+                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
+                    
+                    statusTypes.eachWithIndex { status, index ->
+                        def data = statusCounts.collect { it.value[status] ?: 0 }
+                        datasets.add("""
+                            {
+                                label: "${status}",
+                                backgroundColor: "${greenShades[index % greenShades.size()]}",
+                                data: [${data.join(", ")}]
+                            }
+                        """)
+                    }
+                    
+                    def pieData = statusCounts.collectEntries { feature, statuses ->
+                        [(feature): statuses.collect { k, v -> v }.sum()]
+                    }
+                    def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def pieValues = pieData.values().join(", ")
+                    
+                    // Données pour la deuxième pie chart (basée sur featureStatusData)
                     def featureStatusPieData = [
                         featureStatusData.collect { it.value.PASS }.sum(),
                         featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
                         featureStatusData.collect { it.value.NOKMINOR }.sum(),
                         featureStatusData.collect { it.value.NOKMAJOR }.sum()
                     ]
+                    def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
                     def featureStatusPieColors = ['#4CAF50', '#A5D6A7', '#FF9800', '#F44336']
+                    
+                    def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
+                    def featureStatusDatasets = [
+                        """
+                            {
+                                label: "PASS",
+                                backgroundColor: "#4CAF50",
+                                data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOT EXECUTED",
+                                backgroundColor: "#A5D6A7",
+                                data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOK MINOR",
+                                backgroundColor: "#FF9800",
+                                data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
+                            }
+                        """,
+                        """
+                            {
+                                label: "NOK MAJOR",
+                                backgroundColor: "#F44336",
+                                data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
+                            }
+                        """
+                    ]
 
-                    // Générer le rapport HTML
                     def htmlContent = """
 <html>
 <head>
     <link rel="stylesheet" href="./styles.css">
     <title>Test Execution - ${params.FILE_NAME}</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-3d@2.0.0/dist/chartjs-plugin-3d.min.js"></script>
+    
 </head>
 <body>
   <div style="text-align: center; margin-bottom: 20px;">
@@ -1314,76 +1367,79 @@ pipeline {
     </button>
   </div>
   <div class="pdf-section">
-    <h1>Test Execution</h1>
-    <h2>Nom du fichier : ${params.FILE_NAME}</h2>
 
-    <!-- Cards Section -->
-    <div class="card-container">
-      <div class="card" style="background-color: #4CAF50;">
-        <h3>Total Tests</h3>
-        <p>${totalTests}</p>
-      </div>
-      <div class="card" style="background-color: #81C784;">
-        <h3>PASS</h3>
-        <p>${totalPass}</p>
-      </div>
-      <div class="card" style="background-color: #A5D6A7; color: black;">
-        <h3>NOT EXECUTED</h3>
-        <p>${totalNotExecuted}</p>
-      </div>
-      <div class="card" style="background-color: #FF9800;">
-        <h3>NOK MINOR</h3>
-        <p>${totalNokMinor}</p>
-      </div>
-      <div class="card" style="background-color: #F44336;">
-        <h3>NOK MAJOR</h3>
-        <p>${totalNokMajor}</p>
-      </div>
+  <h1>Test Execution</h1>
+  <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+
+  <!-- Cards Section -->
+  <div class="card-container">
+
+    <div class="card" style="background-color: #4CAF50;">
+      <h3>Total Tests</h3>
+      <p>${totalTests}</p>
+    </div>
+    <div class="card" style="background-color: #81C784;">
+      <h3>PASS</h3>
+      <p>${totalPass}</p>
+    </div>
+    <div class="card" style="background-color: #A5D6A7; color: black;">
+      <h3>NOT EXECUTED</h3>
+      <p>${totalNotExecuted}</p>
+    </div>
+    <div class="card" style="background-color: #FF9800;">
+      <h3>NOK MINOR</h3>
+      <p>${totalNokMinor}</p>
+    </div>
+    <div class="card" style="background-color: #F44336;">
+      <h3>NOK MAJOR</h3>
+      <p>${totalNokMajor}</p>
+    </div>
+  </div>
+  </div>
+
+<div class="pdf-section">
+  <div class="chart-container">
+  <!-- Bar Chart 1 and Pie Chart 1 -->
+
+    <div class="chart-wrapper bar">
+      <h3>Répartition des statuts par feature</h3>
+      <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
+      <canvas id="barChart"></canvas>
+    </div>
+    <div class="chart-wrapper pie">
+      <h3>Répartition globale des statuts</h3>
+      <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
+      <canvas id="pieChart"></canvas>
     </div>
   </div>
 
-  <div class="pdf-section">
-    <div class="chart-container">
-      <!-- Bar Chart 1 and Pie Chart 1 -->
-      <div class="chart-wrapper bar">
-        <h3>Répartition des statuts par feature</h3>
-        <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
-        <div id="barChart3d"></div>
-      </div>
-      <div class="chart-wrapper pie">
-        <h3>Répartition globale des statuts</h3>
-        <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
-        <div id="pieChart3d"></div>
-      </div>
+  <!-- Bar Chart 2 and Pie Chart 2 -->
+  <div class="chart-container">
+    <div class="chart-wrapper bar">
+      <h3>Répartition des statuts détaillés par feature</h3>
+      <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
+      <canvas id="featureStatusChart"></canvas>
     </div>
-
-    <!-- Bar Chart 2 and Pie Chart 2 -->
-    <div class="chart-container">
-      <div class="chart-wrapper bar">
-        <h3>Répartition des statuts détaillés par feature</h3>
-        <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
-        <div id="featureStatusChart3d"></div>
-      </div>
-      <div class="chart-wrapper pie">
-        <h3>Répartition globale des statuts détaillés</h3>
-        <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
-        <div id="featureStatusPieChart3d"></div>
-      </div>
+    <div class="chart-wrapper pie">
+      <h3>Répartition globale des statuts détaillés</h3>
+      <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
+      <canvas id="featureStatusPieChart"></canvas>
     </div>
   </div>
+  </div>
 
-  <div class="pdf-section">
-    <!-- Defects Table -->
-    <h2>Defects (FAIL & BLOCKED)</h2>
-    <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
-    <table id="defectsTable">
-      <thead>
-        <tr><th>Feature</th><th>ID</th><th>Summary</th><th>Priority</th><th>result</th></tr>
-      </thead>
-      <tbody>
-        ${defectsData.join("\n")}
-      </tbody>
-    </table>
+ <div class="pdf-section">
+  <!-- Defects Table -->
+  <h2>Defects (FAIL & BLOCKED)</h2>
+  <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
+  <table id="defectsTable">
+    <thead>
+      <tr><th>Feature</th><th>ID</th><th>Summary</th><th>Priority</th><th>result</th></tr>
+    </thead>
+    <tbody>
+      ${defectsData.join("\n")}
+    </tbody>
+  </table>
   </div>
 
   <!-- Pagination -->
@@ -1398,91 +1454,121 @@ pipeline {
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Bar Chart 3D
-      var barData = [{
-        x: [${featureLabels}],
-        y: [${pieValues}],
+      // Bar Chart
+      var ctxBar = document.getElementById('barChart').getContext('2d');
+      new Chart(ctxBar, {
         type: 'bar',
-        marker: {
-          color: '#4CAF50'
-        }
-      }];
-
-      var barLayout = {
-        title: 'Répartition des statuts par feature',
-        scene: {
-          camera: {
-            eye: { x: 1.5, y: 1.5, z: 1.5 } // Ajustez la vue 3D
+        data: {
+          labels: [${featureLabels}],
+          datasets: [${datasets.join(", ")}]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' }
+          },
+          scales: {
+            x: { stacked: true },
+            y: { stacked: true, beginAtZero: true }
           }
         }
-      };
+      });
 
-      Plotly.newPlot('barChart3d', barData, barLayout);
 
-      // Pie Chart 3D
-      var pieData = [{
-        values: [${pieValues}],
+//pie chart 1
+ var ctxPie = document.getElementById('pieChart').getContext('2d');
+new Chart(ctxPie, {
+    type: 'pie',
+    data: {
         labels: [${pieLabels}],
-        type: 'pie',
-        hole: 0.4,
-        marker: {
-          colors: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+        datasets: [{
+            data: [${pieValues}],
+            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            datalabels: {
+                formatter: (value, ctx) => {
+                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                    let percentage = (value * 100 / sum).toFixed(2) + "%";
+                    return percentage;
+                },
+                color: '#000', // Couleur du texte
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                anchor: 'end', // Positionne l'étiquette à l'extérieur
+                align: 'end', // Aligne l'étiquette à la fin du segment
+                offset: 20, // Déplace l'étiquette plus loin du camembert
+                textAlign: 'center', // Centre le texte
+                clip: false // Permet à l'étiquette de sortir du graphique
+            }
         }
-      }];
+    },
+    plugins: [ChartDataLabels] // Activer le plugin
+});
 
-      var pieLayout = {
-        title: 'Répartition globale des statuts',
-        scene: {
-          camera: {
-            eye: { x: 1.5, y: 1.5, z: 1.5 } // Ajustez la vue 3D
-          }
-        }
-      };
 
-      Plotly.newPlot('pieChart3d', pieData, pieLayout);
-
-      // Feature Status Bar Chart 3D
-      var featureStatusBarData = [{
-        x: [${featureStatusLabels}],
-        y: [${featureStatusPieData}],
+      // Feature Status Chart
+      var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+      new Chart(ctxFeatureStatus, {
         type: 'bar',
-        marker: {
-          color: '#4CAF50'
-        }
-      }];
-
-      var featureStatusBarLayout = {
-        title: 'Répartition des statuts détaillés par feature',
-        scene: {
-          camera: {
-            eye: { x: 1.5, y: 1.5, z: 1.5 } // Ajustez la vue 3D
+        data: {
+          labels: [${featureStatusLabels}],
+          datasets: [${featureStatusDatasets.join(", ")}]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' }
+          },
+          scales: {
+            x: { stacked: true },
+            y: { stacked: true, beginAtZero: true }
           }
         }
-      };
+      });
 
-      Plotly.newPlot('featureStatusChart3d', featureStatusBarData, featureStatusBarLayout);
-
-      // Feature Status Pie Chart 3D
-      var featureStatusPieData = [{
-        values: ${featureStatusPieData},
+      // Feature Status Pie Chart
+  var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+new Chart(ctxFeatureStatusPie, {
+    type: 'pie',
+    data: {
         labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-        type: 'pie',
-        hole: 0.4,
-        marker: {
-          colors: ${featureStatusPieColors.collect { "\"${it}\"" }}
+        datasets: [{
+            data: ${featureStatusPieData},
+            backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            datalabels: {
+                formatter: (value, ctx) => {
+                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                    let percentage = (value * 100 / sum).toFixed(2) + "%";
+                    return percentage;
+                },
+                color: '#000', // Couleur du texte
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                anchor: 'end', // Positionne l'étiquette à l'extérieur
+                align: 'end', // Aligne l'étiquette à la fin du segment
+                offset: 20, // Déplace l'étiquette plus loin du camembert
+                textAlign: 'center', // Centre le texte
+                clip: false // Permet à l'étiquette de sortir du graphique
+            }
         }
-      }];
-
-      var featureStatusPieLayout = {
-        title: 'Répartition globale des statuts détaillés',
-        scene: {
-          camera: {
-            eye: { x: 1.5, y: 1.5, z: 1.5 } // Ajustez la vue 3D
-          }
-        }
-      };
-
-      Plotly.newPlot('featureStatusPieChart3d', featureStatusPieData, featureStatusPieLayout);
+    },
+    plugins: [ChartDataLabels] // Activer le plugin
+});
 
       // Pagination Script
       const table = document.getElementById('defectsTable');
@@ -1528,65 +1614,66 @@ pipeline {
   </script>
 
   <!-- Script pour générer le PDF -->
-  <script>
-    document.getElementById('generatePdfButton').addEventListener('click', function () {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF('p', 'mm', 'a4');
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
-      const padding = 10; // Marge intérieure
+<script>
+  document.getElementById('generatePdfButton').addEventListener('click', function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const padding = 10; // Marge intérieure
 
-      // Afficher temporairement toutes les lignes du tableau
-      const table = document.getElementById('defectsTable');
-      const rows = table.querySelectorAll('tbody tr');
-      rows.forEach(row => (row.style.display = '')); // Afficher toutes les lignes
+    // Afficher temporairement toutes les lignes du tableau
+    const table = document.getElementById('defectsTable');
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => (row.style.display = '')); // Afficher toutes les lignes
 
-      // Fonction pour capturer et ajouter le contenu au PDF
-      async function generatePdf() {
-        let currentPage = 1;
-        let positionY = padding;
+    // Fonction pour capturer et ajouter le contenu au PDF
+    async function generatePdf() {
+      let currentPage = 1;
+      let positionY = padding;
 
-        // Diviser le contenu en sections
-        const sections = document.querySelectorAll('.pdf-section'); // Ajoutez des classes "pdf-section" aux sections à capturer
-        for (let i = 0; i < sections.length; i++) {
-          const section = sections[i];
+      // Diviser le contenu en sections
+      const sections = document.querySelectorAll('.pdf-section'); // Ajoutez des classes "pdf-section" aux sections à capturer
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
 
-          // Capturer la section avec html2canvas
-          const canvas = await html2canvas(section, { scale: 2 });
-          const imgData = canvas.toDataURL('image/png');
-          const imgWidth = pageWidth - 2 * padding;
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        // Capturer la section avec html2canvas
+        const canvas = await html2canvas(section, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = pageWidth - 2 * padding;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-          // Vérifier si la section dépasse la hauteur de la page
-          if (positionY + imgHeight > pageHeight) {
-            // Ajouter une nouvelle page si nécessaire
-            doc.addPage();
-            currentPage++;
-            positionY = padding; // Réinitialiser la position Y
-          }
-
-          // Ajouter l'image de la section à la page actuelle
-          doc.addImage(imgData, 'PNG', padding, positionY, imgWidth, imgHeight);
-          positionY += imgHeight + padding; // Mettre à jour la position Y
+        // Vérifier si la section dépasse la hauteur de la page
+        if (positionY + imgHeight > pageHeight) {
+          // Ajouter une nouvelle page si nécessaire
+          doc.addPage();
+          currentPage++;
+          positionY = padding; // Réinitialiser la position Y
         }
 
-        // Sauvegarder le PDF
-        doc.save('report.pdf');
-
-        // Réappliquer la pagination après la génération du PDF
-        showPage(1); // Revenir à la première page
-        setActiveButton(paginationDiv.querySelector('button'));
+        // Ajouter l'image de la section à la page actuelle
+        doc.addImage(imgData, 'PNG', padding, positionY, imgWidth, imgHeight);
+        positionY += imgHeight + padding; // Mettre à jour la position Y
       }
 
-      generatePdf();
-    });
-  </script>
+      // Sauvegarder le PDF
+      doc.save('report.pdf');
+
+      // Réappliquer la pagination après la génération du PDF
+      showPage(1); // Revenir à la première page
+      setActiveButton(paginationDiv.querySelector('button'));
+    }
+
+    generatePdf();
+  });
+</script>
 </body>
 </html>
 """
 
                     writeFile file: 'report.html', text: htmlContent
                     archiveArtifacts artifacts: 'report.html', fingerprint: true
+
                 }
             }
         }
@@ -1597,7 +1684,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: "${WORKSPACE}",
+                    reportDir: "${WORKSPACE}", // Spécifiez le répertoire correct
                     reportFiles: 'report.html',
                     reportName: 'Visualisation des Features'
                 ])
