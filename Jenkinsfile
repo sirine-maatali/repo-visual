@@ -714,7 +714,7 @@ pipeline {
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-    // <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -968,33 +968,22 @@ pipeline {
 
       // Pie Chart
       var ctxPie = document.getElementById('pieChart').getContext('2d');
-      new Chart(document.getElementById("pieChart"), {
-    type: "pie",
-    data: {
-        labels: [${pieLabels}],
-        datasets: [{
-            backgroundColor: ["#4CAF50", "#FF9800", "#F44336", "#A5D6A7"],
-            data: [${pieValues}]
-        }]
-    },
-    options: {
-        plugins: {
-            datalabels: {
-                formatter: (value, context) => {
-                    let total = context.dataset.data.reduce((acc, val) => acc + val, 0);
-                    let percentage = ((value / total) * 100).toFixed(1) + "%";
-                    return percentage;
-                },
-                color: "#fff",
-                font: {
-                    weight: "bold",
-                    size: 14
-                }
-            }
+      new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+          labels: [${pieLabels}],
+          datasets: [{
+            data: [${pieValues}],
+            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' }
+          }
         }
-    }
-});
-
+      });
 
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
