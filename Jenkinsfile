@@ -666,15 +666,13 @@ pipeline {
             def pieValues = pieData.values().join(", ")
             
             // Données pour la deuxième pie chart (basée sur featureStatusData)
-           // Calcul des pourcentages pour chaque catégorie
-def totalTests = featureStatusPieData.sum()
-def featureStatusPieDataPercent = featureStatusPieData.collect { (it / totalTests) * 100 }
-def featureStatusPieLabels = [
-    "PASS (${String.format("%.2f", featureStatusPieDataPercent[0])}%)",
-    "NOT EXECUTED (${String.format("%.2f", featureStatusPieDataPercent[1])}%)",
-    "NOK MINOR (${String.format("%.2f", featureStatusPieDataPercent[2])}%)",
-    "NOK MAJOR (${String.format("%.2f", featureStatusPieDataPercent[3])}%)"
-]
+            def featureStatusPieData = [
+                featureStatusData.collect { it.value.PASS }.sum(),
+                featureStatusData.collect { it.value.NOTEXECUTED }.sum(),
+                featureStatusData.collect { it.value.NOKMINOR }.sum(),
+                featureStatusData.collect { it.value.NOKMAJOR }.sum()
+            ]
+            def featureStatusPieLabels = ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR']
             def featureStatusPieColors = ['#4CAF50', '#A5D6A7', '#FF9800', '#F44336']
             
             def featureStatusLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
@@ -970,22 +968,33 @@ def featureStatusPieLabels = [
 
       // Pie Chart
       var ctxPie = document.getElementById('pieChart').getContext('2d');
-      new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-          labels: [${pieLabels}],
-          datasets: [{
-            data: [${pieValues}],
-            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' }
-          }
+      new Chart(document.getElementById("pieChart"), {
+    type: "pie",
+    data: {
+        labels: [${pieLabels}],
+        datasets: [{
+            backgroundColor: ["#4CAF50", "#FF9800", "#F44336", "#A5D6A7"],
+            data: [${pieValues}]
+        }]
+    },
+    options: {
+        plugins: {
+            datalabels: {
+                formatter: (value, context) => {
+                    let total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                    let percentage = ((value / total) * 100).toFixed(1) + "%";
+                    return percentage;
+                },
+                color: "#fff",
+                font: {
+                    weight: "bold",
+                    size: 14
+                }
+            }
         }
-      });
+    }
+});
+
 
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
@@ -1008,34 +1017,23 @@ def featureStatusPieLabels = [
       });
 
       // Feature Status Pie Chart
-      // Feature Status Pie Chart
-var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-new Chart(ctxFeatureStatusPie, {
-    type: 'pie',
-    data: {
-        labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-        datasets: [{
-            data: ${featureStatusPieDataPercent},
+      var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+      new Chart(ctxFeatureStatusPie, {
+        type: 'pie',
+        data: {
+          labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+          datasets: [{
+            data: ${featureStatusPieData},
             backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            datalabels: {
-                formatter: (value) => {
-                    return value.toFixed(2) + '%';
-                },
-                color: '#fff',
-                font: {
-                    weight: 'bold',
-                    size: 14
-                }
-            }
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' }
+          }
         }
-    }
-});
+      });
 
       // Pagination Script
       const table = document.getElementById('defectsTable');
