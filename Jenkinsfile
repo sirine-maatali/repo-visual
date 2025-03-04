@@ -1366,79 +1366,76 @@ pipeline {
     </button>
   </div>
   <div class="pdf-section">
+    <h1>Test Execution</h1>
+    <h2>Nom du fichier : ${params.FILE_NAME}</h2>
 
-  <h1>Test Execution</h1>
-  <h2>Nom du fichier : ${params.FILE_NAME}</h2>
-
-  <!-- Cards Section -->
-  <div class="card-container">
-
-    <div class="card" style="background-color: #4CAF50;">
-      <h3>Total Tests</h3>
-      <p>${totalTests}</p>
-    </div>
-    <div class="card" style="background-color: #81C784;">
-      <h3>PASS</h3>
-      <p>${totalPass}</p>
-    </div>
-    <div class="card" style="background-color: #A5D6A7; color: black;">
-      <h3>NOT EXECUTED</h3>
-      <p>${totalNotExecuted}</p>
-    </div>
-    <div class="card" style="background-color: #FF9800;">
-      <h3>NOK MINOR</h3>
-      <p>${totalNokMinor}</p>
-    </div>
-    <div class="card" style="background-color: #F44336;">
-      <h3>NOK MAJOR</h3>
-      <p>${totalNokMajor}</p>
-    </div>
-  </div>
-  </div>
-
-<div class="pdf-section">
-  <div class="chart-container">
-  <!-- Bar Chart 1 and Pie Chart 1 -->
-
-    <div class="chart-wrapper bar">
-      <h3>Répartition des statuts par feature</h3>
-      <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
-      <canvas id="barChart"></canvas>
-    </div>
-    <div class="chart-wrapper pie">
-      <h3>Répartition globale des statuts</h3>
-      <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
-      <canvas id="pieChart"></canvas>
+    <!-- Cards Section -->
+    <div class="card-container">
+      <div class="card" style="background-color: #4CAF50;">
+        <h3>Total Tests</h3>
+        <p>${totalTests}</p>
+      </div>
+      <div class="card" style="background-color: #81C784;">
+        <h3>PASS</h3>
+        <p>${totalPass}</p>
+      </div>
+      <div class="card" style="background-color: #A5D6A7; color: black;">
+        <h3>NOT EXECUTED</h3>
+        <p>${totalNotExecuted}</p>
+      </div>
+      <div class="card" style="background-color: #FF9800;">
+        <h3>NOK MINOR</h3>
+        <p>${totalNokMinor}</p>
+      </div>
+      <div class="card" style="background-color: #F44336;">
+        <h3>NOK MAJOR</h3>
+        <p>${totalNokMajor}</p>
+      </div>
     </div>
   </div>
 
-  <!-- Bar Chart 2 and Pie Chart 2 -->
-  <div class="chart-container">
-    <div class="chart-wrapper bar">
-      <h3>Répartition des statuts détaillés par feature</h3>
-      <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
-      <canvas id="featureStatusChart"></canvas>
+  <div class="pdf-section">
+    <div class="chart-container">
+      <!-- Bar Chart 1 and Pie Chart 1 -->
+      <div class="chart-wrapper bar">
+        <h3>Répartition des statuts par feature</h3>
+        <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-wrapper pie">
+        <h3>Répartition globale des statuts</h3>
+        <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
+        <canvas id="pieChart"></canvas>
+      </div>
     </div>
-    <div class="chart-wrapper pie">
-      <h3>Répartition globale des statuts détaillés</h3>
-      <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
-      <canvas id="featureStatusPieChart"></canvas>
+
+    <!-- Bar Chart 2 and Pie Chart 2 -->
+    <div class="chart-container">
+      <div class="chart-wrapper bar">
+        <h3>Répartition des statuts détaillés par feature</h3>
+        <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
+        <canvas id="featureStatusChart"></canvas>
+      </div>
+      <div class="chart-wrapper pie">
+        <h3>Répartition globale des statuts détaillés</h3>
+        <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
+        <canvas id="featureStatusPieChart"></canvas>
+      </div>
     </div>
-  </div>
   </div>
 
- <div class="pdf-section">
-  <!-- Defects Table -->
-  <h2>Defects (FAIL & BLOCKED)</h2>
-  <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
-  <table id="defectsTable">
-    <thead>
-      <tr><th>Feature</th><th>ID</th><th>Summary</th><th>Priority</th><th>result</th></tr>
-    </thead>
-    <tbody>
-      ${defectsData.join("\n")}
-    </tbody>
-  </table>
+  <div class="pdf-section">
+    <!-- Defects Table -->
+    <h2>Defects (FAIL & BLOCKED)</h2>
+    <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
+    <table id="defectsTable">
+      <thead>
+        <tr><th>Feature</th><th>ID</th><th>Summary</th><th>Priority</th><th>result</th></tr>
+      </thead>
+      <tbody>
+        ${defectsData.join("\n")}
+      </tbody>
+    </table>
   </div>
 
   <!-- Pagination -->
@@ -1473,44 +1470,42 @@ pipeline {
         }
       });
 
-
-//pie chart 1
- var ctxPie = document.getElementById('pieChart').getContext('2d');
-new Chart(ctxPie, {
-    type: 'pie',
-    data: {
-        labels: [${pieLabels}],
-        datasets: [{
+      // Pie Chart 1
+      var ctxPie = document.getElementById('pieChart').getContext('2d');
+      new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+          labels: [${pieLabels}],
+          datasets: [{
             data: [${pieValues}],
             backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
             legend: { position: 'top' },
             datalabels: {
-                formatter: (value, ctx) => {
-                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                    let percentage = (value * 100 / sum).toFixed(2) + "%";
-                    return percentage;
-                },
-                color: '#000', // Couleur du texte
-                font: {
-                    weight: 'bold',
-                    size: 14
-                },
-                anchor: 'end', // Positionne l'étiquette à l'extérieur
-                align: 'end', // Aligne l'étiquette à la fin du segment
-                offset: 20, // Déplace l'étiquette plus loin du camembert
-                textAlign: 'center', // Centre le texte
-                clip: false // Permet à l'étiquette de sortir du graphique
+              formatter: (value, ctx) => {
+                let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                let percentage = (value * 100 / sum).toFixed(2) + "%";
+                return percentage;
+              },
+              color: '#000', // Couleur du texte
+              font: {
+                weight: 'bold',
+                size: 10 // Taille de police réduite
+              },
+              anchor: 'center', // Positionne l'étiquette au centre du segment
+              align: 'center', // Aligne l'étiquette au centre
+              offset: 0, // Pas de décalage
+              textAlign: 'center', // Centre le texte
+              clip: false // Permet à l'étiquette de sortir du graphique
             }
-        }
-    },
-    plugins: [ChartDataLabels] // Activer le plugin
-});
-
+          }
+        },
+        plugins: [ChartDataLabels] // Activer le plugin
+      });
 
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
@@ -1533,41 +1528,41 @@ new Chart(ctxPie, {
       });
 
       // Feature Status Pie Chart
-  var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-new Chart(ctxFeatureStatusPie, {
-    type: 'pie',
-    data: {
-        labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-        datasets: [{
+      var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+      new Chart(ctxFeatureStatusPie, {
+        type: 'pie',
+        data: {
+          labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+          datasets: [{
             data: ${featureStatusPieData},
             backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
             legend: { position: 'top' },
             datalabels: {
-                formatter: (value, ctx) => {
-                    let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                    let percentage = (value * 100 / sum).toFixed(2) + "%";
-                    return percentage;
-                },
-                color: '#000', // Couleur du texte
-                font: {
-                    weight: 'bold',
-                    size: 14
-                },
-                anchor: 'end', // Positionne l'étiquette à l'extérieur
-                align: 'end', // Aligne l'étiquette à la fin du segment
-                offset: 20, // Déplace l'étiquette plus loin du camembert
-                textAlign: 'center', // Centre le texte
-                clip: false // Permet à l'étiquette de sortir du graphique
+              formatter: (value, ctx) => {
+                let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                let percentage = (value * 100 / sum).toFixed(2) + "%";
+                return percentage;
+              },
+              color: '#000', // Couleur du texte
+              font: {
+                weight: 'bold',
+                size: 10 // Taille de police réduite
+              },
+              anchor: 'center', // Positionne l'étiquette au centre du segment
+              align: 'center', // Aligne l'étiquette au centre
+              offset: 0, // Pas de décalage
+              textAlign: 'center', // Centre le texte
+              clip: false // Permet à l'étiquette de sortir du graphique
             }
-        }
-    },
-    plugins: [ChartDataLabels] // Activer le plugin
-});
+          }
+        },
+        plugins: [ChartDataLabels] // Activer le plugin
+      });
 
       // Pagination Script
       const table = document.getElementById('defectsTable');
@@ -1613,59 +1608,59 @@ new Chart(ctxFeatureStatusPie, {
   </script>
 
   <!-- Script pour générer le PDF -->
-<script>
-  document.getElementById('generatePdfButton').addEventListener('click', function () {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'mm', 'a4');
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const padding = 10; // Marge intérieure
+  <script>
+    document.getElementById('generatePdfButton').addEventListener('click', function () {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const padding = 10; // Marge intérieure
 
-    // Afficher temporairement toutes les lignes du tableau
-    const table = document.getElementById('defectsTable');
-    const rows = table.querySelectorAll('tbody tr');
-    rows.forEach(row => (row.style.display = '')); // Afficher toutes les lignes
+      // Afficher temporairement toutes les lignes du tableau
+      const table = document.getElementById('defectsTable');
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(row => (row.style.display = '')); // Afficher toutes les lignes
 
-    // Fonction pour capturer et ajouter le contenu au PDF
-    async function generatePdf() {
-      let currentPage = 1;
-      let positionY = padding;
+      // Fonction pour capturer et ajouter le contenu au PDF
+      async function generatePdf() {
+        let currentPage = 1;
+        let positionY = padding;
 
-      // Diviser le contenu en sections
-      const sections = document.querySelectorAll('.pdf-section'); // Ajoutez des classes "pdf-section" aux sections à capturer
-      for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
+        // Diviser le contenu en sections
+        const sections = document.querySelectorAll('.pdf-section'); // Ajoutez des classes "pdf-section" aux sections à capturer
+        for (let i = 0; i < sections.length; i++) {
+          const section = sections[i];
 
-        // Capturer la section avec html2canvas
-        const canvas = await html2canvas(section, { scale: 2 });
-        const imgData = canvas.toDataURL('image/png');
-        const imgWidth = pageWidth - 2 * padding;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          // Capturer la section avec html2canvas
+          const canvas = await html2canvas(section, { scale: 2 });
+          const imgData = canvas.toDataURL('image/png');
+          const imgWidth = pageWidth - 2 * padding;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // Vérifier si la section dépasse la hauteur de la page
-        if (positionY + imgHeight > pageHeight) {
-          // Ajouter une nouvelle page si nécessaire
-          doc.addPage();
-          currentPage++;
-          positionY = padding; // Réinitialiser la position Y
+          // Vérifier si la section dépasse la hauteur de la page
+          if (positionY + imgHeight > pageHeight) {
+            // Ajouter une nouvelle page si nécessaire
+            doc.addPage();
+            currentPage++;
+            positionY = padding; // Réinitialiser la position Y
+          }
+
+          // Ajouter l'image de la section à la page actuelle
+          doc.addImage(imgData, 'PNG', padding, positionY, imgWidth, imgHeight);
+          positionY += imgHeight + padding; // Mettre à jour la position Y
         }
 
-        // Ajouter l'image de la section à la page actuelle
-        doc.addImage(imgData, 'PNG', padding, positionY, imgWidth, imgHeight);
-        positionY += imgHeight + padding; // Mettre à jour la position Y
+        // Sauvegarder le PDF
+        doc.save('report.pdf');
+
+        // Réappliquer la pagination après la génération du PDF
+        showPage(1); // Revenir à la première page
+        setActiveButton(paginationDiv.querySelector('button'));
       }
 
-      // Sauvegarder le PDF
-      doc.save('report.pdf');
-
-      // Réappliquer la pagination après la génération du PDF
-      showPage(1); // Revenir à la première page
-      setActiveButton(paginationDiv.querySelector('button'));
-    }
-
-    generatePdf();
-  });
-</script>
+      generatePdf();
+    });
+  </script>
 </body>
 </html>
 """
