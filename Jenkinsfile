@@ -686,22 +686,19 @@ def featureStatusDatasets = [
             backgroundColor: "#4CAF50",
             data: [${featureStatusData.collect { it.value?.PASS ?: 0 }.join(", ")}]
         }
-    """,
-    """
+    ,
         {
             label: "NOT EXECUTED",
             backgroundColor: "#A5D6A7",
             data: [${featureStatusData.collect { it.value?.NOTEXECUTED ?: 0 }.join(", ")}]
         }
-    """,
-    """
+    ,
         {
             label: "NOK MINOR",
             backgroundColor: "#FF9800",
             data: [${featureStatusData.collect { it.value?.NOKMINOR ?: 0 }.join(", ")}]
         }
-    """,
-    """
+    ,
         {
             label: "NOK MAJOR",
             backgroundColor: "#F44336",
