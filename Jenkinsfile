@@ -1065,38 +1065,40 @@ pipeline {
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
     const padding = 10; // Marge intérieure
-    let positionY = padding; // Position verticale actuelle sur la page
 
-    // Fonction pour ajouter une section au PDF
-    async function addSectionToPdf(element, isTable = false) {
-      const canvas = await html2canvas(element, { scale: 2 });
-      const imgData = canvas.toDataURL('image/png');
-      const imgWidth = pageWidth - 2 * padding;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    // Afficher temporairement toutes les lignes du tableau
+    const table = document.getElementById('defectsTable');
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => (row.style.display = '')); // Afficher toutes les lignes
 
-      // Vérifier si la section dépasse la hauteur de la page
-      if (positionY + imgHeight > pageHeight) {
-        doc.addPage(); // Ajouter une nouvelle page
-        positionY = padding; // Réinitialiser la position Y
-      }
-
-      // Ajouter l'image au PDF
-      doc.addImage(imgData, 'PNG', padding, positionY, imgWidth, imgHeight);
-      positionY += imgHeight + padding; // Mettre à jour la position Y
-    }
-
-    // Fonction pour générer le PDF
+    // Fonction pour capturer et ajouter le contenu au PDF
     async function generatePdf() {
-      // Afficher temporairement toutes les lignes du tableau
-      const table = document.getElementById('defectsTable');
-      const rows = table.querySelectorAll('tbody tr');
-      rows.forEach(row => (row.style.display = ''));
+      let currentPage = 1;
+      let positionY = padding;
 
-      // Ajouter chaque section au PDF
-      await addSectionToPdf(document.querySelector('.card-container')); // Cartes
-      await addSectionToPdf(document.querySelector('.chart-container:first-child')); // Graphiques 1
-      await addSectionToPdf(document.querySelector('.chart-container:last-child')); // Graphiques 2
-      await addSectionToPdf(table, true); // Tableau
+      // Diviser le contenu en sections
+      const sections = document.querySelectorAll('.pdf-section'); // Ajoutez des classes "pdf-section" aux sections à capturer
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+
+        // Capturer la section avec html2canvas
+        const canvas = await html2canvas(section, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = pageWidth - 2 * padding;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        // Vérifier si la section dépasse la hauteur de la page
+        if (positionY + imgHeight > pageHeight) {
+          // Ajouter une nouvelle page si nécessaire
+          doc.addPage();
+          currentPage++;
+          positionY = padding; // Réinitialiser la position Y
+        }
+
+        // Ajouter l'image de la section à la page actuelle
+        doc.addImage(imgData, 'PNG', padding, positionY, imgWidth, imgHeight);
+        positionY += imgHeight + padding; // Mettre à jour la position Y
+      }
 
       // Sauvegarder le PDF
       doc.save('report.pdf');
