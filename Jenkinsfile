@@ -713,6 +713,7 @@ pipeline {
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -965,7 +966,6 @@ pipeline {
       });
 
       // Pie Chart
-      // Pie Chart
 var ctxPie = document.getElementById('pieChart').getContext('2d');
 new Chart(ctxPie, {
   type: 'pie',
@@ -994,7 +994,7 @@ new Chart(ctxPie, {
       }
     }
   },
-  plugins: [ChartDataLabels] // Ajoutez cette ligne pour activer le plugin
+  plugins: [ChartDataLabels] // Activation du plugin
 });
 
       // Feature Status Chart
@@ -1018,8 +1018,7 @@ new Chart(ctxPie, {
       });
 
       // Feature Status Pie Chart
-      // Feature Status Pie Chart
-var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+      var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
 new Chart(ctxFeatureStatusPie, {
   type: 'pie',
   data: {
@@ -1047,7 +1046,39 @@ new Chart(ctxFeatureStatusPie, {
       }
     }
   },
-  plugins: [ChartDataLabels] // Ajoutez cette ligne pour activer le plugin
+  plugins: [ChartDataLabels] // Activation du plugin
+});
+
+
+var ctxPie = document.getElementById('pieChart').getContext('2d');
+new Chart(ctxPie, {
+  type: 'pie',
+  data: {
+    labels: ["Label1", "Label2", "Label3"], // Exemple de labels
+    datasets: [{
+      data: [30, 40, 30], // Exemple de données
+      backgroundColor: ["#4CAF50", "#81C784", "#A5D6A7"] // Exemple de couleurs
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        formatter: (value, ctx) => {
+          let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+          let percentage = (value * 100 / sum).toFixed(2) + "%";
+          return percentage;
+        },
+        color: '#fff',
+        font: {
+          size: 14,
+          weight: 'bold'
+        }
+      }
+    }
+  },
+  plugins: [ChartDataLabels] // Activation du plugin
 });
 
       // Pagination Script
