@@ -861,7 +861,9 @@ pipeline {
   <h2>Nom du fichier : ${params.FILE_NAME}</h2>
 
   <!-- Cards Section -->
+  <div class="pdf-section">
   <div class="card-container">
+
     <div class="card" style="background-color: #4CAF50;">
       <h3>Total Tests</h3>
       <p>${totalTests}</p>
@@ -883,9 +885,12 @@ pipeline {
       <p>${totalNokMajor}</p>
     </div>
   </div>
+  </div>
 
-  <!-- Bar Chart 1 and Pie Chart 1 -->
+<div class="pdf-section">
   <div class="chart-container">
+  <!-- Bar Chart 1 and Pie Chart 1 -->
+
     <div class="chart-wrapper bar">
       <h3>Répartition des statuts par feature</h3>
       <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
@@ -911,7 +916,9 @@ pipeline {
       <canvas id="featureStatusPieChart"></canvas>
     </div>
   </div>
+  </div>
 
+ <div class="pdf-section">
   <!-- Defects Table -->
   <h2>Defects (FAIL & BLOCKED)</h2>
   <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
@@ -923,6 +930,7 @@ pipeline {
       ${defectsData.join("\n")}
     </tbody>
   </table>
+  </div>
 
   <!-- Pagination -->
   <div class="pagination" id="pagination">
