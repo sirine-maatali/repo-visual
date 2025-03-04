@@ -713,7 +713,6 @@ pipeline {
 <head>
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -967,23 +966,37 @@ pipeline {
       });
 
       // Pie Chart
-      var ctxPie = document.getElementById('pieChart').getContext('2d');
-      new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-          labels: [${pieLabels}],
-          datasets: [{
-            data: [${pieValues}],
-            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-          }]
+      // Pie Chart
+var ctxPie = document.getElementById('pieChart').getContext('2d');
+new Chart(ctxPie, {
+  type: 'pie',
+  data: {
+    labels: [${pieLabels}],
+    datasets: [{
+      data: [${pieValues}],
+      backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        formatter: (value, ctx) => {
+          let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+          let percentage = (value * 100 / sum).toFixed(2) + "%";
+          return percentage;
         },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' }
-          }
+        color: '#fff',
+        font: {
+          size: 14,
+          weight: 'bold'
         }
-      });
+      }
+    }
+  },
+  plugins: [ChartDataLabels] // Ajoutez cette ligne pour activer le plugin
+});
 
       // Feature Status Chart
       var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
@@ -1006,23 +1019,37 @@ pipeline {
       });
 
       // Feature Status Pie Chart
-      var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-      new Chart(ctxFeatureStatusPie, {
-        type: 'pie',
-        data: {
-          labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-          datasets: [{
-            data: ${featureStatusPieData},
-            backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-          }]
+      // Feature Status Pie Chart
+var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
+new Chart(ctxFeatureStatusPie, {
+  type: 'pie',
+  data: {
+    labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
+    datasets: [{
+      data: ${featureStatusPieData},
+      backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        formatter: (value, ctx) => {
+          let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+          let percentage = (value * 100 / sum).toFixed(2) + "%";
+          return percentage;
         },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' }
-          }
+        color: '#fff',
+        font: {
+          size: 14,
+          weight: 'bold'
         }
-      });
+      }
+    }
+  },
+  plugins: [ChartDataLabels] // Ajoutez cette ligne pour activer le plugin
+});
 
       // Pagination Script
       const table = document.getElementById('defectsTable');
