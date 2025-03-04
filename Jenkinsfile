@@ -1064,59 +1064,57 @@ pipeline {
     const doc = new jsPDF('p', 'mm', 'a4');
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
-    const padding = 10; // Marge intérieure pour éviter que le contenu ne touche les bords
+    const padding = 10; // Marge intérieure
 
     // Afficher temporairement toutes les lignes du tableau
     const table = document.getElementById('defectsTable');
     const rows = table.querySelectorAll('tbody tr');
     rows.forEach(row => (row.style.display = '')); // Afficher toutes les lignes
 
-    // Fonction pour diviser le contenu en plusieurs pages
-    function generatePdf() {
-      let positionY = padding; // Position verticale actuelle sur la page
-      let currentPage = 1;
+    // Capturer le contenu de la page avec html2canvas
+    html2canvas(document.body, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = pageWidth - 2 * padding; // Largeur de l'image
+      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Hauteur proportionnelle
 
-      // Capturer le contenu de la page avec html2canvas
-      html2canvas(document.body, { scale: 2 }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const imgWidth = pageWidth - 2 * padding; // Largeur de l'image
-        const imgHeight = (canvas.height * imgWidth) / canvas.width; // Hauteur proportionnelle
+      let positionY = 0; // Position verticale actuelle sur la page
+      let remainingHeight = imgHeight;
 
-        // Ajouter l'image au PDF en plusieurs pages si nécessaire
-        let remainingHeight = imgHeight;
-        while (remainingHeight > 0) {
-          if (positionY + remainingHeight > pageHeight) {
-            // Si le contenu dépasse la page, ajouter une nouvelle page
-            doc.addPage();
-            currentPage++;
-            positionY = padding; // Réinitialiser la position Y
-          }
-
-          // Ajouter une partie de l'image à la page actuelle
-          doc.addImage(
-            imgData,
-            'PNG',
-            padding,
-            positionY,
-            imgWidth,
-            (pageHeight - positionY - padding) * (imgWidth / (pageWidth - 2 * padding))
-          );
-
-          // Mettre à jour la hauteur restante et la position Y
-          remainingHeight -= pageHeight - positionY - padding;
-          positionY = padding;
+      // Ajouter l'image au PDF en plusieurs pages si nécessaire
+      while (remainingHeight > 0) {
+        if (positionY + remainingHeight > pageHeight) {
+          // Ajouter une nouvelle page si le contenu dépasse la hauteur de la page
+          doc.addPage();
+          positionY = 0; // Réinitialiser la position Y
         }
 
-        // Sauvegarder le PDF
-        doc.save('report.pdf');
+        // Calculer la hauteur à ajouter sur la page actuelle
+        const heightToAdd = Math.min(remainingHeight, pageHeight - positionY);
 
-        // Réappliquer la pagination après la génération du PDF
-        showPage(1); // Revenir à la première page
-        setActiveButton(paginationDiv.querySelector('button'));
-      });
-    }
+        // Ajouter une partie de l'image à la page actuelle
+        doc.addImage(
+          imgData,
+          'PNG',
+          padding,
+          padding + positionY,
+          imgWidth,
+          heightToAdd,
+          undefined,
+          'FAST' // Option pour une compression rapide
+        );
 
-    generatePdf();
+        // Mettre à jour la hauteur restante et la position Y
+        remainingHeight -= heightToAdd;
+        positionY += heightToAdd;
+      }
+
+      // Sauvegarder le PDF
+      doc.save('report.pdf');
+
+      // Réappliquer la pagination après la génération du PDF
+      showPage(1); // Revenir à la première page
+      setActiveButton(paginationDiv.querySelector('button'));
+    });
   });
 </script>
 </body>
