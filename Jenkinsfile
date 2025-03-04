@@ -1055,10 +1055,8 @@ pipeline {
 
       createPagination(); // Initialize pagination
     });
-  </script>
 
-  <!-- Script pour générer le PDF -->
-  <script>
+    // Script pour générer le PDF
     document.getElementById('generatePdfButton').addEventListener('click', function() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF('p', 'mm', 'a4');
@@ -1083,44 +1081,6 @@ pipeline {
         setActiveButton(paginationDiv.querySelector('button'));
       });
     });
-
-    // Fonctions de pagination existantes
-    const table = document.getElementById('defectsTable');
-    const rows = table.querySelectorAll('tbody tr');
-    const rowsPerPage = 10; // Nombre de lignes par page
-    const pageCount = Math.ceil(rows.length / rowsPerPage);
-    const paginationDiv = document.getElementById('pagination');
-
-    function showPage(page) {
-      const start = (page - 1) * rowsPerPage;
-      const end = start + rowsPerPage;
-      rows.forEach((row, index) => {
-        row.style.display = (index >= start && index < end) ? '' : 'none';
-      });
-    }
-
-    function createPagination() {
-      for (let i = 1; i <= pageCount; i++) {
-        const button = document.createElement('button');
-        button.innerText = i;
-        button.addEventListener('click', () => {
-          showPage(i);
-          setActiveButton(button);
-        });
-        paginationDiv.appendChild(button);
-      }
-      showPage(1); // Afficher la première page par défaut
-      setActiveButton(paginationDiv.querySelector('button'));
-    }
-
-    function setActiveButton(activeButton) {
-      paginationDiv.querySelectorAll('button').forEach(button => {
-        button.classList.remove('active');
-      });
-      activeButton.classList.add('active');
-    }
-
-    createPagination(); // Initialiser la pagination
   </script>
 </body>
                 </html>
