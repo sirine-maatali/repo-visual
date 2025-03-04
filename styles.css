@@ -50,11 +50,10 @@ canvas {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .chart-wrapper.pie {
-    width: 40%; /* Augmenter la largeur des camemberts */
-    margin-left: 20px; /* Ajouter une marge à gauche pour déplacer les camemberts vers la droite */
+    width: 40%; /* Augmentez la largeur des camemberts */
 }
 .chart-wrapper.bar {
-    width: 57%; /* Réduire légèrement la largeur des barres pour équilibrer l'espace */
+    width: 58%; /* Réduisez la largeur des barres */
 }
 .chart-description {
     margin-top: 10px;
