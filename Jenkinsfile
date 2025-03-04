@@ -1237,6 +1237,9 @@ pipeline {
                     def totalNotExecuted = 0
                     def totalNokMinor = 0
                     def totalNokMajor = 0
+
+                    // Définir les nuances de vert pour les graphiques
+                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
                     
                     jsonData.each { entry ->
                         def feature = entry.feature.toString().trim()
