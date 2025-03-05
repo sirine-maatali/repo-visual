@@ -1362,7 +1362,7 @@ pipeline {
 <body>
   <!-- Navbar -->
   <div class="navbar">
-    <h1>Rapport Execution Test</h1>
+    <h1>Test Rapport</h1>
     <button class="generatePdfButton" id="generatePdfButton">Générer un PDF</button>
   </div>
 
@@ -1370,6 +1370,8 @@ pipeline {
   <div class="pdf-section">
     <h1>Execution Test </h1>
     <h2>File name: ${params.FILE_NAME}</h2>
+    <br>
+    <br>
 
     <!-- Cards Section -->
     <div class="card-container">
