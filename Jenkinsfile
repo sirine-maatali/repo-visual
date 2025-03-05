@@ -1319,36 +1319,48 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
                     //  ***************************************
-                    def barDatasets = [
-    """
-        {
-            label: "PASS",
-            backgroundColor: "#4CAF50", // Vert
-            data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
-        }
-    """,
-    """
-        {
-            label: "NOT EXECUTED",
-            backgroundColor: "#A5D6A7", // Vert clair
-            data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
-        }
-    """,
-    """
-        {
-            label: "NOK MINOR",
-            backgroundColor: "#FF9800", // Orange
-            data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
-        }
-    """,
-    """
-        {
-            label: "NOK MAJOR",
-            backgroundColor: "#F44336", // Rouge
-            data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
-        }
-    """
-]
+   def barDatasets = [
+                """
+                    {
+                        label: "PASS",
+                        backgroundColor: "#4CAF50", // Vert
+                        data: [${featureStatusData.collect { 
+                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
+                            total == 0 ? 0 : (it.value.PASS / total * 100).round(2)
+                        }.join(", ")}]
+                    }
+                """,
+                """
+                    {
+                        label: "NOT EXECUTED",
+                        backgroundColor: "#A5D6A7", // Vert clair
+                        data: [${featureStatusData.collect { 
+                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
+                            total == 0 ? 0 : (it.value.NOTEXECUTED / total * 100).round(2)
+                        }.join(", ")}]
+                    }
+                """,
+                """
+                    {
+                        label: "NOK MINOR",
+                        backgroundColor: "#FF9800", // Orange
+                        data: [${featureStatusData.collect { 
+                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
+                            total == 0 ? 0 : (it.value.NOKMINOR / total * 100).round(2)
+                        }.join(", ")}]
+                    }
+                """,
+                """
+                    {
+                        label: "NOK MAJOR",
+                        backgroundColor: "#F44336", // Rouge
+                        data: [${featureStatusData.collect { 
+                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
+                            total == 0 ? 0 : (it.value.NOKMAJOR / total * 100).round(2)
+                        }.join(", ")}]
+                    }
+                """
+            ]
 
                     // Données pour la deuxième pie chart (basée sur featureStatusData)
                     def featureStatusPieData = [
