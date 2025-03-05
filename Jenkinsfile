@@ -1281,14 +1281,13 @@ pipeline {
         entry.defects.each { defect ->
             defectsData.add("""
                 <tr>
-                    <td>${feature}</td>
-                    <td>${defect.id}</td>
-                    <td>${defect.summary}</td>
-                    <td>${defect.priority}</td>
-                    <td>${result}</td>
-                    <td>${project}</td> <!-- Ajout du champ "project" -->
-                    <td>${version}</td> <!-- Ajout du champ "version" -->
-                    <td>${testcase}</td> <!-- Ajout du champ "testcase" -->
+                    <td>${feature}</td> <!-- Family (feature) -->
+                    <td>${testcase}</td> <!-- TestCase -->
+                    <td>${project}</td> <!-- Platform (project) -->
+                    <td>${version}</td> <!-- Version -->
+                    <td class="result-column">${result}</td> <!-- Result avec style -->
+                    <td>${defect.id}</td> <!-- Bug ID (defect.id) -->
+                    <td>${defect.summary}</td> <!-- Summary -->
                 </tr>
             """)
         }
@@ -1448,15 +1447,14 @@ pipeline {
     <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
     <table id="defectsTable">
         <thead>
-        <tr>
-          <th>Feature</th>
-          <th>ID</th>
-          <th>Summary</th>
-          <th>Priority</th>
-          <th>Result</th>
-          <th>Project</th> <!-- Nouvelle colonne -->
-          <th>Version</th> <!-- Nouvelle colonne -->
-          <th>Testcase</th> <!-- Nouvelle colonne -->
+<tr>
+          <th>Family</th> 
+          <th>TestCase</th> 
+          <th>Platform</th> 
+          <th>Version</th> 
+          <th class="result-column">Result</th> 
+          <th>Bug ID</th> 
+          <th>Summary</th> 
         </tr>
       </thead>
 

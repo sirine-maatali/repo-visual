@@ -202,3 +202,7 @@ canvas {
 .pagination button.active {
     background-color: #2E7D32;
 }
+.result-column {
+    background-color: #f0f8ff; /* Couleur de fond bleu clair */
+    font-weight: bold; /* Texte en gras */
+}
