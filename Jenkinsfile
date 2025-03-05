@@ -1285,7 +1285,7 @@ pipeline {
                     <td>${testcase}</td> <!-- TestCase -->
                     <td>${project}</td> <!-- Platform (project) -->
                     <td>${version}</td> <!-- Version -->
-                    <td class="result-column">${result}</td> <!-- Result avec style -->
+                    <td class="result-column">${result}</td> 
                     <td>${defect.id}</td> <!-- Bug ID (defect.id) -->
                     <td>${defect.summary}</td> <!-- Summary -->
                 </tr>
@@ -1452,7 +1452,7 @@ pipeline {
           <th>TestCase</th> 
           <th>Platform</th> 
           <th>Version</th> 
-          <th class="result-column">Result</th> 
+          <th >Result</th> 
           <th>Bug ID</th> 
           <th>Summary</th> 
         </tr>
