@@ -1239,47 +1239,61 @@ pipeline {
                     def totalNokMajor = 0
                     
                     jsonData.each { entry ->
-                        def feature = entry.feature.toString().trim()
-                        def status = entry.status.toString().trim()
-                        def result = entry.result.toString().trim() // Récupération du champ "result"
-                        
-                        // Initialisation de la structure de données pour la feature si elle n'existe pas encore
-                        if (!featureStatusData[feature]) {
-                            featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
-                        }
-                        
-                        // Mise à jour des compteurs en fonction du champ "result"
-                        totalTests++
-                        switch (result) {
-                            case "ok":
-                                featureStatusData[feature].PASS++
-                                totalPass++
-                                break
-                            case "NOT EXECUTED":
-                                featureStatusData[feature].NOTEXECUTED++
-                                totalNotExecuted++
-                                break
-                            case "NOK MINOR":
-                                featureStatusData[feature].NOKMINOR++
-                                totalNokMinor++
-                                break
-                            case "NOK MAJOR":
-                                featureStatusData[feature].NOKMAJOR++
-                                totalNokMajor++
-                                break
-                        }
-                        
-                        if (!statusCounts[feature]) {
-                            statusCounts[feature] = [:]
-                        }
-                        statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
-                        
-                        if (status == 'FAIL' || status == 'BLOCKED') {
-                            entry.defects.each { defect ->
-                                defectsData.add("<tr><td>${feature}</td><td>${project}</td><td>${version}</td><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td><td>${result}</td></tr>")
-                            }
-                        }
-                    }
+    def feature = entry.feature.toString().trim()
+    def status = entry.status.toString().trim()
+    def result = entry.result.toString().trim()
+    def project = entry.project.toString().trim() // Récupération du champ "project"
+    def version = entry.version.toString().trim() // Récupération du champ "version"
+    def testcase = entry.testcase.toString().trim() // Récupération du champ "testcase"
+
+    // Initialisation de la structure de données pour la feature si elle n'existe pas encore
+    if (!featureStatusData[feature]) {
+        featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
+    }
+
+    // Mise à jour des compteurs en fonction du champ "result"
+    totalTests++
+    switch (result) {
+        case "ok":
+            featureStatusData[feature].PASS++
+            totalPass++
+            break
+        case "NOT EXECUTED":
+            featureStatusData[feature].NOTEXECUTED++
+            totalNotExecuted++
+            break
+        case "NOK MINOR":
+            featureStatusData[feature].NOKMINOR++
+            totalNokMinor++
+            break
+        case "NOK MAJOR":
+            featureStatusData[feature].NOKMAJOR++
+            totalNokMajor++
+            break
+    }
+
+    if (!statusCounts[feature]) {
+        statusCounts[feature] = [:]
+    }
+    statusCounts[feature][status] = (statusCounts[feature][status] ?: 0) + 1
+
+    if (status == 'FAIL' || status == 'BLOCKED') {
+        entry.defects.each { defect ->
+            defectsData.add("""
+                <tr>
+                    <td>${feature}</td>
+                    <td>${defect.id}</td>
+                    <td>${defect.summary}</td>
+                    <td>${defect.priority}</td>
+                    <td>${result}</td>
+                    <td>${project}</td> <!-- Ajout du champ "project" -->
+                    <td>${version}</td> <!-- Ajout du champ "version" -->
+                    <td>${testcase}</td> <!-- Ajout du champ "testcase" -->
+                </tr>
+            """)
+        }
+    }
+}
                     
                     // Les autres parties du code (graphiques, HTML, etc.) restent inchangées
                     def featureLabels = statusCounts.keySet().collect { "\"${it}\"" }.join(", ")
@@ -1434,7 +1448,14 @@ pipeline {
     <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
     <table id="defectsTable">
       <thead>
-        <tr><th>Family</th><th>Test-Case</th><th>Platform</th><th>Version</th><th>Bug ID</th><th>Summary</th><th>Priority</th><th>result</th></tr>
+        <tr><th>Family</th>
+        <th>Test-Case</th>
+        <th>Platform</th>
+        <th>Version</th>
+        <th>Bug ID</th>
+        <th>Summary</th>
+        <th>Priority</th>
+        <th>result</th></tr>
       </thead>
       <tbody>
         ${defectsData.join("\n")}
