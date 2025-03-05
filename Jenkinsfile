@@ -1318,7 +1318,29 @@ pipeline {
                     }
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
-                    
+                     
+//              
+                   // hedhaaa
+                    // Calcul des pourcentages par feature
+                    def featurePercentages = [:]
+                    featureStatusData.each { feature, counts ->
+                        def total = counts.PASS + counts.NOTEXECUTED + counts.NOKMINOR + counts.NOKMAJOR
+                        featurePercentages[feature] = [
+                            PASS: (counts.PASS / total * 100).round(2),
+                            NOTEXECUTED: (counts.NOTEXECUTED / total * 100).round(2),
+                            NOKMINOR: (counts.NOKMINOR / total * 100).round(2),
+                            NOKMAJOR: (counts.NOKMAJOR / total * 100).round(2)
+                        ]
+                    }
+                    // Préparation des données pour le diagramme à barres groupées
+                    def featureLabels = featurePercentages.keySet().collect { "\"${it}\"" }.join(", ")
+                    def passData = featurePercentages.collect { it.value.PASS }.join(", ")
+                    def notExecutedData = featurePercentages.collect { it.value.NOTEXECUTED }.join(", ")
+                    def nokMinorData = featurePercentages.collect { it.value.NOKMINOR }.join(", ")
+                    def nokMajorData = featurePercentages.collect { it.value.NOKMAJOR }.join(", ")
+
+
+
                     // Données pour la deuxième pie chart (basée sur featureStatusData)
                     def featureStatusPieData = [
                         featureStatusData.collect { it.value.PASS }.sum(),
@@ -1360,25 +1382,7 @@ pipeline {
                             }
                         """
                     ]
-                    // hedhaaa
-                    // Calcul des pourcentages par feature
-def featurePercentages = [:]
-featureStatusData.each { feature, counts ->
-    def total = counts.PASS + counts.NOTEXECUTED + counts.NOKMINOR + counts.NOKMAJOR
-    featurePercentages[feature] = [
-        PASS: (counts.PASS / total * 100).round(2),
-        NOTEXECUTED: (counts.NOTEXECUTED / total * 100).round(2),
-        NOKMINOR: (counts.NOKMINOR / total * 100).round(2),
-        NOKMAJOR: (counts.NOKMAJOR / total * 100).round(2)
-    ]
-}
-// Préparation des données pour le diagramme à barres groupées
-def featureLabels = featurePercentages.keySet().collect { "\"${it}\"" }.join(", ")
-def passData = featurePercentages.collect { it.value.PASS }.join(", ")
-def notExecutedData = featurePercentages.collect { it.value.NOTEXECUTED }.join(", ")
-def nokMinorData = featurePercentages.collect { it.value.NOKMINOR }.join(", ")
-def nokMajorData = featurePercentages.collect { it.value.NOKMAJOR }.join(", ")
-
+                 
                     def htmlContent = """
 <html>
 <head>
