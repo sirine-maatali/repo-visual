@@ -1319,27 +1319,6 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
                      
-//              
-                   // hedhaaa
-                    // Calcul des pourcentages par feature
-                    def featurePercentages = [:]
-                    featureStatusData.each { feature, counts ->
-                        def total = counts.PASS + counts.NOTEXECUTED + counts.NOKMINOR + counts.NOKMAJOR
-                        featurePercentages[feature] = [
-                            PASS: (counts.PASS / total * 100).round(2),
-                            NOTEXECUTED: (counts.NOTEXECUTED / total * 100).round(2),
-                            NOKMINOR: (counts.NOKMINOR / total * 100).round(2),
-                            NOKMAJOR: (counts.NOKMAJOR / total * 100).round(2)
-                        ]
-                    }
-                    // Préparation des données pour le diagramme à barres groupées
-                    def featureLabels = featurePercentages.keySet().collect { "\"${it}\"" }.join(", ")
-                    def passData = featurePercentages.collect { it.value.PASS }.join(", ")
-                    def notExecutedData = featurePercentages.collect { it.value.NOTEXECUTED }.join(", ")
-                    def nokMinorData = featurePercentages.collect { it.value.NOKMINOR }.join(", ")
-                    def nokMajorData = featurePercentages.collect { it.value.NOKMAJOR }.join(", ")
-
-
 
                     // Données pour la deuxième pie chart (basée sur featureStatusData)
                     def featureStatusPieData = [
@@ -1464,63 +1443,45 @@ pipeline {
   </div>
 
 // ************************************
+  <div class="pdf-section">
+    <div class="chart-container">
+      <!-- Diagramme à barres groupées -->
+      <div class="chart-wrapper bar">
+        <h3>Répartition des statuts par feature</h3>
+        <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
+        <canvas id="groupedBarChart"></canvas>
+      </div>
+    </div>
+  </div>
 
+  <!-- ... (autres parties du HTML) ... -->
 
-var ctxGroupedBar = document.getElementById('groupedBarChart').getContext('2d');
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Diagramme à barres groupées
+      var ctxGroupedBar = document.getElementById('groupedBarChart').getContext('2d');
       new Chart(ctxGroupedBar, {
         type: 'bar',
         data: {
-          labels: [${featureLabels}],
-          datasets: [
-            {
-              label: 'PASS',
-              backgroundColor: '#4CAF50',
-              data: [${passData}]
-            },
-            {
-              label: 'NOT EXECUTED',
-              backgroundColor: '#A5D6A7',
-              data: [${notExecutedData}]
-            },
-            {
-              label: 'NOK MINOR',
-              backgroundColor: '#FF9800',
-              data: [${nokMinorData}]
-            },
-            {
-              label: 'NOK MAJOR',
-              backgroundColor: '#F44336',
-              data: [${nokMajorData}]
-            }
-          ]
+          labels: [${featureLabels}], // Labels des features
+          datasets: [${barDatasets.join(", ")}] // Données des statuts
         },
         options: {
           responsive: true,
           plugins: {
-            legend: { position: 'top' },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return context.dataset.label + ': ' + context.raw + '%';
-                }
-              }
-            }
+            legend: { position: 'top' }
           },
           scales: {
-            x: { stacked: false },
-            y: {
-              stacked: false,
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return value + '%';
-                }
-              }
-            }
+            x: { stacked: false }, // Barres groupées (non empilées)
+            y: { stacked: false, beginAtZero: true }
           }
         }
+      });
+    });
+  </script>
 
-        // ************************************
+
+// ************************************
   <div class="pdf-section">
     <!-- Defects Table -->
     <h2>Defects (FAIL & BLOCKED)</h2>
