@@ -1557,33 +1557,51 @@ pipeline {
     document.addEventListener('DOMContentLoaded', function() {
       // Bar Chart
       var ctxBar = document.getElementById('barChart').getContext('2d');
-      new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-          labels: [${featureLabels}],
-          datasets: [${datasets.join(", ")}]
+new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+        labels: [${featureLabels}],
+        datasets: [${datasets.join(", ")}]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            datalabels: { // Ajouter les étiquettes de données
+                anchor: 'end', // Position de l'étiquette (fin de la barre)
+                align: 'top', // Alignement de l'étiquette
+                color: '#000', // Couleur du texte
+                font: {
+                    weight: 'bold', // Texte en gras
+                    size: 10 // Taille de police
+                },
+                formatter: (value) => {
+                    return value; // Afficher la valeur de la barre
+                }
+            }
         },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' }
-          },
-          scales: {
-            x: { stacked: true,
-             ticks: {
+        scales: {
+            x: {
+                stacked: true,
+                ticks: {
                     font: {
                         size: 8
                     }
-                } },
-            y: { stacked: true, beginAtZero: true,
-             ticks: {
+                }
+            },
+            y: {
+                stacked: true,
+                beginAtZero: true,
+                ticks: {
                     font: {
                         size: 8
                     }
-                } }
-          }
+                }
+            }
         }
-      });
+    },
+    plugins: [ChartDataLabels] // Activer le plugin
+});
 
       // Pie Chart 1
       var ctxPie = document.getElementById('pieChart').getContext('2d');
@@ -1623,32 +1641,52 @@ pipeline {
       });
 
       // Feature Status Chart
-      var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
-      new Chart(ctxFeatureStatus, {
-        type: 'bar',
-        data: {
-          labels: [${featureStatusLabels}],
-          datasets: [${featureStatusDatasets.join(", ")}]
+   var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+new Chart(ctxFeatureStatus, {
+    type: 'bar',
+    data: {
+        labels: [${featureStatusLabels}],
+        datasets: [${featureStatusDatasets.join(", ")}]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            datalabels: { // Ajouter les étiquettes de données
+                anchor: 'end', // Position de l'étiquette (fin de la barre)
+                align: 'top', // Alignement de l'étiquette
+                color: '#000', // Couleur du texte
+                font: {
+                    weight: 'bold', // Texte en gras
+                    size: 10 // Taille de police
+                },
+                formatter: (value) => {
+                    return value; // Afficher la valeur de la barre
+                }
+            }
         },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' }
-          },
-          scales: {
-            x: { stacked: true,ticks: {
+        scales: {
+            x: {
+                stacked: true,
+                ticks: {
                     font: {
-                        size: 8 // Taille de police réduite pour les étiquettes de l'axe X
+                        size: 8
                     }
-                } },
-            y: { stacked: true, beginAtZero: true,ticks: {
+                }
+            },
+            y: {
+                stacked: true,
+                beginAtZero: true,
+                ticks: {
                     font: {
-                        size: 8 // Taille de police réduite pour les étiquettes de l'axe X
+                        size: 8
                     }
-                } }
-          }
+                }
+            }
         }
-      });
+    },
+    plugins: [ChartDataLabels] // Activer le plugin
+});
 
       // Feature Status Pie Chart
       var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
