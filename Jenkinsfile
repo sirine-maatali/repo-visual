@@ -1472,7 +1472,6 @@ pipeline {
     </div>
   </div>
 
-// ************************************
   <div class="pdf-section">
     <div class="chart-container">
       <!-- Diagramme à barres groupées -->
@@ -1486,32 +1485,24 @@ pipeline {
 
   <!-- ... (autres parties du HTML) ... -->
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Diagramme à barres groupées
-      var ctxGroupedBar = document.getElementById('groupedBarChart').getContext('2d');
-      new Chart(ctxGroupedBar, {
-        type: 'bar',
-        data: {
-          labels: [${featureLabels}], // Labels des features
-          datasets: [${barDatasets.join(", ")}] // Données des statuts
-        },
-        options: {
-          responsive: true,
-          plugins: {
+  new Chart(ctxGroupedBar, {
+    type: 'horizontalBar', // Diagramme à barres horizontales
+    data: {
+        labels: [${featureLabels}], // Features sur l'axe Y
+        datasets: [${barDatasets.join(", ")}] // Données des statuts
+    },
+    options: {
+        responsive: true,
+        plugins: {
             legend: { position: 'top' }
-          },
-          scales: {
-            x: { stacked: false }, // Barres groupées (non empilées)
-            y: { stacked: false, beginAtZero: true }
-          }
+        },
+        scales: {
+            xAxes: [{ stacked: false, beginAtZero: true }], // Valeurs sur X
+            yAxes: [{ stacked: false }] // Features sur Y
         }
-      });
-    });
-  </script>
+    }
+});
 
-
-// ************************************
   <div class="pdf-section">
     <!-- Defects Table -->
     <h2>Defects (FAIL & BLOCKED)</h2>
