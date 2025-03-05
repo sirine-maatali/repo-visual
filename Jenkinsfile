@@ -1360,6 +1360,24 @@ pipeline {
                             }
                         """
                     ]
+                    // hedhaaa
+                    // Calcul des pourcentages par feature
+def featurePercentages = [:]
+featureStatusData.each { feature, counts ->
+    def total = counts.PASS + counts.NOTEXECUTED + counts.NOKMINOR + counts.NOKMAJOR
+    featurePercentages[feature] = [
+        PASS: (counts.PASS / total * 100).round(2),
+        NOTEXECUTED: (counts.NOTEXECUTED / total * 100).round(2),
+        NOKMINOR: (counts.NOKMINOR / total * 100).round(2),
+        NOKMAJOR: (counts.NOKMAJOR / total * 100).round(2)
+    ]
+}
+// Préparation des données pour le diagramme à barres groupées
+def featureLabels = featurePercentages.keySet().collect { "\"${it}\"" }.join(", ")
+def passData = featurePercentages.collect { it.value.PASS }.join(", ")
+def notExecutedData = featurePercentages.collect { it.value.NOTEXECUTED }.join(", ")
+def nokMinorData = featurePercentages.collect { it.value.NOKMINOR }.join(", ")
+def nokMajorData = featurePercentages.collect { it.value.NOKMAJOR }.join(", ")
 
                     def htmlContent = """
 <html>
@@ -1441,6 +1459,64 @@ pipeline {
     </div>
   </div>
 
+// ************************************
+
+
+var ctxGroupedBar = document.getElementById('groupedBarChart').getContext('2d');
+      new Chart(ctxGroupedBar, {
+        type: 'bar',
+        data: {
+          labels: [${featureLabels}],
+          datasets: [
+            {
+              label: 'PASS',
+              backgroundColor: '#4CAF50',
+              data: [${passData}]
+            },
+            {
+              label: 'NOT EXECUTED',
+              backgroundColor: '#A5D6A7',
+              data: [${notExecutedData}]
+            },
+            {
+              label: 'NOK MINOR',
+              backgroundColor: '#FF9800',
+              data: [${nokMinorData}]
+            },
+            {
+              label: 'NOK MAJOR',
+              backgroundColor: '#F44336',
+              data: [${nokMajorData}]
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': ' + context.raw + '%';
+                }
+              }
+            }
+          },
+          scales: {
+            x: { stacked: false },
+            y: {
+              stacked: false,
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          }
+        }
+
+        // ************************************
   <div class="pdf-section">
     <!-- Defects Table -->
     <h2>Defects (FAIL & BLOCKED)</h2>
