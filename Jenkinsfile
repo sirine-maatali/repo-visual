@@ -1485,24 +1485,25 @@ pipeline {
 
   <!-- ... (autres parties du HTML) ... -->
 
-  <script>
+ <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Diagramme à barres groupées
+      // Diagramme à barres horizontales
       var ctxGroupedBar = document.getElementById('groupedBarChart').getContext('2d');
       new Chart(ctxGroupedBar, {
-        type: 'bar',
+        type: 'bar', // Type de diagramme
         data: {
-          labels: [${featureLabels}], // Labels des features
+          labels: [${featureLabels}], // Features sur l'axe Y
           datasets: [${barDatasets.join(", ")}] // Données des statuts
         },
         options: {
+          indexAxis: 'y', // Inverser les axes (features sur Y)
           responsive: true,
           plugins: {
             legend: { position: 'top' }
           },
           scales: {
-            x: { stacked: false }, // Barres groupées (non empilées)
-            y: { stacked: false, beginAtZero: true }
+            x: { stacked: false, beginAtZero: true }, // Valeurs sur X
+            y: { stacked: false } // Features sur Y
           }
         }
       });
