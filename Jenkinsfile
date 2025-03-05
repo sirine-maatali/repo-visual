@@ -1690,7 +1690,7 @@ pipeline {
       // Pagination Script
       const table = document.getElementById('defectsTable');
       const rows = table.querySelectorAll('tbody tr');
-      const rowsPerPage = 10; // Number of rows per page
+      const rowsPerPage = 7; // Number of rows per page
       const pageCount = Math.ceil(rows.length / rowsPerPage);
       const paginationDiv = document.getElementById('pagination');
 
