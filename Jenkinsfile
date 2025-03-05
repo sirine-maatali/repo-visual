@@ -1556,57 +1556,34 @@ pipeline {
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Bar Chart
-     var ctxBar = document.getElementById('barChart').getContext('2d');
-new Chart(ctxBar, {
-    type: 'bar',
-    data: {
-        labels: [${featureLabels}],
-        datasets: [${datasets.join(", ")}]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        let label = context.dataset.label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                        const value = context.raw || 0;
-                        const percentage = ((value / total) * 100).toFixed(2) + '%';
-                        return label + percentage;
-                    }
-                }
-            }
+      var ctxBar = document.getElementById('barChart').getContext('2d');
+      new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: [${featureLabels}],
+          datasets: [${datasets.join(", ")}]
         },
-        scales: {
-            x: {
-                stacked: true,
-                ticks: {
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' }
+          },
+          scales: {
+            x: { stacked: true,
+             ticks: {
                     font: {
-                        size: 10
+                        size: 8
                     }
-                }
-            },
-            y: {
-                stacked: true,
-                beginAtZero: true,
-                ticks: {
+                } },
+            y: { stacked: true, beginAtZero: true,
+             ticks: {
                     font: {
-                        size: 10
-                    },
-                    callback: function (value) {
-                        return value + '%'; // Affiche les valeurs en pourcentage
+                        size: 8
                     }
-                },
-                grace: '10%' // Ajoute un peu d'espace au-dessus du graphique
-            }
+                } }
+          }
         }
-    }
-});
+      });
 
       // Pie Chart 1
       var ctxPie = document.getElementById('pieChart').getContext('2d');
@@ -1646,57 +1623,32 @@ new Chart(ctxBar, {
       });
 
       // Feature Status Chart
-    var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
-new Chart(ctxFeatureStatus, {
-    type: 'bar',
-    data: {
-        labels: [${featureStatusLabels}],
-        datasets: [${featureStatusDatasets.join(", ")}]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        let label = context.dataset.label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                        const value = context.raw || 0;
-                        const percentage = ((value / total) * 100).toFixed(2) + '%';
-                        return label + percentage;
-                    }
-                }
-            }
+      var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+      new Chart(ctxFeatureStatus, {
+        type: 'bar',
+        data: {
+          labels: [${featureStatusLabels}],
+          datasets: [${featureStatusDatasets.join(", ")}]
         },
-        scales: {
-            x: {
-                stacked: true,
-                ticks: {
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' }
+          },
+          scales: {
+            x: { stacked: true,ticks: {
                     font: {
-                        size: 10
+                        size: 8 // Taille de police réduite pour les étiquettes de l'axe X
                     }
-                }
-            },
-            y: {
-                stacked: true,
-                beginAtZero: true,
-                ticks: {
+                } },
+            y: { stacked: true, beginAtZero: true,ticks: {
                     font: {
-                        size: 10
-                    },
-                    callback: function (value) {
-                        return value + '%'; // Affiche les valeurs en pourcentage
+                        size: 8 // Taille de police réduite pour les étiquettes de l'axe X
                     }
-                },
-                grace: '10%' // Ajoute un peu d'espace au-dessus du graphique
-            }
+                } }
+          }
         }
-    }
-});
+      });
 
       // Feature Status Pie Chart
       var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
