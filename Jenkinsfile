@@ -1733,7 +1733,7 @@ function setActiveButton(activeButton) {
 
   <!-- Script pour générer le PDF -->
   <script>
-    document.getElementById('generatePdfButton').addEventListener('click', function () {
+ document.getElementById('generatePdfButton').addEventListener('click', function () {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
     const pageWidth = doc.internal.pageSize.getWidth();
