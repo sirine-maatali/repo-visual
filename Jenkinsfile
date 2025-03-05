@@ -1276,7 +1276,7 @@ pipeline {
                         
                         if (status == 'FAIL' || status == 'BLOCKED') {
                             entry.defects.each { defect ->
-                                defectsData.add("<tr><td>${feature}</td><td>${testcase}</td><td>${project}</td><td>${version}</td><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td><td>${result}</td></tr>")
+                                defectsData.add("<tr><td>${feature}</td><td>${project}</td><td>${version}</td><td>${defect.id}</td><td>${defect.summary}</td><td>${defect.priority}</td><td>${result}</td></tr>")
                             }
                         }
                     }
