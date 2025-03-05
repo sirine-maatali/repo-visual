@@ -95,9 +95,9 @@ canvas {
 .chart-container {
     display: flex;
     justify-content: space-between;
-    align-items: stretch; /* Pour que les conteneurs aient la même hauteur */
-    gap: 20px; /* Espace entre les graphiques */
+    align-items: flex-start;
     margin-bottom: 40px;
+    gap: 20px;
 }
 
 .chart-wrapper {
@@ -105,44 +105,14 @@ canvas {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex: 1; /* Pour que les conteneurs occupent un espace égal */
-    display: flex;
-    flex-direction: column;
 }
-
 
 .chart-wrapper.pie {
-    flex: 1; /* Prend moins de place que le graphique à barres */
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 400px; /* Hauteur fixe pour équilibrer */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 40%; 
-}
-
-.chart-wrapper.pie canvas {
-    flex-grow: 1; /* Le canvas prend tout l'espace disponible */
+    width: 30%;
 }
 
 .chart-wrapper.bar {
-    flex: 2; /* Prend plus de place que le camembert */
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 400px; /* Hauteur fixe pour équilibrer */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 60%; 
-}
-
-.chart-wrapper.bar canvas {
-    flex-grow: 1; /* Le canvas prend tout l'espace disponible */
+    width: 63%;
 }
 
 .chart-description {
@@ -237,29 +207,3 @@ canvas {
     background-color: #f0f8ff; /* Couleur de fond bleu clair */
     font-weight: bold; /* Texte en gras */
 }
-
-.chart-wrapper.bar {
-    width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.chart-wrapper h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: #333;
-    text-align: center;
-}
-
-.chart-wrapper p.chart-description {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.chart-wrapper canvas {
-    flex-grow: 1; 
-    max-height: 400px; }

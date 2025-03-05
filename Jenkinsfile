@@ -1444,21 +1444,18 @@ pipeline {
 
   <div class="pdf-section">
     <div class="chart-container">
-        <!-- Bar Chart -->
-        <div class="chart-wrapper bar">
-            <h3>Répartition des statuts par feature</h3>
-            <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
-            <canvas id="barChart"></canvas>
-        </div>
-
-        <!-- Pie Chart -->
-        <div class="chart-wrapper pie">
-            <h3>Répartition globale des statuts</h3>
-            <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
-            <canvas id="pieChart"></canvas>
-        </div>
+      <!-- Bar Chart 1 and Pie Chart 1 -->
+      <div class="chart-wrapper bar">
+        <h3>Répartition des statuts par feature</h3>
+        <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-wrapper pie">
+        <h3>Répartition globale des statuts</h3>
+        <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
+        <canvas id="pieChart"></canvas>
+      </div>
     </div>
-</div>
 
     <!-- Bar Chart 2 and Pie Chart 2 -->
     <div class="chart-container">
