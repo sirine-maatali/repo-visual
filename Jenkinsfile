@@ -1485,23 +1485,30 @@ pipeline {
 
   <!-- ... (autres parties du HTML) ... -->
 
-  new Chart(ctxGroupedBar, {
-    type: 'horizontalBar', // Diagramme à barres horizontales
-    data: {
-        labels: [${featureLabels}], // Features sur l'axe Y
-        datasets: [${barDatasets.join(", ")}] // Données des statuts
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' }
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Diagramme à barres horizontales
+      var ctxGroupedBar = document.getElementById('groupedBarChart').getContext('2d');
+      new Chart(ctxGroupedBar, {
+        type: 'bar', // Type de diagramme
+        data: {
+          labels: [${featureLabels}], // Features sur l'axe Y
+          datasets: [${barDatasets.join(", ")}] // Données des statuts
         },
-        scales: {
-            xAxes: [{ stacked: false, beginAtZero: true }], // Valeurs sur X
-            yAxes: [{ stacked: false }] // Features sur Y
+        options: {
+          indexAxis: 'y', // Inverser les axes (features sur Y)
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' }
+          },
+          scales: {
+            x: { stacked: false, beginAtZero: true }, // Valeurs sur X
+            y: { stacked: false } // Features sur Y
+          }
         }
-    }
-});
+      });
+    });
+  </script>
 
   <div class="pdf-section">
     <!-- Defects Table -->
