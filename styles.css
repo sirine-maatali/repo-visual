@@ -56,12 +56,11 @@ h2 {
 
 /* Table Styles */
 table {
-    width: 95%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    margin-left: 5px;
-    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: small;
+    width: 95%; /* Largeur de la table */
+    border-collapse: collapse; /* Fusion des bordures */
+    margin: 20px auto; /* Centrage horizontal avec une marge en haut */
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre */
+    font-size: small; /* Taille de police */
 }
 
 table, th, td {
