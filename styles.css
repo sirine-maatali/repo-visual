@@ -204,6 +204,25 @@ canvas {
     background-color: #2E7D32;
 }
 .result-column {
-    background-color: #f0f8ff; /* Couleur de fond bleu clair */
-    font-weight: bold; /* Texte en gras */
+    background-color: #f0f8ff; 
+    font-weight: bold; 
+}
+/* hedha pour avant table */
+.chart-wrapper.bar {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.chart-wrapper.bar h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+.chart-wrapper.bar p.chart-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
 }
