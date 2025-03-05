@@ -1572,13 +1572,13 @@ pipeline {
             x: { stacked: true,
              ticks: {
                     font: {
-                        size: 10 
+                        size: 8
                     }
                 } },
             y: { stacked: true, beginAtZero: true,
              ticks: {
                     font: {
-                        size: 10 
+                        size: 8
                     }
                 } }
           }
@@ -1638,12 +1638,12 @@ pipeline {
           scales: {
             x: { stacked: true,ticks: {
                     font: {
-                        size: 10 // Taille de police réduite pour les étiquettes de l'axe X
+                        size: 8 // Taille de police réduite pour les étiquettes de l'axe X
                     }
                 } },
             y: { stacked: true, beginAtZero: true,ticks: {
                     font: {
-                        size: 10 // Taille de police réduite pour les étiquettes de l'axe X
+                        size: 8 // Taille de police réduite pour les étiquettes de l'axe X
                     }
                 } }
           }
