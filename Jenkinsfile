@@ -1319,48 +1319,47 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
                     //  ***************************************
-   def barDatasets = [
-    """
-        {
-            label: "PASS",
-            backgroundColor: "#4CAF50", // Vert
-            data: [${featureStatusData.collect { 
-                def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                total == 0 ? 0 : Math.round(it.value.PASS / total * 100 * 100) / 100
-            }.join(", ")}]
-        }
-    """,
-    """
-        {
-            label: "NOT EXECUTED",
-            backgroundColor: "#A5D6A7", // Vert clair
-            data: [${featureStatusData.collect { 
-                def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                total == 0 ? 0 : Math.round(it.value.NOTEXECUTED / total * 100 * 100) / 100
-            }.join(", ")}]
-        }
-    """,
-    """
-        {
-            label: "NOK MINOR",
-            backgroundColor: "#FF9800", // Orange
-            data: [${featureStatusData.collect { 
-                def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                total == 0 ? 0 : Math.round(it.value.NOKMINOR / total * 100 * 100) / 100
-            }.join(", ")}]
-        }
-    """,
-    """
-        {
-            label: "NOK MAJOR",
-            backgroundColor: "#F44336", // Rouge
-            data: [${featureStatusData.collect { 
-                def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                total == 0 ? 0 : Math.round(it.value.NOKMAJOR / total * 100 * 100) / 100
-            }.join(", ")}]
-        }
-    """
-]
+    def barDatasets = [
+                """
+                    {
+                        label: "PASS",
+                        backgroundColor: "#4CAF50", // Vert
+                        data: [${featureStatusData.collect { 
+                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
+                            total == 0 ? 0 : Math.round((it.value.PASS / total * 100).doubleValue() * 100) / 100.0
+                        }.join(", ")}]
+                    }
+                """,
+                """
+                    {
+                        label: "NOT EXECUTED",
+                        backgroundColor: "#A5D6A7", // Vert clair
+                        data: [${featureStatusData.collect { 
+                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
+                            total == 0 ? 0 : Math.round((it.value.NOTEXECUTED / total * 100).doubleValue() * 100) / 100.0
+                        }.join(", ")}]
+                    }
+                """,
+                """
+                    {
+                        label: "NOK MINOR",
+                        backgroundColor: "#FF9800", // Orange
+                        data: [${featureStatusData.collect { 
+                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
+                            total == 0 ? 0 : Math.round((it.value.NOKMINOR / total * 100).doubleValue() * 100) / 100.0
+                        }.join(", ")}]
+                    }
+                """,
+                """
+                    {
+                        label: "NOK MAJOR",
+                        backgroundColor: "#F44336", // Rouge
+                        data: [${featureStatusData.collect { 
+                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
+                            total == 0 ? 0 : Math.round((it.value.NOKMAJOR / total * 100).doubleValue() * 100) / 100.0
+                        }.join(", ")}]
+                    }
+                """
 
                     // Données pour la deuxième pie chart (basée sur featureStatusData)
                     def featureStatusPieData = [
