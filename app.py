@@ -839,7 +839,6 @@
 
 #     # print(json.dumps(result, ensure_ascii=False, indent=4))
 
-
 import os
 import json
 import sys
@@ -867,8 +866,24 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
         return execution_data
 
     customfield_data = execution_data.get("fields", {}).get("customfield_12219", [])
+    
+    # Extraction de la version sans les crochets
+    version_field = execution_data.get("fields", {}).get("customfield_13301", "null")
+    if isinstance(version_field, list) and len(version_field) > 0:
+        version = version_field[0]  # Prendre la première valeur de la liste
+    else:
+        version = version_field  # Utiliser la valeur telle quelle
+    
     if not customfield_data:
         return {"error": f"Le champ 'customfield_12219' est vide ou absent dans {execution_file_path}"}
+
+    # Récupération du champ "project" à partir de customfield_13305
+    project_field = execution_data.get("fields", {}).get("customfield_13305", [])
+    project = "null"  # Valeur par défaut
+
+    # Si project_field est une liste non vide, on extrait la valeur de "value"
+    if isinstance(project_field, list) and len(project_field) > 0:
+        project = project_field[0].get("value", "null")
 
     output_data = []
     defect_to_testkey = defaultdict(set)
@@ -887,7 +902,10 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
         # Extraction de la feature sans les crochets
         feature = test_case_data.get("fields", {}).get("customfield_13601", "null")
         if isinstance(feature, list) and feature:
-            feature = feature[0]  # Prend le premier élément de la liste si c'est une liste
+            feature = feature[0]
+        
+        # Ajout du champ "testcase" contenant "summary"
+        testcase_summary = test_case_data.get("fields", {}).get("summary", "null")
 
         defects_file_path = os.path.join(defects_folder, f"{file_name}.json")
         defects_data = read_json_file(defects_file_path)
@@ -902,20 +920,14 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
                     if status in ["BLOCKED", "FAIL"]:
                         for defect_item in defect.get("defects", []):
                             defect_id = defect_item.get("id", "null")
-
-                            # Recherche de la priorité dans les issuelinks du testKey.json
+                            
                             priority = "null"
                             for link in test_case_data.get("fields", {}).get("issuelinks", []):
                                 outward_issue = link.get("outwardIssue", {})
                                 outward_issue_id = outward_issue.get("id", "null")
-
-                                # Debugging : Afficher les valeurs pour vérifier
-                                print(f"Test Key: {test_key}, Defect ID: {defect_id}, Outward Issue ID: {outward_issue_id}")
-
-                                # Comparaison des IDs
-                                if str(outward_issue_id) == str(defect_id):  # Convertir en chaîne pour éviter les erreurs de type
+                                
+                                if str(outward_issue_id) == str(defect_id):
                                     priority = outward_issue.get("fields", {}).get("priority", {}).get("name", "null")
-                                    print(f"Priorité trouvée : {priority} pour Defect ID: {defect_id}")
                                     break
 
                             defect_to_testkey[defect_id].add(test_key)
@@ -924,11 +936,10 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
                             defects_info.append({
                                 "id": defect_id,
                                 "summary": defect_item.get("summary", "null"),
-                                "priority": priority  # Priorité trouvée
+                                "priority": priority
                             })
                     break
 
-        # Déterminer le champ "result" en fonction du status et de la priorité
         result = "null"
         if status == "PASS":
             result = "ok"
@@ -944,13 +955,15 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
             "input_file": file_name,
             "testKey": test_key,
             "testRunId": test_run_id,
-            "feature": feature,  # Utilise la feature sans les crochets
+            "feature": feature,
             "status": status,
+            "testcase": testcase_summary,  # Ajout du champ "testcase"
+            "version": version,  # Ajout du champ "version" sans crochets
+            "project": project,  # Ajout du champ "project"
             "defects": defects_info,
-            "result": result  # Ajout du champ "result"
+            "result": result
         })
 
-    # Sauvegarde dans un fichier JSON
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(output_data, f, ensure_ascii=False, indent=4)
 
@@ -974,5 +987,3 @@ if __name__ == "__main__":
             sys.exit(1)
 
     result = extract_test_data(test_execution_folder, test_cases_folder, defects_folder, file_name, output_file)
-
-    # print(json.dumps(result, ensure_ascii=False, indent=4))

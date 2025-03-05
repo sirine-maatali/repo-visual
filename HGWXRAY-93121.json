@@ -5,6 +5,9 @@
         "testRunId": 3009462,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Check PeriodicInformTime",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -14,6 +17,9 @@
         "testRunId": 3009463,
         "feature": "TR-069",
         "status": "TODO",
+        "testcase": "[TR-069] Session_retry_policy_02",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -23,6 +29,9 @@
         "testRunId": 3009464,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.1_GetRPCMethods_1",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -32,6 +41,9 @@
         "testRunId": 3009465,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 1.1_InformContents",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -41,6 +53,9 @@
         "testRunId": 3009466,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] URLchanged",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -50,6 +65,9 @@
         "testRunId": 3009467,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.9_Reboot",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -59,6 +77,9 @@
         "testRunId": 3009468,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.5_GetParameterAttributes_4",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -68,6 +89,9 @@
         "testRunId": 3009469,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.5_GetParameterAttributes_3",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -77,6 +101,9 @@
         "testRunId": 3009470,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.5_GetParameterAttributes_2",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -86,6 +113,9 @@
         "testRunId": 3009471,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.5_GetParameterAttributes_1",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -95,6 +125,9 @@
         "testRunId": 3009472,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.2_GetParameterNames_4",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -104,6 +137,9 @@
         "testRunId": 3009473,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.2_GetParameterNames_3",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -113,6 +149,9 @@
         "testRunId": 3009474,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.2_GetParameterNames_1",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -122,6 +161,9 @@
         "testRunId": 3009475,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.3_GetParameterValues_9",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -131,6 +173,9 @@
         "testRunId": 3009476,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.3_GetParameterValues_6",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -140,6 +185,9 @@
         "testRunId": 3009477,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.3_GetParameterValues_5",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -149,6 +197,9 @@
         "testRunId": 3009478,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] 3.3_GetParameterValues_4",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -158,6 +209,9 @@
         "testRunId": 3009479,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Passive notification - PeriodicInformInterval",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -167,6 +221,9 @@
         "testRunId": 3009480,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069]  Active Notification - WiFi SSID",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -176,6 +233,9 @@
         "testRunId": 3009481,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Heartbeat Inform - Passive notification",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -185,6 +245,9 @@
         "testRunId": 3009482,
         "feature": "TR-069",
         "status": "TODO",
+        "testcase": "[TR-069] XMPP Connection retry ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -194,6 +257,9 @@
         "testRunId": 3009483,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Heartbeat Inform",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -203,6 +269,9 @@
         "testRunId": 3009484,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] WAN IP Address Update and Notification",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -212,6 +281,9 @@
         "testRunId": 3009485,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Active Notification Inform",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -221,6 +293,9 @@
         "testRunId": 3009486,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Event Delivery Active Notification",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -230,6 +305,9 @@
         "testRunId": 3009487,
         "feature": "TR-069",
         "status": "ABORTED",
+        "testcase": "[TR-069] CRSP SW Orchestration : Ext. FW < Minimum Reqd.",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -239,6 +317,9 @@
         "testRunId": 3009488,
         "feature": "TR-069",
         "status": "ABORTED",
+        "testcase": "[TR-069] CRSP SW Orchestration : Ext. FW >= Minimum Reqd.",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -248,6 +329,9 @@
         "testRunId": 3009489,
         "feature": "TR-069",
         "status": "ABORTED",
+        "testcase": "[TR-069]  CRSP SW Orchestration : Max. Attempts ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -257,6 +341,9 @@
         "testRunId": 3009490,
         "feature": "TR-069",
         "status": "ABORTED",
+        "testcase": "[TR-069]  CRSP SW Orchestration : Multiple Ext. and Router gets update",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -266,6 +353,9 @@
         "testRunId": 3009491,
         "feature": "TR-069",
         "status": "ABORTED",
+        "testcase": "[TR-069] CRSP SW Orchestration : Multiple Ext. and Router doesn't update",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -275,6 +365,9 @@
         "testRunId": 3009492,
         "feature": "TR-069",
         "status": "ABORTED",
+        "testcase": "[TR-069] CRSP SW Orchestration : Non CRSP Ext",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -284,6 +377,9 @@
         "testRunId": 3009493,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] DFS Parameter - Step1",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -293,6 +389,9 @@
         "testRunId": 3009494,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Multiple Complete Paths",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -302,6 +401,9 @@
         "testRunId": 3009495,
         "feature": "TR-069",
         "status": "ABORTED",
+        "testcase": "[TR-069] Important Network Nodes",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -311,6 +413,9 @@
         "testRunId": 3009496,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] Verify Portmapping - LAN device and Gateway association maintained over time",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 317797,
@@ -326,6 +431,9 @@
         "testRunId": 3009497,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] Power-Up Inform",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 317797,
@@ -341,6 +449,9 @@
         "testRunId": 3009498,
         "feature": "TR-069",
         "status": "TODO",
+        "testcase": "[TR-069] Remotely triggered log upload using Device.X_VZW_RemoteLogUpload",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -350,6 +461,9 @@
         "testRunId": 3009499,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Remotely triggered log upload with Upload RPC",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -359,6 +473,9 @@
         "testRunId": 3009500,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Multiple Parameters",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -368,6 +485,9 @@
         "testRunId": 3009501,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] SetParameterValues on Invalid Parameter ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -377,6 +497,9 @@
         "testRunId": 3009502,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] TR-157 : Dev Signed Container install ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -392,6 +515,9 @@
         "testRunId": 3009503,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069]  TR-157 : Container Logs",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -407,6 +533,9 @@
         "testRunId": 3009504,
         "feature": "TR-069",
         "status": "TODO",
+        "testcase": "[TR-069]  TR-157 : DMAT container ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -416,6 +545,9 @@
         "testRunId": 3009505,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] TR-157 Persistent Storage Verification",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -431,6 +563,9 @@
         "testRunId": 3009506,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] TR-157 - Master Switch and Entitlement Flag",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -446,6 +581,9 @@
         "testRunId": 3009507,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] TR-157 Device Reset with containers",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -461,6 +599,9 @@
         "testRunId": 3009508,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] TR-157: Device reboot with container",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -476,6 +617,9 @@
         "testRunId": 3009509,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] TR-157 Uninstall Container ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -491,6 +635,9 @@
         "testRunId": 3009510,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] TR-157 Update Container",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -506,6 +653,9 @@
         "testRunId": 3009511,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] TR-157 Container Start / Stop",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -521,6 +671,9 @@
         "testRunId": 3009512,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] TR-157 Container Install ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 313356,
@@ -536,6 +689,9 @@
         "testRunId": 3009513,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] Periodic Inform",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 310553,
@@ -551,6 +707,9 @@
         "testRunId": 3009514,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Download Diagnostics Test with Invalid HTTP Server",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -560,6 +719,9 @@
         "testRunId": 3009515,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Upload Diagnostics Test with Invalid HTTP Server",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -569,6 +731,9 @@
         "testRunId": 3009516,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Download Diagnostics Test with Invalid FTP Server",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -578,6 +743,9 @@
         "testRunId": 3009517,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Upload Diagnostics Test with Invalid FTP Server",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -587,6 +755,9 @@
         "testRunId": 3009518,
         "feature": "TR-069",
         "status": "TODO",
+        "testcase": "[TR-069] Download Diagnostics Test with FTP Server ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -596,6 +767,9 @@
         "testRunId": 3009519,
         "feature": "TR-069",
         "status": "TODO",
+        "testcase": "[TR-069] Upload Diagnostics Test with FTP Server",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -605,6 +779,9 @@
         "testRunId": 3009520,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] Download Diagnostics Test with HTTP Server",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 310897,
@@ -620,6 +797,9 @@
         "testRunId": 3009521,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Upload Diagnostics Test with HTTP Server",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -629,6 +809,9 @@
         "testRunId": 3009522,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Firmware Download – ACS-specified Delay",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -644,6 +827,9 @@
         "testRunId": 3009523,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Download URL length ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -659,6 +845,9 @@
         "testRunId": 3009524,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Firmware Download – with application memory space full",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -674,6 +863,9 @@
         "testRunId": 3009525,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Firmware download - Multi-Step Updates",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -689,6 +881,9 @@
         "testRunId": 3009526,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Firmware download when the modem is turned off during download",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -704,6 +899,9 @@
         "testRunId": 3009527,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Firmware download while large file download is in progress",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -719,6 +917,9 @@
         "testRunId": 3009528,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Firmware download – Invalid download URL",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -734,6 +935,9 @@
         "testRunId": 3009529,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Firmware download – Corrupt firmware image",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -749,6 +953,9 @@
         "testRunId": 3009530,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Firmware – Schedule Download",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -764,6 +971,9 @@
         "testRunId": 3009531,
         "feature": "TR-069-UPGRADE",
         "status": "BLOCKED",
+        "testcase": "[TR-069-UPGRADE] Get ActiveFirmwareImage",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 287675,
@@ -779,6 +989,9 @@
         "testRunId": 3009532,
         "feature": "TR-111",
         "status": "FAIL",
+        "testcase": "[TR-111] Port Mapping after gateway , LAN device power cycle",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 321234,
@@ -794,6 +1007,9 @@
         "testRunId": 3009533,
         "feature": "TR-111",
         "status": "FAIL",
+        "testcase": "[TR-111] Verify Portmapping Lease Duration",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 321234,
@@ -809,6 +1025,9 @@
         "testRunId": 3009534,
         "feature": "TR-111",
         "status": "FAIL",
+        "testcase": "[TR-111] Verify Portmapping - LAN device and Gateway association after Gateway reset",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 321234,
@@ -824,6 +1043,9 @@
         "testRunId": 3009535,
         "feature": "TR-111",
         "status": "FAIL",
+        "testcase": "[TR-111] Verify Portmapping - LAN device - after Reset of LAN device",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 321234,
@@ -839,6 +1061,9 @@
         "testRunId": 3009536,
         "feature": "TR-111",
         "status": "FAIL",
+        "testcase": "[TR-111] Verify Portmapping - LAN device - after reboot of LAN device",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 321234,
@@ -854,6 +1079,9 @@
         "testRunId": 3009537,
         "feature": "TR-111",
         "status": "FAIL",
+        "testcase": "[TR-111] Verify Portmapping - LAN device - after successful activation of LAN device",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 321234,
@@ -869,6 +1097,9 @@
         "testRunId": 3009538,
         "feature": "TR-069",
         "status": "FAIL",
+        "testcase": "[TR-069] Speed Test",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [
             {
                 "id": 310897,
@@ -884,6 +1115,9 @@
         "testRunId": 3009539,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] WAN/LAN Diagnostics - Down or Blocked IP",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -893,6 +1127,9 @@
         "testRunId": 3009540,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] WAN/LAN Diagnostics - Invalid Hostname",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -902,6 +1139,9 @@
         "testRunId": 3009541,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] WAN/LAN Diagnostics - Valid Hostname",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -911,6 +1151,9 @@
         "testRunId": 3009542,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] TraceRoute Diagnostics ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -920,6 +1163,9 @@
         "testRunId": 3009543,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] Add, Modify, Port Mapping Objects",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     },
@@ -929,6 +1175,9 @@
         "testRunId": 3009544,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": " [TR-069] TR-069 DHCP Provisioning Verification ",
+        "version": "v4.0.19.24",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
         "defects": [],
         "result": "ok"
     }

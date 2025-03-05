@@ -5,6 +5,7 @@
         "testRunId": 3059650,
         "feature": "ADVANCED-NETWORKING",
         "status": "FAIL",
+        "testcase": "[ADVANCED-NETWORKING] DMZ Host",
         "defects": [
             {
                 "id": 317797,
@@ -20,6 +21,7 @@
         "testRunId": 3059651,
         "feature": "ADVANCED-NETWORKING",
         "status": "FAIL",
+        "testcase": "[ADVANCED-NETWORKING] Block access to the Internet services from within the LAN",
         "defects": [
             {
                 "id": 317797,
@@ -35,6 +37,7 @@
         "testRunId": 3059652,
         "feature": "ADVANCED-NETWORKING",
         "status": "FAIL",
+        "testcase": "[ADVANCED-NETWORKING] Static IP configuration",
         "defects": [
             {
                 "id": 317797,
@@ -50,6 +53,7 @@
         "testRunId": 3059653,
         "feature": "ADVANCED-NETWORKING",
         "status": "PASS",
+        "testcase": "[ADVANCED-NETWORKING] Verify Port Forwarding",
         "defects": [],
         "result": "ok"
     },
@@ -59,6 +63,7 @@
         "testRunId": 3059654,
         "feature": "DHCP-SERVER",
         "status": "PASS",
+        "testcase": "[DHCPServer] DHCP Server - Basic",
         "defects": [],
         "result": "ok"
     },
@@ -68,6 +73,7 @@
         "testRunId": 3059655,
         "feature": "DHCP-SERVER",
         "status": "FAIL",
+        "testcase": "[DHCP-SERVER] DHCP Server - Static IP, Step 1",
         "defects": [
             {
                 "id": 317797,
@@ -83,6 +89,7 @@
         "testRunId": 3059656,
         "feature": "IPv6",
         "status": "PASS",
+        "testcase": "[IPv6] IPv6 Sanity Test - WLAN",
         "defects": [],
         "result": "ok"
     },
@@ -92,6 +99,7 @@
         "testRunId": 3059657,
         "feature": "IPv6",
         "status": "PASS",
+        "testcase": "[IPv6] IPv6 Sanity Test - LAN",
         "defects": [],
         "result": "ok"
     },
@@ -101,6 +109,7 @@
         "testRunId": 3059658,
         "feature": "IPV6",
         "status": "ABORTED",
+        "testcase": "[IPV6] Dual stack and IPv6 only MoCA clients",
         "defects": [],
         "result": "NOT EXECUTED"
     },
@@ -110,6 +119,7 @@
         "testRunId": 3059660,
         "feature": "INTERFACES",
         "status": "FAIL",
+        "testcase": "[Interfaces] Reboot using HW Button",
         "defects": [
             {
                 "id": 317797,
@@ -125,6 +135,7 @@
         "testRunId": 3059661,
         "feature": "NAT",
         "status": "FAIL",
+        "testcase": "[NAT] NAT - PAT support - Hairpinning behaviour - Delete rule",
         "defects": [
             {
                 "id": 317797,
@@ -140,6 +151,7 @@
         "testRunId": 3059662,
         "feature": "NAT",
         "status": "FAIL",
+        "testcase": "[NAT] NAT - PAT support - Hairpinning behaviour - Modify rule",
         "defects": [
             {
                 "id": 317797,
@@ -155,6 +167,7 @@
         "testRunId": 3059663,
         "feature": "NAT",
         "status": "FAIL",
+        "testcase": "[NAT] NAT - PAT support - Hairpinning behaviour - Create rule",
         "defects": [
             {
                 "id": 317797,
@@ -170,6 +183,7 @@
         "testRunId": 3059664,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] CuC-05 - WiFi Credentials",
         "defects": [],
         "result": "ok"
     },
@@ -179,6 +193,7 @@
         "testRunId": 3059665,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] CuC-08 - CPE Info",
         "defects": [],
         "result": "ok"
     },
@@ -188,6 +203,7 @@
         "testRunId": 3059666,
         "feature": "TR-069",
         "status": "PASS",
+        "testcase": "[TR-069] CuC-01 - Initial contact",
         "defects": [],
         "result": "ok"
     },
@@ -197,6 +213,7 @@
         "testRunId": 3059667,
         "feature": "TR-069-UPGRADE",
         "status": "PASS",
+        "testcase": "[TR-069 UPGRADE] Basic Upgrade to Clone - services check",
         "defects": [],
         "result": "ok"
     },
@@ -206,6 +223,7 @@
         "testRunId": 3059668,
         "feature": "TR-069-UPGRADE",
         "status": "FAIL",
+        "testcase": "[UPGRADE] Settings Persistency - Upgrade RC-1 to RC",
         "defects": [
             {
                 "id": 321568,
@@ -221,6 +239,7 @@
         "testRunId": 3059669,
         "feature": "WAN",
         "status": "PASS",
+        "testcase": "[WAN] FTTH PRPL - Demo wan mode",
         "defects": [],
         "result": "ok"
     },
@@ -230,6 +249,7 @@
         "testRunId": 3059670,
         "feature": "WEBUI",
         "status": "PASS",
+        "testcase": "[Webui] Webui availability - New password",
         "defects": [],
         "result": "ok"
     },
@@ -239,6 +259,7 @@
         "testRunId": 3059671,
         "feature": "WEBUI",
         "status": "PASS",
+        "testcase": "[WEBUI] Browsers Compliance",
         "defects": [],
         "result": "ok"
     },
@@ -248,6 +269,7 @@
         "testRunId": 3059672,
         "feature": "WEBUI",
         "status": "PASS",
+        "testcase": "[Webui] Browsers compliance Sanity",
         "defects": [],
         "result": "ok"
     },
@@ -257,6 +279,7 @@
         "testRunId": 3059673,
         "feature": "WEBUI",
         "status": "FAIL",
+        "testcase": "[Webui] WiFi Parameters 5Ghz",
         "defects": [
             {
                 "id": 321568,
@@ -272,6 +295,7 @@
         "testRunId": 3059674,
         "feature": "WEBUI",
         "status": "FAIL",
+        "testcase": "[Webui] WiFi Parameters 2.4Ghz",
         "defects": [
             {
                 "id": 321568,
@@ -287,6 +311,7 @@
         "testRunId": 3059675,
         "feature": "WEBUI",
         "status": "PASS",
+        "testcase": "[Webui] WiFi On Off 5Ghz",
         "defects": [],
         "result": "ok"
     },
@@ -296,6 +321,7 @@
         "testRunId": 3059676,
         "feature": "WEBUI",
         "status": "PASS",
+        "testcase": "[Webui] WiFi On Off 2.4Ghz",
         "defects": [],
         "result": "ok"
     },
@@ -305,6 +331,7 @@
         "testRunId": 3059677,
         "feature": "WEBUI",
         "status": "FAIL",
+        "testcase": "[Webui] Reboot using the WebUI",
         "defects": [
             {
                 "id": 321568,
@@ -330,6 +357,7 @@
         "testRunId": 3059678,
         "feature": "WEBUI",
         "status": "FAIL",
+        "testcase": "[Webui] Upgrade using the WebUI",
         "defects": [
             {
                 "id": 317797,
@@ -350,6 +378,7 @@
         "testRunId": 3059679,
         "feature": "WEBUI",
         "status": "FAIL",
+        "testcase": "[Webui] Downgrade using the WebUI",
         "defects": [
             {
                 "id": 317797,
@@ -370,6 +399,7 @@
         "testRunId": 3059680,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Play a Youtube video",
         "defects": [],
         "result": "ok"
     },
@@ -379,6 +409,7 @@
         "testRunId": 3059681,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[Wi-FiFunctional] WPS Methods - Client PIN (2.4GHz Band)",
         "defects": [],
         "result": "ok"
     },
@@ -388,6 +419,7 @@
         "testRunId": 3059682,
         "feature": "WI-FI-WPS",
         "status": "FAIL",
+        "testcase": "[WI-FI-WPS] WPS Methods - Self PIN (2.4GHz Band)",
         "defects": [
             {
                 "id": 321835,
@@ -403,6 +435,7 @@
         "testRunId": 3059683,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Ping 2.4GHz-WAN",
         "defects": [],
         "result": "ok"
     },
@@ -412,6 +445,7 @@
         "testRunId": 3059684,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[Wi-Fi-Functional] Ping 2.4GHz-LAN",
         "defects": [],
         "result": "ok"
     },
@@ -421,6 +455,7 @@
         "testRunId": 3059685,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Play a Youtube video on 5.0ghz",
         "defects": [],
         "result": "ok"
     },
@@ -430,6 +465,7 @@
         "testRunId": 3059686,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[Wi-FiFunctional] WPS Methods - Client PIN (5GHz Band)",
         "defects": [],
         "result": "ok"
     },
@@ -439,6 +475,7 @@
         "testRunId": 3059687,
         "feature": "WI-FI-WPS",
         "status": "FAIL",
+        "testcase": "[WI-FI-WPS] WPS Methods - Self PIN (5GHz Band)",
         "defects": [
             {
                 "id": 321835,
@@ -454,6 +491,7 @@
         "testRunId": 3059688,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Ping 5.0GHz-WAN",
         "defects": [],
         "result": "ok"
     },
@@ -463,6 +501,7 @@
         "testRunId": 3059689,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Ping 5.0GHz-LAN",
         "defects": [],
         "result": "ok"
     },
@@ -472,6 +511,7 @@
         "testRunId": 3059690,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[WI-FI-FUNCTIONAL] Play a Youtube video on 6ghz",
         "defects": [],
         "result": "ok"
     },
@@ -481,6 +521,7 @@
         "testRunId": 3059691,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[WI-FI-FUNCTIONAL]  Ping 6GHz-WAN",
         "defects": [],
         "result": "ok"
     },
@@ -490,6 +531,7 @@
         "testRunId": 3059692,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[WI-FI-FUNCTIONAL] Ping 6GHz-LAN",
         "defects": [],
         "result": "ok"
     },
@@ -499,6 +541,7 @@
         "testRunId": 3059693,
         "feature": "WI-FI-FUNCTIONAL",
         "status": "PASS",
+        "testcase": "[WI-FI-FUNCTIONAL] Ping 6GHz-6GHz",
         "defects": [],
         "result": "ok"
     },
@@ -508,6 +551,7 @@
         "testRunId": 3059694,
         "feature": "WI-FI-STANDARD",
         "status": "PASS",
+        "testcase": "[Wi-FiStandard] WiFi STA's connectivity - 5GHz -2.4GHz",
         "defects": [],
         "result": "ok"
     },
@@ -517,6 +561,7 @@
         "testRunId": 3059695,
         "feature": "WI-FI-STANDARD",
         "status": "PASS",
+        "testcase": "[Wi-FiStandard] WiFi STA's connectivity - 2.4GHz -2.4GHz",
         "defects": [],
         "result": "ok"
     },
@@ -526,6 +571,7 @@
         "testRunId": 3059696,
         "feature": "WI-FI-STANDARD",
         "status": "PASS",
+        "testcase": "[Wi-FiStandard] WiFi STA's connectivity - 5GHz -5GHz",
         "defects": [],
         "result": "ok"
     },
@@ -535,6 +581,7 @@
         "testRunId": 3059697,
         "feature": "WI-FI-WPS",
         "status": "PASS",
+        "testcase": "[WI-FI-WPS] WPS PBC 2.4GHz - WPA2",
         "defects": [],
         "result": "ok"
     },
@@ -544,6 +591,7 @@
         "testRunId": 3059698,
         "feature": "WI-FI-WPS",
         "status": "PASS",
+        "testcase": "[WI-FI-WPS] WPS 5GHz - WPA2",
         "defects": [],
         "result": "ok"
     }
