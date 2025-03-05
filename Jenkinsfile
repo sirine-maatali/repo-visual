@@ -1502,8 +1502,18 @@ pipeline {
             legend: { position: 'top' }
           },
           scales: {
-            x: { stacked: false, beginAtZero: true }, // Valeurs sur X
-            y: { stacked: false } // Features sur Y
+            x: { stacked: false, beginAtZero: true,
+             ticks: {
+                    font: {
+                        size: 10 
+                    }
+                } }, // Valeurs sur X
+            y: { stacked: false, 
+                ticks: {
+                    font: {
+                        size: 10 // Taille de police réduite pour les étiquettes de l'axe X
+                    }
+                } } // Features sur Y
           }
         }
       });
@@ -1559,8 +1569,18 @@ pipeline {
             legend: { position: 'top' }
           },
           scales: {
-            x: { stacked: true },
-            y: { stacked: true, beginAtZero: true }
+            x: { stacked: true,
+             ticks: {
+                    font: {
+                        size: 10 
+                    }
+                } },
+            y: { stacked: true, beginAtZero: true,
+             ticks: {
+                    font: {
+                        size: 10 
+                    }
+                } }
           }
         }
       });
@@ -1616,8 +1636,16 @@ pipeline {
             legend: { position: 'top' }
           },
           scales: {
-            x: { stacked: true },
-            y: { stacked: true, beginAtZero: true }
+            x: { stacked: true,ticks: {
+                    font: {
+                        size: 10 // Taille de police réduite pour les étiquettes de l'axe X
+                    }
+                } },
+            y: { stacked: true, beginAtZero: true,ticks: {
+                    font: {
+                        size: 10 // Taille de police réduite pour les étiquettes de l'axe X
+                    }
+                } }
           }
         }
       });
