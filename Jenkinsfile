@@ -1319,47 +1319,36 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
                     //  ***************************************
-    def barDatasets = [
+          def barDatasets = [
                 """
                     {
                         label: "PASS",
                         backgroundColor: "#4CAF50", // Vert
-                        data: [${featureStatusData.collect { 
-                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                            total == 0 ? 0 : Math.round((it.value.PASS / total * 100).doubleValue() * 100) / 100.0
-                        }.join(", ")}]
+                        data: [${featureStatusData.collect { it.value.PASS }.join(", ")}]
                     }
                 """,
                 """
                     {
                         label: "NOT EXECUTED",
                         backgroundColor: "#A5D6A7", // Vert clair
-                        data: [${featureStatusData.collect { 
-                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                            total == 0 ? 0 : Math.round((it.value.NOTEXECUTED / total * 100).doubleValue() * 100) / 100.0
-                        }.join(", ")}]
+                        data: [${featureStatusData.collect { it.value.NOTEXECUTED }.join(", ")}]
                     }
                 """,
                 """
                     {
                         label: "NOK MINOR",
                         backgroundColor: "#FF9800", // Orange
-                        data: [${featureStatusData.collect { 
-                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                            total == 0 ? 0 : Math.round((it.value.NOKMINOR / total * 100).doubleValue() * 100) / 100.0
-                        }.join(", ")}]
+                        data: [${featureStatusData.collect { it.value.NOKMINOR }.join(", ")}]
                     }
                 """,
                 """
                     {
                         label: "NOK MAJOR",
                         backgroundColor: "#F44336", // Rouge
-                        data: [${featureStatusData.collect { 
-                            def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                            total == 0 ? 0 : Math.round((it.value.NOKMAJOR / total * 100).doubleValue() * 100) / 100.0
-                        }.join(", ")}]
+                        data: [${featureStatusData.collect { it.value.NOKMAJOR }.join(", ")}]
                     }
                 """
+            ]
 
                     // Données pour la deuxième pie chart (basée sur featureStatusData)
                     def featureStatusPieData = [
@@ -1496,25 +1485,24 @@ pipeline {
 
   <!-- ... (autres parties du HTML) ... -->
 
-   <script>
+  <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Diagramme à barres horizontales
+      // Diagramme à barres groupées
       var ctxGroupedBar = document.getElementById('groupedBarChart').getContext('2d');
       new Chart(ctxGroupedBar, {
-        type: 'bar', // Type de diagramme
+        type: 'bar',
         data: {
-          labels: [${featureLabels}], // Features sur l'axe Y
+          labels: [${featureLabels}], // Labels des features
           datasets: [${barDatasets.join(", ")}] // Données des statuts
         },
         options: {
-          indexAxis: 'y', // Inverser les axes (features sur Y)
           responsive: true,
           plugins: {
             legend: { position: 'top' }
           },
           scales: {
-            x: { stacked: false, beginAtZero: true }, // Valeurs sur X
-            y: { stacked: false } // Features sur Y
+            x: { stacked: false }, // Barres groupées (non empilées)
+            y: { stacked: false, beginAtZero: true }
           }
         }
       });
