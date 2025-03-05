@@ -1442,15 +1442,16 @@ pipeline {
     </div>
   </div>
 
-<div class="pdf-section">
+  <div class="pdf-section">
     <div class="chart-container">
-        <!-- Bar Chart 1 -->
+        <!-- Bar Chart -->
         <div class="chart-wrapper bar">
             <h3>Répartition des statuts par feature</h3>
             <p class="chart-description">Ce graphique montre la répartition des statuts (PASS, FAIL, etc.) pour chaque feature.</p>
             <canvas id="barChart"></canvas>
         </div>
-        <!-- Pie Chart 1 -->
+
+        <!-- Pie Chart -->
         <div class="chart-wrapper pie">
             <h3>Répartition globale des statuts</h3>
             <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
@@ -1459,22 +1460,20 @@ pipeline {
     </div>
 </div>
 
-<div class="pdf-section">
+    <!-- Bar Chart 2 and Pie Chart 2 -->
     <div class="chart-container">
-        <!-- Bar Chart 2 -->
-        <div class="chart-wrapper bar">
-            <h3>Répartition des statuts détaillés par feature</h3>
-            <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
-            <canvas id="featureStatusChart"></canvas>
-        </div>
-        <!-- Pie Chart 2 -->
-        <div class="chart-wrapper pie">
-            <h3>Répartition globale des statuts détaillés</h3>
-            <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
-            <canvas id="featureStatusPieChart"></canvas>
-        </div>
+      <div class="chart-wrapper bar">
+        <h3>Répartition des statuts détaillés par feature</h3>
+        <p class="chart-description">Ce graphique montre la répartition des statuts détaillés (PASS, NOT EXECUTED, NOK MINOR, NOK MAJOR) pour chaque feature.</p>
+        <canvas id="featureStatusChart"></canvas>
+      </div>
+      <div class="chart-wrapper pie">
+        <h3>Répartition globale des statuts détaillés</h3>
+        <p class="chart-description">Ce graphique montre la répartition globale des statuts détaillés pour toutes les features.</p>
+        <canvas id="featureStatusPieChart"></canvas>
+      </div>
     </div>
-</div>
+  </div>
 
   <div class="pdf-section">
     <div class="chart-container">
