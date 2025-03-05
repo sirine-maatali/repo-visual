@@ -1326,7 +1326,7 @@ pipeline {
             backgroundColor: "#4CAF50", // Vert
             data: [${featureStatusData.collect { 
                 def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                total == 0 ? 0 : (it.value.PASS / total * 100).setScale(2, java.math.RoundingMode.HALF_UP)
+                total == 0 ? 0 : Math.round(it.value.PASS / total * 100 * 100) / 100
             }.join(", ")}]
         }
     """,
@@ -1336,7 +1336,7 @@ pipeline {
             backgroundColor: "#A5D6A7", // Vert clair
             data: [${featureStatusData.collect { 
                 def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                total == 0 ? 0 : (it.value.NOTEXECUTED / total * 100).setScale(2, java.math.RoundingMode.HALF_UP)
+                total == 0 ? 0 : Math.round(it.value.NOTEXECUTED / total * 100 * 100) / 100
             }.join(", ")}]
         }
     """,
@@ -1346,7 +1346,7 @@ pipeline {
             backgroundColor: "#FF9800", // Orange
             data: [${featureStatusData.collect { 
                 def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                total == 0 ? 0 : (it.value.NOKMINOR / total * 100).setScale(2, java.math.RoundingMode.HALF_UP)
+                total == 0 ? 0 : Math.round(it.value.NOKMINOR / total * 100 * 100) / 100
             }.join(", ")}]
         }
     """,
@@ -1356,7 +1356,7 @@ pipeline {
             backgroundColor: "#F44336", // Rouge
             data: [${featureStatusData.collect { 
                 def total = it.value.PASS + it.value.NOTEXECUTED + it.value.NOKMINOR + it.value.NOKMAJOR
-                total == 0 ? 0 : (it.value.NOKMAJOR / total * 100).setScale(2, java.math.RoundingMode.HALF_UP)
+                total == 0 ? 0 : Math.round(it.value.NOKMAJOR / total * 100 * 100) / 100
             }.join(", ")}]
         }
     """
