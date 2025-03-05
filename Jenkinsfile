@@ -1555,216 +1555,99 @@ pipeline {
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Bar Chart
+      // Bar Chart 1
       var ctxBar = document.getElementById('barChart').getContext('2d');
-new Chart(ctxBar, {
-    type: 'bar',
-    data: {
-        labels: [${featureLabels}],
-        datasets: [${datasets.join(", ")}]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            datalabels: { // Ajouter les étiquettes de données
-                anchor: 'end', // Position de l'étiquette (fin de la barre)
-                align: 'top', // Alignement de l'étiquette
-                color: '#000', // Couleur du texte
-                font: {
-                    weight: 'bold', // Texte en gras
-                    size: 10 // Taille de police
-                },
-                formatter: (value) => {
-                    return value; // Afficher la valeur de la barre
-                }
-            }
-        },
-        scales: {
-            x: {
-                stacked: true,
-                ticks: {
-                    font: {
-                        size: 8
-                    }
-                }
-            },
-            y: {
-                stacked: true,
-                beginAtZero: true,
-                ticks: {
-                    font: {
-                        size: 8
-                    }
-                }
-            }
-        }
-    },
-    plugins: [ChartDataLabels] // Activer le plugin
-});
-
-      // Pie Chart 1
-      var ctxPie = document.getElementById('pieChart').getContext('2d');
-      new Chart(ctxPie, {
-        type: 'pie',
+      new Chart(ctxBar, {
+        type: 'bar',
         data: {
-          labels: [${pieLabels}],
-          datasets: [{
-            data: [${pieValues}],
-            backgroundColor: [${greenShades.collect { "\"${it}\"" }.join(", ")}]
-          }]
+          labels: [${featureLabels}],
+          datasets: [${datasets.join(", ")}]
         },
         options: {
           responsive: true,
           plugins: {
             legend: { position: 'top' },
             datalabels: {
-              formatter: (value, ctx) => {
-                let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                let percentage = (value * 100 / sum).toFixed(2) + "%";
-                return percentage;
-              },
+              anchor: 'end', // Position de l'étiquette (fin de la barre)
+              align: 'top', // Alignement de l'étiquette
+              formatter: (value) => value, // Afficher la valeur telle quelle
               color: '#000', // Couleur du texte
               font: {
-                weight: 'bold',
-                size: 10 // Taille de police réduite
-              },
-              anchor: 'center', // Positionne l'étiquette au centre du segment
-              align: 'center', // Aligne l'étiquette au centre
-              offset: 0, // Pas de décalage
-              textAlign: 'center', // Centre le texte
-              clip: false // Permet à l'étiquette de sortir du graphique
+                weight: 'bold', // Texte en gras
+                size: 12 // Taille de police
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              ticks: {
+                font: {
+                  size: 8
+                }
+              }
+            },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              ticks: {
+                font: {
+                  size: 8
+                }
+              }
             }
           }
         },
         plugins: [ChartDataLabels] // Activer le plugin
       });
 
-      // Feature Status Chart
-   var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
-new Chart(ctxFeatureStatus, {
-    type: 'bar',
-    data: {
-        labels: [${featureStatusLabels}],
-        datasets: [${featureStatusDatasets.join(", ")}]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top' },
-            datalabels: { // Ajouter les étiquettes de données
-                anchor: 'end', // Position de l'étiquette (fin de la barre)
-                align: 'top', // Alignement de l'étiquette
-                color: '#000', // Couleur du texte
-                font: {
-                    weight: 'bold', // Texte en gras
-                    size: 10 // Taille de police
-                },
-                formatter: (value) => {
-                    return value; // Afficher la valeur de la barre
-                }
-            }
-        },
-        scales: {
-            x: {
-                stacked: true,
-                ticks: {
-                    font: {
-                        size: 8
-                    }
-                }
-            },
-            y: {
-                stacked: true,
-                beginAtZero: true,
-                ticks: {
-                    font: {
-                        size: 8
-                    }
-                }
-            }
-        }
-    },
-    plugins: [ChartDataLabels] // Activer le plugin
-});
-
-      // Feature Status Pie Chart
-      var ctxFeatureStatusPie = document.getElementById('featureStatusPieChart').getContext('2d');
-      new Chart(ctxFeatureStatusPie, {
-        type: 'pie',
+      // Bar Chart 2 (Feature Status Chart)
+      var ctxFeatureStatus = document.getElementById('featureStatusChart').getContext('2d');
+      new Chart(ctxFeatureStatus, {
+        type: 'bar',
         data: {
-          labels: ${featureStatusPieLabels.collect { "\"${it}\"" }},
-          datasets: [{
-            data: ${featureStatusPieData},
-            backgroundColor: ${featureStatusPieColors.collect { "\"${it}\"" }}
-          }]
+          labels: [${featureStatusLabels}],
+          datasets: [${featureStatusDatasets.join(", ")}]
         },
         options: {
           responsive: true,
           plugins: {
             legend: { position: 'top' },
             datalabels: {
-              formatter: (value, ctx) => {
-                let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                let percentage = (value * 100 / sum).toFixed(2) + "%";
-                return percentage;
-              },
+              anchor: 'end', // Position de l'étiquette (fin de la barre)
+              align: 'top', // Alignement de l'étiquette
+              formatter: (value) => value, // Afficher la valeur telle quelle
               color: '#000', // Couleur du texte
               font: {
-                weight: 'bold',
-                size: 10 // Taille de police réduite
-              },
-              anchor: 'center', // Positionne l'étiquette au centre du segment
-              align: 'center', // Aligne l'étiquette au centre
-              offset: 0, // Pas de décalage
-              textAlign: 'center', // Centre le texte
-              clip: false // Permet à l'étiquette de sortir du graphique
+                weight: 'bold', // Texte en gras
+                size: 12 // Taille de police
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              ticks: {
+                font: {
+                  size: 8
+                }
+              }
+            },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              ticks: {
+                font: {
+                  size: 8
+                }
+              }
             }
           }
         },
         plugins: [ChartDataLabels] // Activer le plugin
       });
 
-      // Pagination Script
-      const table = document.getElementById('defectsTable');
-      const rows = table.querySelectorAll('tbody tr');
-      const rowsPerPage = 7; // Number of rows per page
-      const pageCount = Math.ceil(rows.length / rowsPerPage);
-      const paginationDiv = document.getElementById('pagination');
-
-      // Function to show rows for a specific page
-      function showPage(page) {
-        const start = (page - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        rows.forEach((row, index) => {
-          row.style.display = (index >= start && index < end) ? '' : 'none';
-        });
-      }
-
-      // Function to set the active button
-      function setActiveButton(activeButton) {
-        paginationDiv.querySelectorAll('button').forEach(button => {
-          button.classList.remove('active');
-        });
-        activeButton.classList.add('active');
-      }
-
-      // Function to create pagination buttons
-      function createPagination() {
-        for (let i = 1; i <= pageCount; i++) {
-          const button = document.createElement('button');
-          button.innerText = i;
-          button.addEventListener('click', () => {
-            showPage(i);
-            setActiveButton(button);
-          });
-          paginationDiv.appendChild(button);
-        }
-        showPage(1); // Show first page by default
-        setActiveButton(paginationDiv.querySelector('button'));
-      }
-
-      createPagination(); // Initialize pagination
+      // ... (autres graphiques et scripts) ...
     });
   </script>
 
