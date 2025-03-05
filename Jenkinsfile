@@ -1447,16 +1447,19 @@ pipeline {
     <h2>Defects (FAIL & BLOCKED)</h2>
     <p class="chart-description">Liste des défauts identifiés avec leur priorité.</p>
     <table id="defectsTable">
-      <thead>
-        <tr><th>Family</th>
-        <th>Test-Case</th>
-        <th>Platform</th>
-        <th>Version</th>
-        <th>Bug ID</th>
-        <th>Summary</th>
-        <th>Priority</th>
-        <th>result</th></tr>
+        <thead>
+        <tr>
+          <th>Feature</th>
+          <th>ID</th>
+          <th>Summary</th>
+          <th>Priority</th>
+          <th>Result</th>
+          <th>Project</th> <!-- Nouvelle colonne -->
+          <th>Version</th> <!-- Nouvelle colonne -->
+          <th>Testcase</th> <!-- Nouvelle colonne -->
+        </tr>
       </thead>
+
       <tbody>
         ${defectsData.join("\n")}
       </tbody>
