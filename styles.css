@@ -1,37 +1,64 @@
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 20px;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
 }
 
+/* Navbar Styles */
+.navbar {
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.navbar .generatePdfButton {
+    padding: 10px 20px;
+    background-color: #2E7D32;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.navbar .generatePdfButton:hover {
+    background-color: #45a049;
+}
+
+/* Title Styles */
 h1, h2 {
     color: #2E7D32;
     text-align: center;
-    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
-    font-size: 2.5em;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 36px;
+    margin-top: 20px;
 }
 
 h2 {
-    font-size: 2em;
-    color: #4CAF50;
-    margin-top: 10px;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
+/* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    border-radius: 10px;
-    overflow: hidden;
 }
 
 table, th, td {
@@ -46,24 +73,21 @@ th, td {
 th {
     background-color: #4CAF50;
     color: white;
-    font-weight: bold;
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f2f2f2;
 }
 
 tr:hover {
-    background-color: #f1f1f1;
-    transition: background-color 0.3s ease;
+    background-color: #ddd;
 }
 
+/* Chart Styles */
 canvas {
     margin-top: 20px;
     margin-bottom: 20px;
     max-width: 100%;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .chart-container {
@@ -79,17 +103,10 @@ canvas {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.chart-wrapper:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .chart-wrapper.pie {
     width: 30%;
-    padding: 20px;
 }
 
 .chart-wrapper.bar {
@@ -101,9 +118,9 @@ canvas {
     font-style: italic;
     color: #555;
     text-align: center;
-    font-size: 0.9em;
 }
 
+/* Card Styles */
 .card {
     background-color: #4CAF50;
     color: white;
@@ -125,13 +142,11 @@ canvas {
     display: flex;
     justify-content: space-around;
     margin-bottom: 40px;
-    flex-wrap: wrap;
 }
 
 .card h3 {
     margin: 0;
     font-size: 18px;
-    font-weight: bold;
 }
 
 .card p {
@@ -140,6 +155,7 @@ canvas {
     font-weight: bold;
 }
 
+/* Footer Styles */
 .footer {
     text-align: center;
     margin-top: 40px;
@@ -148,7 +164,6 @@ canvas {
     color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: 0.9em;
 }
 
 .footer a {
@@ -185,25 +200,4 @@ canvas {
 
 .pagination button.active {
     background-color: #2E7D32;
-}
-
-/* Button Styles */
-#generatePdfButton {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-#generatePdfButton:hover {
-    background-color: #45a049;
-    transform: translateY(-2px);
-}
-
-#generatePdfButton:active {
-    transform: translateY(0);
 }

@@ -1360,11 +1360,13 @@ pipeline {
     
 </head>
 <body>
-  <div style="text-align: center; margin-bottom: 20px;">
-    <button id="generatePdfButton" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-      Générer un PDF
-    </button>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Rapport de Test Execution</h1>
+    <button class="generatePdfButton" id="generatePdfButton">Générer un PDF</button>
   </div>
+
+  <!-- Main Content -->
   <div class="pdf-section">
     <h1>Test Execution</h1>
     <h2>Nom du fichier : ${params.FILE_NAME}</h2>
