@@ -1319,9 +1319,7 @@ pipeline {
                     def pieLabels = pieData.keySet().collect { "\"${it}\"" }.join(", ")
                     def pieValues = pieData.values().join(", ")
                     //  ***************************************
-                    // Préparer les données pour le diagramme à barres groupées
-def featureLabels = featureStatusData.keySet().collect { "\"${it}\"" }.join(", ")
-def barDatasets = [
+                    def barDatasets = [
     """
         {
             label: "PASS",
