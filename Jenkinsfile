@@ -1362,14 +1362,14 @@ pipeline {
 <body>
   <!-- Navbar -->
   <div class="navbar">
-    <h1>Rapport de Test Execution</h1>
+    <h1>Rapport Execution Test</h1>
     <button class="generatePdfButton" id="generatePdfButton">Générer un PDF</button>
   </div>
 
   <!-- Main Content -->
   <div class="pdf-section">
-    <h1>Test Execution</h1>
-    <h2>Nom du fichier : ${params.FILE_NAME}</h2>
+    <h1>Execution Test </h1>
+    <h2>File name: ${params.FILE_NAME}</h2>
 
     <!-- Cards Section -->
     <div class="card-container">

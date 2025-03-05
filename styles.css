@@ -17,13 +17,14 @@ body {
 }
 
 .navbar h1 {
+    color: #f5f5f5;
     margin: 0;
     font-size: 24px;
 }
 
 .navbar .generatePdfButton {
     padding: 10px 20px;
-    background-color: #2E7D32;
+    background-color: #67d16c;
     color: white;
     border: none;
     border-radius: 5px;
@@ -38,7 +39,7 @@ body {
 
 /* Title Styles */
 h1, h2 {
-    color: #eaebea;
+    color: #2E7D32;
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
