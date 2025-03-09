@@ -1790,7 +1790,7 @@ pipeline {
 """
 
                     writeFile file: 'report.html', text: htmlContent
-                    archiveArtifacts artifacts: 'report.html,autre_page.html', fingerprint: true
+                    archiveArtifacts artifacts: 'report.html', fingerprint: true
 
                 }
             }
@@ -1803,7 +1803,7 @@ pipeline {
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
                     reportDir: "${WORKSPACE}", // Spécifiez le répertoire correct
-                    reportFiles: 'report.html,autre_page.html',
+                    reportFiles: 'report.html',
                     reportName: 'Visualisation des Features'
                 ])
             }
