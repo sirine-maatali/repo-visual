@@ -5,16 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autre Page</title>
     <link rel="stylesheet" href="./styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
 <body>
     <div class="navbar">
-        <h1>Autre Page</h1>
-        <!-- Modifier l'URL pour pointer vers report.html -->
+        <h1>Autre Page - Filtrage des Features</h1>
         <button class="retourButton" onclick="window.location.href='report.html'">Retour au rapport</button>
     </div>
     <div class="content">
-        <h2>Bienvenue sur l'autre page</h2>
-        <p>Ceci est une autre page HTML avec des informations supplémentaires.</p>
+        <!-- Titre avec le nom du fichier -->
+        <h2>Fichier : <span id="fileName"></span></h2>
+
+        <!-- Barre de recherche et bouton de filtrage -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Entrez un pourcentage (ex: 50%)">
+            <button onclick="filterCharts()">Filtrer</button>
+        </div>
+
+        <!-- Graphiques -->
+        <div class="chart-container">
+            <div class="chart-wrapper">
+                <h3>Répartition des statuts par feature (filtré)</h3>
+                <canvas id="filteredBarChart"></canvas>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Données initiales (remplacez cela par les données réelles de votre rapport)
+        const initialData = {
+            features: ["Feature A", "Feature B", "Feature C", "Feature D"],
+            passCounts: [80, 50, 30, 90], // Nombre de tests PASS par feature
+            totalTests: [100, 100, 100, 100] // Nombre total de tests par feature
+        };
+
+        // Afficher le nom du fichier
+        document.getElementById("fileName").textContent = new URLSearchParams(window.location.search).get("file") || "Fichier inconnu";
+
+        // Initialiser le graphique
+        let filteredBarChart;
+        const ctx = document.getElementById('filteredBarChart').getContext('2d');
+        filteredBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: initialData.features,
+                datasets: [{
+                    label: 'Pourcentage de PASS',
+                    backgroundColor: '#81C784',
+                    data: initialData.passCounts.map((pass, index) => (pass / initialData.totalTests[index]) * 100)
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Pourcentage de PASS'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Features'
+                        }
+                    }
+                },
+                plugins: {
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: (value) => `${value.toFixed(2)}%`,
+                        color: '#000',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+        // Fonction pour filtrer les graphiques
+        function filterCharts() {
+            const searchValue = parseFloat(document.getElementById("searchInput").value);
+            if (isNaN(searchValue)) {
+                alert("Veuillez entrer un pourcentage valide.");
+                return;
+            }
+
+            // Filtrer les features ayant un pourcentage de PASS >= searchValue
+            const filteredFeatures = [];
+            const filteredPassPercentages = [];
+            initialData.features.forEach((feature, index) => {
+                const passPercentage = (initialData.passCounts[index] / initialData.totalTests[index]) * 100;
+                if (passPercentage >= searchValue) {
+                    filteredFeatures.push(feature);
+                    filteredPassPercentages.push(passPercentage);
+                }
+            });
+
+            // Mettre à jour le graphique
+            filteredBarChart.data.labels = filteredFeatures;
+            filteredBarChart.data.datasets[0].data = filteredPassPercentages;
+            filteredBarChart.update();
+        }
+    </script>
 </body>
 </html>
