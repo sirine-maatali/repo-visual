@@ -2019,13 +2019,13 @@
                     def htmlContent = """
 <html>
 <head>
-    <link rel="stylesheet" href="./styles.css">
     <title>Test Execution - ${params.FILE_NAME}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    
+    <link rel="stylesheet" href="./styles.css">
+
 </head>
 <body>
   <!-- Navbar -->
@@ -2038,7 +2038,7 @@
   <!-- Main Content -->
   <div class="pdf-section">
     <h1>Execution Test </h1>
-    <h2>File name: ${params.FILE_NAME}</h2>
+    <h2>${params.FILE_NAME}</h2>
     <br>
     <br>
 
