@@ -1789,8 +1789,8 @@ pipeline {
 </body></html>
 """
 
-                    writeFile file: 'report.html', text: htmlContent
-                    archiveArtifacts artifacts: 'report.html', fingerprint: true
+                    writeFile file: 'report.html,autre_page.html', text: htmlContent
+                    archiveArtifacts artifacts: 'report.html,autre_page.html', fingerprint: true
 
                 }
             }
