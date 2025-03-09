@@ -1924,16 +1924,24 @@
                     // Couleurs fixes pour les barres (nuances de vert)
                     def greenShades = ['#81C784','#c06bd1','#76aedb' ,'#e35d56','#ab3b35','#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C','#ced16b','#d1776b','#6dc0c9','#db76b0','#76aedb',]
                     
-                    statusTypes.eachWithIndex { status, index ->
-                        def data = statusCounts.collect { it.value[status] ?: 0 }
-                        datasets.add("""
-                            {
-                                label: "${status}",
-                                backgroundColor: "${greenShades[index % greenShades.size()]}",
-                                data: [${data.join(", ")}]
-                            }
-                        """)
-                    }
+                    def statusColors = [
+    'PASS': '#81C784',
+    'TODO': '#76aedb',
+    'ABORTED': '#ca9ee6',
+    'FAIL': '#b8312a',
+    'BLOCKED': '#b03933'
+]
+
+statusTypes.eachWithIndex { status, index ->
+    def data = statusCounts.collect { it.value[status] ?: 0 }
+    datasets.add("""
+        {
+            label: "${status}",
+            backgroundColor: "${statusColors[status]}",
+            data: [${data.join(", ")}]
+        }
+    """)
+}
                     
                     def pieData = statusCounts.collectEntries { feature, statuses ->
                         [(feature): statuses.collect { k, v -> v }.sum()]
