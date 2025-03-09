@@ -1922,7 +1922,7 @@
                     def statusTypes = statusCounts.values().collectMany { it.keySet() }.unique()
                     
                     // Couleurs fixes pour les barres (nuances de vert)
-                    def greenShades = ['#4CAF50', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C']
+                    def greenShades = ['#c06bd1', '#81C784', '#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C','#c3d16b','#d1776b','#6dc0c9']
                     
                     statusTypes.eachWithIndex { status, index ->
                         def data = statusCounts.collect { it.value[status] ?: 0 }
