@@ -1803,7 +1803,7 @@ pipeline {
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
                     reportDir: "${WORKSPACE}", // Spécifiez le répertoire correct
-                    reportFiles: 'report.html,autre_page.html,script.js',
+                    reportFiles: 'report.html,autre_page.html',
                     reportName: 'Visualisation des Features'
                 ])
             }
