@@ -1866,16 +1866,14 @@
     def feature = entry.feature.toString().trim()
     def status = entry.status.toString().trim()
     def result = entry.result.toString().trim()
-    def project = entry.project.toString().trim() // Récupération du champ "project"
-    def version = entry.version.toString().trim() // Récupération du champ "version"
-    def testcase = entry.testcase.toString().trim() // Récupération du champ "testcase"
+    def project = entry.project.toString().trim() 
+    def version = entry.version.toString().trim() 
+    def testcase = entry.testcase.toString().trim() 
 
-    // Initialisation de la structure de données pour la feature si elle n'existe pas encore
     if (!featureStatusData[feature]) {
         featureStatusData[feature] = [PASS: 0, NOTEXECUTED: 0, NOKMINOR: 0, NOKMAJOR: 0]
     }
 
-    // Mise à jour des compteurs en fonction du champ "result"
     totalTests++
     switch (result) {
         case "ok":
@@ -2025,7 +2023,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <link rel="stylesheet" href="./styles.css">
-    <button class="autrePageButton" onclick="window.location.href='autre_page.html'">Aller à l'autre page</button>
 
 </head>
 <body>
@@ -2033,6 +2030,8 @@
   <div class="navbar">
     <h1>Test Rapport</h1>
     <button class="generatePdfButton" id="generatePdfButton">Générer un PDF</button>
+    <button class="autrePageButton" onclick="window.location.href='autre_page.html'">Aller à l'autre page</button>
+
    
   </div>
 
