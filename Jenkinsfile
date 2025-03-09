@@ -1924,12 +1924,12 @@
                     // Couleurs fixes pour les barres (nuances de vert)
                     def greenShades = ['#81C784','#c06bd1','#76aedb' ,'#e35d56','#ab3b35','#A5D6A7', '#C8E6C9', '#66BB6A', '#388E3C','#ced16b','#e88072','#6dc0c9','#db76b0','#76aedb',]
                     
-                    def statusColors = [
-    'PASS': '#81C784',       // Vert doux (déjà défini)
-    'TODO': '#76aedb',       // Bleu clair (déjà défini)
-    'ABORTED': '#ca9ee6',    // Violet pastel (déjà défini)
-    'FAIL': '#FFA726',       // Orange vif (remplace le jaune pour plus de contraste)
-    'BLOCKED': '#EF5350',    // Rouge vif (plus clair que #b03933 pour mieux ressortir)
+ def statusColors = [
+    'PASS': '#81C784',       
+    'TODO': '#76aedb',       
+    'ABORTED': '#ca9ee6',    
+    'FAIL': '#FF6F61',       
+    'BLOCKED': '#6D5B7B'     
 ]
 
 statusTypes.eachWithIndex { status, index ->
