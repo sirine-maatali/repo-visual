@@ -1928,7 +1928,7 @@
     'PASS': '#81C784',
     'TODO': '#76aedb',
     'ABORTED': '#ca9ee6',
-    'FAIL': '#b8312a',
+    'FAIL': '#ebdb75',
     'BLOCKED': '#b03933'
 ]
 
