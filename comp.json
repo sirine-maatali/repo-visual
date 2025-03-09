@@ -1,0 +1,62 @@
+[
+    {
+        "testKey": "HGWXRAY-57569",
+        "status_file1": "PASS",
+        "status_file2": "FAIL"
+    },
+    {
+        "testKey": "HGWXRAY-57568",
+        "status_file1": "PASS",
+        "status_file2": "FAIL"
+    },
+    {
+        "testKey": "HGWXRAY-57552",
+        "status_file1": "PASS",
+        "status_file2": "FAIL"
+    },
+    {
+        "testKey": "HGWXRAY-899",
+        "status_file1": "PASS",
+        "status_file2": "FAIL"
+    },
+    {
+        "testKey": "HGWXRAY-902",
+        "status_file1": "PASS",
+        "status_file2": "FAIL"
+    },
+    {
+        "testKey": "HGWXRAY-901",
+        "status_file1": "PASS",
+        "status_file2": "FAIL"
+    },
+    {
+        "testKey": "HGWXRAY-900",
+        "status_file1": "PASS",
+        "status_file2": "FAIL"
+    },
+    {
+        "testKey": "HGWXRAY-923",
+        "status_file1": "FAIL",
+        "status_file2": "PASS"
+    },
+    {
+        "testKey": "HGWXRAY-922",
+        "status_file1": "FAIL",
+        "status_file2": "PASS"
+    },
+    {
+        "testKey": "HGWXRAY-921",
+        "status_file1": "FAIL",
+        "status_file2": "PASS"
+    },
+    {
+        "testKey": "HGWXRAY-933",
+        "status_file1": "PASS",
+        "status_file2": "FAIL"
+    },
+    {
+        "testKey": "HGWXRAY-84332",
+        "status_file1": "PASS",
+        "status_file2": "FAIL"
+    }
+]

@@ -1,0 +1,694 @@
+[
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-57569",
+        "testRunId": 3059650,
+        "feature": "ADVANCED-NETWORKING",
+        "status": "FAIL",
+        "testcase": "[ADVANCED-NETWORKING] DMZ Host",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            }
+        ],
+        "result": "NOK MAJOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-57568",
+        "testRunId": 3059651,
+        "feature": "ADVANCED-NETWORKING",
+        "status": "FAIL",
+        "testcase": "[ADVANCED-NETWORKING] Block access to the Internet services from within the LAN",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            }
+        ],
+        "result": "NOK MAJOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-57552",
+        "testRunId": 3059652,
+        "feature": "ADVANCED-NETWORKING",
+        "status": "FAIL",
+        "testcase": "[ADVANCED-NETWORKING] Static IP configuration",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            }
+        ],
+        "result": "NOK MAJOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-57537",
+        "testRunId": 3059653,
+        "feature": "ADVANCED-NETWORKING",
+        "status": "PASS",
+        "testcase": "[ADVANCED-NETWORKING] Verify Port Forwarding",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-3977",
+        "testRunId": 3059654,
+        "feature": "DHCP-SERVER",
+        "status": "PASS",
+        "testcase": "[DHCPServer] DHCP Server - Basic",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-899",
+        "testRunId": 3059655,
+        "feature": "DHCP-SERVER",
+        "status": "FAIL",
+        "testcase": "[DHCP-SERVER] DHCP Server - Static IP, Step 1",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            }
+        ],
+        "result": "NOK MAJOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-937",
+        "testRunId": 3059656,
+        "feature": "IPv6",
+        "status": "PASS",
+        "testcase": "[IPv6] IPv6 Sanity Test - WLAN",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-935",
+        "testRunId": 3059657,
+        "feature": "IPv6",
+        "status": "PASS",
+        "testcase": "[IPv6] IPv6 Sanity Test - LAN",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-71077",
+        "testRunId": 3059658,
+        "feature": "IPV6",
+        "status": "ABORTED",
+        "testcase": "[IPV6] Dual stack and IPv6 only MoCA clients",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "NOT EXECUTED"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-601",
+        "testRunId": 3059660,
+        "feature": "INTERFACES",
+        "status": "FAIL",
+        "testcase": "[Interfaces] Reboot using HW Button",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            }
+        ],
+        "result": "NOK MAJOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-902",
+        "testRunId": 3059661,
+        "feature": "NAT",
+        "status": "FAIL",
+        "testcase": "[NAT] NAT - PAT support - Hairpinning behaviour - Delete rule",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            }
+        ],
+        "result": "NOK MAJOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-901",
+        "testRunId": 3059662,
+        "feature": "NAT",
+        "status": "FAIL",
+        "testcase": "[NAT] NAT - PAT support - Hairpinning behaviour - Modify rule",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            }
+        ],
+        "result": "NOK MAJOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-900",
+        "testRunId": 3059663,
+        "feature": "NAT",
+        "status": "FAIL",
+        "testcase": "[NAT] NAT - PAT support - Hairpinning behaviour - Create rule",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            }
+        ],
+        "result": "NOK MAJOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-47582",
+        "testRunId": 3059664,
+        "feature": "TR-069",
+        "status": "PASS",
+        "testcase": "[TR-069] CuC-05 - WiFi Credentials",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-897",
+        "testRunId": 3059665,
+        "feature": "TR-069",
+        "status": "PASS",
+        "testcase": "[TR-069] CuC-08 - CPE Info",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-894",
+        "testRunId": 3059666,
+        "feature": "TR-069",
+        "status": "PASS",
+        "testcase": "[TR-069] CuC-01 - Initial contact",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-6727",
+        "testRunId": 3059667,
+        "feature": "TR-069-UPGRADE",
+        "status": "PASS",
+        "testcase": "[TR-069 UPGRADE] Basic Upgrade to Clone - services check",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-6717",
+        "testRunId": 3059668,
+        "feature": "TR-069-UPGRADE",
+        "status": "FAIL",
+        "testcase": "[UPGRADE] Settings Persistency - Upgrade RC-1 to RC",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 321568,
+                "summary": "[VZ_WiFi7][WebUI] No effect when selected Security mode ",
+                "priority": "High"
+            }
+        ],
+        "result": "NOK MINOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-52190",
+        "testRunId": 3059669,
+        "feature": "WAN",
+        "status": "PASS",
+        "testcase": "[WAN] FTTH PRPL - Demo wan mode",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-915",
+        "testRunId": 3059670,
+        "feature": "WEBUI",
+        "status": "PASS",
+        "testcase": "[Webui] Webui availability - New password",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-19391",
+        "testRunId": 3059671,
+        "feature": "WEBUI",
+        "status": "PASS",
+        "testcase": "[WEBUI] Browsers Compliance",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-923",
+        "testRunId": 3059672,
+        "feature": "WEBUI",
+        "status": "PASS",
+        "testcase": "[Webui] Browsers compliance Sanity",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-925",
+        "testRunId": 3059673,
+        "feature": "WEBUI",
+        "status": "FAIL",
+        "testcase": "[Webui] WiFi Parameters 5Ghz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 321568,
+                "summary": "[VZ_WiFi7][WebUI] No effect when selected Security mode ",
+                "priority": "High"
+            }
+        ],
+        "result": "NOK MINOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-924",
+        "testRunId": 3059674,
+        "feature": "WEBUI",
+        "status": "FAIL",
+        "testcase": "[Webui] WiFi Parameters 2.4Ghz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 321568,
+                "summary": "[VZ_WiFi7][WebUI] No effect when selected Security mode ",
+                "priority": "High"
+            }
+        ],
+        "result": "NOK MINOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-922",
+        "testRunId": 3059675,
+        "feature": "WEBUI",
+        "status": "PASS",
+        "testcase": "[Webui] WiFi On Off 5Ghz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-921",
+        "testRunId": 3059676,
+        "feature": "WEBUI",
+        "status": "PASS",
+        "testcase": "[Webui] WiFi On Off 2.4Ghz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-933",
+        "testRunId": 3059677,
+        "feature": "WEBUI",
+        "status": "FAIL",
+        "testcase": "[Webui] Reboot using the WebUI",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 321568,
+                "summary": "[VZ_WiFi7][WebUI] No effect when selected Security mode ",
+                "priority": "High"
+            },
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            },
+            {
+                "id": 321826,
+                "summary": "[VZ_WIFI7][WebUI] incorrect number of connected  devices",
+                "priority": "Medium"
+            }
+        ],
+        "result": "NOK MINOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-60757",
+        "testRunId": 3059678,
+        "feature": "WEBUI",
+        "status": "FAIL",
+        "testcase": "[Webui] Upgrade using the WebUI",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            },
+            {
+                "id": 321826,
+                "summary": "[VZ_WIFI7][WebUI] incorrect number of connected  devices",
+                "priority": "Medium"
+            }
+        ],
+        "result": "NOK MINOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-84332",
+        "testRunId": 3059679,
+        "feature": "WEBUI",
+        "status": "FAIL",
+        "testcase": "[Webui] Downgrade using the WebUI",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 317797,
+                "summary": "[VZ_WiFi7][WebUI] The GUI is super buggy",
+                "priority": "Blocker"
+            },
+            {
+                "id": 321826,
+                "summary": "[VZ_WIFI7][WebUI] incorrect number of connected  devices",
+                "priority": "Medium"
+            }
+        ],
+        "result": "NOK MINOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-940",
+        "testRunId": 3059680,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Play a Youtube video",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-1345",
+        "testRunId": 3059681,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[Wi-FiFunctional] WPS Methods - Client PIN (2.4GHz Band)",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-1344",
+        "testRunId": 3059682,
+        "feature": "WI-FI-WPS",
+        "status": "FAIL",
+        "testcase": "[WI-FI-WPS] WPS Methods - Self PIN (2.4GHz Band)",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 321835,
+                "summary": "[VZ_WIFI7[WPS][WEBUI] Cannot connect to device using WPS self PIN method",
+                "priority": "Medium"
+            }
+        ],
+        "result": "NOK MINOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-939",
+        "testRunId": 3059683,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Ping 2.4GHz-WAN",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-938",
+        "testRunId": 3059684,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[Wi-Fi-Functional] Ping 2.4GHz-LAN",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-943",
+        "testRunId": 3059685,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Play a Youtube video on 5.0ghz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-1347",
+        "testRunId": 3059686,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[Wi-FiFunctional] WPS Methods - Client PIN (5GHz Band)",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-1346",
+        "testRunId": 3059687,
+        "feature": "WI-FI-WPS",
+        "status": "FAIL",
+        "testcase": "[WI-FI-WPS] WPS Methods - Self PIN (5GHz Band)",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [
+            {
+                "id": 321835,
+                "summary": "[VZ_WIFI7[WPS][WEBUI] Cannot connect to device using WPS self PIN method",
+                "priority": "Medium"
+            }
+        ],
+        "result": "NOK MINOR"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-942",
+        "testRunId": 3059688,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Ping 5.0GHz-WAN",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-941",
+        "testRunId": 3059689,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[Wi-FiFunctional] Ping 5.0GHz-LAN",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-6918",
+        "testRunId": 3059690,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[WI-FI-FUNCTIONAL] Play a Youtube video on 6ghz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-6917",
+        "testRunId": 3059691,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[WI-FI-FUNCTIONAL]  Ping 6GHz-WAN",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-6916",
+        "testRunId": 3059692,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[WI-FI-FUNCTIONAL] Ping 6GHz-LAN",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-6915",
+        "testRunId": 3059693,
+        "feature": "WI-FI-FUNCTIONAL",
+        "status": "PASS",
+        "testcase": "[WI-FI-FUNCTIONAL] Ping 6GHz-6GHz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-909",
+        "testRunId": 3059694,
+        "feature": "WI-FI-STANDARD",
+        "status": "PASS",
+        "testcase": "[Wi-FiStandard] WiFi STA's connectivity - 5GHz -2.4GHz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-908",
+        "testRunId": 3059695,
+        "feature": "WI-FI-STANDARD",
+        "status": "PASS",
+        "testcase": "[Wi-FiStandard] WiFi STA's connectivity - 2.4GHz -2.4GHz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-907",
+        "testRunId": 3059696,
+        "feature": "WI-FI-STANDARD",
+        "status": "PASS",
+        "testcase": "[Wi-FiStandard] WiFi STA's connectivity - 5GHz -5GHz",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-911",
+        "testRunId": 3059697,
+        "feature": "WI-FI-WPS",
+        "status": "PASS",
+        "testcase": "[WI-FI-WPS] WPS PBC 2.4GHz - WPA2",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    },
+    {
+        "input_file": "HGWXRAY-93994",
+        "testKey": "HGWXRAY-910",
+        "testRunId": 3059698,
+        "feature": "WI-FI-WPS",
+        "status": "PASS",
+        "testcase": "[WI-FI-WPS] WPS 5GHz - WPA2",
+        "version": "v4.0.20.0",
+        "project": "VERIZON_WIFI7_WNC-LVR5",
+        "defects": [],
+        "result": "ok"
+    }
+]
