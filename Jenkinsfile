@@ -2032,8 +2032,7 @@
   <div class="navbar">
     <h1>Test Rapport</h1>
     <button class="generatePdfButton" id="generatePdfButton">Générer un PDF</button>
-    <button class="autrePageButton" onclick="window.location.href='autre_page.html'">Aller à l'autre page</button>
-
+   
   </div>
 
   <!-- Main Content -->
@@ -2427,7 +2426,7 @@
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
                     reportDir: "${WORKSPACE}", // Spécifiez le répertoire correct
-                    reportFiles: 'report.html,autre_page.html',
+                    reportFiles: 'report.html',
                     reportName: 'Visualisation des Features'
                 ])
             }
