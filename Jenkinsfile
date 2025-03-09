@@ -2025,6 +2025,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <link rel="stylesheet" href="./styles.css">
+    <button class="autrePageButton" onclick="window.location.href='autre_page.html'">Aller à l'autre page</button>
 
 </head>
 <body>
@@ -2425,8 +2426,8 @@
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: "${WORKSPACE}", // Spécifiez le répertoire correct
-                    reportFiles: 'report.html',
+                    reportDir: "${WORKSPACE}",
+                    reportFiles: 'report.html,autre_page.html',
                     reportName: 'Visualisation des Features'
                 ])
             }
