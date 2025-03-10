@@ -55,91 +55,78 @@
         }
 
         // Fonction pour filtrer les données
-    function filterData(filterType) {
-   
-        let filterValue;
-        if (filterType === 'PASS') {
-            filterValue = parseFloat(document.getElementById('filterPassInput').value);
-        } else if (filterType === 'FAIL') {
-            filterValue = parseFloat(document.getElementById('filterFailInput').value);
-            console.log(filterValue)
+        function filterData(filterType) {
+            let filterValue;
+            if (filterType === 'PASS') {
+                filterValue = parseFloat(document.getElementById('filterPassInput').value);
+            } else if (filterType === 'FAIL') {
+                filterValue = parseFloat(document.getElementById('filterFailInput').value);
+                console.log(filterValue)
+            }
+
+            // Valider la saisie
+            if (isNaN(filterValue) {
+                alert("Veuillez entrer un pourcentage valide.");
+                return;
+            }
+
+            console.log(`Filtrage des données avec un pourcentage minimum de ${filterType} :`, filterValue);
+
+            // Regrouper les données par feature
+            const featureData = {};
+            sharedData.forEach(entry => {
+                if (!featureData[entry.feature]) {
+                    featureData[entry.feature] = {
+                        totalTests: 0,
+                        passCount: 0,
+                        failCount: 0
+                    };
+                }
+                featureData[entry.feature].totalTests++;
+                if (entry.status === "PASS") {
+                    featureData[entry.feature].passCount++;
+                } else if (entry.status === "FAIL") {
+                    featureData[entry.feature].failCount++;
+                }
+            });
+
+            // Filtrer les features en fonction du type de filtre (PASS ou FAIL)
+            const filteredData = Object.keys(featureData).filter(feature => {
+                let percentage;
+                if (filterType === 'PASS') {
+                    percentage = (featureData[feature].passCount / featureData[feature].totalTests) * 100;
+                } else if (filterType === 'FAIL') {
+                    percentage = (featureData[feature].failCount / featureData[feature].totalTests) * 100;
+                }
+                return percentage >= filterValue;
+            });
+
+            console.log("Features filtrées :", filteredData);
+
+            if (filteredData.length === 0) {
+                console.warn("Aucune donnée ne correspond au filtre.");
+                alert("Aucune donnée ne correspond au filtre.");
+            } else {
+                console.log(`${filteredData.length} features correspondent au filtre.`);
+            }
+
+            // Mettre à jour les graphiques avec les données filtrées
+            updateCharts(filteredData, featureData);
+
+            // Mettre à jour la section détaillée
+            updateFeatureDetails(filteredData, featureData, filterType);
         }
-
-    // Valider la saisie
-    if (isNaN(filterValue)) {
-        alert("Veuillez entrer un pourcentage valide.");
-        return;
-    }
-
-    console.log(`Filtrage des données avec un pourcentage minimum de ${filterType} :`, filterValue);
-
-    // Regrouper les données par feature
-    const featureData = {};
-    sharedData.forEach(entry => {
-        if (!featureData[entry.feature]) {
-            featureData[entry.feature] = {
-                totalTests: 0,
-                passCount: 0,
-                failCount: 0,
-                nokMinorCount: 0,
-                nokMajorCount: 0
-            };
-        }
-        featureData[entry.feature].totalTests++;
-        if (entry.status === "PASS") {
-            featureData[entry.feature].passCount++;
-        } else if (entry.status === "FAIL") {
-            featureData[entry.feature].failCount++;
-        } 
-        // else if (entry.status === "NOK MINOR") {  // Vérifier le statut exact (avec espace)
-        //     featureData[entry.feature].nokMinorCount++;
-        // } else if (entry.status === "NOK MAJOR") { // Vérifier le statut exact (avec espace)
-        //     featureData[entry.feature].nokMajorCount++;
-        // }
-    });
-
-    // Filtrer les features en fonction du type de filtre (PASS ou FAIL)
-    const filteredData = Object.keys(featureData).filter(feature => {
-        let percentage;
-        if (filterType === 'PASS') {
-            percentage = (featureData[feature].passCount / featureData[feature].totalTests) * 100;
-        } else if (filterType === 'FAIL') {
-            const failCount = featureData[feature].nokMinorCount + featureData[feature].nokMajorCount;
-            percentage = (failCount / featureData[feature].totalTests) * 100;
-        }
-        return percentage >= filterValue;
-    });
-
-    console.log("Features filtrées :", filteredData);
-
-    if (filteredData.length === 0) {
-        console.warn("Aucune donnée ne correspond au filtre.");
-        alert("Aucune donnée ne correspond au filtre.");
-    } else {
-        console.log(`${filteredData.length} features correspondent au filtre.`);
-    }
-
-    // Mettre à jour les graphiques avec les données filtrées
-    updateCharts(filteredData, featureData);
-
-    // Mettre à jour la section détaillée
-    updateFeatureDetails(filteredData, featureData, filterType);
-}
 
         // Fonction pour mettre à jour les graphiques
         function updateCharts(filteredFeatures, featureData) {
             const featureLabels = filteredFeatures;
             const passData = filteredFeatures.map(feature => featureData[feature].passCount);
             const failData = filteredFeatures.map(feature => featureData[feature].failCount);
-            const nokMinorData = filteredFeatures.map(feature => featureData[feature].nokMinorCount);
-            const nokMajorData = filteredFeatures.map(feature => featureData[feature].nokMajorCount);
 
             console.log("Mise à jour des graphiques avec les données filtrées :", {
                 featureLabels,
                 passData,
-                failData,
-                nokMinorData,
-                nokMajorData
+                failData
             });
 
             // Détruire les anciens graphiques s'ils existent
@@ -159,19 +146,9 @@
                             data: passData
                         },
                         {
-                            label: 'NOT EXECUTED',
-                            backgroundColor: '#A5D6A7',
-                            data: failData
-                        },
-                        {
-                            label: 'NOK MINOR',
-                            backgroundColor: '#FF9800',
-                            data: nokMinorData
-                        },
-                        {
-                            label: 'NOK MAJOR',
+                            label: 'FAIL',
                             backgroundColor: '#F44336',
-                            data: nokMajorData
+                            data: failData
                         }
                     ]
                 },
@@ -197,19 +174,15 @@
 
             filteredFeatures.forEach(feature => {
                 const featureInfo = featureData[feature];
-                const totalFailCount = featureInfo.nokMinorCount + featureInfo.nokMajorCount;
                 const passPercentage = ((featureInfo.passCount / featureInfo.totalTests) * 100).toFixed(2);
-                const failPercentage = ((totalFailCount / featureInfo.totalTests) * 100).toFixed(2);
+                const failPercentage = ((featureInfo.failCount / featureInfo.totalTests) * 100).toFixed(2);
 
                 console.log(`Détails de la feature ${feature} :`, {
                     totalTests: featureInfo.totalTests,
                     passCount: featureInfo.passCount,
                     passPercentage,
-                    failCount: totalFailCount,
-                    failPercentage,
                     failCount: featureInfo.failCount,
-                    nokMinorCount: featureInfo.nokMinorCount,
-                    nokMajorCount: featureInfo.nokMajorCount
+                    failPercentage
                 });
 
                 const featureDetail = document.createElement('div');
@@ -218,10 +191,7 @@
                     <h4>${feature}</h4>
                     <p>Total des tests : ${featureInfo.totalTests}</p>
                     <p>PASS : ${featureInfo.passCount} (${passPercentage}%)</p>
-                    <p>FAIL : ${totalFailCount} (${failPercentage}%)</p>
-                    <p>NOT EXECUTED : ${featureInfo.failCount}</p>
-                    <p>NOK MINOR : ${featureInfo.nokMinorCount}</p>
-                    <p>NOK MAJOR : ${featureInfo.nokMajorCount}</p>
+                    <p>FAIL : ${featureInfo.failCount} (${failPercentage}%)</p>
                 `;
                 detailsContainer.appendChild(featureDetail);
             });
