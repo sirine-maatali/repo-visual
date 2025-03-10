@@ -28,6 +28,12 @@
                 <canvas id="filteredBarChart"></canvas>
             </div>
         </div>
+
+        <!-- Section détaillée sous le graphique -->
+        <div id="detailsSection" class="details-section">
+            <h3>Détails des Features</h3>
+            <div id="featureDetails"></div>
+        </div>
     </div>
 
     <script>
@@ -94,6 +100,9 @@
 
             // Mettre à jour les graphiques avec les données filtrées
             updateCharts(filteredData, featureData);
+
+            // Mettre à jour la section détaillée
+            updateFeatureDetails(filteredData, featureData);
         }
 
         // Fonction pour mettre à jour les graphiques
@@ -155,6 +164,29 @@
                         y: { stacked: true, beginAtZero: true }
                     }
                 }
+            });
+        }
+
+        // Fonction pour mettre à jour la section détaillée
+        function updateFeatureDetails(filteredFeatures, featureData) {
+            const detailsContainer = document.getElementById('featureDetails');
+            detailsContainer.innerHTML = ''; // Effacer le contenu précédent
+
+            filteredFeatures.forEach(feature => {
+                const featureInfo = featureData[feature];
+                const passPercentage = ((featureInfo.passCount / featureInfo.totalTests) * 100).toFixed(2);
+
+                const featureDetail = document.createElement('div');
+                featureDetail.className = 'feature-detail';
+                featureDetail.innerHTML = `
+                    <h4>${feature}</h4>
+                    <p>Total des tests : ${featureInfo.totalTests}</p>
+                    <p>PASS : ${featureInfo.passCount} (${passPercentage}%)</p>
+                    <p>NOT EXECUTED : ${featureInfo.notExecutedCount}</p>
+                    <p>NOK MINOR : ${featureInfo.nokMinorCount}</p>
+                    <p>NOK MAJOR : ${featureInfo.nokMajorCount}</p>
+                `;
+                detailsContainer.appendChild(featureDetail);
             });
         }
     </script>
