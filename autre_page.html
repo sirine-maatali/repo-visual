@@ -91,12 +91,15 @@
                 }
             });
 
+            console.log("Données regroupées par feature :", featureData);
+
             // Filtrer les features en fonction du type de filtre (PASS ou FAIL)
             const filteredData = Object.keys(featureData).filter(feature => {
                 const count = filterType === 'PASS' 
                     ? featureData[feature].passCount 
                     : featureData[feature].nokMinorCount + featureData[feature].nokMajorCount;
                 const percentage = (count / featureData[feature].totalTests) * 100;
+                console.log(`Feature ${feature} : ${count} ${filterType} (${percentage}%)`);
                 return percentage >= filterValue;
             });
 
@@ -183,11 +186,24 @@
             const detailsContainer = document.getElementById('featureDetails');
             detailsContainer.innerHTML = ''; // Effacer le contenu précédent
 
+            console.log("Mise à jour de la section détaillée avec les données filtrées :", filteredFeatures);
+
             filteredFeatures.forEach(feature => {
                 const featureInfo = featureData[feature];
                 const totalFailCount = featureInfo.nokMinorCount + featureInfo.nokMajorCount;
                 const passPercentage = ((featureInfo.passCount / featureInfo.totalTests) * 100).toFixed(2);
                 const failPercentage = ((totalFailCount / featureInfo.totalTests) * 100).toFixed(2);
+
+                console.log(`Détails de la feature ${feature} :`, {
+                    totalTests: featureInfo.totalTests,
+                    passCount: featureInfo.passCount,
+                    passPercentage,
+                    failCount: totalFailCount,
+                    failPercentage,
+                    notExecutedCount: featureInfo.notExecutedCount,
+                    nokMinorCount: featureInfo.nokMinorCount,
+                    nokMajorCount: featureInfo.nokMajorCount
+                });
 
                 const featureDetail = document.createElement('div');
                 featureDetail.className = 'feature-detail';
