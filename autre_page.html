@@ -45,7 +45,6 @@
             alert("Aucune donnée partagée trouvée. Veuillez vérifier report.html.");
         } else {
             console.log("Données partagées chargées avec succès depuis localStorage.");
-            console.log(sharedData)
         }
 
         // Fonction pour filtrer les données
@@ -58,14 +57,37 @@
 
             console.log("Filtrage des données avec un pourcentage minimum de PASS :", filterValue);
 
+            // Regrouper les données par feature
+            const featureData = {};
+            sharedData.forEach(entry => {
+                if (!featureData[entry.feature]) {
+                    featureData[entry.feature] = {
+                        totalTests: 0,
+                        passCount: 0,
+                        notExecutedCount: 0,
+                        nokMinorCount: 0,
+                        nokMajorCount: 0
+                    };
+                }
+                featureData[entry.feature].totalTests++;
+                if (entry.status === "PASS") {
+                    featureData[entry.feature].passCount++;
+                } else if (entry.status === "NOT EXECUTED") {
+                    featureData[entry.feature].notExecutedCount++;
+                } else if (entry.status === "NOK MINOR") {
+                    featureData[entry.feature].nokMinorCount++;
+                } else if (entry.status === "NOK MAJOR") {
+                    featureData[entry.feature].nokMajorCount++;
+                }
+            });
+
             // Filtrer les features avec un pourcentage de PASS >= filterValue
-            const filteredData = sharedData.filter(entry => {
-                const totalTests = entry.PASS + entry.NOTEXECUTED + entry.NOKMINOR + entry.NOKMAJOR;
-                const passPercentage = (entry.PASS / totalTests) * 100;
+            const filteredData = Object.keys(featureData).filter(feature => {
+                const passPercentage = (featureData[feature].passCount / featureData[feature].totalTests) * 100;
                 return passPercentage >= filterValue;
             });
 
-            console.log("Données filtrées :", filteredData);
+            console.log("Features filtrées :", filteredData);
 
             if (filteredData.length === 0) {
                 console.warn("Aucune donnée ne correspond au filtre.");
@@ -75,16 +97,16 @@
             }
 
             // Mettre à jour les graphiques avec les données filtrées
-            updateCharts(filteredData);
+            updateCharts(filteredData, featureData);
         }
 
         // Fonction pour mettre à jour les graphiques
-        function updateCharts(data) {
-            const featureLabels = data.map(entry => entry.feature);
-            const passData = data.map(entry => entry.PASS);
-            const notExecutedData = data.map(entry => entry.NOTEXECUTED);
-            const nokMinorData = data.map(entry => entry.NOKMINOR);
-            const nokMajorData = data.map(entry => entry.NOKMAJOR);
+        function updateCharts(filteredFeatures, featureData) {
+            const featureLabels = filteredFeatures;
+            const passData = filteredFeatures.map(feature => featureData[feature].passCount);
+            const notExecutedData = filteredFeatures.map(feature => featureData[feature].notExecutedCount);
+            const nokMinorData = filteredFeatures.map(feature => featureData[feature].nokMinorCount);
+            const nokMajorData = filteredFeatures.map(feature => featureData[feature].nokMajorCount);
 
             console.log("Mise à jour des graphiques avec les données filtrées :", {
                 featureLabels,
