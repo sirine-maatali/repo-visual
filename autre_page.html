@@ -18,8 +18,12 @@
     <div class="content">
         <h2>Filtrer les données</h2>
         <p>Entrez un pourcentage minimum de tests réussis (PASS) pour filtrer les features :</p>
-        <input type="number" id="filterInput" placeholder="Exemple : 50" min="0" max="100">
-        <button onclick="filterData()">Filtrer</button>
+        <input type="number" id="filterPassInput" placeholder="Exemple : 50" min="0" max="100">
+        <button onclick="filterData('PASS')">Filtrer par PASS</button>
+
+        <p>Entrez un pourcentage minimum de tests en échec (FAIL) pour filtrer les features :</p>
+        <input type="number" id="filterFailInput" placeholder="Exemple : 20" min="0" max="100">
+        <button onclick="filterData('FAIL')">Filtrer par FAIL</button>
 
         <!-- Graphiques filtrés -->
         <div class="chart-container">
@@ -50,14 +54,18 @@
         }
 
         // Fonction pour filtrer les données
-        function filterData() {
-            const filterValue = parseFloat(document.getElementById('filterInput').value);
+        function filterData(filterType) {
+            const filterValue = parseFloat(
+                filterType === 'PASS' 
+                    ? document.getElementById('filterPassInput').value 
+                    : document.getElementById('filterFailInput').value
+            );
             if (isNaN(filterValue)) {
                 alert("Veuillez entrer un pourcentage valide.");
                 return;
             }
 
-            console.log("Filtrage des données avec un pourcentage minimum de PASS :", filterValue);
+            console.log(`Filtrage des données avec un pourcentage minimum de ${filterType} :`, filterValue);
 
             // Regrouper les données par feature
             const featureData = {};
@@ -83,10 +91,13 @@
                 }
             });
 
-            // Filtrer les features avec un pourcentage de PASS >= filterValue
+            // Filtrer les features en fonction du type de filtre (PASS ou FAIL)
             const filteredData = Object.keys(featureData).filter(feature => {
-                const passPercentage = (featureData[feature].passCount / featureData[feature].totalTests) * 100;
-                return passPercentage >= filterValue;
+                const count = filterType === 'PASS' 
+                    ? featureData[feature].passCount 
+                    : featureData[feature].nokMinorCount + featureData[feature].nokMajorCount;
+                const percentage = (count / featureData[feature].totalTests) * 100;
+                return percentage >= filterValue;
             });
 
             console.log("Features filtrées :", filteredData);
@@ -102,7 +113,7 @@
             updateCharts(filteredData, featureData);
 
             // Mettre à jour la section détaillée
-            updateFeatureDetails(filteredData, featureData);
+            updateFeatureDetails(filteredData, featureData, filterType);
         }
 
         // Fonction pour mettre à jour les graphiques
@@ -168,13 +179,15 @@
         }
 
         // Fonction pour mettre à jour la section détaillée
-        function updateFeatureDetails(filteredFeatures, featureData) {
+        function updateFeatureDetails(filteredFeatures, featureData, filterType) {
             const detailsContainer = document.getElementById('featureDetails');
             detailsContainer.innerHTML = ''; // Effacer le contenu précédent
 
             filteredFeatures.forEach(feature => {
                 const featureInfo = featureData[feature];
+                const totalFailCount = featureInfo.nokMinorCount + featureInfo.nokMajorCount;
                 const passPercentage = ((featureInfo.passCount / featureInfo.totalTests) * 100).toFixed(2);
+                const failPercentage = ((totalFailCount / featureInfo.totalTests) * 100).toFixed(2);
 
                 const featureDetail = document.createElement('div');
                 featureDetail.className = 'feature-detail';
@@ -182,6 +195,7 @@
                     <h4>${feature}</h4>
                     <p>Total des tests : ${featureInfo.totalTests}</p>
                     <p>PASS : ${featureInfo.passCount} (${passPercentage}%)</p>
+                    <p>FAIL : ${totalFailCount} (${failPercentage}%)</p>
                     <p>NOT EXECUTED : ${featureInfo.notExecutedCount}</p>
                     <p>NOK MINOR : ${featureInfo.nokMinorCount}</p>
                     <p>NOK MAJOR : ${featureInfo.nokMajorCount}</p>
