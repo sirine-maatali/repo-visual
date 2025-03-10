@@ -2417,6 +2417,10 @@ statusTypes.eachWithIndex { status, index ->
       generatePdf();
     });
   </script>
+  <script>
+    // Stocker les données JSON dans une variable globale
+    window.sharedData = ${jsonOutput};
+</script>
 </body></html>
 """
 

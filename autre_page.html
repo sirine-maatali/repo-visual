@@ -12,108 +12,131 @@
 </head>
 <body>
     <div class="navbar">
-        <h1>Autre Page - Filtrage des Features</h1>
+        <h1>Autre Page - Filtrage des Données</h1>
         <button class="retourButton" onclick="window.location.href='report.html'">Retour au rapport</button>
     </div>
     <div class="content">
-        <!-- Titre avec le nom du fichier -->
-        <h2>Fichier : <span id="fileName"></span></h2>
+        <h2>Filtrer les données</h2>
+        <p>Entrez un pourcentage minimum de tests réussis (PASS) pour filtrer les features :</p>
+        <input type="number" id="filterInput" placeholder="Exemple : 50" min="0" max="100">
+        <button onclick="filterData()">Filtrer</button>
 
-        <!-- Barre de recherche et bouton de filtrage -->
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Entrez un pourcentage (ex: 50%)">
-            <button onclick="filterCharts()">Filtrer</button>
-        </div>
-
-        <!-- Graphiques -->
+        <!-- Graphiques filtrés -->
         <div class="chart-container">
-            <div class="chart-wrapper">
+            <div class="chart-wrapper bar">
                 <h3>Répartition des statuts par feature (filtré)</h3>
                 <canvas id="filteredBarChart"></canvas>
+            </div>
+            <div class="chart-wrapper pie">
+                <h3>Répartition globale des statuts (filtré)</h3>
+                <canvas id="filteredPieChart"></canvas>
             </div>
         </div>
     </div>
 
     <script>
-        // Données initiales (remplacez cela par les données réelles de votre rapport)
-        const initialData = {
-            features: ["Feature A", "Feature B", "Feature C", "Feature D"],
-            passCounts: [80, 50, 30, 90], // Nombre de tests PASS par feature
-            totalTests: [100, 100, 100, 100] // Nombre total de tests par feature
-        };
+        // Récupérer les données partagées depuis report.html
+        const sharedData = window.sharedData;
 
-        // Afficher le nom du fichier
-        document.getElementById("fileName").textContent = new URLSearchParams(window.location.search).get("file") || "Fichier inconnu";
-
-        // Initialiser le graphique
-        let filteredBarChart;
-        const ctx = document.getElementById('filteredBarChart').getContext('2d');
-        filteredBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: initialData.features,
-                datasets: [{
-                    label: 'Pourcentage de PASS',
-                    backgroundColor: '#81C784',
-                    data: initialData.passCounts.map((pass, index) => (pass / initialData.totalTests[index]) * 100)
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        title: {
-                            display: true,
-                            text: 'Pourcentage de PASS'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Features'
-                        }
-                    }
-                },
-                plugins: {
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        formatter: (value) => `${value.toFixed(2)}%`,
-                        color: '#000',
-                        font: {
-                            weight: 'bold'
-                        }
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        });
-
-        // Fonction pour filtrer les graphiques
-        function filterCharts() {
-            const searchValue = parseFloat(document.getElementById("searchInput").value);
-            if (isNaN(searchValue)) {
+        // Fonction pour filtrer les données
+        function filterData() {
+            const filterValue = parseFloat(document.getElementById('filterInput').value);
+            if (isNaN(filterValue)) {
                 alert("Veuillez entrer un pourcentage valide.");
                 return;
             }
 
-            // Filtrer les features ayant un pourcentage de PASS >= searchValue
-            const filteredFeatures = [];
-            const filteredPassPercentages = [];
-            initialData.features.forEach((feature, index) => {
-                const passPercentage = (initialData.passCounts[index] / initialData.totalTests[index]) * 100;
-                if (passPercentage >= searchValue) {
-                    filteredFeatures.push(feature);
-                    filteredPassPercentages.push(passPercentage);
+            // Filtrer les features avec un pourcentage de PASS >= filterValue
+            const filteredData = sharedData.filter(entry => {
+                const totalTests = entry.PASS + entry.NOTEXECUTED + entry.NOKMINOR + entry.NOKMAJOR;
+                const passPercentage = (entry.PASS / totalTests) * 100;
+                return passPercentage >= filterValue;
+            });
+
+            // Mettre à jour les graphiques avec les données filtrées
+            updateCharts(filteredData);
+        }
+
+        // Fonction pour mettre à jour les graphiques
+        function updateCharts(data) {
+            const featureLabels = data.map(entry => entry.feature);
+            const passData = data.map(entry => entry.PASS);
+            const notExecutedData = data.map(entry => entry.NOTEXECUTED);
+            const nokMinorData = data.map(entry => entry.NOKMINOR);
+            const nokMajorData = data.map(entry => entry.NOKMAJOR);
+
+            // Mettre à jour le graphique à barres
+            const barChart = new Chart(document.getElementById('filteredBarChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: featureLabels,
+                    datasets: [
+                        {
+                            label: 'PASS',
+                            backgroundColor: '#81C784',
+                            data: passData
+                        },
+                        {
+                            label: 'NOT EXECUTED',
+                            backgroundColor: '#A5D6A7',
+                            data: notExecutedData
+                        },
+                        {
+                            label: 'NOK MINOR',
+                            backgroundColor: '#FF9800',
+                            data: nokMinorData
+                        },
+                        {
+                            label: 'NOK MAJOR',
+                            backgroundColor: '#F44336',
+                            data: nokMajorData
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, beginAtZero: true }
+                    }
                 }
             });
 
-            // Mettre à jour le graphique
-            filteredBarChart.data.labels = filteredFeatures;
-            filteredBarChart.data.datasets[0].data = filteredPassPercentages;
-            filteredBarChart.update();
+            // Mettre à jour le graphique en camembert
+            const pieChart = new Chart(document.getElementById('filteredPieChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR'],
+                    datasets: [{
+                        data: [
+                            passData.reduce((a, b) => a + b, 0),
+                            notExecutedData.reduce((a, b) => a + b, 0),
+                            nokMinorData.reduce((a, b) => a + b, 0),
+                            nokMajorData.reduce((a, b) => a + b, 0)
+                        ],
+                        backgroundColor: ['#81C784', '#A5D6A7', '#FF9800', '#F44336']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                let percentage = (value * 100 / sum).toFixed(2) + "%";
+                                return percentage;
+                            },
+                            color: '#000',
+                            font: { weight: 'bold', size: 10 }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
         }
     </script>
 </body>
