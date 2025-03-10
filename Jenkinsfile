@@ -2084,8 +2084,8 @@ statusTypes.eachWithIndex { status, index ->
         <canvas id="barChart"></canvas>
       </div>
       <div class="chart-wrapper pie">
-        <h3>Répartition globale des statuts</h3>
-        <p class="chart-description">Ce graphique montre la répartition globale des statuts pour toutes les features.</p>
+        <h3>Répartition globale des features</h3>
+        <p class="chart-description">Ce graphique montre la répartition globale des features pour toutes les features.</p>
         <canvas id="pieChart"></canvas>
       </div>
     </div>

@@ -24,7 +24,7 @@ body {
 
 .navbar .generatePdfButton {
     padding: 10px 20px;
-    background-color: #67d16c;
+    background-color: #dde6dd01;
     color: white;
     border: none;
     border-radius: 5px;
@@ -32,7 +32,16 @@ body {
     font-size: 16px;
     transition: background-color 0.3s;
 }
-
+.navbar .autrePageButton {
+    padding: 10px ;
+    background-color: #68c668;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
 .navbar .generatePdfButton:hover {
     background-color: #45a049;
 }
