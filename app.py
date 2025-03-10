@@ -188,6 +188,7 @@ def extract_test_data(test_execution_folder, test_cases_folder, defects_folder, 
         feature = test_case_data.get("fields", {}).get("customfield_13601", "null")
         if isinstance(feature, list) and feature:
             feature = feature[0]
+            feature = feature.upper()
         
         # Ajout du champ "testcase" contenant "summary"
         testcase_summary = test_case_data.get("fields", {}).get("summary", "null")
