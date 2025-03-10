@@ -35,17 +35,17 @@
     </div>
 
     <script>
-        // Récupérer les données partagées depuis report.html
-        const sharedData = window.sharedData;
+     // Récupérer les données partagées depuis localStorage
+const sharedData = JSON.parse(localStorage.getItem('sharedData'));
 
-        // Ajouter un message de débogage pour vérifier les données partagées
-        console.log("Données partagées depuis report.html :", sharedData);
-        if (!sharedData || sharedData.length === 0) {
-            console.error("Aucune donnée partagée trouvée.");
-            alert("Aucune donnée partagée trouvée. Veuillez vérifier report.html.");
-        } else {
-            console.log("Données partagées chargées avec succès.");
-        }
+// Ajouter un message de débogage pour vérifier les données partagées
+console.log("Données partagées depuis localStorage :", sharedData);
+if (!sharedData || sharedData.length === 0) {
+    console.error("Aucune donnée partagée trouvée dans localStorage.");
+    alert("Aucune donnée partagée trouvée. Veuillez vérifier report.html.");
+} else {
+    console.log("Données partagées chargées avec succès depuis localStorage.");
+}
 
         // Fonction pour filtrer les données
         function filterData() {

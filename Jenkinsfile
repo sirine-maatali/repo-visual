@@ -2417,7 +2417,8 @@ statusTypes.eachWithIndex { status, index ->
       generatePdf();
     });
 
-    window.sharedData = ${jsonOutput};
+  localStorage.setItem('sharedData', JSON.stringify(${jsonOutput}));
+
 </script>
 </body></html>
 """
