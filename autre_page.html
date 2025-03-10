@@ -124,7 +124,6 @@
                 window.pieChart.destroy();
             }
 
-            // Mettre à jour le graphique à barres
             window.barChart = new Chart(document.getElementById('filteredBarChart').getContext('2d'), {
                 type: 'bar',
                 data: {
@@ -164,38 +163,38 @@
                 }
             });
 
-            // Mettre à jour le graphique en camembert
-            window.pieChart = new Chart(document.getElementById('filteredPieChart').getContext('2d'), {
-                type: 'pie',
-                data: {
-                    labels: ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR'],
-                    datasets: [{
-                        data: [
-                            passData.reduce((a, b) => a + b, 0),
-                            notExecutedData.reduce((a, b) => a + b, 0),
-                            nokMinorData.reduce((a, b) => a + b, 0),
-                            nokMajorData.reduce((a, b) => a + b, 0)
-                        ],
-                        backgroundColor: ['#81C784', '#A5D6A7', '#FF9800', '#F44336']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' },
-                        datalabels: {
-                            formatter: (value, ctx) => {
-                                let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                let percentage = (value * 100 / sum).toFixed(2) + "%";
-                                return percentage;
-                            },
-                            color: '#000',
-                            font: { weight: 'bold', size: 10 }
-                        }
-                    }
-                },
-                plugins: [ChartDataLabels]
-            });
+            // // Mettre à jour le graphique en camembert
+            // window.pieChart = new Chart(document.getElementById('filteredPieChart').getContext('2d'), {
+            //     type: 'pie',
+            //     data: {
+            //         labels: ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR'],
+            //         datasets: [{
+            //             data: [
+            //                 passData.reduce((a, b) => a + b, 0),
+            //                 notExecutedData.reduce((a, b) => a + b, 0),
+            //                 nokMinorData.reduce((a, b) => a + b, 0),
+            //                 nokMajorData.reduce((a, b) => a + b, 0)
+            //             ],
+            //             backgroundColor: ['#81C784', '#A5D6A7', '#FF9800', '#F44336']
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         plugins: {
+            //             legend: { position: 'top' },
+            //             datalabels: {
+            //                 formatter: (value, ctx) => {
+            //                     let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+            //                     let percentage = (value * 100 / sum).toFixed(2) + "%";
+            //                     return percentage;
+            //                 },
+            //                 color: '#000',
+            //                 font: { weight: 'bold', size: 10 }
+            //             }
+            //         }
+            //     },
+            //     plugins: [ChartDataLabels]
+            // });
         }
     </script>
 </body>
