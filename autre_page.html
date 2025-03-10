@@ -38,6 +38,15 @@
         // Récupérer les données partagées depuis report.html
         const sharedData = window.sharedData;
 
+        // Ajouter un message de débogage pour vérifier les données partagées
+        console.log("Données partagées depuis report.html :", sharedData);
+        if (!sharedData || sharedData.length === 0) {
+            console.error("Aucune donnée partagée trouvée.");
+            alert("Aucune donnée partagée trouvée. Veuillez vérifier report.html.");
+        } else {
+            console.log("Données partagées chargées avec succès.");
+        }
+
         // Fonction pour filtrer les données
         function filterData() {
             const filterValue = parseFloat(document.getElementById('filterInput').value);
@@ -46,12 +55,23 @@
                 return;
             }
 
+            console.log("Filtrage des données avec un pourcentage minimum de PASS :", filterValue);
+
             // Filtrer les features avec un pourcentage de PASS >= filterValue
             const filteredData = sharedData.filter(entry => {
                 const totalTests = entry.PASS + entry.NOTEXECUTED + entry.NOKMINOR + entry.NOKMAJOR;
                 const passPercentage = (entry.PASS / totalTests) * 100;
                 return passPercentage >= filterValue;
             });
+
+            console.log("Données filtrées :", filteredData);
+
+            if (filteredData.length === 0) {
+                console.warn("Aucune donnée ne correspond au filtre.");
+                alert("Aucune donnée ne correspond au filtre.");
+            } else {
+                console.log(`${filteredData.length} features correspondent au filtre.`);
+            }
 
             // Mettre à jour les graphiques avec les données filtrées
             updateCharts(filteredData);
@@ -65,8 +85,24 @@
             const nokMinorData = data.map(entry => entry.NOKMINOR);
             const nokMajorData = data.map(entry => entry.NOKMAJOR);
 
+            console.log("Mise à jour des graphiques avec les données filtrées :", {
+                featureLabels,
+                passData,
+                notExecutedData,
+                nokMinorData,
+                nokMajorData
+            });
+
+            // Détruire les anciens graphiques s'ils existent
+            if (window.barChart) {
+                window.barChart.destroy();
+            }
+            if (window.pieChart) {
+                window.pieChart.destroy();
+            }
+
             // Mettre à jour le graphique à barres
-            const barChart = new Chart(document.getElementById('filteredBarChart').getContext('2d'), {
+            window.barChart = new Chart(document.getElementById('filteredBarChart').getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: featureLabels,
@@ -106,7 +142,7 @@
             });
 
             // Mettre à jour le graphique en camembert
-            const pieChart = new Chart(document.getElementById('filteredPieChart').getContext('2d'), {
+            window.pieChart = new Chart(document.getElementById('filteredPieChart').getContext('2d'), {
                 type: 'pie',
                 data: {
                     labels: ['PASS', 'NOT EXECUTED', 'NOK MINOR', 'NOK MAJOR'],
